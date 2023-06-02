@@ -1,0 +1,160 @@
+//指定的当前proto语法的版本, 有2和3
+syntax = "proto3";
+
+option java_multiple_files = true;  //等于true则将为每个消息类型生成单独的文件。
+option java_package = "BurpGrpc.proto.BurpApiGrpc";  //实例包名
+option java_outer_classname = "BurpApi";  //类名
+option objc_class_prefix = "HLW"; //生成前缀 未知用法
+
+
+//包名 服务名称 用于http2路由
+package burpApi;
+
+
+
+//burpApi服务
+service BurpServer{
+
+  /*
+    注册实时流量传输
+    burp将监听端口通过服务端端流进行实时流量镜像
+  */
+  rpc RegisterRealTimeTrafficMirroring(Str) returns (stream httpReqAndRes){}
+
+  /*
+      实时流量传输
+      burp将主动建立连接通过客户端流进行实时流量镜像
+    */
+  rpc RealTimeTrafficMirroring(stream httpReqAndRes) returns (Str){}
+
+  //  // 迭代器载荷处理
+  //  rpc IntruderPayloadProcessor(ByteData)returns(ByteData){}
+  //
+  //  // 迭代器载荷生成
+  //  rpc IntruderPayloadGeneratorProvider(IntruderGeneratorData) returns (ByteData){}
+
+  // 注册服务
+  // 服务注册 主动向burp发起请求进行注册服务
+  rpc RegisterServer(Str) returns (Status){}
+}
+
+
+// 侦查服务
+service ScoutServer {
+  // 添加http编辑器加解密键值对 参数为http编辑组件名称以及key、value
+  rpc addHttpEditorEncryptAndDecryptKeyValue(httpEditorKeyValue)returns(Status){}
+
+//  rpc registerHttpEditorEncryptAndDecryptKeyValue()
+
+}
+
+// 迭代器服务, 两个函数 处理器和生成器,用于引入第三方程序
+service IntruderServer {
+  // 迭代器载荷处理
+  rpc IntruderPayloadProcessor(ByteData)returns(ByteData){}
+
+  // 迭代器载荷生成, 服务端流 流终止就为生成结束
+  rpc IntruderPayloadGeneratorProvider(IntruderGeneratorData) returns (ByteData){}
+}
+
+
+
+// http编辑器的键值对用于命中密文转换为明文, 没命中将不会显示
+message httpEditorKeyValue{
+  ByteData key = 1;    // 键
+  ByteData value = 2 ; // 值
+  Str editorName = 3;  // 编辑器名称
+}
+
+
+// 布尔值
+message Boole{
+  bool boole = 1;
+}
+
+// 状态,用于表示函数执行状态，服务或对象状态
+message Status{
+  bool boole = 1;     // 布尔值
+  int64 code = 2;     // 状态码
+  string info = 3;    // 描述信息
+  bytes tmpByte = 4;  // 字节流用于占位和预留
+}
+
+
+//名称 String类型
+message Str{
+  string name = 1;
+}
+
+//服务路由表 包含零号以及第三方拓展愿意向burp提供的服务
+message serviceRoutingTable{
+  repeated serviceRouting Routing = 1;
+}
+
+// 服务路由
+message serviceRouting{
+  serverName sn = 1;
+  Str Name = 2;
+}
+
+// 服务名称
+enum serverName {
+  RealTimeTrafficMirroring = 0;   // 实时流量镜像服务
+  IntruderProvider = 1 ;          // 迭代器处理
+  IntruderGenerator = 2 ;          // 迭代器生成
+  ScoutIntelligence = 3 ;          // 斥候情报
+}
+
+
+//迭代生成器 数据
+message IntruderGeneratorData{
+  bytes contentData = 1; // http 请求模板
+  repeated  InsertionPointOffsets  insertionPointOffsets = 2;  // 插入点列表
+  bytes IntruderInsertionPoint = 3;  //插入点基值
+}
+
+// 插入点
+message InsertionPointOffsets{
+  int64 StartIndex = 1; // 开始下标
+  int64 EndIndex = 2;   // 结束下标
+}
+
+
+// 字节数据
+message ByteData {
+  bytes byteData = 1;
+}
+
+
+// 一组http请求 (请求和响应)
+message httpReqAndRes {
+  httpReqData req = 1;
+  httpResData res = 2;
+  httpInfo info = 3;
+}
+
+// http 单个请求 包含头部和体
+message httpReqData {
+  bytes Data = 1;    //请求包数据
+  string Url = 2;   //请求url
+  int64 BodyIndex = 3;   //请求体开始下标,如若请求体下标与总长度一致就是没有请求体
+  string httpVersion = 4; // http版本
+}
+
+// http 单个请求 包含头部和体
+message httpResData {
+  bytes Data = 1;    //请求包数据
+  int32 StatusCode = 2 ; //状态码
+  int64 BodyIndex = 3;   //请求体开始下标,如若请求体下标与总长度一致就是没有请求体
+}
+
+
+// http信息
+message httpInfo {
+  int64 id = 1; // id
+  string info = 2; // 简述信息
+  bytes tmp = 3;  // 预留类型
+}
+
+
+
