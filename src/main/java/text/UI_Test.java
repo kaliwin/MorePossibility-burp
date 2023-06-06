@@ -12,7 +12,7 @@ public class UI_Test {
 
     public static void main(String[] args) throws InterruptedException {
         JFrame jFrame = new JFrame("test");
-        jFrame.setSize(1265, 790);
+        jFrame.setSize(790, 740);
         jFrame.getContentPane().add(new ManGui());
         jFrame.setVisible(true);
         jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

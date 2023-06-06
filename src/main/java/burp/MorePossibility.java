@@ -6,7 +6,6 @@ import burp.api.montoya.MontoyaApi;
 import burp.api.montoya.logging.Logging;
 
 
-
 // 插件入口
 public class MorePossibility implements BurpExtension {
     // burpAPI
@@ -37,20 +36,19 @@ public class MorePossibility implements BurpExtension {
         burpApi = api;
         this.init(); // 初始化
 
-        api.extension().setName("MorePossibility_test");
-        api.logging().output().println("启动了");
+//        api.extension().setName("MorePossibility_test");
+//        api.logging().output().println("启动了");
+//
+//
+//        burpApiTool.registerIntruderPayloadProcessor("127.0.0.1:9525", "goPayload");
+//
+//        burpApiTool.registerIntruderGeneratorPayload("127.0.0.1:9525", "goGenerator");
+//        runAchieve.startServer(9588);
 
-//        boolean goUser = burpApiTool.registerIntruderGeneratorPayload("127.0.0.1:9525", "goUser");
 
-        boolean b = burpApiTool.registerIntruderGeneratorPayload("127.0.0.1:9525", "goGeneraIntruder");
+//        api.userInterface().registerContextMenuItemsProvider()
 
 
-        if (b) {
-            logging.output().println("注册成功");
-        } else {
-            logging.output().println("注册失败");
-
-        }
 
 
     }

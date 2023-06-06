@@ -3,11 +3,6 @@
   <component name="NewModuleRootManager">
     <output-test url="file://$MODULE_DIR$/../../build/classes/java/test" />
     <exclude-output />
-    <content url="file://$MODULE_DIR$/../../build/extracted-include-protos/test" />
-    <content url="file://$MODULE_DIR$/../../build/extracted-protos/test">
-      <sourceFolder url="file://$MODULE_DIR$/../../build/extracted-protos/test" isTestSource="true" generated="true" />
-    </content>
-    <content url="file://$MODULE_DIR$/../../build/generated/source/proto/test/java" />
     <content url="file://$MODULE_DIR$/../../src/test">
       <sourceFolder url="file://$MODULE_DIR$/../../src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/../../src/test/resources" type="java-test-resource" />
@@ -44,6 +39,7 @@
     <orderEntry type="library" scope="RUNTIME" name="Gradle: com.google.code.gson:gson:2.9.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: com.google.android:annotations:4.1.1.4" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.codehaus.mojo:animal-sniffer-annotations:1.21" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: net.portswigger.burp.extensions:montoya-api:2023.3" level="project" />
   </component>
   <component name="TestModuleProperties" production-module="MorePossibility.main" />
 </module>

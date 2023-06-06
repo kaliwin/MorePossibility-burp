@@ -12,29 +12,33 @@ import burp.api.montoya.ui.editor.RawEditor;
 import burp.api.montoya.ui.editor.extension.EditorCreationContext;
 import burp.api.montoya.ui.editor.extension.ExtensionProvidedHttpRequestEditor;
 import burp.api.montoya.ui.editor.extension.HttpRequestEditorProvider;
+import com.google.common.collect.TreeBasedTable;
 import com.google.protobuf.ByteString;
 import io.grpc.stub.StreamObserver;
 
 import java.awt.*;
-import java.util.HashMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import static burp.BurpServerTypeX.INTRUDER_GENERATE;
 import static burp.MorePossibility.*;
 import static burp.api.montoya.ui.editor.extension.EditorMode.READ_ONLY;
 
 
 /**
- * @description: burpApi工具类 提供与grpc服务的对接,包括各个burp服务注册卸载等API
+ * @description: burpApi工具类 提供与grpc服务的对接,包括各个burp服务注册卸载 API
  * @author: cyvk
  * @date: 2023/5/29 下午12:28
  */
 public class BurpApiTool {
 
-    HashMap<String, Registration> serverRegistration; // 服务注册的映射关系
+    //    HashMap<String, Registration> serverRegistration; // 服务注册的映射关系
+    TreeBasedTable<String, BurpServerTypeX, Registration> serverRegistrationStatus;  // 服务注册状态,结构:名字 服务类型 注册状态
+
 
     public BurpApiTool() {
-        this.serverRegistration = new HashMap<>();
+        this.serverRegistrationStatus = TreeBasedTable.create();
+
     }
 
     /**
@@ -49,7 +53,8 @@ public class BurpApiTool {
         Registration httpTrafficRegistration = burpApi.http().registerHttpHandler(new handleHttpTrafficMirroring(responseObserver));
 
         if (httpTrafficRegistration.isRegistered()) {
-            this.serverRegistration.put(request.getName(), httpTrafficRegistration);
+//            this.serverRegistration.put(request.getName(), httpTrafficRegistration);
+
             return true;
         }
 
@@ -65,17 +70,22 @@ public class BurpApiTool {
      * @date: 2023/5/30 下午12:13
      */
     public boolean registerIntruderPayloadProcessor(String target, String name) {
-        IntruderServerGrpc.IntruderServerBlockingStub intruderClient = MorePossibility.runAchieve.getIntruderClient(target);
-        // == null 便是连接失败
-        if (intruderClient != null) {
-            //注册burp迭代器处理
-            Registration intrudeProcessorRegistration = burpApi.intruder().registerPayloadProcessor(new intruderDemo(intruderClient, name));
 
-            if (intrudeProcessorRegistration.isRegistered()) {
-                this.serverRegistration.put(name, intrudeProcessorRegistration);
-                return true;
+        if (!serverRegistrationStatus.contains(name, BurpServerTypeX.INTRUDER_PROCESSOR)) {
+
+            IntruderServerGrpc.IntruderServerBlockingStub intruderClient = MorePossibility.runAchieve.getIntruderClient(target);
+            // == null 便是连接失败
+
+            if (intruderClient != null) {
+                //注册burp迭代器处理
+                Registration intrudeProcessorRegistration = burpApi.intruder().registerPayloadProcessor(new intruderDemo(intruderClient, name));
+                if (intrudeProcessorRegistration.isRegistered()) {
+                    serverRegistrationStatus.put(name, BurpServerTypeX.INTRUDER_PROCESSOR, intrudeProcessorRegistration);
+                    return true;
+                }
             }
         }
+
         return false;
     }
 
@@ -90,14 +100,16 @@ public class BurpApiTool {
      */
     public boolean registerIntruderGeneratorPayload(String target, String generatorName) {
 
-        IntruderServerGrpc.IntruderServerBlockingStub intruderClient = runAchieve.getIntruderClient(target);
+        if (!serverRegistrationStatus.contains(generatorName, INTRUDER_GENERATE)) {
+            IntruderServerGrpc.IntruderServerBlockingStub intruderClient = runAchieve.getIntruderClient(target);
 
-        if (intruderClient != null) {
-            Registration intruderPayloadGenerator = burpApi.intruder().registerPayloadGeneratorProvider(new intruderGenerate(generatorName, intruderClient));
+            if (intruderClient != null) {
+                Registration intruderPayloadGenerator = burpApi.intruder().registerPayloadGeneratorProvider(new intruderGenerate(generatorName, intruderClient));
 
-            if (intruderPayloadGenerator.isRegistered()) {
-                this.serverRegistration.put(generatorName, intruderPayloadGenerator);
-                return true;
+                if (intruderPayloadGenerator.isRegistered()) {
+                    serverRegistrationStatus.put(generatorName, INTRUDER_GENERATE, intruderPayloadGenerator);
+                    return true;
+                }
             }
         }
         return false;
@@ -105,9 +117,24 @@ public class BurpApiTool {
 
 
     public boolean registerHttpEditorKeyValue(String name) {
-
-
 //        burpApi.userInterface().registerHttpResponseEditorProvider()
+        return false;
+    }
+
+    /**
+     * @param serverName:      名称
+     * @param burpServerTypeX: 类型
+     * @return boolean
+     * @description: 服务卸载 需要名称和服务类型 如果不存在就返回false
+     * @author: cyvk
+     * @date: 2023/6/6 下午6:01
+     */
+    public boolean delServer(String serverName, BurpServerTypeX burpServerTypeX) {
+        Registration remove = serverRegistrationStatus.remove(serverName, burpServerTypeX);
+        if (remove != null) {
+            remove.deregister();
+            return true;
+        }
         return false;
     }
 
@@ -143,6 +170,7 @@ class handleHttpTrafficMirroring implements HttpHandler {
      */
     @Override
     public ResponseReceivedAction handleHttpResponseReceived(HttpResponseReceived responseReceived) {
+
 
         //请求
         String reqUrl = responseReceived.initiatingRequest().url();
@@ -299,7 +327,7 @@ class httpReqEditor implements HttpRequestEditorProvider, ExtensionProvidedHttpR
     EditorCreationContext ecc;  // 调用的工具, 期望的状态 只读可编辑
 
     RawEditor re; // 原始编辑器
-    String name ;
+    String name;
 
 
     public httpReqEditor(String name) {
@@ -343,7 +371,7 @@ class httpReqEditor implements HttpRequestEditorProvider, ExtensionProvidedHttpR
 
     /**
      * @param requestResponse The {@link HttpRequestResponse} to check.
-     *    该函数决定是否要显示渲染编辑器
+     *                        该函数决定是否要显示渲染编辑器
      */
     @Override
     public boolean isEnabledFor(HttpRequestResponse requestResponse) {
@@ -386,11 +414,6 @@ class httpReqEditor implements HttpRequestEditorProvider, ExtensionProvidedHttpR
         return false;
     }
 }
-
-
-
-
-
 
 
 
