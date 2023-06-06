@@ -47,7 +47,7 @@
     // 配置 Shadow 插件
     shadowJar {
         // 指定生成的 Jar 文件的名称
-        archiveFileName = 'uic.jar'
+        archiveFileName = 'uiTest.jar'
 
         manifest { // 主程序入口类
             attributes 'Main-Class': 'text.tmp'

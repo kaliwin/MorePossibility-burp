@@ -12,7 +12,7 @@ public class textGUI {
 
         jFrame.setSize(700,700);
 
-        jFrame.getContentPane().add(new ManGui());
+        jFrame.getContentPane().add(new GrpcServerGui());
 
         jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         jFrame.setVisible(true);

@@ -2,13 +2,16 @@ package UI;
 
 import javax.swing.table.AbstractTableModel;
 
+/**
+ * @author cyvk
+ */
 public class MyTableModelX extends AbstractTableModel {
     private Object[][] data ;
     public MyTableModelX() {
         this.data = new Object[0][0];
     }
 
-    private String[] columnNames = {"类型", "Grpc地址","名称"};
+    private final String[] columnNames = {"类型", "Grpc地址","名称"};
 
     @Override
     public int getRowCount() {

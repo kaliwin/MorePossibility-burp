@@ -1,6 +1,8 @@
 package burp;
 
-// 可用载荷 信息 / 行动
+/**
+ * @author cyvk
+ */ // 可用载荷 信息 / 行动
 public class availableLoad {
     public String target;
     information information;

@@ -4,17 +4,22 @@
 
 package UI;
 
+import burp.MorePossibility;
+
 import java.awt.event.*;
+import java.util.Map;
+import java.util.Set;
 
 import javax.swing.*;
 import javax.swing.GroupLayout;
 
 /**
- * declaration 790 740
+ * declaration 大小 790 740  主ui
+ *
  * @author cyvk
  */
-public class ManGui extends JPanel {
-    public ManGui() {
+public class GrpcServerGui extends JPanel {
+    public GrpcServerGui() {
         initComponents();
     }
 
@@ -25,9 +30,13 @@ public class ManGui extends JPanel {
 
         if (selectedData != null && target != null && !target.isEmpty() && name != null) {
             //注册服务
-
-
-            tableModel.addRow(new Object[]{selectedData, target,name});
+//            MorePossibility.burpApiTool.registrationServer(name,target)
+            if (MorePossibility.burpApiTool.registrationServer(name,target,formalityChange.data.get(selectedData))) {
+                MorePossibility.logging.output().println("注册成功");
+                tableModel.addRow(new Object[]{selectedData, target, name});
+            }else {
+                MorePossibility.logging.error().println("注册失败");
+            }
             textField1.setText("");
             textField2.setText("");
         }
@@ -48,7 +57,14 @@ public class ManGui extends JPanel {
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
-        comboBox1 = new JComboBox<>(new String[]{"Data 1", "Data 2", "Data 3"});
+        
+//        BurpServerTypeX[] values = BurpServerTypeX.values();
+
+        formalityChange = new FormalityChange();
+
+        Set<String> strings = formalityChange.data.keySet();
+
+        comboBox1 = new JComboBox<>(strings.toArray(new String[0]));
         textField1 = new JTextField();
         textField2 = new JTextField();
         label1 = new JLabel();
@@ -150,6 +166,9 @@ public class ManGui extends JPanel {
     private JTable table1;
 
     private MyTableModelX tableModel;
+
+    private FormalityChange formalityChange;
+
 
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

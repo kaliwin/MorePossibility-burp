@@ -69,7 +69,7 @@ public class BurpApiTool {
      * @author: cyvk
      * @date: 2023/5/30 下午12:13
      */
-    public boolean registerIntruderPayloadProcessor(String target, String name) {
+    private boolean registerIntruderPayloadProcessor(String target, String name) {
 
         if (!serverRegistrationStatus.contains(name, BurpServerTypeX.INTRUDER_PROCESSOR)) {
 
@@ -98,7 +98,7 @@ public class BurpApiTool {
      * @author: cyvk
      * @date: 2023/5/30 下午4:19
      */
-    public boolean registerIntruderGeneratorPayload(String target, String generatorName) {
+    private boolean registerIntruderGeneratorPayload(String target, String generatorName) {
 
         if (!serverRegistrationStatus.contains(generatorName, INTRUDER_GENERATE)) {
             IntruderServerGrpc.IntruderServerBlockingStub intruderClient = runAchieve.getIntruderClient(target);
@@ -116,7 +116,7 @@ public class BurpApiTool {
     }
 
 
-    public boolean registerHttpEditorKeyValue(String name) {
+    private boolean registerHttpEditorKeyValue(String name) {
 //        burpApi.userInterface().registerHttpResponseEditorProvider()
         return false;
     }
@@ -138,6 +138,27 @@ public class BurpApiTool {
         return false;
     }
 
+
+    /**
+     * @param name:            服务名称 只允许大小写和数字
+     * @param target:          Grpc服务地址
+     * @param burpServerTypeX: 服务类型
+     * @return boolean
+     * @description: 注册服务 返回false 就是目标地址错误或者已经存在 错误信息会向文本域输出
+     * @author: cyvk
+     * @date: 2023/6/6 下午9:38
+     */
+    public boolean registrationServer(String name, String target, BurpServerTypeX burpServerTypeX) {
+        switch (burpServerTypeX) {
+            case INTRUDER_GENERATE -> {
+                return registerIntruderGeneratorPayload(target, name);
+            }
+            case INTRUDER_PROCESSOR -> {
+                return registerIntruderPayloadProcessor(target, name);
+            }
+        }
+        return false;
+    }
 
 }
 

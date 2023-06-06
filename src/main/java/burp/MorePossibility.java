@@ -1,12 +1,16 @@
 package burp;
 
 import BurpGrpc.achieve.RunAchieve;
+import UI.FormalityChange;
+import UI.GrpcServerGui;
 import burp.api.montoya.BurpExtension;
 import burp.api.montoya.MontoyaApi;
 import burp.api.montoya.logging.Logging;
 
 
-// 插件入口
+/**
+ * @author cyvk
+ */ // 插件入口
 public class MorePossibility implements BurpExtension {
     // burpAPI
     public static MontoyaApi burpApi;
@@ -17,12 +21,15 @@ public class MorePossibility implements BurpExtension {
     // 启动实现, 关于Grpc通信类,提供服务监听,建立rpc连接通信
     public static RunAchieve runAchieve;
 
+    public static FormalityChange formalityChange;
+
+
     // 初始化
     private void init() {
         burpApiTool = new BurpApiTool();  //burpAPI的工具类,
         runAchieve = new RunAchieve();    //grpc 通讯的类
         logging = burpApi.logging();
-
+        formalityChange = new FormalityChange(); //数据格式转化
     }
 
 
@@ -36,8 +43,12 @@ public class MorePossibility implements BurpExtension {
         burpApi = api;
         this.init(); // 初始化
 
-//        api.extension().setName("MorePossibility_test");
-//        api.logging().output().println("启动了");
+        api.extension().setName("MorePossibility_test");
+        api.logging().output().println("启动了");
+
+
+        api.userInterface().registerSuiteTab("teg",new GrpcServerGui());
+
 //
 //
 //        burpApiTool.registerIntruderPayloadProcessor("127.0.0.1:9525", "goPayload");
@@ -47,8 +58,6 @@ public class MorePossibility implements BurpExtension {
 
 
 //        api.userInterface().registerContextMenuItemsProvider()
-
-
 
 
     }

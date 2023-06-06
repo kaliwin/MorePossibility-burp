@@ -20,6 +20,9 @@ public class BurpServer extends BurpServerGrpc.BurpServerImplBase {
     @Override
     public void registerRealTimeTrafficMirroring(Str request, StreamObserver<httpReqAndRes> responseObserver) {
         logging.output().println("接收到实时流量镜像请求: " + request.getName());
+
+//        burpApiTool.
+
         if (burpApiTool.realTimeTrafficMirroring(request, responseObserver)){
             logging.output().println("实时流量注册成功");
         };

@@ -1,11 +1,9 @@
 package text;
 
-import BurpGrpc.proto.BurpApiGrpc.httpReqAndRes;
 //import BurpGrpc.proto.BurpApiGrpc.rpcTestGrpc;
-import UI.ManGui;
-import io.grpc.stub.StreamObserver;
+import UI.GrpcServerGui;
 
-import javax.swing.*;
+        import javax.swing.*;
 
 /**
  * @author cyvk
@@ -16,7 +14,7 @@ public class UI_Test {
     public static void main(String[] args) throws InterruptedException {
         JFrame jFrame = new JFrame("test");
         jFrame.setSize(790, 740);
-        jFrame.getContentPane().add(new ManGui());
+        jFrame.getContentPane().add(new GrpcServerGui());
         jFrame.setVisible(true);
         jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 

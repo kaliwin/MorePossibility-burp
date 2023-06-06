@@ -20,12 +20,6 @@ public class tmp {
 
 
 
-
-
-
-
-
-
 class text {
 
    public TreeBasedTable<String, BurpServerTypeX, String> serverRegistrationStatus ;
@@ -38,9 +32,8 @@ class text {
         serverRegistrationStatus.put("payLoadTest", BurpServerTypeX.INTRUDER_PROCESSOR, "s");
     }
     public String delServer(String serverName , BurpServerTypeX burpServerTypeX){
-        String remove = serverRegistrationStatus.remove(serverName, burpServerTypeX);
+        return  serverRegistrationStatus.remove(serverName, burpServerTypeX);
 
-        return remove;
     }
 
 }
