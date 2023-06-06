@@ -11,7 +11,6 @@ public class tmp {
 
         text.funTest();
 
-
         System.out.println(text.delServer("payLoadTest",BurpServerTypeX.INTRUDER_PROCESSOR));
         System.out.println("sd");
         System.out.println(text.serverRegistrationStatus);

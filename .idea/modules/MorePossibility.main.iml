@@ -3,6 +3,13 @@
   <component name="NewModuleRootManager">
     <output url="file://$MODULE_DIR$/../../build/classes/java/main" />
     <exclude-output />
+    <content url="file://$MODULE_DIR$/../../build/extracted-include-protos/main">
+      <sourceFolder url="file://$MODULE_DIR$/../../build/extracted-include-protos/main" isTestSource="false" generated="true" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../build/extracted-protos/main">
+      <sourceFolder url="file://$MODULE_DIR$/../../build/extracted-protos/main" isTestSource="false" generated="true" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../build/generated/source/proto/main/java" />
     <content url="file://$MODULE_DIR$/../../src/main">
       <sourceFolder url="file://$MODULE_DIR$/../../src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../src/main/resources" type="java-resource" />
