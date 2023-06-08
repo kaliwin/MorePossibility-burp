@@ -1,7 +1,5 @@
-package burp;
+package InformationCenter;
 
-
-import org.checkerframework.checker.units.qual.N;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -58,7 +56,7 @@ public class InformationProcessingCenter {
  * 主机信息:开放的端口服务、可用攻击载荷
  * 目标架构: 域名 公司 供应商 、可用刺探载荷
  * <p>
- * 截止6.1号 对明文密文键值对 开发
+ * 截止6.1号 只对明文密文键值开发
  * @author: cyvk
  * @date: 2023/6/1 下午5:45
  */
@@ -77,6 +75,28 @@ class AttackPayload {
 class webInfo {
     PlaintextAndCiphertextSetData plaintextAndCiphertextSetData; // 明文密文集合
     String target; //目标
+
+
+    public webInfo(String target) {
+        this.target = target;
+    }
+
+
+    /**
+     * @description: 获取明文或者密文
+     * @param data : 要匹配的数据
+     * @return java.lang.String
+     * @author: cyvk
+     * @date: 2023/6/8 下午5:01
+     */
+    public String getKeyOrValue(String data){
+
+//        plaintextAndCiphertextSetData.plaintextAndCiphertextS.
+
+        return null;
+    }
+
+
 
 }
 

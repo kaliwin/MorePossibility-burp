@@ -2,6 +2,9 @@ package UI;
 
 import javax.swing.*;
 
+/**
+ * @author cyvk
+ */
 public class textGUI {
 
 
@@ -9,10 +12,9 @@ public class textGUI {
 
         JFrame jFrame = new JFrame();
 
-
         jFrame.setSize(700,700);
 
-        jFrame.getContentPane().add(new GrpcServerGui());
+        jFrame.getContentPane().add(new ManGrpcGUI());
 
         jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         jFrame.setVisible(true);

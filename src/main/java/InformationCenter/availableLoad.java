@@ -1,12 +1,13 @@
-package burp;
+package InformationCenter;
 
 /**
  * @author cyvk
  */ // 可用载荷 信息 / 行动
 public class availableLoad {
     public String target;
-    information information;
+    InformationCenter.information information;
     AttackPayload attackPayload;
+
 
     public availableLoad(String target) {
         this.target = target;
@@ -14,3 +15,30 @@ public class availableLoad {
         this.attackPayload = new AttackPayload();
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

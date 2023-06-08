@@ -3,13 +3,6 @@
   <component name="NewModuleRootManager">
     <output url="file://$MODULE_DIR$/../../build/classes/java/main" />
     <exclude-output />
-    <content url="file://$MODULE_DIR$/../../build/extracted-include-protos/main">
-      <sourceFolder url="file://$MODULE_DIR$/../../build/extracted-include-protos/main" isTestSource="false" generated="true" />
-    </content>
-    <content url="file://$MODULE_DIR$/../../build/extracted-protos/main">
-      <sourceFolder url="file://$MODULE_DIR$/../../build/extracted-protos/main" isTestSource="false" generated="true" />
-    </content>
-    <content url="file://$MODULE_DIR$/../../build/generated/source/proto/main/java" />
     <content url="file://$MODULE_DIR$/../../src/main">
       <sourceFolder url="file://$MODULE_DIR$/../../src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../src/main/resources" type="java-resource" />
@@ -23,9 +16,7 @@
     <orderEntry type="library" name="Gradle: io.grpc:grpc-core:1.54.1" level="project" />
     <orderEntry type="library" name="Gradle: io.grpc:grpc-stub:1.54.1" level="project" />
     <orderEntry type="library" name="Gradle: com.google.guava:guava:32.0.0-jre" level="project" />
-    <orderEntry type="library" name="Gradle: org.apache.lucene:lucene-queryparser:8.11.1" level="project" />
-    <orderEntry type="library" name="Gradle: org.apache.lucene:lucene-analyzers-common:8.11.1" level="project" />
-    <orderEntry type="library" name="Gradle: org.apache.lucene:lucene-core:8.11.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.commons:commons-text:1.10.0" level="project" />
     <orderEntry type="library" name="Gradle: io.grpc:grpc-protobuf-lite:1.54.1" level="project" />
     <orderEntry type="library" name="Gradle: io.grpc:grpc-api:1.54.1" level="project" />
     <orderEntry type="library" name="Gradle: com.google.code.findbugs:jsr305:3.0.2" level="project" />
@@ -36,8 +27,7 @@
     <orderEntry type="library" name="Gradle: org.checkerframework:checker-qual:3.33.0" level="project" />
     <orderEntry type="library" name="Gradle: com.google.errorprone:error_prone_annotations:2.18.0" level="project" />
     <orderEntry type="library" name="Gradle: com.google.j2objc:j2objc-annotations:2.8" level="project" />
-    <orderEntry type="library" name="Gradle: org.apache.lucene:lucene-queries:8.11.1" level="project" />
-    <orderEntry type="library" name="Gradle: org.apache.lucene:lucene-sandbox:8.11.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.commons:commons-lang3:3.12.0" level="project" />
     <orderEntry type="library" name="Gradle: io.grpc:grpc-context:1.54.1" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: com.squareup.okio:okio:1.17.5" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: io.perfmark:perfmark-api:0.25.0" level="project" />

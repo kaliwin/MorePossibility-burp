@@ -44,7 +44,7 @@ service ScoutServer {
   // 添加http编辑器加解密键值对 参数为http编辑组件名称以及key、value
   rpc addHttpEditorEncryptAndDecryptKeyValue(httpEditorKeyValue)returns(Status){}
 
-//  rpc registerHttpEditorEncryptAndDecryptKeyValue()
+  //  rpc registerHttpEditorEncryptAndDecryptKeyValue()
 
 }
 
@@ -55,6 +55,21 @@ service IntruderServer {
 
   // 迭代器载荷生成, 服务端流 流终止就为生成结束
   rpc IntruderPayloadGeneratorProvider(IntruderGeneratorData) returns (ByteData){}
+}
+
+// 编辑框辅助服务
+// 提供编辑器键值对替换和主动请求渲染编辑器服务
+service EditBoxAssist{
+
+    rpc AddHttpKeyValuePair(httpKeyValuePair) returns(Boole){}   //添加http键值对
+
+}
+
+// http键值对信息, 明文密文可相互匹配
+message httpKeyValuePair{
+  string domain = 1;      // 域名作用域 正则表达式 用于匹配适用的url
+  bytes ciphertext = 2 ;  // 明文数据
+  bytes plaintext = 3;    // 密文数据
 }
 
 

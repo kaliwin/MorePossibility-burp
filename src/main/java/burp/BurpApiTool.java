@@ -1,6 +1,7 @@
 package burp;
 
 import BurpGrpc.proto.BurpApiGrpc.*;
+import UI.ManGrpcGUI;
 import burp.api.montoya.core.ByteArray;
 import burp.api.montoya.core.Registration;
 import burp.api.montoya.http.handler.*;
@@ -21,7 +22,8 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import static burp.BurpServerTypeX.INTRUDER_GENERATE;
-import static burp.MorePossibility.*;
+import static burp.MorePossibility.burpApi;
+import static burp.MorePossibility.runAchieve;
 import static burp.api.montoya.ui.editor.extension.EditorMode.READ_ONLY;
 
 
@@ -42,24 +44,38 @@ public class BurpApiTool {
     }
 
     /**
-     * @param request:          请求的客户端名称
+     * @param name:             请求的客户端名称
      * @param responseObserver: 流  (不区分客户端流还是服务端流)
      * @description: 实时流量镜像, 注册burp HTTP处理器将有响应包的请求通过流传输给零号
      * @author: cyvk
      * @date: 2023/5/29 下午12:30
      */
-    public boolean realTimeTrafficMirroring(Str request, StreamObserver<httpReqAndRes> responseObserver) {
+    public boolean realTimeTrafficMirroring(String name, StreamObserver<httpReqAndRes> responseObserver) {
         //注册 http流量处理器
         Registration httpTrafficRegistration = burpApi.http().registerHttpHandler(new handleHttpTrafficMirroring(responseObserver));
-
         if (httpTrafficRegistration.isRegistered()) {
-//            this.serverRegistration.put(request.getName(), httpTrafficRegistration);
-
+            this.serverRegistrationStatus.put(name, BurpServerTypeX.REAL_TIME_TRAFFIC_MIRRORING, httpTrafficRegistration);
             return true;
         }
-
         return false;
     }
+
+
+    /**
+     * @param target: 目标Grpc地址
+     * @param name:   名称
+     * @return boolean  是否建立成功
+     * @description: burp主动发起rpc请求通过客户端进行实时流量镜像
+     * @author: cyvk
+     * @date: 2023/6/8 下午3:11
+     */
+    private boolean realTimeTrafficMirroring(String target, String name) {
+        if (!serverRegistrationStatus.contains(name, BurpServerTypeX.INTRUDER_PROCESSOR)) {
+            return runAchieve.getRealTimeTrafficMirroring(target, name);
+        }
+        return false;
+    }
+
 
     /**
      * @param target: 载荷处理的客户端地址,burp将主动建立连接调用其函数
@@ -73,19 +89,22 @@ public class BurpApiTool {
 
         if (!serverRegistrationStatus.contains(name, BurpServerTypeX.INTRUDER_PROCESSOR)) {
 
-            IntruderServerGrpc.IntruderServerBlockingStub intruderClient = MorePossibility.runAchieve.getIntruderClient(target);
-            // == null 便是连接失败
+            try {
+                IntruderServerGrpc.IntruderServerBlockingStub intruderClient = MorePossibility.runAchieve.getIntruderClient(target);
+                // == null 便是连接失败
 
-            if (intruderClient != null) {
-                //注册burp迭代器处理
-                Registration intrudeProcessorRegistration = burpApi.intruder().registerPayloadProcessor(new intruderDemo(intruderClient, name));
-                if (intrudeProcessorRegistration.isRegistered()) {
-                    serverRegistrationStatus.put(name, BurpServerTypeX.INTRUDER_PROCESSOR, intrudeProcessorRegistration);
-                    return true;
+                if (intruderClient != null) {
+                    //注册burp迭代器处理
+                    Registration intrudeProcessorRegistration = burpApi.intruder().registerPayloadProcessor(new intruderDemo(intruderClient, name));
+                    if (intrudeProcessorRegistration.isRegistered()) {
+                        serverRegistrationStatus.put(name, BurpServerTypeX.INTRUDER_PROCESSOR, intrudeProcessorRegistration);
+                        return true;
+                    }
                 }
+            } catch (Exception e) {
+                return false;
             }
         }
-
         return false;
     }
 
@@ -101,25 +120,39 @@ public class BurpApiTool {
     private boolean registerIntruderGeneratorPayload(String target, String generatorName) {
 
         if (!serverRegistrationStatus.contains(generatorName, INTRUDER_GENERATE)) {
-            IntruderServerGrpc.IntruderServerBlockingStub intruderClient = runAchieve.getIntruderClient(target);
 
-            if (intruderClient != null) {
-                Registration intruderPayloadGenerator = burpApi.intruder().registerPayloadGeneratorProvider(new intruderGenerate(generatorName, intruderClient));
+            try {
+                IntruderServerGrpc.IntruderServerBlockingStub intruderClient = runAchieve.getIntruderClient(target);
+                if (intruderClient != null) {
+                    Registration intruderPayloadGenerator = burpApi.intruder().registerPayloadGeneratorProvider(new intruderGenerate(generatorName, intruderClient));
 
-                if (intruderPayloadGenerator.isRegistered()) {
-                    serverRegistrationStatus.put(generatorName, INTRUDER_GENERATE, intruderPayloadGenerator);
-                    return true;
+                    if (intruderPayloadGenerator.isRegistered()) {
+                        serverRegistrationStatus.put(generatorName, INTRUDER_GENERATE, intruderPayloadGenerator);
+                        return true;
+                    }
                 }
+
+            } catch (Exception e) {
+                return false;
             }
         }
         return false;
     }
 
+    /**
+     * @description: 初始化http明文密文键值对编辑器,用于初始化ui由RunAchieve初始化时调用,会自动匹配信息中心中的明密简直对
+     * @author: cyvk
+     * @date: 2023/6/8 下午4:31
+     */
+    public void initRegisterHttpEditorKeyValue() {
 
-    private boolean registerHttpEditorKeyValue(String name) {
-//        burpApi.userInterface().registerHttpResponseEditorProvider()
-        return false;
+
+
+
     }
+
+
+
 
     /**
      * @param serverName:      名称
@@ -144,18 +177,28 @@ public class BurpApiTool {
      * @param target:          Grpc服务地址
      * @param burpServerTypeX: 服务类型
      * @return boolean
-     * @description: 注册服务 返回false 就是目标地址错误或者已经存在 错误信息会向文本域输出
+     * @description: 注册服务 返回false 就是目标地址错误或者已经存在 错误信息会向文本域输出 传入名称、地址、服务类型即可
      * @author: cyvk
      * @date: 2023/6/6 下午9:38
      */
     public boolean registrationServer(String name, String target, BurpServerTypeX burpServerTypeX) {
         switch (burpServerTypeX) {
-            case INTRUDER_GENERATE -> {
+            case INTRUDER_GENERATE -> {  // 迭代生成器
                 return registerIntruderGeneratorPayload(target, name);
             }
-            case INTRUDER_PROCESSOR -> {
+            case INTRUDER_PROCESSOR -> {    // 迭代处理器
                 return registerIntruderPayloadProcessor(target, name);
             }
+            case REAL_TIME_TRAFFIC_MIRRORING -> {  // 实时流量镜像
+                return realTimeTrafficMirroring(target, name);
+            }
+
+            case HTTP_EDITOR_KEY_VALUE -> { // http键值对 需要
+
+            }
+
+
+
         }
         return false;
     }
@@ -283,37 +326,9 @@ class intruderGenerate implements PayloadGeneratorProvider, PayloadGenerator {
      */
     @Override
     public PayloadGenerator providePayloadGenerator(AttackConfiguration attackConfiguration) {
-//        logging.output().println("进入");
         ByteArray content = attackConfiguration.requestTemplate().content();  // 原始请求
-//        List<Range> ranges = attackConfiguration.requestTemplate().insertionPointOffsets();  // 插入点下标
-
         intruderGeneratorData = IntruderGeneratorData.newBuilder()
-                .setContentData(ByteString.copyFrom(content.getBytes()));
-//        logging.output().println("9521");
-//        for (Range range : ranges) {  // 遍历所有下标索引
-//            InsertionPointOffsets build = InsertionPointOffsets.newBuilder()
-//                    .setStartIndex(range.startIndexInclusive())
-//                    .setEndIndex(range.endIndexExclusive())
-//                    .build();
-//            intruderGeneratorData.addInsertionPointOffsets(build);
-//        }
-
-        // 生成器会反复调用generatePayloadFor函数直到返回end才会结束
-//        return insertionPoint -> {
-//            logging.output().println("开始生成");
-//
-//            intruderGeneratorData.setIntruderInsertionPoint(ByteString.copyFrom(insertionPoint.baseValue().getBytes()));
-//
-//            ByteData byteData = intruderServer.intruderPayloadGeneratorProvider(intruderGeneratorData.build());
-//            String str = new String(byteData.getByteData().toByteArray());
-//
-//            if (str.contains("ggc_end")){
-//                // 结束符
-//                return GeneratedPayload.end();
-//            }
-//            return GeneratedPayload.payload(Arrays.toString(byteData.toByteArray()));
-//        };
-//        logging.output().println("返回");
+                .setContentData(ByteString.copyFrom(content.getBytes()));    // 初始化数据
         return this;
     }
 
@@ -322,36 +337,37 @@ class intruderGenerate implements PayloadGeneratorProvider, PayloadGenerator {
      */
     @Override
     public GeneratedPayload generatePayloadFor(IntruderInsertionPoint insertionPoint) {
-//        logging.output().println("开始生成");
+        try {
+            intruderGeneratorData.setIntruderInsertionPoint(ByteString.copyFrom(insertionPoint.baseValue().getBytes()));
+            ByteData byteData = intruderServer.intruderPayloadGeneratorProvider(intruderGeneratorData.build());
+            String str = new String(byteData.getByteData().toByteArray());
 
-        intruderGeneratorData.setIntruderInsertionPoint(ByteString.copyFrom(insertionPoint.baseValue().getBytes()));
+            if (str.contains("ggc_end")) {    // 匹配结束符
+                return GeneratedPayload.end();
+            }
 
-        ByteData byteData = intruderServer.intruderPayloadGeneratorProvider(intruderGeneratorData.build());
-        String str = new String(byteData.getByteData().toByteArray());
+            return GeneratedPayload.payload(ByteArray.byteArray(byteData.getByteData().toByteArray()));
 
-        if (str.contains("ggc_end")) {
-            // 结束符
-            logging.output().println("结束啦");
-            return GeneratedPayload.end();
+        } catch (Exception e) {
+            ManGrpcGUI.pluginLog.append("异常：" + e + "\n");
+
         }
-
-        return GeneratedPayload.payload(str);
-
-//        return GeneratedPayload.payload(Arrays.toString(byteData.toByteArray()));
+        return GeneratedPayload.end();
     }
 }
 
 
-// http请求编辑器实现
-class httpReqEditor implements HttpRequestEditorProvider, ExtensionProvidedHttpRequestEditor {
-
-    EditorCreationContext ecc;  // 调用的工具, 期望的状态 只读可编辑
-
+/**
+ * @description: 初始化键值对编辑器
+ * @author: cyvk
+ * @date: 2023/6/8 下午4:37
+ */
+class initHttpKeyValueEditor implements HttpRequestEditorProvider, ExtensionProvidedHttpRequestEditor {
     RawEditor re; // 原始编辑器
     String name;
 
 
-    public httpReqEditor(String name) {
+    public initHttpKeyValueEditor(String name) {
         this.name = name;
     }
 
@@ -362,10 +378,7 @@ class httpReqEditor implements HttpRequestEditorProvider, ExtensionProvidedHttpR
     public ExtensionProvidedHttpRequestEditor provideHttpRequestEditor(EditorCreationContext creationContext) {
         RawEditor rawEditor = burpApi.userInterface().createRawEditor();  // 创建一个原始编辑器
         rawEditor.setEditable(creationContext.editorMode() != READ_ONLY); //以调用方期望的状态设置 是否可编辑
-
-        this.ecc = creationContext;
         this.re = rawEditor;
-
         return this;
     }
 

@@ -4,6 +4,7 @@
 
 package UI;
 
+import burp.BurpServerTypeX;
 import burp.MorePossibility;
 
 import java.awt.event.*;
@@ -12,6 +13,8 @@ import java.util.Set;
 
 import javax.swing.*;
 import javax.swing.GroupLayout;
+
+import static UI.ManGrpcGUI.pluginLog;
 
 /**
  * declaration 大小 790 740  主ui
@@ -32,16 +35,17 @@ public class GrpcServerGui extends JPanel {
             //注册服务
 //            MorePossibility.burpApiTool.registrationServer(name,target)
             if (MorePossibility.burpApiTool.registrationServer(name,target,formalityChange.data.get(selectedData))) {
-                MorePossibility.logging.output().println("注册成功");
+                pluginLog.append(selectedData+": "+name+" 注册成功"+"\n");
                 tableModel.addRow(new Object[]{selectedData, target, name});
             }else {
-                MorePossibility.logging.error().println("注册失败");
+                pluginLog.append(selectedData+": "+name+" 注册失败 已存在相同名字的服务"+"\n");
             }
-            textField1.setText("");
-            textField2.setText("");
         }
 
-        // TODO add your code here
+
+//        tableModel.addRow(new Object[]{selectedData, target, name});
+        textField1.setText("");
+        textField2.setText("");
     }
 
     private void delServer(ActionEvent e) {
@@ -49,8 +53,18 @@ public class GrpcServerGui extends JPanel {
         if (selectedRows.length > 0) {
             for (int i = selectedRows.length - 1; i >= 0; i--) {
                 // 卸载服务
+                BurpServerTypeX burpServerTypeX = formalityChange.data.get(tableModel.getValueAt(i, 0));
 
-                tableModel.deleteRow(selectedRows[i]);
+                boolean b = MorePossibility.burpApiTool.delServer((String) tableModel.getValueAt(i, 2), burpServerTypeX);
+                if (b){
+//                    MorePossibility.logging.output().println("卸载成功: "+tableModel.getValueAt(i,2));
+                    pluginLog.append("卸载成功: "+tableModel.getValueAt(i,2)+"\n");
+                    tableModel.deleteRow(selectedRows[i]);
+                }else {
+//                    MorePossibility.logging.output().println("卸载失败！！！ : "+tableModel.getValueAt(i,2));
+
+                    pluginLog.append("卸载失败！！！ : "+tableModel.getValueAt(i,2)+"\n");
+                }
             }
         }
     }

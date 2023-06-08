@@ -3,11 +3,13 @@ package BurpGrpc.BurpServer;
 import BurpGrpc.proto.BurpApiGrpc.*;
 import io.grpc.stub.StreamObserver;
 
+import static UI.ManGrpcGUI.pluginLog;
 import static burp.MorePossibility.burpApiTool;
-import static burp.MorePossibility.logging;
 
 /**
  * BurpGrpc 服务实现
+ *
+ * @author cyvk
  */
 public class BurpServer extends BurpServerGrpc.BurpServerImplBase {
 
@@ -19,30 +21,15 @@ public class BurpServer extends BurpServerGrpc.BurpServerImplBase {
      */
     @Override
     public void registerRealTimeTrafficMirroring(Str request, StreamObserver<httpReqAndRes> responseObserver) {
-        logging.output().println("接收到实时流量镜像请求: " + request.getName());
+//        logging.output().println("接收到实时流量镜像请求: " + request.getName());
 
-//        burpApiTool.
+        pluginLog.append("接收到实时流量镜像请求: " + request.getName() + "\n");
 
-        if (burpApiTool.realTimeTrafficMirroring(request, responseObserver)){
-            logging.output().println("实时流量注册成功");
-        };
+        if (burpApiTool.realTimeTrafficMirroring(request.getName(), responseObserver)) {
+//            logging.output().println("实时流量注册成功");
+            pluginLog.append("实时流量注册成功" + "\n");
+        }
+        ;
     }
 }
 
-// 侦查类实现
-class scoutServer extends ScoutServerGrpc.ScoutServerImplBase {
-
-
-    /**
-     * @param request:          编辑器名称、键值对
-     * @param responseObserver: 响应流 返回操作状态是否添加成功
-     * @description: 添加http编辑器键值对, 用于替换原有内容
-     * @author: cyvk
-     * @date: 2023/5/31 下午4:55
-     */
-    @Override
-    public void addHttpEditorEncryptAndDecryptKeyValue(httpEditorKeyValue request, StreamObserver<Status> responseObserver) {
-
-    }
-
-}
