@@ -19,19 +19,18 @@ public class ManGrpcGUI extends JPanel {
 
     private void button1(ActionEvent e) {
         // 清空插件信息
-//        GrpcServerGui.
+//        GrpcServerGUI.
         pluginLog.setText("");
     }
 
     private void button2(ActionEvent e) {
-        // TODO add your code here
         // 清空控制台
         consoleLog.setText("");
     }
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
-        panel1 = new GrpcServerGui();
+        panel1 = new GrpcServerGUI();
         scrollPane1 = new JScrollPane();
         consoleLog = new JTextArea();
         scrollPane2 = new JScrollPane();
@@ -119,7 +118,7 @@ public class ManGrpcGUI extends JPanel {
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
-    private GrpcServerGui panel1;
+    private GrpcServerGUI panel1;
     private JScrollPane scrollPane1;
     public static JTextArea consoleLog;
     private JScrollPane scrollPane2;

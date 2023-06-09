@@ -8,7 +8,6 @@ import burp.BurpServerTypeX;
 import burp.MorePossibility;
 
 import java.awt.event.*;
-import java.util.Map;
 import java.util.Set;
 
 import javax.swing.*;
@@ -21,8 +20,8 @@ import static UI.ManGrpcGUI.pluginLog;
  *
  * @author cyvk
  */
-public class GrpcServerGui extends JPanel {
-    public GrpcServerGui() {
+public class GrpcServerGUI extends JPanel {
+    public GrpcServerGUI() {
         initComponents();
     }
 

@@ -61,43 +61,13 @@ public class InformationProcessingCenter {
  * @date: 2023/6/1 下午5:45
  */
 class information {
-    webInfo webInfo; // web信息
+    WebInfo webInfo; // web信息
 }
 
 
 // 攻击载荷,包含poc、exp、刺探载荷
 class AttackPayload {
     String index; //索引
-}
-
-
-//web信息: 包含明文密文键值对
-class webInfo {
-    PlaintextAndCiphertextSetData plaintextAndCiphertextSetData; // 明文密文集合
-    String target; //目标
-
-
-    public webInfo(String target) {
-        this.target = target;
-    }
-
-
-    /**
-     * @description: 获取明文或者密文
-     * @param data : 要匹配的数据
-     * @return java.lang.String
-     * @author: cyvk
-     * @date: 2023/6/8 下午5:01
-     */
-    public String getKeyOrValue(String data){
-
-//        plaintextAndCiphertextSetData.plaintextAndCiphertextS.
-
-        return null;
-    }
-
-
-
 }
 
 

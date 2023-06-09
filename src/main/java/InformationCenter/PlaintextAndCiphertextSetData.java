@@ -3,22 +3,25 @@ package InformationCenter;
 
 import com.google.common.collect.TreeBasedTable;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedMap;
+import java.util.*;
 
-// 明文密文键值对集合, 提供数据存储,检索,持久化操作
+/**
+ * @author cyvk
+ */ // 明文密文键值对集合, 提供数据存储,检索,持久化操作
 public class PlaintextAndCiphertextSetData {
 
     // 明文密文集合
     // rowKey为 为明文
     // columnKey 为密文
     // value 为 url
-   public TreeBasedTable<String, String, String> plaintextAndCiphertextS; // 树状结构存储数据
+    public TreeBasedTable<String, String, String> plaintextAndCiphertextS; // 树状结构存储数据
+
+    public List<ListPlaintextCiphertextPair> listPair;     // 列表数据存储 树状结构的拓展品解决全文匹配问题 单数为明文 双数为密文
+
 
     public PlaintextAndCiphertextSetData() {
         plaintextAndCiphertextS = TreeBasedTable.create();
+        listPair = new ArrayList<>();
     }
 
 
@@ -34,7 +37,7 @@ public class PlaintextAndCiphertextSetData {
         try {
 //            String str = row.firstKey();
             return row.firstKey();
-        }catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
 
@@ -66,11 +69,13 @@ public class PlaintextAndCiphertextSetData {
      * @author: cyvk
      * @date: 2023/6/1 下午4:44
      */
-    public boolean addPlaintextAndCiphertext(String plaintext, String ciphertext,String url) {
+    public boolean addPlaintextAndCiphertext(String plaintext, String ciphertext, String url) {
         if (plaintextAndCiphertextS.contains(plaintext, ciphertext)) {
             return false;
         }
         plaintextAndCiphertextS.put(plaintext, ciphertext, url);
+        listPair.add(new ListPlaintextCiphertextPair(plaintext, 1));
+        listPair.add(new ListPlaintextCiphertextPair(ciphertext, -1));
         return true;
     }
 
@@ -87,6 +92,33 @@ public class PlaintextAndCiphertextSetData {
         String remove = plaintextAndCiphertextS.remove(plaintext, ciphertext);
         return remove != null;
     }
+
+
+    /**
+     * @param data: 数据 明文密文均可 彼此可转换
+     * @return java.lang.String   匹配到信息则会自动替换
+     * @description: 检索可替换的键值对  列表循环匹配 ,考虑到未来循环带来的性能压力,正在寻求全文匹配解决方案
+     * @author: cyvk
+     * @date: 2023/6/9 下午3:39
+     */
+    public String keyValuePairReplacement(String data) {
+
+        int index = 0;
+
+        for (ListPlaintextCiphertextPair listPlaintextCiphertextPair : listPair) {
+
+            int i = data.indexOf(listPlaintextCiphertextPair.data);
+            if (i != -1){
+
+                return  data.replace(listPlaintextCiphertextPair.data,listPair.get(index + listPlaintextCiphertextPair.associate).data);
+
+//                return listPair.get(index + listPlaintextCiphertextPair.associate).data;
+            }
+            index ++;
+        }
+        return null;
+    }
+
 
 }
 

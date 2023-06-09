@@ -44,14 +44,24 @@ public class tmp {
 
         String filePath = "/root/tmp/2.txt";
 
+        String[] strList = new String[7940];
+
+        int o = 1;
+
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 // 处理每一行的内容
-                int i1 = text.indexOf(line);
-                if (i1 != -1){
-                    System.out.println("命中: "+line);
+//                int i1 = text.indexOf(line);
+
+                if (o < strList.length){
+                    strList[o] = line;
                 }
+                o ++;
+//                if (i1 != -1){
+//                    System.out.println("命中: "+line);
+//
+//                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -59,6 +69,28 @@ public class tmp {
             throw new RuntimeException(e);
         }
 
+
+        for (String s : strList) {
+//            System.out.println("ddd");
+
+            if (s == null){
+                continue;
+            }
+
+            int i1 = text.indexOf(s);
+
+            if(i1 != -1){
+                System.out.println("命中: "+s);
+                System.out.println("下标: "+i1);
+            }
+
+
+        }
+
+
+
+
+        System.out.println(strList[7439]);
 
     }
 }
