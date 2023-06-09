@@ -1,14 +1,10 @@
 package InformationCenter;
 
-import UI.ManGrpcGUI;
+
 import com.google.common.collect.TreeBasedTable;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
-import java.util.regex.Pattern;
+
 
 /**
  * @description: web信息处理, 提供数据提交自动分类归档 、数据检索
@@ -16,14 +12,14 @@ import java.util.regex.Pattern;
  * @author: cyvk
  * @date: 2023/6/9 上午10:30
  */
-public class WebInformationProcessing {
+public class WebInformationProcessingCenter {
     // web目标树状
     // rowKey为  域名       示例: baidu.com 、 admin.baidu.com、 test.ddi.baidu.org
     // columnKey url 作用域    示例: https://www.baidu.com 、 http://admin.test.baidu.com/admin
     // value 为 url 作用域下的信息
     public TreeBasedTable<String, String, WebInfo> webInfoTs;
 
-    public WebInformationProcessing() {
+    public WebInformationProcessingCenter() {
         this.webInfoTs = TreeBasedTable.create();
     }
 
@@ -52,7 +48,7 @@ public class WebInformationProcessing {
     /**
      * @param url: url 示例https://www.baidu.com/di/admin/index.php?s=dfd&userid=amdin  给出完整url即可不需要做处理保留url编码也可
      * @return java.util.List<InformationCenter.WebInfo>
-     * @description: 通过url获取所有相关信息
+     * @description: 通过url解析出域名已获取所有url信息, 暂时用于键值对功能实现
      * @author: cyvk
      * @date: 2023/6/9 下午4:28
      */
@@ -126,36 +122,42 @@ public class WebInformationProcessing {
         return false;
     }
 
+    /**
+     * @param url: url
+     * @return boolean
+     * @description: 判断该url是否有可用信息
+     * @author: cyvk
+     * @date: 2023/6/9 下午5:58
+     */
+    public boolean isInfo(String url) {
+        UrlData urlData = UrlData.parseUrl(url);
+        if (urlData == null) {
+            return false;
+        }
+        SortedSet<String> strings = webInfoTs.rowKeySet();
 
-//    /**
-//     * @param absoluteDomainName: 绝对域名
-//     * @param type:               信息类型
-//     * @param data:               数据
-//     * @return boolean
-//     * @description: 添加信息
-//     * @author: cyvk
-//     * @date: 2023/6/9 下午2:37
-//     */
-//    public boolean addWebInfo(String absoluteDomainName, informationType type, Objects data) {
-//
-//        if (webInfoTs.containsColumn(absoluteDomainName)) {
-//
-//
-//            switch (type) {
-//                case PLAINTEXT_CIPHERTEXT_PAIR -> {
-//                    Map<String, WebInfo> column = webInfoTs.column(absoluteDomainName);
-//                    for (String s : column.keySet()) {
-//                        column.get(s).plaintextAndCiphertextSetData.
-//
-//                    }
-//                }
-//
-//
-//            }
-//            return false;
-//        }
-//
-//    }
+        for (String string : strings) {
+            if (string.contains(urlData.domain)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    /**
+     * @param url: url
+     * @return boolean  true 为有
+     * @description: 是否有键值对信息
+     * @author: cyvk
+     * @date: 2023/6/9 下午6:05
+     */
+    public boolean isKeyValuePari(String url) {
+        if (isInfo(url)) {
+            List<WebInfo> webInfo = getWebInfo(url);
+        }
+        return false;
+    }
 
 }
 

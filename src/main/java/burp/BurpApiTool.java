@@ -22,8 +22,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import static burp.BurpServerTypeX.INTRUDER_GENERATE;
-import static burp.MorePossibility.burpApi;
-import static burp.MorePossibility.runAchieve;
+import static burp.MorePossibility.*;
 import static burp.api.montoya.ui.editor.extension.EditorMode.READ_ONLY;
 
 
@@ -411,10 +410,8 @@ class initHttpKeyValueEditor implements HttpRequestEditorProvider, ExtensionProv
     @Override
     public boolean isEnabledFor(HttpRequestResponse requestResponse) {
 
-//        requestResponse.request().
-
-
-        return false;
+        // 判断是否有信息
+        return  webInformationProcessingCenter.isInfo(requestResponse.url());
     }
 
     /**

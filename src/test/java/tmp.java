@@ -1,4 +1,3 @@
-import InformationCenter.WebInformationProcessing;
 import burp.BurpServerTypeX;
 import com.google.common.collect.TreeBasedTable;
 import org.apache.commons.lang3.StringUtils;
