@@ -2,13 +2,11 @@ package BurpGrpc.achieve;
 
 
 import BurpGrpc.BurpServer.BurpServer;
-import BurpGrpc.proto.BurpApiGrpc.BurpServerGrpc;
-import BurpGrpc.proto.BurpApiGrpc.IntruderServerGrpc;
-import BurpGrpc.proto.BurpApiGrpc.Str;
-import BurpGrpc.proto.BurpApiGrpc.httpReqAndRes;
+import BurpGrpc.proto.BurpApiGrpc.*;
 import UI.ManGrpcGUI;
 import burp.MorePossibility;
 import io.grpc.InsecureServerCredentials;
+import io.grpc.ManagedChannel;
 import io.grpc.Server;
 import io.grpc.okhttp.OkHttpChannelBuilder;
 import io.grpc.okhttp.OkHttpServerBuilder;
@@ -119,4 +117,54 @@ public class RunAchieve {
         return MorePossibility.burpApiTool.realTimeTrafficMirroring(name, httpReqAndResStreamObserver);
     }
 
+
+    /**
+     * @description: http请求编辑框
+     * @param target:  目标地址
+     * @return BurpGrpc.proto.BurpApiGrpc.HttpReqEditBoxAssistGrpc.HttpReqEditBoxAssistBlockingStub
+     * @author: cyvk
+     * @date: 2023/6/11 下午4:05
+     */
+    public HttpReqEditBoxAssistGrpc.HttpReqEditBoxAssistBlockingStub getHttpReqEditClient(String target){
+        return   HttpReqEditBoxAssistGrpc.newBlockingStub(OkHttpChannelBuilder.forTarget(target).usePlaintext().build());
+    }
+
+
+    /**
+     * @description: http响应编辑框
+     * @param target:  grpc 地址
+     * @return BurpGrpc.proto.BurpApiGrpc.HttpResEditBoxAssistGrpc.HttpResEditBoxAssistBlockingStub
+     * @author: cyvk
+     * @date: 2023/6/11 下午6:01
+     */
+    public HttpResEditBoxAssistGrpc.HttpResEditBoxAssistBlockingStub getHttpResEditClient(String target){
+        return HttpResEditBoxAssistGrpc.newBlockingStub(OkHttpChannelBuilder.forTarget(target).usePlaintext().build());
+    }
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

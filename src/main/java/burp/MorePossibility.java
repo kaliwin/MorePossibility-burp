@@ -5,6 +5,13 @@ import InformationCenter.WebInformationProcessingCenter;
 import UI.ManGUI;
 import burp.api.montoya.BurpExtension;
 import burp.api.montoya.MontoyaApi;
+import burp.api.montoya.ui.contextmenu.AuditIssueContextMenuEvent;
+import burp.api.montoya.ui.contextmenu.ContextMenuEvent;
+import burp.api.montoya.ui.contextmenu.ContextMenuItemsProvider;
+import burp.api.montoya.ui.contextmenu.WebSocketContextMenuEvent;
+
+import java.awt.*;
+import java.util.List;
 
 
 /**
@@ -47,5 +54,96 @@ public class MorePossibility implements BurpExtension {
         api.userInterface().registerSuiteTab("MorePossibility", new ManGUI());
 
 
+//        // ===================   测试用例   ========================== //
+//        if (webInformationProcessingCenter.addPlaintextCiphertextPair("https://baidu.com/","cyvk","9521")) {
+//            System.out.println("添加成功");
+//        }
+//        if (webInformationProcessingCenter.addPlaintextCiphertextPair("https://www.baidu.com/","ggc","6599")) {
+//            System.out.println("添加成功");
+//        }
+
+
+        api.userInterface().registerContextMenuItemsProvider(new ContextMenuItemsProvider() {
+            /**
+             * @param event This object can be queried to find out about HTTP request/responses that are associated with the context menu invocation. 
+             * @return
+             */
+            @Override
+            public List<Component> provideMenuItems(ContextMenuEvent event) {
+                return ContextMenuItemsProvider.super.provideMenuItems(event);
+            }
+
+            /**
+             * @param event This object can be queried to find out about WebSocket messages that are associated with the context menu invocation. 
+             * @return
+             */
+            @Override
+            public List<Component> provideMenuItems(WebSocketContextMenuEvent event) {
+                return ContextMenuItemsProvider.super.provideMenuItems(event);
+            }
+
+            /**
+             * @param event This object can be queried to find out about audit issues that are associated with the context menu invocation. 
+             * @return
+             */
+            @Override
+            public List<Component> provideMenuItems(AuditIssueContextMenuEvent event) {
+                return ContextMenuItemsProvider.super.provideMenuItems(event);
+            }
+        });
+        
+        
+
     }
 }
+
+
+
+
+
+
+
+
+class conText implements ContextMenuItemsProvider{
+    /**
+     * @param event This object can be queried to find out about HTTP request/responses that are associated with the context menu invocation. 
+     * @return
+     */
+    @Override
+    public List<Component> provideMenuItems(ContextMenuEvent event) {
+
+
+
+
+        return ContextMenuItemsProvider.super.provideMenuItems(event);
+    }
+
+    /**
+     * @param event This object can be queried to find out about WebSocket messages that are associated with the context menu invocation. 
+     * @return
+     */
+    @Override
+    public List<Component> provideMenuItems(WebSocketContextMenuEvent event) {
+        return ContextMenuItemsProvider.super.provideMenuItems(event);
+    }
+
+    /**
+     * @param event This object can be queried to find out about audit issues that are associated with the context menu invocation. 
+     * @return
+     */
+    @Override
+    public List<Component> provideMenuItems(AuditIssueContextMenuEvent event) {
+        return ContextMenuItemsProvider.super.provideMenuItems(event);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+

@@ -25,9 +25,6 @@ public class EditBoxAssistServer extends EditBoxAssistGrpc.EditBoxAssistImplBase
     public void addHttpKeyValuePair(httpKeyValuePair request, StreamObserver<Boole> responseObserver) {
 
 
-
-
-
         super.addHttpKeyValuePair(request, responseObserver);
     }
 }

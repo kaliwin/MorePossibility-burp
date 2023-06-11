@@ -8,7 +8,7 @@ import java.util.*;
 
 /**
  * @description: web信息处理, 提供数据提交自动分类归档 、数据检索
- * 6月9号 该类只进行明密文键值对实验测试
+ * 6月9号 该类只进行明密文键值对实验测试 [+] 临时功能实现 需要改进和应对未来需求
  * @author: cyvk
  * @date: 2023/6/9 上午10:30
  */
@@ -125,7 +125,7 @@ public class WebInformationProcessingCenter {
     /**
      * @param url: url
      * @return boolean
-     * @description: 判断该url是否有可用信息
+     * @description: 解析url通过域名 / ip 检索是否有可用信息
      * @author: cyvk
      * @date: 2023/6/9 下午5:58
      */
@@ -148,13 +148,26 @@ public class WebInformationProcessingCenter {
     /**
      * @param url: url
      * @return boolean  true 为有
-     * @description: 是否有键值对信息
+     * @description: 是否有键值对信息  [+] 临时功能实现 需要改进和应对未来需求
      * @author: cyvk
      * @date: 2023/6/9 下午6:05
      */
     public boolean isKeyValuePari(String url) {
+        UrlData urlData = UrlData.parseUrl(url);
+        if (urlData == null){
+            return false;
+        }
+
+
         if (isInfo(url)) {
-            List<WebInfo> webInfo = getWebInfo(url);
+            List<WebInfo> webInfo = getWebInfo(url); // 通过域名获取可用信息
+
+            for (WebInfo info : webInfo) {
+
+                if (urlData.getNewUrl().contains(info.targetUrl)) {
+                    return true;
+                }
+            }
         }
         return false;
     }

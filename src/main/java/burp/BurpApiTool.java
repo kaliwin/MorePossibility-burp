@@ -1,27 +1,28 @@
 package burp;
 
 import BurpGrpc.proto.BurpApiGrpc.*;
+import InformationCenter.WebInfo;
 import UI.ManGrpcGUI;
 import burp.api.montoya.core.ByteArray;
 import burp.api.montoya.core.Registration;
 import burp.api.montoya.http.handler.*;
 import burp.api.montoya.http.message.HttpRequestResponse;
 import burp.api.montoya.http.message.requests.HttpRequest;
+import burp.api.montoya.http.message.responses.HttpResponse;
 import burp.api.montoya.intruder.*;
 import burp.api.montoya.ui.Selection;
 import burp.api.montoya.ui.editor.RawEditor;
-import burp.api.montoya.ui.editor.extension.EditorCreationContext;
-import burp.api.montoya.ui.editor.extension.ExtensionProvidedHttpRequestEditor;
-import burp.api.montoya.ui.editor.extension.HttpRequestEditorProvider;
+import burp.api.montoya.ui.editor.extension.*;
 import com.google.common.collect.TreeBasedTable;
 import com.google.protobuf.ByteString;
 import io.grpc.stub.StreamObserver;
 
 import java.awt.*;
+import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import static burp.BurpServerTypeX.INTRUDER_GENERATE;
+import static burp.BurpServerTypeX.*;
 import static burp.MorePossibility.*;
 import static burp.api.montoya.ui.editor.extension.EditorMode.READ_ONLY;
 
@@ -39,8 +40,18 @@ public class BurpApiTool {
 
     public BurpApiTool() {
         this.serverRegistrationStatus = TreeBasedTable.create();
-
+        init();
     }
+
+    /**
+     * @description: 跟随构造函数一同初始化执行
+     * @author: cyvk
+     * @date: 2023/6/11 下午2:23
+     */
+    private void init() {
+        burpApi.userInterface().registerHttpRequestEditorProvider(new initHttpKeyValueEditor("Key_Value_test"));
+    }
+
 
     /**
      * @param name:             请求的客户端名称
@@ -138,19 +149,70 @@ public class BurpApiTool {
         return false;
     }
 
+
     /**
-     * @description: 初始化http明文密文键值对编辑器,用于初始化ui由RunAchieve初始化时调用,会自动匹配信息中心中的明密简直对
+     * @param target: Grpc地址
+     * @param name:   名称
+     * @return boolean 是否注册成功
+     * @description: 注册请求编辑框
+     * @author: cyvk
+     * @date: 2023/6/11 下午4:32
+     */
+    private boolean registerHttpReqEdit(String target, String name) {
+        if (!serverRegistrationStatus.contains(name, HTTP_REQUEST_EDITOR_PROCESSOR)) {
+            try {
+                HttpReqEditBoxAssistGrpc.HttpReqEditBoxAssistBlockingStub httpReqEditClient = runAchieve.getHttpReqEditClient(target);
+                if (httpReqEditClient != null) {
+                    Registration httpRequestEditorProvider = burpApi.userInterface().registerHttpRequestEditorProvider(new httpReqEditor(name, httpReqEditClient));
+                    if (httpRequestEditorProvider.isRegistered()) {
+                        serverRegistrationStatus.put(name, HTTP_REQUEST_EDITOR_PROCESSOR, httpRequestEditorProvider);
+                        return true;
+                    }
+                }
+            } catch (Exception e) {
+                return false;
+            }
+        }
+        return false;
+    }
+
+
+    /**
+     * @param target: grpc 地址
+     * @param name:   名称
+     * @return boolean
+     * @description: 注册http响应编辑框
+     * @author: cyvk
+     * @date: 2023/6/11 下午6:05
+     */
+    private boolean registerHttpResEdit(String target, String name) {
+        if (!serverRegistrationStatus.contains(name, HTTP_RESPONSE_EDITOR_PROCESSOR)) {
+            try {
+                HttpResEditBoxAssistGrpc.HttpResEditBoxAssistBlockingStub httpResEditClient = runAchieve.getHttpResEditClient(target);
+                if (httpResEditClient != null) {
+                    Registration httpResponseEditorProvider = burpApi.userInterface().registerHttpResponseEditorProvider(new httpResEditor(name, httpResEditClient));
+                    if (httpResponseEditorProvider.isRegistered()) {
+                        serverRegistrationStatus.put(name, HTTP_RESPONSE_EDITOR_PROCESSOR, httpResponseEditorProvider);
+                        return true;
+                    }
+                }
+            } catch (Exception e) {
+                return false;
+            }
+        }
+        return false;
+    }
+
+
+    /**
+     * @description: 初始化http明文密文键值对编辑器, 用于初始化ui由RunAchieve初始化时调用, 会自动匹配信息中心中的明密简直对
      * @author: cyvk
      * @date: 2023/6/8 下午4:31
      */
     public void initRegisterHttpEditorKeyValue() {
 
 
-
-
     }
-
-
 
 
     /**
@@ -182,21 +244,24 @@ public class BurpApiTool {
      */
     public boolean registrationServer(String name, String target, BurpServerTypeX burpServerTypeX) {
         switch (burpServerTypeX) {
-            case INTRUDER_GENERATE -> {  // 迭代生成器
+            case INTRUDER_GENERATE -> {         // 迭代生成器
                 return registerIntruderGeneratorPayload(target, name);
             }
-            case INTRUDER_PROCESSOR -> {    // 迭代处理器
+            case INTRUDER_PROCESSOR -> {        // 迭代处理器
                 return registerIntruderPayloadProcessor(target, name);
             }
             case REAL_TIME_TRAFFIC_MIRRORING -> {  // 实时流量镜像
                 return realTimeTrafficMirroring(target, name);
             }
-
-            case HTTP_EDITOR_KEY_VALUE -> { // http键值对 需要
-
+            case HTTP_EDITOR_KEY_VALUE -> {        // http键值对 需要
+                return false;
             }
-
-
+            case HTTP_REQUEST_EDITOR_PROCESSOR -> {  // http请求编辑器
+                return registerHttpReqEdit(target, name);
+            }
+            case HTTP_RESPONSE_EDITOR_PROCESSOR -> {  // http响应编辑器
+                return registerHttpResEdit(target, name);
+            }
 
         }
         return false;
@@ -357,7 +422,7 @@ class intruderGenerate implements PayloadGeneratorProvider, PayloadGenerator {
 
 
 /**
- * @description: 初始化键值对编辑器
+ * @description: 初始化键值对编辑器 ,与BurpApiTool 一同初始化  [+] 功能临时实现 ,存在bug
  * @author: cyvk
  * @date: 2023/6/8 下午4:37
  */
@@ -399,8 +464,16 @@ class initHttpKeyValueEditor implements HttpRequestEditorProvider, ExtensionProv
      */
     @Override
     public void setRequestResponse(HttpRequestResponse requestResponse) {
+        List<WebInfo> webInfo = webInformationProcessingCenter.getWebInfo(requestResponse.url());
 
+        String str = "";
 
+        String reqString = new String(requestResponse.request().toByteArray().getBytes());
+
+        for (WebInfo info : webInfo) {
+            str = info.plaintextAndCiphertextSetData.keyValuePairReplacement(reqString);
+        }
+        re.setContents(ByteArray.byteArray(str));
     }
 
     /**
@@ -410,8 +483,8 @@ class initHttpKeyValueEditor implements HttpRequestEditorProvider, ExtensionProv
     @Override
     public boolean isEnabledFor(HttpRequestResponse requestResponse) {
 
-        // 判断是否有信息
-        return  webInformationProcessingCenter.isInfo(requestResponse.url());
+        // 判断是否有键值对信息
+        return webInformationProcessingCenter.isKeyValuePari(requestResponse.url());
     }
 
     /**
@@ -446,6 +519,331 @@ class initHttpKeyValueEditor implements HttpRequestEditorProvider, ExtensionProv
         return false;
     }
 }
+
+
+/**
+ * @description: 注册http请求编辑器实现，通过grpc渲染
+ * @author: cyvk
+ * @date: 2023/6/11 下午3:20
+ */
+class httpReqEditor implements HttpRequestEditorProvider, ExtensionProvidedHttpRequestEditor {
+
+    RawEditor re;
+    String name;
+
+    HttpReqEditBoxAssistGrpc.HttpReqEditBoxAssistBlockingStub httpReqEditBoxAssistClient;
+
+
+    public httpReqEditor(String name, HttpReqEditBoxAssistGrpc.HttpReqEditBoxAssistBlockingStub client) {
+        this.name = name;
+        this.httpReqEditBoxAssistClient = client;
+    }
+
+    /**
+     *
+     */
+    @Override
+    public HttpRequest getRequest() {
+        return null;
+    }
+
+    /**
+     * @param requestResponse The request and response to set in the editor.
+     */
+    @Override
+    public void setRequestResponse(HttpRequestResponse requestResponse) {
+        HttpRequest request = requestResponse.request();
+        HttpResponse response = requestResponse.response();
+
+        httpReqData req = httpReqData.newBuilder()
+                .setData(ByteString.copyFrom(request.toByteArray().getBytes()))
+                .setUrl(request.url())
+                .setBodyIndex(request.bodyOffset())
+                .setHttpVersion(request.httpVersion())
+                .build();
+
+        httpResData res = httpResData.newBuilder()
+                .setData(ByteString.copyFrom(response.toByteArray().getBytes()))
+                .setBodyIndex(response.bodyOffset())
+                .setStatusCode(response.statusCode())
+                .build();
+
+        httpInfo httpInfoX = httpInfo.newBuilder()
+                .setInfo(requestResponse.annotations().notes())
+                .build();
+
+        httpReqAndRes reqAndRes = httpReqAndRes.newBuilder()
+                .setReq(req)
+                .setRes(res)
+                .setInfo(httpInfoX)
+                .build();
+
+
+        HttpEditBoxData heb = HttpEditBoxData.newBuilder()
+                .setName(name)
+                .setHttpData(reqAndRes)
+                .build();
+
+        ByteData byteData = httpReqEditBoxAssistClient.reqHttpEdit(heb);
+
+        ManGrpcGUI.consoleLog.append(name + ": 正在渲染" + "\n");
+
+        re.setContents(ByteArray.byteArray(byteData.getByteData().toByteArray()));
+
+    }
+
+    /**
+     * @param requestResponse The {@link HttpRequestResponse} to check.
+     * @return
+     */
+    @Override
+    public boolean isEnabledFor(HttpRequestResponse requestResponse) {
+
+
+        HttpRequest request = requestResponse.request();
+        HttpResponse response = requestResponse.response();
+
+        httpReqData req = httpReqData.newBuilder()
+                .setData(ByteString.copyFrom(request.toByteArray().getBytes()))
+                .setUrl(request.url())
+                .setBodyIndex(request.bodyOffset())
+                .setHttpVersion(request.httpVersion())
+                .build();
+
+        httpResData res = httpResData.newBuilder()
+                .setData(ByteString.copyFrom(response.toByteArray().getBytes()))
+                .setBodyIndex(response.bodyOffset())
+                .setStatusCode(response.statusCode())
+                .build();
+
+        httpInfo httpInfoX = httpInfo.newBuilder()
+                .setInfo(requestResponse.annotations().notes())
+                .build();
+
+        httpReqAndRes reqAndRes = httpReqAndRes.newBuilder()
+                .setReq(req)
+                .setRes(res)
+                .setInfo(httpInfoX)
+                .build();
+
+
+        HttpEditBoxData heb = HttpEditBoxData.newBuilder()
+                .setName(name)
+                .setHttpData(reqAndRes)
+                .build();
+
+
+        if (httpReqEditBoxAssistClient.isReqHttpEditFor(heb).getBoole()) {
+            ManGrpcGUI.consoleLog.append(name + ": 需要渲染" + "\n");
+            return true;
+        } else {
+            ManGrpcGUI.consoleLog.append(name + ": 不需要渲染" + "\n");
+            return false;
+        }
+
+//        return httpReqEditBoxAssistClient.isReqHttpEditFor(heb).getBoole();
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public String caption() {
+        return name;
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public Component uiComponent() {
+        return re.uiComponent();
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public Selection selectedData() {
+        return null;
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public boolean isModified() {
+        return false;
+    }
+
+    /**
+     * @param creationContext details about the context that is requiring a request editor
+     */
+    @Override
+    public ExtensionProvidedHttpRequestEditor provideHttpRequestEditor(EditorCreationContext creationContext) {
+        RawEditor rawEditor = burpApi.userInterface().createRawEditor();  // 创建一个原始编辑器
+        rawEditor.setEditable(creationContext.editorMode() != READ_ONLY); //以调用方期望的状态设置 是否可编辑
+        this.re = rawEditor;
+        return this;
+
+    }
+}
+
+
+/**
+ * @description: 注册http响应编辑器 ,通过grpc 渲染
+ * @author: cyvk
+ * @date: 2023/6/11 下午5:57
+ */
+class httpResEditor implements HttpResponseEditorProvider, ExtensionProvidedHttpResponseEditor {
+
+
+    String name;
+    RawEditor re;
+    HttpResEditBoxAssistGrpc.HttpResEditBoxAssistBlockingStub httpResEditClient;
+
+
+    public httpResEditor(String name, HttpResEditBoxAssistGrpc.HttpResEditBoxAssistBlockingStub httpResEditClient) {
+        this.name = name;
+        this.httpResEditClient = httpResEditClient;
+    }
+
+    /**
+     * @param creationContext details about the context that is requiring a response editor
+     */
+    @Override
+    public ExtensionProvidedHttpResponseEditor provideHttpResponseEditor(EditorCreationContext creationContext) {
+        RawEditor rawEditor = burpApi.userInterface().createRawEditor();  // 创建一个原始编辑器
+        rawEditor.setEditable(creationContext.editorMode() != READ_ONLY); //以调用方期望的状态设置 是否可编辑
+        this.re = rawEditor;
+        return this;
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public HttpResponse getResponse() {
+        return null;
+    }
+
+    /**
+     * @param requestResponse The request and response to set in the editor.
+     */
+    @Override
+    public void setRequestResponse(HttpRequestResponse requestResponse) {
+        HttpRequest request = requestResponse.request();
+        HttpResponse response = requestResponse.response();
+
+        httpReqData req = httpReqData.newBuilder()
+                .setData(ByteString.copyFrom(request.toByteArray().getBytes()))
+                .setUrl(request.url())
+                .setBodyIndex(request.bodyOffset())
+                .setHttpVersion(request.httpVersion())
+                .build();
+
+        httpResData res = httpResData.newBuilder()
+                .setData(ByteString.copyFrom(response.toByteArray().getBytes()))
+                .setBodyIndex(response.bodyOffset())
+                .setStatusCode(response.statusCode())
+                .build();
+
+        httpInfo httpInfoX = httpInfo.newBuilder()
+                .setInfo(requestResponse.annotations().notes())
+                .build();
+
+        httpReqAndRes reqAndRes = httpReqAndRes.newBuilder()
+                .setReq(req)
+                .setRes(res)
+                .setInfo(httpInfoX)
+                .build();
+
+
+        HttpEditBoxData heb = HttpEditBoxData.newBuilder()
+                .setName(name)
+                .setHttpData(reqAndRes)
+                .build();
+        ByteData byteData = this.httpResEditClient.resHttpEdit(heb);
+        re.setContents(ByteArray.byteArray(byteData.getByteData().toByteArray()));
+
+    }
+
+    /**
+     * @param requestResponse The {@link HttpRequestResponse} to check.
+     * @return
+     */
+    @Override
+    public boolean isEnabledFor(HttpRequestResponse requestResponse) {
+
+
+        HttpRequest request = requestResponse.request();
+        HttpResponse response = requestResponse.response();
+
+        httpReqData req = httpReqData.newBuilder()
+                .setData(ByteString.copyFrom(request.toByteArray().getBytes()))
+                .setUrl(request.url())
+                .setBodyIndex(request.bodyOffset())
+                .setHttpVersion(request.httpVersion())
+                .build();
+
+        httpResData res = httpResData.newBuilder()
+                .setData(ByteString.copyFrom(response.toByteArray().getBytes()))
+                .setBodyIndex(response.bodyOffset())
+                .setStatusCode(response.statusCode())
+                .build();
+
+        httpInfo httpInfoX = httpInfo.newBuilder()
+                .setInfo(requestResponse.annotations().notes())
+                .build();
+
+        httpReqAndRes reqAndRes = httpReqAndRes.newBuilder()
+                .setReq(req)
+                .setRes(res)
+                .setInfo(httpInfoX)
+                .build();
+
+
+        HttpEditBoxData heb = HttpEditBoxData.newBuilder()
+                .setName(name)
+                .setHttpData(reqAndRes)
+                .build();
+
+        return this.httpResEditClient.isResHttpEditFor(heb).getBoole();
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public String caption() {
+        return name;
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public Component uiComponent() {
+        return re.uiComponent();
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public Selection selectedData() {
+        return null;
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public boolean isModified() {
+        return false;
+    }
+}
+
 
 
 

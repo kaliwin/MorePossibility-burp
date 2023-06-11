@@ -1,63 +1,43 @@
-import burp.BurpServerTypeX;
-import com.google.common.collect.TreeBasedTable;
-import org.apache.commons.lang3.StringUtils;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class tmp {
-
-
     public static void main(String[] args) {
+        JFrame frame = new JFrame("Menu Demo");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        String filePath = "/root/tmp/2.txt";
+        JMenuBar menuBar = new JMenuBar();
 
-        try {
-            String content = new String(Files.readAllBytes(Paths.get(filePath)));
-//            System.out.println(content);
+        JMenu fileMenu = new JMenu("File");
+        JMenu subMenu = new JMenu("Sub Menu");
 
+        JMenuItem openItem = new JMenuItem("Open");
+        JMenuItem saveItem = new JMenuItem("Save");
 
-//            String text = "ABABDABACDABABCABAB";
-            String pattern = "Discovered open port 51546/cyvk";
+        subMenu.add(openItem);
+        fileMenu.add(subMenu);
+        fileMenu.add(saveItem);
 
-            int index = StringUtils.indexOf(content, pattern);
-            if (index != -1) {
-                System.out.println("匹配成功，子字符串的起始位置为：" + index);
-            } else {
-                System.out.println("未找到匹配的子字符串");
+        menuBar.add(fileMenu);
+
+        frame.setJMenuBar(menuBar);
+        frame.setSize(300, 200);
+        frame.setVisible(true);
+
+        // 添加动作监听器
+        openItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Open menu item clicked");
             }
+        });
 
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
+        saveItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Save menu item clicked");
+            }
+        });
     }
 }
-
-
-class text {
-
-    public TreeBasedTable<String, BurpServerTypeX, String> serverRegistrationStatus;
-
-    public text() {
-        this.serverRegistrationStatus = TreeBasedTable.create();
-    }
-
-    public void funTest() {
-        serverRegistrationStatus.put("payLoadTest", BurpServerTypeX.INTRUDER_PROCESSOR, "s");
-    }
-
-    public String delServer(String serverName, BurpServerTypeX burpServerTypeX) {
-        return serverRegistrationStatus.remove(serverName, burpServerTypeX);
-
-    }
-
-}
-
-
-

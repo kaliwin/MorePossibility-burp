@@ -49,6 +49,37 @@ public final class ScoutServerGrpc {
     return getAddHttpEditorEncryptAndDecryptKeyValueMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.httpKeyValuePair,
+      BurpGrpc.proto.BurpApiGrpc.Boole> getAddHttpKeyValuePairMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "AddHttpKeyValuePair",
+      requestType = BurpGrpc.proto.BurpApiGrpc.httpKeyValuePair.class,
+      responseType = BurpGrpc.proto.BurpApiGrpc.Boole.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.httpKeyValuePair,
+      BurpGrpc.proto.BurpApiGrpc.Boole> getAddHttpKeyValuePairMethod() {
+    io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.httpKeyValuePair, BurpGrpc.proto.BurpApiGrpc.Boole> getAddHttpKeyValuePairMethod;
+    if ((getAddHttpKeyValuePairMethod = ScoutServerGrpc.getAddHttpKeyValuePairMethod) == null) {
+      synchronized (ScoutServerGrpc.class) {
+        if ((getAddHttpKeyValuePairMethod = ScoutServerGrpc.getAddHttpKeyValuePairMethod) == null) {
+          ScoutServerGrpc.getAddHttpKeyValuePairMethod = getAddHttpKeyValuePairMethod =
+              io.grpc.MethodDescriptor.<BurpGrpc.proto.BurpApiGrpc.httpKeyValuePair, BurpGrpc.proto.BurpApiGrpc.Boole>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "AddHttpKeyValuePair"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  BurpGrpc.proto.BurpApiGrpc.httpKeyValuePair.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  BurpGrpc.proto.BurpApiGrpc.Boole.getDefaultInstance()))
+              .setSchemaDescriptor(new ScoutServerMethodDescriptorSupplier("AddHttpKeyValuePair"))
+              .build();
+        }
+      }
+    }
+    return getAddHttpKeyValuePairMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -110,6 +141,13 @@ public final class ScoutServerGrpc {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getAddHttpEditorEncryptAndDecryptKeyValueMethod(), responseObserver);
     }
 
+    /**
+     */
+    public void addHttpKeyValuePair(BurpGrpc.proto.BurpApiGrpc.httpKeyValuePair request,
+        io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.Boole> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getAddHttpKeyValuePairMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -119,6 +157,13 @@ public final class ScoutServerGrpc {
                 BurpGrpc.proto.BurpApiGrpc.httpEditorKeyValue,
                 BurpGrpc.proto.BurpApiGrpc.Status>(
                   this, METHODID_ADD_HTTP_EDITOR_ENCRYPT_AND_DECRYPT_KEY_VALUE)))
+          .addMethod(
+            getAddHttpKeyValuePairMethod(),
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
+              new MethodHandlers<
+                BurpGrpc.proto.BurpApiGrpc.httpKeyValuePair,
+                BurpGrpc.proto.BurpApiGrpc.Boole>(
+                  this, METHODID_ADD_HTTP_KEY_VALUE_PAIR)))
           .build();
     }
   }
@@ -150,6 +195,14 @@ public final class ScoutServerGrpc {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getAddHttpEditorEncryptAndDecryptKeyValueMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void addHttpKeyValuePair(BurpGrpc.proto.BurpApiGrpc.httpKeyValuePair request,
+        io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.Boole> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
+          getChannel().newCall(getAddHttpKeyValuePairMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -177,6 +230,13 @@ public final class ScoutServerGrpc {
     public BurpGrpc.proto.BurpApiGrpc.Status addHttpEditorEncryptAndDecryptKeyValue(BurpGrpc.proto.BurpApiGrpc.httpEditorKeyValue request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getAddHttpEditorEncryptAndDecryptKeyValueMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public BurpGrpc.proto.BurpApiGrpc.Boole addHttpKeyValuePair(BurpGrpc.proto.BurpApiGrpc.httpKeyValuePair request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getAddHttpKeyValuePairMethod(), getCallOptions(), request);
     }
   }
 
@@ -207,9 +267,18 @@ public final class ScoutServerGrpc {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getAddHttpEditorEncryptAndDecryptKeyValueMethod(), getCallOptions()), request);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<BurpGrpc.proto.BurpApiGrpc.Boole> addHttpKeyValuePair(
+        BurpGrpc.proto.BurpApiGrpc.httpKeyValuePair request) {
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
+          getChannel().newCall(getAddHttpKeyValuePairMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_ADD_HTTP_EDITOR_ENCRYPT_AND_DECRYPT_KEY_VALUE = 0;
+  private static final int METHODID_ADD_HTTP_KEY_VALUE_PAIR = 1;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -231,6 +300,10 @@ public final class ScoutServerGrpc {
         case METHODID_ADD_HTTP_EDITOR_ENCRYPT_AND_DECRYPT_KEY_VALUE:
           serviceImpl.addHttpEditorEncryptAndDecryptKeyValue((BurpGrpc.proto.BurpApiGrpc.httpEditorKeyValue) request,
               (io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.Status>) responseObserver);
+          break;
+        case METHODID_ADD_HTTP_KEY_VALUE_PAIR:
+          serviceImpl.addHttpKeyValuePair((BurpGrpc.proto.BurpApiGrpc.httpKeyValuePair) request,
+              (io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.Boole>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -294,6 +367,7 @@ public final class ScoutServerGrpc {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new ScoutServerFileDescriptorSupplier())
               .addMethod(getAddHttpEditorEncryptAndDecryptKeyValueMethod())
+              .addMethod(getAddHttpKeyValuePairMethod())
               .build();
         }
       }
