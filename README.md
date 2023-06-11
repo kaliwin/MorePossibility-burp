@@ -5,4 +5,4 @@
 解决burp插件只能用java的困扰,使burp通过Grpc实现跨语言扩展
 ```
 
-![image-20230611210748951](/root/cyvk/ManDown/GwenStacy/MorePossibility/MorePossibility/README.assets/image-20230611210748951.png)
+![image-20230611223447846](README.assets/image-20230611223447846.png)
