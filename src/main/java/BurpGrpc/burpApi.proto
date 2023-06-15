@@ -57,6 +57,7 @@ service IntruderServer {
   rpc IntruderPayloadGeneratorProvider(IntruderGeneratorData) returns (ByteData){}
 }
 
+
 // 编辑框辅助服务
 // 提供请求编辑框
 service HttpReqEditBoxAssist{
@@ -78,7 +79,7 @@ service HttpResEditBoxAssist{
 message HttpEditBoxData{
   string name = 1; // 名字 编辑器名称
   httpReqAndRes httpData = 2; // 一组http数据 请求 / 响应
-  string info =3 ; // 预留字段
+  string info = 3 ; // 预留字段
 }
 
 
@@ -98,6 +99,28 @@ message httpEditorKeyValue{
   ByteData key = 1;    // 键
   ByteData value = 2 ; // 值
   Str editorName = 3;  // 编辑器名称
+}
+
+
+// 右键上下文提供程序
+service ContextMenuItemsProvider{
+  rpc MenuItemsProvider(ContextMenuItems) returns(MenuItemsReturn){}  // 菜单项处理
+}
+
+
+// 上下文处理器 , 提供 一组请求响应 和选中的数据
+message ContextMenuItems{
+  string  name = 3;// 名称
+  httpReqAndRes httpReqAndRes = 1; // 一组请求和响应
+  bytes selectData = 2; // 用户选中的数据
+}
+
+// 菜单项返回 给burp 要做的操作
+message MenuItemsReturn{
+  bool IsReviseReq = 1 ; // 修改请求
+  bool IsReviseRes = 2 ; // 修改响应
+  httpReqData ReqData = 3 ; // 请求数据用于覆盖burp 请求   用于修改 http编辑框
+  httpResData ResData = 4;  // 响应数据用于覆盖burp 响应
 }
 
 

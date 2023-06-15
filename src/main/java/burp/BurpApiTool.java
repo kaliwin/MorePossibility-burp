@@ -253,7 +253,7 @@ public class BurpApiTool {
             case REAL_TIME_TRAFFIC_MIRRORING -> {  // 实时流量镜像
                 return realTimeTrafficMirroring(target, name);
             }
-            case HTTP_EDITOR_KEY_VALUE -> {        // http键值对 需要
+            case HTTP_EDITOR_KEY_VALUE -> {        // http键值对 需要后续测试才能使用
                 return false;
             }
             case HTTP_REQUEST_EDITOR_PROCESSOR -> {  // http请求编辑器

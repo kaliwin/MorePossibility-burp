@@ -26,6 +26,7 @@
 
         implementation 'org.apache.commons:commons-text:1.10.0'
 
+
         // lucene 全文匹配
 //        implementation 'org.apache.lucene:lucene-queryparser:8.11.1'
 //        implementation 'org.apache.lucene:lucene-core:8.11.1'

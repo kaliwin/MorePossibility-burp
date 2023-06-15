@@ -1,16 +1,22 @@
 package burp;
 
 import BurpGrpc.achieve.RunAchieve;
+import BurpGrpc.proto.BurpApiGrpc.*;
 import InformationCenter.WebInformationProcessingCenter;
 import UI.ManGUI;
+import UI.ManGrpcGUI;
 import burp.api.montoya.BurpExtension;
 import burp.api.montoya.MontoyaApi;
-import burp.api.montoya.ui.contextmenu.AuditIssueContextMenuEvent;
-import burp.api.montoya.ui.contextmenu.ContextMenuEvent;
-import burp.api.montoya.ui.contextmenu.ContextMenuItemsProvider;
-import burp.api.montoya.ui.contextmenu.WebSocketContextMenuEvent;
+import burp.api.montoya.core.ByteArray;
+import burp.api.montoya.http.message.requests.HttpRequest;
+import burp.api.montoya.http.message.responses.HttpResponse;
+import burp.api.montoya.ui.contextmenu.*;
+import com.google.protobuf.ByteString;
+import io.grpc.okhttp.OkHttpChannelBuilder;
 
+import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -53,7 +59,6 @@ public class MorePossibility implements BurpExtension {
 
         api.userInterface().registerSuiteTab("MorePossibility", new ManGUI());
 
-
 //        // ===================   测试用例   ========================== //
 //        if (webInformationProcessingCenter.addPlaintextCiphertextPair("https://baidu.com/","cyvk","9521")) {
 //            System.out.println("添加成功");
@@ -62,42 +67,22 @@ public class MorePossibility implements BurpExtension {
 //            System.out.println("添加成功");
 //        }
 
-
-        api.userInterface().registerContextMenuItemsProvider(new ContextMenuItemsProvider() {
-            /**
-             * @param event This object can be queried to find out about HTTP request/responses that are associated with the context menu invocation. 
-             * @return
-             */
-            @Override
-            public List<Component> provideMenuItems(ContextMenuEvent event) {
-                return ContextMenuItemsProvider.super.provideMenuItems(event);
-            }
-
-            /**
-             * @param event This object can be queried to find out about WebSocket messages that are associated with the context menu invocation. 
-             * @return
-             */
-            @Override
-            public List<Component> provideMenuItems(WebSocketContextMenuEvent event) {
-                return ContextMenuItemsProvider.super.provideMenuItems(event);
-            }
-
-            /**
-             * @param event This object can be queried to find out about audit issues that are associated with the context menu invocation. 
-             * @return
-             */
-            @Override
-            public List<Component> provideMenuItems(AuditIssueContextMenuEvent event) {
-                return ContextMenuItemsProvider.super.provideMenuItems(event);
-            }
-        });
-        
-        
+        api.userInterface().registerContextMenuItemsProvider(new demo()); // 右键上下文测试
 
     }
 }
 
 
+
+
+class rpcTest{
+
+
+    public void run(){
+
+    }
+
+}
 
 
 
@@ -137,6 +122,146 @@ class conText implements ContextMenuItemsProvider{
     }
 }
 
+class demo implements ContextMenuItemsProvider{
+    @Override
+    public List<Component> provideMenuItems(ContextMenuEvent event) {
+
+        List<Component> list = new ArrayList<>();
+
+        JMenuItem conTest = new JMenuItem("ConTest");
+
+
+        conTest.addActionListener(actionEvent -> {
+
+            MessageEditorHttpRequestResponse messageEditorHttpRequestResponse = event.messageEditorRequestResponse().get();
+
+
+//            messageEditorHttpRequestResponse.selectionOffsets().
+
+            HttpRequest request = messageEditorHttpRequestResponse.requestResponse().request();
+            HttpResponse response = messageEditorHttpRequestResponse.requestResponse().response();
+
+
+            httpReqData req = httpReqData.newBuilder()
+                    .setData(ByteString.copyFrom(request.toByteArray().getBytes()))
+                    .setUrl(request.url())
+                    .build();
+
+            httpReqAndRes build = httpReqAndRes.newBuilder().setReq(req).build();// 组装请求
+
+
+            ContextMenuItems conText = ContextMenuItems.newBuilder()
+                    .setHttpReqAndRes(build)
+                    .setName("ConTest")
+                    .build();
+
+            ContextMenuItemsProviderGrpc.ContextMenuItemsProviderBlockingStub contextMenuItemsProviderBlockingStub = ContextMenuItemsProviderGrpc.newBlockingStub(OkHttpChannelBuilder.forTarget("127.0.0.1:9525").usePlaintext().build());
+
+
+            MenuItemsReturn menuItemsReturn = contextMenuItemsProviderBlockingStub.menuItemsProvider(conText);
+
+            if (menuItemsReturn.getIsReviseReq()) {
+                ManGrpcGUI.consoleLog.append("修改请求 \n");
+
+                httpReqData reqData = menuItemsReturn.getReqData();
+                byte[] byteArray = reqData.getData().toByteArray();
+                HttpRequest httpRequest = HttpRequest.httpRequest(ByteArray.byteArray(byteArray));  // 解析要修改的请求
+
+                event.messageEditorRequestResponse().get().setRequest(httpRequest);
+
+            }
+
+
+
+        });
+
+
+
+
+        list.add(conTest);
+
+
+        return list;
+    }
+}
+
+
+
+// 菜单
+class Menu {
+//    MenuItem[] Menu;  // 菜单项
+//    Menu[] menus; //菜单
+
+    List<Menu> menu;
+
+    List<MenuItem> menuItems;
+
+    String name;
+
+    public Menu(String name) {
+        this.menu = new ArrayList<>();
+        this.menuItems = new ArrayList<>();
+        this.name = name;
+    }
+
+    public Component get(){
+
+        JMenu jMenu = new JMenu(name);
+
+        for (MenuItem menuItem : menuItems) {
+            jMenu.add(menuItem.get());
+        }
+
+        for (Menu menu1 : menu) {
+            jMenu.add(menu1.get());
+        }
+
+        return jMenu;
+    }
+
+}
+
+// 菜单项
+class MenuItem {
+    String name;
+
+    public MenuItem(String name) {
+        this.name = name;
+    }
+
+    public Component get() {
+        return new JMenuItem(this.name);
+    }
+}
+
+
+class textDemo {
+
+    public Component run() {
+        Menu menu1 = new Menu("一级菜单"); // 菜单
+
+        menu1.menuItems.add(new MenuItem("一级菜单第一个"));
+        menu1.menuItems.add(new MenuItem("一级菜单第二个"));
+
+
+        Menu menu2 = new Menu("二级菜单");
+
+
+
+
+        menu2.menuItems.add(new MenuItem("二级菜单第一个"));
+        menu2.menuItems.add(new MenuItem("二级菜单第二个"));
+
+        Menu menu3 = new Menu("三级菜单");
+
+        menu3.menuItems.add(new MenuItem("三级菜单第一个"));
+        menu1.menu.add(menu2);
+        menu2.menu.add(menu3);
+
+        return menu1.get();
+    }
+
+}
 
 
 

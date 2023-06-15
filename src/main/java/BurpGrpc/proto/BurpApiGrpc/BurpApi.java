@@ -30,6 +30,16 @@ public final class BurpApi {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_burpApi_httpEditorKeyValue_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_burpApi_ContextMenuItems_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_burpApi_ContextMenuItems_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_burpApi_MenuItemsReturn_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_burpApi_MenuItemsReturn_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
     internal_static_burpApi_Boole_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -105,53 +115,62 @@ public final class BurpApi {
       "ext\030\002 \001(\014\022\021\n\tplaintext\030\003 \001(\014\"x\n\022httpEdit" +
       "orKeyValue\022\036\n\003key\030\001 \001(\0132\021.burpApi.ByteDa" +
       "ta\022 \n\005value\030\002 \001(\0132\021.burpApi.ByteData\022 \n\n" +
-      "editorName\030\003 \001(\0132\014.burpApi.Str\"\026\n\005Boole\022" +
-      "\r\n\005boole\030\001 \001(\010\"D\n\006Status\022\r\n\005boole\030\001 \001(\010\022" +
-      "\014\n\004code\030\002 \001(\003\022\014\n\004info\030\003 \001(\t\022\017\n\007tmpByte\030\004" +
-      " \001(\014\"\023\n\003Str\022\014\n\004name\030\001 \001(\t\"?\n\023serviceRout" +
-      "ingTable\022(\n\007Routing\030\001 \003(\0132\027.burpApi.serv" +
-      "iceRouting\"M\n\016serviceRouting\022\037\n\002sn\030\001 \001(\016" +
-      "2\023.burpApi.serverName\022\032\n\004Name\030\002 \001(\0132\014.bu" +
-      "rpApi.Str\"\213\001\n\025IntruderGeneratorData\022\023\n\013c" +
-      "ontentData\030\001 \001(\014\022=\n\025insertionPointOffset" +
-      "s\030\002 \003(\0132\036.burpApi.InsertionPointOffsets\022" +
-      "\036\n\026IntruderInsertionPoint\030\003 \001(\014\"=\n\025Inser" +
-      "tionPointOffsets\022\022\n\nStartIndex\030\001 \001(\003\022\020\n\010" +
-      "EndIndex\030\002 \001(\003\"\034\n\010ByteData\022\020\n\010byteData\030\001" +
-      " \001(\014\"v\n\rhttpReqAndRes\022!\n\003req\030\001 \001(\0132\024.bur" +
-      "pApi.httpReqData\022!\n\003res\030\002 \001(\0132\024.burpApi." +
-      "httpResData\022\037\n\004info\030\003 \001(\0132\021.burpApi.http" +
-      "Info\"P\n\013httpReqData\022\014\n\004Data\030\001 \001(\014\022\013\n\003Url" +
-      "\030\002 \001(\t\022\021\n\tBodyIndex\030\003 \001(\003\022\023\n\013httpVersion" +
-      "\030\004 \001(\t\"B\n\013httpResData\022\014\n\004Data\030\001 \001(\014\022\022\n\nS" +
-      "tatusCode\030\002 \001(\005\022\021\n\tBodyIndex\030\003 \001(\003\"1\n\010ht" +
-      "tpInfo\022\n\n\002id\030\001 \001(\003\022\014\n\004info\030\002 \001(\t\022\013\n\003tmp\030" +
-      "\003 \001(\014*n\n\nserverName\022\034\n\030RealTimeTrafficMi" +
-      "rroring\020\000\022\024\n\020IntruderProvider\020\001\022\025\n\021Intru" +
-      "derGenerator\020\002\022\025\n\021ScoutIntelligence\020\0032\323\001" +
-      "\n\nBurpServer\022L\n RegisterRealTimeTrafficM" +
-      "irroring\022\014.burpApi.Str\032\026.burpApi.httpReq" +
-      "AndRes\"\0000\001\022D\n\030RealTimeTrafficMirroring\022\026" +
-      ".burpApi.httpReqAndRes\032\014.burpApi.Str\"\000(\001" +
-      "\0221\n\016RegisterServer\022\014.burpApi.Str\032\017.burpA" +
-      "pi.Status\"\0002\253\001\n\013ScoutServer\022X\n&addHttpEd" +
-      "itorEncryptAndDecryptKeyValue\022\033.burpApi." +
-      "httpEditorKeyValue\032\017.burpApi.Status\"\000\022B\n" +
-      "\023AddHttpKeyValuePair\022\031.burpApi.httpKeyVa" +
-      "luePair\032\016.burpApi.Boole\"\0002\255\001\n\016IntruderSe" +
-      "rver\022B\n\030IntruderPayloadProcessor\022\021.burpA" +
-      "pi.ByteData\032\021.burpApi.ByteData\"\000\022W\n Intr" +
-      "uderPayloadGeneratorProvider\022\036.burpApi.I" +
-      "ntruderGeneratorData\032\021.burpApi.ByteData\"" +
-      "\0002\224\001\n\024HttpReqEditBoxAssist\022<\n\013ReqHttpEdi" +
-      "t\022\030.burpApi.HttpEditBoxData\032\021.burpApi.By" +
-      "teData\"\000\022>\n\020IsReqHttpEditFor\022\030.burpApi.H" +
-      "ttpEditBoxData\032\016.burpApi.Boole\"\0002\224\001\n\024Htt" +
-      "pResEditBoxAssist\022<\n\013ResHttpEdit\022\030.burpA" +
-      "pi.HttpEditBoxData\032\021.burpApi.ByteData\"\000\022" +
-      ">\n\020IsResHttpEditFor\022\030.burpApi.HttpEditBo" +
-      "xData\032\016.burpApi.Boole\"\000B-\n\032BurpGrpc.prot" +
-      "o.BurpApiGrpcB\007BurpApiP\001\242\002\003HLWb\006proto3"
+      "editorName\030\003 \001(\0132\014.burpApi.Str\"c\n\020Contex" +
+      "tMenuItems\022\014\n\004name\030\003 \001(\t\022-\n\rhttpReqAndRe" +
+      "s\030\001 \001(\0132\026.burpApi.httpReqAndRes\022\022\n\nselec" +
+      "tData\030\002 \001(\014\"\211\001\n\017MenuItemsReturn\022\023\n\013IsRev" +
+      "iseReq\030\001 \001(\010\022\023\n\013IsReviseRes\030\002 \001(\010\022%\n\007Req" +
+      "Data\030\003 \001(\0132\024.burpApi.httpReqData\022%\n\007ResD" +
+      "ata\030\004 \001(\0132\024.burpApi.httpResData\"\026\n\005Boole" +
+      "\022\r\n\005boole\030\001 \001(\010\"D\n\006Status\022\r\n\005boole\030\001 \001(\010" +
+      "\022\014\n\004code\030\002 \001(\003\022\014\n\004info\030\003 \001(\t\022\017\n\007tmpByte\030" +
+      "\004 \001(\014\"\023\n\003Str\022\014\n\004name\030\001 \001(\t\"?\n\023serviceRou" +
+      "tingTable\022(\n\007Routing\030\001 \003(\0132\027.burpApi.ser" +
+      "viceRouting\"M\n\016serviceRouting\022\037\n\002sn\030\001 \001(" +
+      "\0162\023.burpApi.serverName\022\032\n\004Name\030\002 \001(\0132\014.b" +
+      "urpApi.Str\"\213\001\n\025IntruderGeneratorData\022\023\n\013" +
+      "contentData\030\001 \001(\014\022=\n\025insertionPointOffse" +
+      "ts\030\002 \003(\0132\036.burpApi.InsertionPointOffsets" +
+      "\022\036\n\026IntruderInsertionPoint\030\003 \001(\014\"=\n\025Inse" +
+      "rtionPointOffsets\022\022\n\nStartIndex\030\001 \001(\003\022\020\n" +
+      "\010EndIndex\030\002 \001(\003\"\034\n\010ByteData\022\020\n\010byteData\030" +
+      "\001 \001(\014\"v\n\rhttpReqAndRes\022!\n\003req\030\001 \001(\0132\024.bu" +
+      "rpApi.httpReqData\022!\n\003res\030\002 \001(\0132\024.burpApi" +
+      ".httpResData\022\037\n\004info\030\003 \001(\0132\021.burpApi.htt" +
+      "pInfo\"P\n\013httpReqData\022\014\n\004Data\030\001 \001(\014\022\013\n\003Ur" +
+      "l\030\002 \001(\t\022\021\n\tBodyIndex\030\003 \001(\003\022\023\n\013httpVersio" +
+      "n\030\004 \001(\t\"B\n\013httpResData\022\014\n\004Data\030\001 \001(\014\022\022\n\n" +
+      "StatusCode\030\002 \001(\005\022\021\n\tBodyIndex\030\003 \001(\003\"1\n\010h" +
+      "ttpInfo\022\n\n\002id\030\001 \001(\003\022\014\n\004info\030\002 \001(\t\022\013\n\003tmp" +
+      "\030\003 \001(\014*n\n\nserverName\022\034\n\030RealTimeTrafficM" +
+      "irroring\020\000\022\024\n\020IntruderProvider\020\001\022\025\n\021Intr" +
+      "uderGenerator\020\002\022\025\n\021ScoutIntelligence\020\0032\323" +
+      "\001\n\nBurpServer\022L\n RegisterRealTimeTraffic" +
+      "Mirroring\022\014.burpApi.Str\032\026.burpApi.httpRe" +
+      "qAndRes\"\0000\001\022D\n\030RealTimeTrafficMirroring\022" +
+      "\026.burpApi.httpReqAndRes\032\014.burpApi.Str\"\000(" +
+      "\001\0221\n\016RegisterServer\022\014.burpApi.Str\032\017.burp" +
+      "Api.Status\"\0002\253\001\n\013ScoutServer\022X\n&addHttpE" +
+      "ditorEncryptAndDecryptKeyValue\022\033.burpApi" +
+      ".httpEditorKeyValue\032\017.burpApi.Status\"\000\022B" +
+      "\n\023AddHttpKeyValuePair\022\031.burpApi.httpKeyV" +
+      "aluePair\032\016.burpApi.Boole\"\0002\255\001\n\016IntruderS" +
+      "erver\022B\n\030IntruderPayloadProcessor\022\021.burp" +
+      "Api.ByteData\032\021.burpApi.ByteData\"\000\022W\n Int" +
+      "ruderPayloadGeneratorProvider\022\036.burpApi." +
+      "IntruderGeneratorData\032\021.burpApi.ByteData" +
+      "\"\0002\224\001\n\024HttpReqEditBoxAssist\022<\n\013ReqHttpEd" +
+      "it\022\030.burpApi.HttpEditBoxData\032\021.burpApi.B" +
+      "yteData\"\000\022>\n\020IsReqHttpEditFor\022\030.burpApi." +
+      "HttpEditBoxData\032\016.burpApi.Boole\"\0002\224\001\n\024Ht" +
+      "tpResEditBoxAssist\022<\n\013ResHttpEdit\022\030.burp" +
+      "Api.HttpEditBoxData\032\021.burpApi.ByteData\"\000" +
+      "\022>\n\020IsResHttpEditFor\022\030.burpApi.HttpEditB" +
+      "oxData\032\016.burpApi.Boole\"\0002f\n\030ContextMenuI" +
+      "temsProvider\022J\n\021MenuItemsProvider\022\031.burp" +
+      "Api.ContextMenuItems\032\030.burpApi.MenuItems" +
+      "Return\"\000B-\n\032BurpGrpc.proto.BurpApiGrpcB\007" +
+      "BurpApiP\001\242\002\003HLWb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -175,74 +194,86 @@ public final class BurpApi {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_burpApi_httpEditorKeyValue_descriptor,
         new java.lang.String[] { "Key", "Value", "EditorName", });
-    internal_static_burpApi_Boole_descriptor =
+    internal_static_burpApi_ContextMenuItems_descriptor =
       getDescriptor().getMessageTypes().get(3);
+    internal_static_burpApi_ContextMenuItems_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_burpApi_ContextMenuItems_descriptor,
+        new java.lang.String[] { "Name", "HttpReqAndRes", "SelectData", });
+    internal_static_burpApi_MenuItemsReturn_descriptor =
+      getDescriptor().getMessageTypes().get(4);
+    internal_static_burpApi_MenuItemsReturn_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_burpApi_MenuItemsReturn_descriptor,
+        new java.lang.String[] { "IsReviseReq", "IsReviseRes", "ReqData", "ResData", });
+    internal_static_burpApi_Boole_descriptor =
+      getDescriptor().getMessageTypes().get(5);
     internal_static_burpApi_Boole_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_burpApi_Boole_descriptor,
         new java.lang.String[] { "Boole", });
     internal_static_burpApi_Status_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_burpApi_Status_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_burpApi_Status_descriptor,
         new java.lang.String[] { "Boole", "Code", "Info", "TmpByte", });
     internal_static_burpApi_Str_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_burpApi_Str_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_burpApi_Str_descriptor,
         new java.lang.String[] { "Name", });
     internal_static_burpApi_serviceRoutingTable_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_burpApi_serviceRoutingTable_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_burpApi_serviceRoutingTable_descriptor,
         new java.lang.String[] { "Routing", });
     internal_static_burpApi_serviceRouting_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_burpApi_serviceRouting_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_burpApi_serviceRouting_descriptor,
         new java.lang.String[] { "Sn", "Name", });
     internal_static_burpApi_IntruderGeneratorData_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_burpApi_IntruderGeneratorData_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_burpApi_IntruderGeneratorData_descriptor,
         new java.lang.String[] { "ContentData", "InsertionPointOffsets", "IntruderInsertionPoint", });
     internal_static_burpApi_InsertionPointOffsets_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_burpApi_InsertionPointOffsets_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_burpApi_InsertionPointOffsets_descriptor,
         new java.lang.String[] { "StartIndex", "EndIndex", });
     internal_static_burpApi_ByteData_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_burpApi_ByteData_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_burpApi_ByteData_descriptor,
         new java.lang.String[] { "ByteData", });
     internal_static_burpApi_httpReqAndRes_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_burpApi_httpReqAndRes_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_burpApi_httpReqAndRes_descriptor,
         new java.lang.String[] { "Req", "Res", "Info", });
     internal_static_burpApi_httpReqData_descriptor =
-      getDescriptor().getMessageTypes().get(12);
+      getDescriptor().getMessageTypes().get(14);
     internal_static_burpApi_httpReqData_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_burpApi_httpReqData_descriptor,
         new java.lang.String[] { "Data", "Url", "BodyIndex", "HttpVersion", });
     internal_static_burpApi_httpResData_descriptor =
-      getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(15);
     internal_static_burpApi_httpResData_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_burpApi_httpResData_descriptor,
         new java.lang.String[] { "Data", "StatusCode", "BodyIndex", });
     internal_static_burpApi_httpInfo_descriptor =
-      getDescriptor().getMessageTypes().get(14);
+      getDescriptor().getMessageTypes().get(16);
     internal_static_burpApi_httpInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_burpApi_httpInfo_descriptor,
