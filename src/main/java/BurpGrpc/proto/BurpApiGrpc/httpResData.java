@@ -5,7 +5,7 @@ package BurpGrpc.proto.BurpApiGrpc;
 
 /**
  * <pre>
- * http 单个请求 包含头部和体
+ * http 单个响应 包含头部和体
  * </pre>
  *
  * Protobuf type {@code burpApi.httpResData}
@@ -21,6 +21,7 @@ private static final long serialVersionUID = 0L;
   }
   private httpResData() {
     data_ = com.google.protobuf.ByteString.EMPTY;
+    httpVersion_ = "";
   }
 
   @java.lang.Override
@@ -88,6 +89,45 @@ private static final long serialVersionUID = 0L;
     return bodyIndex_;
   }
 
+  public static final int HTTPVERSION_FIELD_NUMBER = 5;
+  @SuppressWarnings("serial")
+  private volatile java.lang.Object httpVersion_ = "";
+  /**
+   * <code>string httpVersion = 5;</code>
+   * @return The httpVersion.
+   */
+  @java.lang.Override
+  public java.lang.String getHttpVersion() {
+    java.lang.Object ref = httpVersion_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      httpVersion_ = s;
+      return s;
+    }
+  }
+  /**
+   * <code>string httpVersion = 5;</code>
+   * @return The bytes for httpVersion.
+   */
+  @java.lang.Override
+  public com.google.protobuf.ByteString
+      getHttpVersionBytes() {
+    java.lang.Object ref = httpVersion_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      httpVersion_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
   private byte memoizedIsInitialized = -1;
   @java.lang.Override
   public final boolean isInitialized() {
@@ -111,6 +151,9 @@ private static final long serialVersionUID = 0L;
     if (bodyIndex_ != 0L) {
       output.writeInt64(3, bodyIndex_);
     }
+    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(httpVersion_)) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 5, httpVersion_);
+    }
     getUnknownFields().writeTo(output);
   }
 
@@ -131,6 +174,9 @@ private static final long serialVersionUID = 0L;
     if (bodyIndex_ != 0L) {
       size += com.google.protobuf.CodedOutputStream
         .computeInt64Size(3, bodyIndex_);
+    }
+    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(httpVersion_)) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, httpVersion_);
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSize = size;
@@ -153,6 +199,8 @@ private static final long serialVersionUID = 0L;
         != other.getStatusCode()) return false;
     if (getBodyIndex()
         != other.getBodyIndex()) return false;
+    if (!getHttpVersion()
+        .equals(other.getHttpVersion())) return false;
     if (!getUnknownFields().equals(other.getUnknownFields())) return false;
     return true;
   }
@@ -171,6 +219,8 @@ private static final long serialVersionUID = 0L;
     hash = (37 * hash) + BODYINDEX_FIELD_NUMBER;
     hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
         getBodyIndex());
+    hash = (37 * hash) + HTTPVERSION_FIELD_NUMBER;
+    hash = (53 * hash) + getHttpVersion().hashCode();
     hash = (29 * hash) + getUnknownFields().hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -268,7 +318,7 @@ private static final long serialVersionUID = 0L;
   }
   /**
    * <pre>
-   * http 单个请求 包含头部和体
+   * http 单个响应 包含头部和体
    * </pre>
    *
    * Protobuf type {@code burpApi.httpResData}
@@ -307,6 +357,7 @@ private static final long serialVersionUID = 0L;
       data_ = com.google.protobuf.ByteString.EMPTY;
       statusCode_ = 0;
       bodyIndex_ = 0L;
+      httpVersion_ = "";
       return this;
     }
 
@@ -349,6 +400,9 @@ private static final long serialVersionUID = 0L;
       if (((from_bitField0_ & 0x00000004) != 0)) {
         result.bodyIndex_ = bodyIndex_;
       }
+      if (((from_bitField0_ & 0x00000008) != 0)) {
+        result.httpVersion_ = httpVersion_;
+      }
     }
 
     @java.lang.Override
@@ -371,6 +425,11 @@ private static final long serialVersionUID = 0L;
       }
       if (other.getBodyIndex() != 0L) {
         setBodyIndex(other.getBodyIndex());
+      }
+      if (!other.getHttpVersion().isEmpty()) {
+        httpVersion_ = other.httpVersion_;
+        bitField0_ |= 0x00000008;
+        onChanged();
       }
       this.mergeUnknownFields(other.getUnknownFields());
       onChanged();
@@ -413,6 +472,11 @@ private static final long serialVersionUID = 0L;
               bitField0_ |= 0x00000004;
               break;
             } // case 24
+            case 42: {
+              httpVersion_ = input.readStringRequireUtf8();
+              bitField0_ |= 0x00000008;
+              break;
+            } // case 42
             default: {
               if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                 done = true; // was an endgroup tag
@@ -558,6 +622,78 @@ private static final long serialVersionUID = 0L;
     public Builder clearBodyIndex() {
       bitField0_ = (bitField0_ & ~0x00000004);
       bodyIndex_ = 0L;
+      onChanged();
+      return this;
+    }
+
+    private java.lang.Object httpVersion_ = "";
+    /**
+     * <code>string httpVersion = 5;</code>
+     * @return The httpVersion.
+     */
+    public java.lang.String getHttpVersion() {
+      java.lang.Object ref = httpVersion_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        httpVersion_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>string httpVersion = 5;</code>
+     * @return The bytes for httpVersion.
+     */
+    public com.google.protobuf.ByteString
+        getHttpVersionBytes() {
+      java.lang.Object ref = httpVersion_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        httpVersion_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>string httpVersion = 5;</code>
+     * @param value The httpVersion to set.
+     * @return This builder for chaining.
+     */
+    public Builder setHttpVersion(
+        java.lang.String value) {
+      if (value == null) { throw new NullPointerException(); }
+      httpVersion_ = value;
+      bitField0_ |= 0x00000008;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string httpVersion = 5;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearHttpVersion() {
+      httpVersion_ = getDefaultInstance().getHttpVersion();
+      bitField0_ = (bitField0_ & ~0x00000008);
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string httpVersion = 5;</code>
+     * @param value The bytes for httpVersion to set.
+     * @return This builder for chaining.
+     */
+    public Builder setHttpVersionBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) { throw new NullPointerException(); }
+      checkByteStringIsUtf8(value);
+      httpVersion_ = value;
+      bitField0_ |= 0x00000008;
       onChanged();
       return this;
     }

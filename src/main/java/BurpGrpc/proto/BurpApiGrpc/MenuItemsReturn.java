@@ -20,6 +20,8 @@ private static final long serialVersionUID = 0L;
     super(builder);
   }
   private MenuItemsReturn() {
+    reqData_ = com.google.protobuf.ByteString.EMPTY;
+    resData_ = com.google.protobuf.ByteString.EMPTY;
   }
 
   @java.lang.Override
@@ -60,10 +62,6 @@ private static final long serialVersionUID = 0L;
   public static final int ISREVISERES_FIELD_NUMBER = 2;
   private boolean isReviseRes_ = false;
   /**
-   * <pre>
-   * 修改响应
-   * </pre>
-   *
    * <code>bool IsReviseRes = 2;</code>
    * @return The isReviseRes.
    */
@@ -73,79 +71,33 @@ private static final long serialVersionUID = 0L;
   }
 
   public static final int REQDATA_FIELD_NUMBER = 3;
-  private BurpGrpc.proto.BurpApiGrpc.httpReqData reqData_;
+  private com.google.protobuf.ByteString reqData_ = com.google.protobuf.ByteString.EMPTY;
   /**
    * <pre>
    * 请求数据用于覆盖burp 请求   用于修改 http编辑框
    * </pre>
    *
-   * <code>.burpApi.httpReqData ReqData = 3;</code>
-   * @return Whether the reqData field is set.
-   */
-  @java.lang.Override
-  public boolean hasReqData() {
-    return reqData_ != null;
-  }
-  /**
-   * <pre>
-   * 请求数据用于覆盖burp 请求   用于修改 http编辑框
-   * </pre>
-   *
-   * <code>.burpApi.httpReqData ReqData = 3;</code>
+   * <code>bytes ReqData = 3;</code>
    * @return The reqData.
    */
   @java.lang.Override
-  public BurpGrpc.proto.BurpApiGrpc.httpReqData getReqData() {
-    return reqData_ == null ? BurpGrpc.proto.BurpApiGrpc.httpReqData.getDefaultInstance() : reqData_;
+  public com.google.protobuf.ByteString getReqData() {
+    return reqData_;
   }
+
+  public static final int RESDATA_FIELD_NUMBER = 4;
+  private com.google.protobuf.ByteString resData_ = com.google.protobuf.ByteString.EMPTY;
   /**
    * <pre>
    * 请求数据用于覆盖burp 请求   用于修改 http编辑框
    * </pre>
    *
-   * <code>.burpApi.httpReqData ReqData = 3;</code>
-   */
-  @java.lang.Override
-  public BurpGrpc.proto.BurpApiGrpc.httpReqDataOrBuilder getReqDataOrBuilder() {
-    return reqData_ == null ? BurpGrpc.proto.BurpApiGrpc.httpReqData.getDefaultInstance() : reqData_;
-  }
-
-  public static final int RESDATA_FIELD_NUMBER = 4;
-  private BurpGrpc.proto.BurpApiGrpc.httpResData resData_;
-  /**
-   * <pre>
-   * 响应数据用于覆盖burp 响应
-   * </pre>
-   *
-   * <code>.burpApi.httpResData ResData = 4;</code>
-   * @return Whether the resData field is set.
-   */
-  @java.lang.Override
-  public boolean hasResData() {
-    return resData_ != null;
-  }
-  /**
-   * <pre>
-   * 响应数据用于覆盖burp 响应
-   * </pre>
-   *
-   * <code>.burpApi.httpResData ResData = 4;</code>
+   * <code>bytes ResData = 4;</code>
    * @return The resData.
    */
   @java.lang.Override
-  public BurpGrpc.proto.BurpApiGrpc.httpResData getResData() {
-    return resData_ == null ? BurpGrpc.proto.BurpApiGrpc.httpResData.getDefaultInstance() : resData_;
-  }
-  /**
-   * <pre>
-   * 响应数据用于覆盖burp 响应
-   * </pre>
-   *
-   * <code>.burpApi.httpResData ResData = 4;</code>
-   */
-  @java.lang.Override
-  public BurpGrpc.proto.BurpApiGrpc.httpResDataOrBuilder getResDataOrBuilder() {
-    return resData_ == null ? BurpGrpc.proto.BurpApiGrpc.httpResData.getDefaultInstance() : resData_;
+  public com.google.protobuf.ByteString getResData() {
+    return resData_;
   }
 
   private byte memoizedIsInitialized = -1;
@@ -168,11 +120,11 @@ private static final long serialVersionUID = 0L;
     if (isReviseRes_ != false) {
       output.writeBool(2, isReviseRes_);
     }
-    if (reqData_ != null) {
-      output.writeMessage(3, getReqData());
+    if (!reqData_.isEmpty()) {
+      output.writeBytes(3, reqData_);
     }
-    if (resData_ != null) {
-      output.writeMessage(4, getResData());
+    if (!resData_.isEmpty()) {
+      output.writeBytes(4, resData_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -191,13 +143,13 @@ private static final long serialVersionUID = 0L;
       size += com.google.protobuf.CodedOutputStream
         .computeBoolSize(2, isReviseRes_);
     }
-    if (reqData_ != null) {
+    if (!reqData_.isEmpty()) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(3, getReqData());
+        .computeBytesSize(3, reqData_);
     }
-    if (resData_ != null) {
+    if (!resData_.isEmpty()) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(4, getResData());
+        .computeBytesSize(4, resData_);
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSize = size;
@@ -218,16 +170,10 @@ private static final long serialVersionUID = 0L;
         != other.getIsReviseReq()) return false;
     if (getIsReviseRes()
         != other.getIsReviseRes()) return false;
-    if (hasReqData() != other.hasReqData()) return false;
-    if (hasReqData()) {
-      if (!getReqData()
-          .equals(other.getReqData())) return false;
-    }
-    if (hasResData() != other.hasResData()) return false;
-    if (hasResData()) {
-      if (!getResData()
-          .equals(other.getResData())) return false;
-    }
+    if (!getReqData()
+        .equals(other.getReqData())) return false;
+    if (!getResData()
+        .equals(other.getResData())) return false;
     if (!getUnknownFields().equals(other.getUnknownFields())) return false;
     return true;
   }
@@ -245,14 +191,10 @@ private static final long serialVersionUID = 0L;
     hash = (37 * hash) + ISREVISERES_FIELD_NUMBER;
     hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
         getIsReviseRes());
-    if (hasReqData()) {
-      hash = (37 * hash) + REQDATA_FIELD_NUMBER;
-      hash = (53 * hash) + getReqData().hashCode();
-    }
-    if (hasResData()) {
-      hash = (37 * hash) + RESDATA_FIELD_NUMBER;
-      hash = (53 * hash) + getResData().hashCode();
-    }
+    hash = (37 * hash) + REQDATA_FIELD_NUMBER;
+    hash = (53 * hash) + getReqData().hashCode();
+    hash = (37 * hash) + RESDATA_FIELD_NUMBER;
+    hash = (53 * hash) + getResData().hashCode();
     hash = (29 * hash) + getUnknownFields().hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -388,16 +330,8 @@ private static final long serialVersionUID = 0L;
       bitField0_ = 0;
       isReviseReq_ = false;
       isReviseRes_ = false;
-      reqData_ = null;
-      if (reqDataBuilder_ != null) {
-        reqDataBuilder_.dispose();
-        reqDataBuilder_ = null;
-      }
-      resData_ = null;
-      if (resDataBuilder_ != null) {
-        resDataBuilder_.dispose();
-        resDataBuilder_ = null;
-      }
+      reqData_ = com.google.protobuf.ByteString.EMPTY;
+      resData_ = com.google.protobuf.ByteString.EMPTY;
       return this;
     }
 
@@ -438,14 +372,10 @@ private static final long serialVersionUID = 0L;
         result.isReviseRes_ = isReviseRes_;
       }
       if (((from_bitField0_ & 0x00000004) != 0)) {
-        result.reqData_ = reqDataBuilder_ == null
-            ? reqData_
-            : reqDataBuilder_.build();
+        result.reqData_ = reqData_;
       }
       if (((from_bitField0_ & 0x00000008) != 0)) {
-        result.resData_ = resDataBuilder_ == null
-            ? resData_
-            : resDataBuilder_.build();
+        result.resData_ = resData_;
       }
     }
 
@@ -467,11 +397,11 @@ private static final long serialVersionUID = 0L;
       if (other.getIsReviseRes() != false) {
         setIsReviseRes(other.getIsReviseRes());
       }
-      if (other.hasReqData()) {
-        mergeReqData(other.getReqData());
+      if (other.getReqData() != com.google.protobuf.ByteString.EMPTY) {
+        setReqData(other.getReqData());
       }
-      if (other.hasResData()) {
-        mergeResData(other.getResData());
+      if (other.getResData() != com.google.protobuf.ByteString.EMPTY) {
+        setResData(other.getResData());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       onChanged();
@@ -510,16 +440,12 @@ private static final long serialVersionUID = 0L;
               break;
             } // case 16
             case 26: {
-              input.readMessage(
-                  getReqDataFieldBuilder().getBuilder(),
-                  extensionRegistry);
+              reqData_ = input.readBytes();
               bitField0_ |= 0x00000004;
               break;
             } // case 26
             case 34: {
-              input.readMessage(
-                  getResDataFieldBuilder().getBuilder(),
-                  extensionRegistry);
+              resData_ = input.readBytes();
               bitField0_ |= 0x00000008;
               break;
             } // case 34
@@ -586,10 +512,6 @@ private static final long serialVersionUID = 0L;
 
     private boolean isReviseRes_ ;
     /**
-     * <pre>
-     * 修改响应
-     * </pre>
-     *
      * <code>bool IsReviseRes = 2;</code>
      * @return The isReviseRes.
      */
@@ -598,10 +520,6 @@ private static final long serialVersionUID = 0L;
       return isReviseRes_;
     }
     /**
-     * <pre>
-     * 修改响应
-     * </pre>
-     *
      * <code>bool IsReviseRes = 2;</code>
      * @param value The isReviseRes to set.
      * @return This builder for chaining.
@@ -614,10 +532,6 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <pre>
-     * 修改响应
-     * </pre>
-     *
      * <code>bool IsReviseRes = 2;</code>
      * @return This builder for chaining.
      */
@@ -628,51 +542,31 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private BurpGrpc.proto.BurpApiGrpc.httpReqData reqData_;
-    private com.google.protobuf.SingleFieldBuilderV3<
-        BurpGrpc.proto.BurpApiGrpc.httpReqData, BurpGrpc.proto.BurpApiGrpc.httpReqData.Builder, BurpGrpc.proto.BurpApiGrpc.httpReqDataOrBuilder> reqDataBuilder_;
+    private com.google.protobuf.ByteString reqData_ = com.google.protobuf.ByteString.EMPTY;
     /**
      * <pre>
      * 请求数据用于覆盖burp 请求   用于修改 http编辑框
      * </pre>
      *
-     * <code>.burpApi.httpReqData ReqData = 3;</code>
-     * @return Whether the reqData field is set.
-     */
-    public boolean hasReqData() {
-      return ((bitField0_ & 0x00000004) != 0);
-    }
-    /**
-     * <pre>
-     * 请求数据用于覆盖burp 请求   用于修改 http编辑框
-     * </pre>
-     *
-     * <code>.burpApi.httpReqData ReqData = 3;</code>
+     * <code>bytes ReqData = 3;</code>
      * @return The reqData.
      */
-    public BurpGrpc.proto.BurpApiGrpc.httpReqData getReqData() {
-      if (reqDataBuilder_ == null) {
-        return reqData_ == null ? BurpGrpc.proto.BurpApiGrpc.httpReqData.getDefaultInstance() : reqData_;
-      } else {
-        return reqDataBuilder_.getMessage();
-      }
+    @java.lang.Override
+    public com.google.protobuf.ByteString getReqData() {
+      return reqData_;
     }
     /**
      * <pre>
      * 请求数据用于覆盖burp 请求   用于修改 http编辑框
      * </pre>
      *
-     * <code>.burpApi.httpReqData ReqData = 3;</code>
+     * <code>bytes ReqData = 3;</code>
+     * @param value The reqData to set.
+     * @return This builder for chaining.
      */
-    public Builder setReqData(BurpGrpc.proto.BurpApiGrpc.httpReqData value) {
-      if (reqDataBuilder_ == null) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        reqData_ = value;
-      } else {
-        reqDataBuilder_.setMessage(value);
-      }
+    public Builder setReqData(com.google.protobuf.ByteString value) {
+      if (value == null) { throw new NullPointerException(); }
+      reqData_ = value;
       bitField0_ |= 0x00000004;
       onChanged();
       return this;
@@ -682,260 +576,58 @@ private static final long serialVersionUID = 0L;
      * 请求数据用于覆盖burp 请求   用于修改 http编辑框
      * </pre>
      *
-     * <code>.burpApi.httpReqData ReqData = 3;</code>
-     */
-    public Builder setReqData(
-        BurpGrpc.proto.BurpApiGrpc.httpReqData.Builder builderForValue) {
-      if (reqDataBuilder_ == null) {
-        reqData_ = builderForValue.build();
-      } else {
-        reqDataBuilder_.setMessage(builderForValue.build());
-      }
-      bitField0_ |= 0x00000004;
-      onChanged();
-      return this;
-    }
-    /**
-     * <pre>
-     * 请求数据用于覆盖burp 请求   用于修改 http编辑框
-     * </pre>
-     *
-     * <code>.burpApi.httpReqData ReqData = 3;</code>
-     */
-    public Builder mergeReqData(BurpGrpc.proto.BurpApiGrpc.httpReqData value) {
-      if (reqDataBuilder_ == null) {
-        if (((bitField0_ & 0x00000004) != 0) &&
-          reqData_ != null &&
-          reqData_ != BurpGrpc.proto.BurpApiGrpc.httpReqData.getDefaultInstance()) {
-          getReqDataBuilder().mergeFrom(value);
-        } else {
-          reqData_ = value;
-        }
-      } else {
-        reqDataBuilder_.mergeFrom(value);
-      }
-      bitField0_ |= 0x00000004;
-      onChanged();
-      return this;
-    }
-    /**
-     * <pre>
-     * 请求数据用于覆盖burp 请求   用于修改 http编辑框
-     * </pre>
-     *
-     * <code>.burpApi.httpReqData ReqData = 3;</code>
+     * <code>bytes ReqData = 3;</code>
+     * @return This builder for chaining.
      */
     public Builder clearReqData() {
       bitField0_ = (bitField0_ & ~0x00000004);
-      reqData_ = null;
-      if (reqDataBuilder_ != null) {
-        reqDataBuilder_.dispose();
-        reqDataBuilder_ = null;
-      }
+      reqData_ = getDefaultInstance().getReqData();
       onChanged();
       return this;
-    }
-    /**
-     * <pre>
-     * 请求数据用于覆盖burp 请求   用于修改 http编辑框
-     * </pre>
-     *
-     * <code>.burpApi.httpReqData ReqData = 3;</code>
-     */
-    public BurpGrpc.proto.BurpApiGrpc.httpReqData.Builder getReqDataBuilder() {
-      bitField0_ |= 0x00000004;
-      onChanged();
-      return getReqDataFieldBuilder().getBuilder();
-    }
-    /**
-     * <pre>
-     * 请求数据用于覆盖burp 请求   用于修改 http编辑框
-     * </pre>
-     *
-     * <code>.burpApi.httpReqData ReqData = 3;</code>
-     */
-    public BurpGrpc.proto.BurpApiGrpc.httpReqDataOrBuilder getReqDataOrBuilder() {
-      if (reqDataBuilder_ != null) {
-        return reqDataBuilder_.getMessageOrBuilder();
-      } else {
-        return reqData_ == null ?
-            BurpGrpc.proto.BurpApiGrpc.httpReqData.getDefaultInstance() : reqData_;
-      }
-    }
-    /**
-     * <pre>
-     * 请求数据用于覆盖burp 请求   用于修改 http编辑框
-     * </pre>
-     *
-     * <code>.burpApi.httpReqData ReqData = 3;</code>
-     */
-    private com.google.protobuf.SingleFieldBuilderV3<
-        BurpGrpc.proto.BurpApiGrpc.httpReqData, BurpGrpc.proto.BurpApiGrpc.httpReqData.Builder, BurpGrpc.proto.BurpApiGrpc.httpReqDataOrBuilder> 
-        getReqDataFieldBuilder() {
-      if (reqDataBuilder_ == null) {
-        reqDataBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-            BurpGrpc.proto.BurpApiGrpc.httpReqData, BurpGrpc.proto.BurpApiGrpc.httpReqData.Builder, BurpGrpc.proto.BurpApiGrpc.httpReqDataOrBuilder>(
-                getReqData(),
-                getParentForChildren(),
-                isClean());
-        reqData_ = null;
-      }
-      return reqDataBuilder_;
     }
 
-    private BurpGrpc.proto.BurpApiGrpc.httpResData resData_;
-    private com.google.protobuf.SingleFieldBuilderV3<
-        BurpGrpc.proto.BurpApiGrpc.httpResData, BurpGrpc.proto.BurpApiGrpc.httpResData.Builder, BurpGrpc.proto.BurpApiGrpc.httpResDataOrBuilder> resDataBuilder_;
+    private com.google.protobuf.ByteString resData_ = com.google.protobuf.ByteString.EMPTY;
     /**
      * <pre>
-     * 响应数据用于覆盖burp 响应
+     * 请求数据用于覆盖burp 请求   用于修改 http编辑框
      * </pre>
      *
-     * <code>.burpApi.httpResData ResData = 4;</code>
-     * @return Whether the resData field is set.
-     */
-    public boolean hasResData() {
-      return ((bitField0_ & 0x00000008) != 0);
-    }
-    /**
-     * <pre>
-     * 响应数据用于覆盖burp 响应
-     * </pre>
-     *
-     * <code>.burpApi.httpResData ResData = 4;</code>
+     * <code>bytes ResData = 4;</code>
      * @return The resData.
      */
-    public BurpGrpc.proto.BurpApiGrpc.httpResData getResData() {
-      if (resDataBuilder_ == null) {
-        return resData_ == null ? BurpGrpc.proto.BurpApiGrpc.httpResData.getDefaultInstance() : resData_;
-      } else {
-        return resDataBuilder_.getMessage();
-      }
+    @java.lang.Override
+    public com.google.protobuf.ByteString getResData() {
+      return resData_;
     }
     /**
      * <pre>
-     * 响应数据用于覆盖burp 响应
+     * 请求数据用于覆盖burp 请求   用于修改 http编辑框
      * </pre>
      *
-     * <code>.burpApi.httpResData ResData = 4;</code>
+     * <code>bytes ResData = 4;</code>
+     * @param value The resData to set.
+     * @return This builder for chaining.
      */
-    public Builder setResData(BurpGrpc.proto.BurpApiGrpc.httpResData value) {
-      if (resDataBuilder_ == null) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        resData_ = value;
-      } else {
-        resDataBuilder_.setMessage(value);
-      }
+    public Builder setResData(com.google.protobuf.ByteString value) {
+      if (value == null) { throw new NullPointerException(); }
+      resData_ = value;
       bitField0_ |= 0x00000008;
       onChanged();
       return this;
     }
     /**
      * <pre>
-     * 响应数据用于覆盖burp 响应
+     * 请求数据用于覆盖burp 请求   用于修改 http编辑框
      * </pre>
      *
-     * <code>.burpApi.httpResData ResData = 4;</code>
-     */
-    public Builder setResData(
-        BurpGrpc.proto.BurpApiGrpc.httpResData.Builder builderForValue) {
-      if (resDataBuilder_ == null) {
-        resData_ = builderForValue.build();
-      } else {
-        resDataBuilder_.setMessage(builderForValue.build());
-      }
-      bitField0_ |= 0x00000008;
-      onChanged();
-      return this;
-    }
-    /**
-     * <pre>
-     * 响应数据用于覆盖burp 响应
-     * </pre>
-     *
-     * <code>.burpApi.httpResData ResData = 4;</code>
-     */
-    public Builder mergeResData(BurpGrpc.proto.BurpApiGrpc.httpResData value) {
-      if (resDataBuilder_ == null) {
-        if (((bitField0_ & 0x00000008) != 0) &&
-          resData_ != null &&
-          resData_ != BurpGrpc.proto.BurpApiGrpc.httpResData.getDefaultInstance()) {
-          getResDataBuilder().mergeFrom(value);
-        } else {
-          resData_ = value;
-        }
-      } else {
-        resDataBuilder_.mergeFrom(value);
-      }
-      bitField0_ |= 0x00000008;
-      onChanged();
-      return this;
-    }
-    /**
-     * <pre>
-     * 响应数据用于覆盖burp 响应
-     * </pre>
-     *
-     * <code>.burpApi.httpResData ResData = 4;</code>
+     * <code>bytes ResData = 4;</code>
+     * @return This builder for chaining.
      */
     public Builder clearResData() {
       bitField0_ = (bitField0_ & ~0x00000008);
-      resData_ = null;
-      if (resDataBuilder_ != null) {
-        resDataBuilder_.dispose();
-        resDataBuilder_ = null;
-      }
+      resData_ = getDefaultInstance().getResData();
       onChanged();
       return this;
-    }
-    /**
-     * <pre>
-     * 响应数据用于覆盖burp 响应
-     * </pre>
-     *
-     * <code>.burpApi.httpResData ResData = 4;</code>
-     */
-    public BurpGrpc.proto.BurpApiGrpc.httpResData.Builder getResDataBuilder() {
-      bitField0_ |= 0x00000008;
-      onChanged();
-      return getResDataFieldBuilder().getBuilder();
-    }
-    /**
-     * <pre>
-     * 响应数据用于覆盖burp 响应
-     * </pre>
-     *
-     * <code>.burpApi.httpResData ResData = 4;</code>
-     */
-    public BurpGrpc.proto.BurpApiGrpc.httpResDataOrBuilder getResDataOrBuilder() {
-      if (resDataBuilder_ != null) {
-        return resDataBuilder_.getMessageOrBuilder();
-      } else {
-        return resData_ == null ?
-            BurpGrpc.proto.BurpApiGrpc.httpResData.getDefaultInstance() : resData_;
-      }
-    }
-    /**
-     * <pre>
-     * 响应数据用于覆盖burp 响应
-     * </pre>
-     *
-     * <code>.burpApi.httpResData ResData = 4;</code>
-     */
-    private com.google.protobuf.SingleFieldBuilderV3<
-        BurpGrpc.proto.BurpApiGrpc.httpResData, BurpGrpc.proto.BurpApiGrpc.httpResData.Builder, BurpGrpc.proto.BurpApiGrpc.httpResDataOrBuilder> 
-        getResDataFieldBuilder() {
-      if (resDataBuilder_ == null) {
-        resDataBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-            BurpGrpc.proto.BurpApiGrpc.httpResData, BurpGrpc.proto.BurpApiGrpc.httpResData.Builder, BurpGrpc.proto.BurpApiGrpc.httpResDataOrBuilder>(
-                getResData(),
-                getParentForChildren(),
-                isClean());
-        resData_ = null;
-      }
-      return resDataBuilder_;
     }
     @java.lang.Override
     public final Builder setUnknownFields(

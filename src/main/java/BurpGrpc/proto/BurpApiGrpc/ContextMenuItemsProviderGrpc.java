@@ -4,7 +4,7 @@ import static io.grpc.MethodDescriptor.generateFullMethodName;
 
 /**
  * <pre>
- * 右键上下文提供程序
+ * 右键菜单项执行程序
  * </pre>
  */
 @javax.annotation.Generated(
@@ -95,7 +95,7 @@ public final class ContextMenuItemsProviderGrpc {
 
   /**
    * <pre>
-   * 右键上下文提供程序
+   * 右键菜单项执行程序
    * </pre>
    */
   public static abstract class ContextMenuItemsProviderImplBase implements io.grpc.BindableService {
@@ -122,7 +122,7 @@ public final class ContextMenuItemsProviderGrpc {
 
   /**
    * <pre>
-   * 右键上下文提供程序
+   * 右键菜单项执行程序
    * </pre>
    */
   public static final class ContextMenuItemsProviderStub extends io.grpc.stub.AbstractAsyncStub<ContextMenuItemsProviderStub> {
@@ -148,7 +148,7 @@ public final class ContextMenuItemsProviderGrpc {
 
   /**
    * <pre>
-   * 右键上下文提供程序
+   * 右键菜单项执行程序
    * </pre>
    */
   public static final class ContextMenuItemsProviderBlockingStub extends io.grpc.stub.AbstractBlockingStub<ContextMenuItemsProviderBlockingStub> {
@@ -173,7 +173,7 @@ public final class ContextMenuItemsProviderGrpc {
 
   /**
    * <pre>
-   * 右键上下文提供程序
+   * 右键菜单项执行程序
    * </pre>
    */
   public static final class ContextMenuItemsProviderFutureStub extends io.grpc.stub.AbstractFutureStub<ContextMenuItemsProviderFutureStub> {

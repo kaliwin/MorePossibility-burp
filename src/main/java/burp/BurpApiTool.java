@@ -1,24 +1,36 @@
 package burp;
 
+import BurpGrpc.proto.BurpApiGrpc.Menu;
+import BurpGrpc.proto.BurpApiGrpc.MenuItem;
 import BurpGrpc.proto.BurpApiGrpc.*;
 import InformationCenter.WebInfo;
 import UI.ManGrpcGUI;
+import burp.api.montoya.core.Annotations;
 import burp.api.montoya.core.ByteArray;
+import burp.api.montoya.core.Range;
 import burp.api.montoya.core.Registration;
 import burp.api.montoya.http.handler.*;
 import burp.api.montoya.http.message.HttpRequestResponse;
 import burp.api.montoya.http.message.requests.HttpRequest;
 import burp.api.montoya.http.message.responses.HttpResponse;
 import burp.api.montoya.intruder.*;
+import burp.api.montoya.proxy.http.*;
 import burp.api.montoya.ui.Selection;
+import burp.api.montoya.ui.contextmenu.ContextMenuEvent;
+import burp.api.montoya.ui.contextmenu.ContextMenuItemsProvider;
+import burp.api.montoya.ui.contextmenu.MessageEditorHttpRequestResponse;
 import burp.api.montoya.ui.editor.RawEditor;
 import burp.api.montoya.ui.editor.extension.*;
 import com.google.common.collect.TreeBasedTable;
 import com.google.protobuf.ByteString;
 import io.grpc.stub.StreamObserver;
 
+import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -38,6 +50,15 @@ public class BurpApiTool {
     TreeBasedTable<String, BurpServerTypeX, Registration> serverRegistrationStatus;  // 服务注册状态,结构:名字 服务类型 注册状态
 
 
+//    public void test(String url) {
+//
+//        HttpRequest httpRequest = HttpRequest.httpRequestFromUrl(url);
+//        HttpRequestResponse httpRequestResponse = MorePossibility.burpApi.http().sendRequest(httpRequest);
+//        ManGrpcGUI.consoleLog.append(new String(httpRequestResponse.response().body().getBytes()) + " \n");
+//
+//    }
+
+
     public BurpApiTool() {
         this.serverRegistrationStatus = TreeBasedTable.create();
         init();
@@ -49,7 +70,7 @@ public class BurpApiTool {
      * @date: 2023/6/11 下午2:23
      */
     private void init() {
-        burpApi.userInterface().registerHttpRequestEditorProvider(new initHttpKeyValueEditor("Key_Value_test"));
+//        burpApi.userInterface().registerHttpRequestEditorProvider(new initHttpKeyValueEditor("Key_Value_test"));
     }
 
 
@@ -216,6 +237,92 @@ public class BurpApiTool {
 
 
     /**
+     * @param tarGet: 目标地址
+     * @return boolean  成功与否
+     * @description: 注册上下文菜单项 ,通过grpc发起请求获取菜单项,在注册渲染
+     * @author: cyvk
+     * @date: 2023/6/16 下午3:25
+     */
+    private boolean registerConTextMenuItems(String tarGet, String name) {
+
+        if (!serverRegistrationStatus.contains(name, CONTEXT_MENU_ITEMS_PROVIDER)) {
+            // 调用Grpc  获取菜单项
+            MenuInfo conTextMenuItems = runAchieve.getConTextMenuItemsServer(tarGet).getConTextMenuItems(Str.newBuilder().setName(name).build());
+
+            // 注册渲染
+            Registration registration = burpApi.userInterface().registerContextMenuItemsProvider(new MenuItemsProvider(conTextMenuItems));
+
+            if (registration.isRegistered()) {
+
+                serverRegistrationStatus.put(name, CONTEXT_MENU_ITEMS_PROVIDER, registration);
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    private boolean registerProxyReqHandler(String tarGet, String name) {
+        if (!serverRegistrationStatus.contains(name, PROXY_REQUEST_HANDLER)) {
+            ProxyRequestHandlerGrpc.ProxyRequestHandlerBlockingStub proxyRequestHandlerClient = runAchieve.getProxyRequestHandlerClient(tarGet);
+            Registration registration = burpApi.proxy().registerRequestHandler(new ProxyReqHandler(proxyRequestHandlerClient));
+            if (registration.isRegistered()) {
+                serverRegistrationStatus.put(name, PROXY_REQUEST_HANDLER, registration);
+                return true;
+            }
+        }
+
+        return false;
+
+    }
+
+
+    /**
+     * @param tarGet: grpc 地址
+     * @param name:   名称
+     * @return boolean  是否注册成功
+     * @description: 注册代理响应处理器
+     * @author: cyvk
+     * @date: 2023/6/19 下午2:47
+     */
+    private boolean registerProxyResHandler(String tarGet, String name) {
+
+        if (!serverRegistrationStatus.contains(name, PROXY_RESPONSE_HANDLER)) {
+            ProxyResponseHandlerGrpc.ProxyResponseHandlerBlockingStub proxyResponseHandlerClient = runAchieve.getProxyResponseHandlerClient(tarGet);
+            Registration registration = burpApi.proxy().registerResponseHandler(new ProxyResHandler(proxyResponseHandlerClient));
+            if (registration.isRegistered()) {
+                serverRegistrationStatus.put(name, PROXY_RESPONSE_HANDLER, registration);
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    /**
+     * @param tarGet: grpc 地址
+     * @param name:   名称
+     * @return boolean
+     * @description: http流量处理器 请求和响应放在一起
+     * @author: cyvk
+     * @date: 2023/6/20 下午12:43
+     */
+    private boolean registerHttpReqHandler(String tarGet, String name) {
+        if (!serverRegistrationStatus.contains(name, HTTP_REQUEST_HANDLER)) {
+            HttpFlowHandlerGrpc.HttpFlowHandlerBlockingStub httpFlowHandlerClient = runAchieve.getHttpFlowHandlerClient(tarGet);
+            Registration registration = burpApi.http().registerHttpHandler(new HttpFlowHandler(httpFlowHandlerClient));
+            if (registration.isRegistered()) {
+                serverRegistrationStatus.put(name, HTTP_REQUEST_HANDLER, registration);
+                return true;
+            }
+
+        }
+
+        return false;
+    }
+
+
+    /**
      * @param serverName:      名称
      * @param burpServerTypeX: 类型
      * @return boolean
@@ -263,6 +370,20 @@ public class BurpApiTool {
                 return registerHttpResEdit(target, name);
             }
 
+            case CONTEXT_MENU_ITEMS_PROVIDER -> {      // 上下文菜单提供程序
+                return registerConTextMenuItems(target, name);
+            }
+            case PROXY_REQUEST_HANDLER -> {
+                return registerProxyReqHandler(target, name);
+            }
+            case PROXY_RESPONSE_HANDLER -> {
+                return registerProxyResHandler(target, name);
+            }
+            case HTTP_REQUEST_HANDLER -> {
+                return registerHttpReqHandler(target, name);
+            }
+
+
         }
         return false;
     }
@@ -299,23 +420,9 @@ class handleHttpTrafficMirroring implements HttpHandler {
     @Override
     public ResponseReceivedAction handleHttpResponseReceived(HttpResponseReceived responseReceived) {
 
+        httpReqData req = BurpApiUtensil.HttpRequestTohttpReqData(responseReceived.initiatingRequest());   // 组装请求
 
-        //请求
-        String reqUrl = responseReceived.initiatingRequest().url();
-        String httpVersion = responseReceived.httpVersion();
-        int reqBodyOff = responseReceived.initiatingRequest().bodyOffset();
-        byte[] reqByte = responseReceived.initiatingRequest().toByteArray().getBytes();
-
-        //响应
-        byte[] resByte = responseReceived.toByteArray().getBytes();
-        int resBodyOff = responseReceived.bodyOffset();
-        short resStatus = responseReceived.statusCode();
-
-        //组装请求结构
-        httpReqData req = httpReqData.newBuilder().setData(ByteString.copyFrom(reqByte)).setBodyIndex(reqBodyOff).setHttpVersion(httpVersion).setUrl(reqUrl).build();
-
-        //组装响应结构
-        httpResData res = httpResData.newBuilder().setData(ByteString.copyFrom(resByte)).setBodyIndex(resBodyOff).setStatusCode(resStatus).build();
+        httpResData res = BurpApiUtensil.HttpResponseTohttpResData(responseReceived);    // 组装响应
 
         //请求信息id、注释
         httpInfo info = httpInfo.newBuilder().setId(responseReceived.messageId()).setInfo(responseReceived.annotations().toString()).build();
@@ -555,18 +662,25 @@ class httpReqEditor implements HttpRequestEditorProvider, ExtensionProvidedHttpR
         HttpRequest request = requestResponse.request();
         HttpResponse response = requestResponse.response();
 
-        httpReqData req = httpReqData.newBuilder()
-                .setData(ByteString.copyFrom(request.toByteArray().getBytes()))
-                .setUrl(request.url())
-                .setBodyIndex(request.bodyOffset())
-                .setHttpVersion(request.httpVersion())
-                .build();
+//        httpReqData req = httpReqData.newBuilder()
+//                .setData(ByteString.copyFrom(request.toByteArray().getBytes()))
+//                .setUrl(request.url())
+//                .setBodyIndex(request.bodyOffset())
+//                .setHttpVersion(request.httpVersion())
+//                .build();
 
-        httpResData res = httpResData.newBuilder()
-                .setData(ByteString.copyFrom(response.toByteArray().getBytes()))
-                .setBodyIndex(response.bodyOffset())
-                .setStatusCode(response.statusCode())
-                .build();
+
+        httpReqData req = BurpApiUtensil.HttpRequestTohttpReqData(request);
+
+
+//        httpResData res = httpResData.newBuilder()
+//                .setData(ByteString.copyFrom(response.toByteArray().getBytes()))
+//                .setBodyIndex(response.bodyOffset())
+//                .setStatusCode(response.statusCode())
+//                .build();
+
+
+        httpResData res = BurpApiUtensil.HttpResponseTohttpResData(response);
 
         httpInfo httpInfoX = httpInfo.newBuilder()
                 .setInfo(requestResponse.annotations().notes())
@@ -603,18 +717,24 @@ class httpReqEditor implements HttpRequestEditorProvider, ExtensionProvidedHttpR
         HttpRequest request = requestResponse.request();
         HttpResponse response = requestResponse.response();
 
-        httpReqData req = httpReqData.newBuilder()
-                .setData(ByteString.copyFrom(request.toByteArray().getBytes()))
-                .setUrl(request.url())
-                .setBodyIndex(request.bodyOffset())
-                .setHttpVersion(request.httpVersion())
-                .build();
+//        httpReqData req = httpReqData.newBuilder()
+//                .setData(ByteString.copyFrom(request.toByteArray().getBytes()))
+//                .setUrl(request.url())
+//                .setBodyIndex(request.bodyOffset())
+//                .setHttpVersion(request.httpVersion())
+//                .build();
 
-        httpResData res = httpResData.newBuilder()
-                .setData(ByteString.copyFrom(response.toByteArray().getBytes()))
-                .setBodyIndex(response.bodyOffset())
-                .setStatusCode(response.statusCode())
-                .build();
+
+        httpReqData req = BurpApiUtensil.HttpRequestTohttpReqData(request);
+
+//        httpResData res = httpResData.newBuilder()
+//                .setData(ByteString.copyFrom(response.toByteArray().getBytes()))
+//                .setBodyIndex(response.bodyOffset())
+//                .setStatusCode(response.statusCode())
+//                .build();
+
+        httpResData res = BurpApiUtensil.HttpResponseTohttpResData(response);
+
 
         httpInfo httpInfoX = httpInfo.newBuilder()
                 .setInfo(requestResponse.annotations().notes())
@@ -735,18 +855,23 @@ class httpResEditor implements HttpResponseEditorProvider, ExtensionProvidedHttp
         HttpRequest request = requestResponse.request();
         HttpResponse response = requestResponse.response();
 
-        httpReqData req = httpReqData.newBuilder()
-                .setData(ByteString.copyFrom(request.toByteArray().getBytes()))
-                .setUrl(request.url())
-                .setBodyIndex(request.bodyOffset())
-                .setHttpVersion(request.httpVersion())
-                .build();
+//        httpReqData req = httpReqData.newBuilder()
+//                .setData(ByteString.copyFrom(request.toByteArray().getBytes()))
+//                .setUrl(request.url())
+//                .setBodyIndex(request.bodyOffset())
+//                .setHttpVersion(request.httpVersion())
+//                .build();
 
-        httpResData res = httpResData.newBuilder()
-                .setData(ByteString.copyFrom(response.toByteArray().getBytes()))
-                .setBodyIndex(response.bodyOffset())
-                .setStatusCode(response.statusCode())
-                .build();
+
+        httpReqData req = BurpApiUtensil.HttpRequestTohttpReqData(request);
+
+//        httpResData res = httpResData.newBuilder()
+//                .setData(ByteString.copyFrom(response.toByteArray().getBytes()))
+//                .setBodyIndex(response.bodyOffset())
+//                .setStatusCode(response.statusCode())
+//                .build();
+
+        httpResData res = BurpApiUtensil.HttpResponseTohttpResData(response);
 
         httpInfo httpInfoX = httpInfo.newBuilder()
                 .setInfo(requestResponse.annotations().notes())
@@ -779,18 +904,9 @@ class httpResEditor implements HttpResponseEditorProvider, ExtensionProvidedHttp
         HttpRequest request = requestResponse.request();
         HttpResponse response = requestResponse.response();
 
-        httpReqData req = httpReqData.newBuilder()
-                .setData(ByteString.copyFrom(request.toByteArray().getBytes()))
-                .setUrl(request.url())
-                .setBodyIndex(request.bodyOffset())
-                .setHttpVersion(request.httpVersion())
-                .build();
 
-        httpResData res = httpResData.newBuilder()
-                .setData(ByteString.copyFrom(response.toByteArray().getBytes()))
-                .setBodyIndex(response.bodyOffset())
-                .setStatusCode(response.statusCode())
-                .build();
+        httpReqData req = BurpApiUtensil.HttpRequestTohttpReqData(request);
+        httpResData res = BurpApiUtensil.HttpResponseTohttpResData(response);
 
         httpInfo httpInfoX = httpInfo.newBuilder()
                 .setInfo(requestResponse.annotations().notes())
@@ -843,6 +959,372 @@ class httpResEditor implements HttpResponseEditorProvider, ExtensionProvidedHttp
         return false;
     }
 }
+
+
+/**
+ * @description: 上下文菜单项提供程序 暂时只提供http的菜单 , webSocket 后续提供
+ * @author: cyvk
+ * @date: 2023/6/16 上午10:27
+ */
+class MenuItemsProvider implements ContextMenuItemsProvider {
+    MenuInfo conTextMenuItems; // 上下文菜单项
+
+    public MenuItemsProvider(MenuInfo conTextMenuItems) {
+        this.conTextMenuItems = conTextMenuItems;
+    }
+
+    // 每次右键就会执行该函数用于渲染菜单项
+    @Override
+    public List<Component> provideMenuItems(ContextMenuEvent event) {
+
+        List<Component> components = new ArrayList<>();
+
+        // 调用 grpc 获取菜单项处理的客户端
+        ContextMenuItemsProviderGrpc.ContextMenuItemsProviderBlockingStub client = runAchieve.getMenuItemsProviderClient(conTextMenuItems.getTarGet());
+
+        components.add(new menu(conTextMenuItems.getMenu(), event, client).get());    // 执行渲染并绑定点击事件
+
+
+        return components;
+    }
+
+}
+
+// 菜单
+class menu {
+    Menu menuListList;
+//    List<MenuItem> menuItems ;
+//
+//    List<menu> menu;
+
+    String name;
+
+    ContextMenuEvent event;
+
+    ContextMenuItemsProviderGrpc.ContextMenuItemsProviderBlockingStub client;
+
+    public menu(Menu menu, ContextMenuEvent event, ContextMenuItemsProviderGrpc.ContextMenuItemsProviderBlockingStub client) {
+        this.menuListList = menu;
+        this.client = client;
+        this.event = event;
+    }
+
+
+    public Component get() {  // 渲染菜单项
+
+        JMenu jMenu = new JMenu(this.menuListList.getName());
+
+        List<Menu> menuListList1 = this.menuListList.getMenuListList();
+        List<MenuItem> menuItemListList = this.menuListList.getMenuItemListList();
+
+        for (Menu menu : menuListList1) {
+            jMenu.add(new menu(menu, event, client).get());
+        }
+        for (MenuItem menuItem : menuItemListList) {  // 菜单项加入
+            jMenu.add(new menuItem(menuItem, client, event).get());
+        }
+
+        return jMenu;
+    }
+
+
+}
+
+// 菜单项
+class menuItem {
+    MenuItem menuItem;
+    ContextMenuItemsProviderGrpc.ContextMenuItemsProviderBlockingStub client;
+
+    ContextMenuEvent event;
+
+//    String name;
+
+    public menuItem(MenuItem menuItem, ContextMenuItemsProviderGrpc.ContextMenuItemsProviderBlockingStub client, ContextMenuEvent event) {
+        this.event = event;
+        this.menuItem = menuItem;
+        this.client = client;
+    }
+
+    public Component get() {
+        JMenuItem jMenuItem = new JMenuItem(this.menuItem.getName());
+
+        jMenuItem.addActionListener(actionEvent -> {
+
+            MessageEditorHttpRequestResponse messageEditorHttpRequestResponse = event.messageEditorRequestResponse().get();
+            HttpRequest request = messageEditorHttpRequestResponse.requestResponse().request();
+            HttpResponse response = messageEditorHttpRequestResponse.requestResponse().response();
+
+            httpReqAndRes httpReqAndResData = BurpApiUtensil.withHttpReqAndRes(request, response, messageEditorHttpRequestResponse.requestResponse().annotations());
+
+            boolean isSelect = false;               // 是否有选中的数据
+
+            byte[] selectData = new byte[0];       // 选中的数据
+
+
+
+            if (messageEditorHttpRequestResponse.selectionOffsets().isPresent()) {
+                isSelect = true;
+
+                switch (messageEditorHttpRequestResponse.selectionContext()) {
+                    case REQUEST -> {
+                        byte[] bytes = messageEditorHttpRequestResponse.requestResponse().request().toByteArray().getBytes();
+                        Range range = messageEditorHttpRequestResponse.selectionOffsets().get();
+                        selectData = Arrays.copyOfRange(bytes, range.startIndexInclusive(), range.endIndexExclusive());
+                        ManGrpcGUI.consoleLog.append("选中的数据: "+new String(selectData));
+                    }
+
+                    case RESPONSE -> {
+                        byte[] bytes = messageEditorHttpRequestResponse.requestResponse().response().toByteArray().getBytes();
+                        Range range = messageEditorHttpRequestResponse.selectionOffsets().get();
+                        selectData = Arrays.copyOfRange(bytes, range.startIndexInclusive(), range.endIndexExclusive());
+                    }
+                }
+
+            }
+
+
+            ContextMenuItems contextMenuItems = ContextMenuItems.newBuilder()
+                    .setName(menuItem.getName())
+                    .setHttpReqAndRes(httpReqAndResData)
+                    .setIsSelect(isSelect)
+                    .setSelectData(ByteString.copyFrom(selectData))
+                    .build();
+
+            MenuItemsReturn menuItemsReturn = client.menuItemsProvider(contextMenuItems);   // 发起Grpc调用
+
+
+            if (menuItemsReturn.getIsReviseReq()) { // 是否修改请求
+                ManGrpcGUI.pluginLog.append("修改请求 \n");
+                HttpRequest httpRequest = HttpRequest.httpRequest(ByteArray.byteArray(menuItemsReturn.getReqData().toByteArray()));
+                messageEditorHttpRequestResponse.setRequest(httpRequest);
+            }
+
+//            if (menuItemsReturn.getIsReviseRes()) { // 是否修改响应
+//                ManGrpcGUI.pluginLog.append("修改响应 \n");
+//                HttpResponse httpResponse = HttpResponse.httpResponse(ByteArray.byteArray(menuItemsReturn.getResData().toByteArray()));
+//                messageEditorHttpRequestResponse.setResponse(httpResponse);
+//
+//            }
+
+        });
+
+        return jMenuItem;
+    }
+
+
+}
+
+
+/**
+ * @description: 代理请求处理器
+ * @author: cyvk
+ * @date: 2023/6/19 上午11:27
+ */
+class ProxyReqHandler implements ProxyRequestHandler {
+
+
+    ProxyRequestHandlerGrpc.ProxyRequestHandlerBlockingStub client;
+
+    public ProxyReqHandler(ProxyRequestHandlerGrpc.ProxyRequestHandlerBlockingStub client) {
+        this.client = client;
+    }
+
+    /**
+     * @param interceptedRequest An {@link InterceptedRequest} object that extensions can use to query and update details of the request.
+     * @return
+     */
+    @Override
+    public ProxyRequestReceivedAction handleRequestReceived(InterceptedRequest interceptedRequest) {
+
+        httpReqData httpReqData = BurpApiUtensil.HttpRequestTohttpReqData(interceptedRequest);  // 构造 请求数据
+        annotationsText annotationsText = BurpApiUtensil.AnnotationsToannotationsText(interceptedRequest.annotations()); // 构造响应数据
+
+        httpReqGroup httpReqGroup = BurpApiUtensil.buildHttpReqGroup(httpReqData, annotationsText); // 构造请求组
+
+
+        ProxyRequestAction proxyRequestAction = client.proxyHandleRequestReceived(httpReqGroup);  // 发起Grpc调用
+
+        BurpGrpc.proto.BurpApiGrpc.httpReqGroup httpReqGroup1 = proxyRequestAction.getHttpReqGroup(); // 提取请求组
+
+        Annotations annotations = BurpApiUtensil.annotationsTextToAnnotations(httpReqGroup1.getAnnotationsText()); // 注解 保证永远不为null
+
+        if (proxyRequestAction.getContinue()) {  // 继续不做处理
+            return ProxyRequestReceivedAction.continueWith(interceptedRequest, annotations);
+        }
+        if (proxyRequestAction.getIsReviseReq()) {  // 修改请求
+            HttpRequest httpRequest = BurpApiUtensil.httpReqDataTohttpRequest(httpReqGroup1.getHttpReqData());
+            return ProxyRequestReceivedAction.continueWith(httpRequest, annotations);
+        }
+        if (proxyRequestAction.getIsIntercept()) { // 拦截请求在 burp中显示用于二次确认
+            HttpRequest httpRequest = BurpApiUtensil.httpReqDataTohttpRequest(httpReqGroup1.getHttpReqData());
+            return ProxyRequestReceivedAction.intercept(httpRequest, annotations);
+        }
+        if (proxyRequestAction.getDrop()) {  // 丢弃请求
+            return ProxyRequestReceivedAction.drop();
+        }
+
+
+        return null;
+
+    }
+
+    /**
+     * @param interceptedRequest An {@link InterceptedRequest} object that extensions can use to query and update details of the intercepted request.
+     * @return
+     */
+    @Override
+    public ProxyRequestToBeSentAction handleRequestToBeSent(InterceptedRequest interceptedRequest) {
+        return null;
+    }
+}
+
+/**
+ * @description: 代理响应处理器 , 不能拦截 不知道什么原因
+ * @author: cyvk
+ * @date: 2023/6/19 下午5:37
+ */
+class ProxyResHandler implements ProxyResponseHandler {
+
+    ProxyResponseHandlerGrpc.ProxyResponseHandlerBlockingStub client;
+
+
+    public ProxyResHandler(ProxyResponseHandlerGrpc.ProxyResponseHandlerBlockingStub client) {
+        this.client = client;
+    }
+
+    /**
+     * @param interceptedResponse An {@link InterceptedResponse} object
+     *                            that extensions can use to query and update details of the response, and
+     *                            control whether the response should be intercepted and displayed to the
+     *                            user for manual review or modification.
+     * @return
+     */
+    @Override
+    public ProxyResponseReceivedAction handleResponseReceived(InterceptedResponse interceptedResponse) {
+
+        httpReqData httpReqData = BurpApiUtensil.HttpRequestTohttpReqData(interceptedResponse.initiatingRequest());
+        httpResData httpResData = BurpApiUtensil.HttpResponseTohttpResData(interceptedResponse);
+
+        annotationsText annotationsText = BurpApiUtensil.AnnotationsToannotationsText(interceptedResponse.annotations());
+
+        httpReqAndRes httpReqAndRes = BurpApiUtensil.withHttpReqAndRes(httpReqData, httpResData, annotationsText);
+
+
+        ProxyResponseAction proxyResponseAction = client.proxyHandleResponseReceived(httpReqAndRes); // 发起Grpc 请求调用
+
+
+        httpResGroup httpResGroup = proxyResponseAction.getHttpResGroup();   // 获取请求组
+
+        Annotations annotations = BurpApiUtensil.annotationsTextToAnnotations(httpResGroup.getAnnotationsText());  // 注解
+
+
+        if (proxyResponseAction.getContinue()) {    // 继续不做处理
+            return ProxyResponseReceivedAction.continueWith(interceptedResponse, annotations);
+        }
+        if (proxyResponseAction.getDrop()) {        // 是否丢弃
+            return ProxyResponseReceivedAction.drop();
+        }
+
+        HttpResponse httpResponse = BurpApiUtensil.httpResDataToHttpResponse(httpResGroup.getHttpResData()); // 格式转换
+
+        if (proxyResponseAction.getIsIntercept()) { // 是否拦截
+            return ProxyResponseReceivedAction.intercept(httpResponse, annotations);
+        }
+
+        if (proxyResponseAction.getIsReviseRes()) { // 是否修改响应
+
+            return ProxyResponseReceivedAction.continueWith(httpResponse, annotations);
+
+        }
+
+        return null;
+    }
+
+    /**
+     * @param interceptedResponse An {@link InterceptedResponse} object
+     *                            that extensions can use to query and update details of the response.
+     * @return
+     */
+    @Override
+    public ProxyResponseToBeSentAction handleResponseToBeSent(InterceptedResponse interceptedResponse) {
+        return null;
+    }
+}
+
+
+/**
+ * @description: 流量处理器 有请求和响应一起的要放一起 修改请求要自己处理 Content-Length
+ * @author: cyvk
+ * @date: 2023/6/19 下午5:43
+ */
+class HttpFlowHandler implements HttpHandler {
+
+    HttpFlowHandlerGrpc.HttpFlowHandlerBlockingStub client;
+
+    public HttpFlowHandler(HttpFlowHandlerGrpc.HttpFlowHandlerBlockingStub client) {
+        this.client = client;
+    }
+
+    /**
+     * @param requestToBeSent information about the HTTP request that is going to be sent.
+     */
+    @Override
+    public RequestToBeSentAction handleHttpRequestToBeSent(HttpRequestToBeSent requestToBeSent) {
+        // 数据转换
+        httpReqData httpReqData = BurpApiUtensil.HttpRequestTohttpReqData(requestToBeSent);
+        annotationsText annotationsText = BurpApiUtensil.AnnotationsToannotationsText(requestToBeSent.annotations());
+        // 构造请求组
+        httpReqGroup httpReqGroup = BurpApiUtensil.buildHttpReqGroup(httpReqData, annotationsText);
+
+        // 发起Grpc 调用
+        HttpRequestAction httpRequestAction = client.httpHandleRequestReceived(httpReqGroup);
+
+        // 提取请求组
+        BurpGrpc.proto.BurpApiGrpc.httpReqGroup ReqGroup = httpRequestAction.getHttpReqGroup();
+        // 获取注解
+        Annotations annotations = BurpApiUtensil.annotationsTextToAnnotations(ReqGroup.getAnnotationsText());
+
+        if (httpRequestAction.getContinue()) { // 继续不做处理
+            return RequestToBeSentAction.continueWith(requestToBeSent, annotations);
+        }
+        if (httpRequestAction.getIsReviseReq()) {  // 修改请求
+            // 数据转换
+            HttpRequest httpRequest = BurpApiUtensil.httpReqDataTohttpRequest(ReqGroup.getHttpReqData());
+            return RequestToBeSentAction.continueWith(httpRequest, annotations);
+        }
+
+        return null;
+    }
+
+    /**
+     * @param responseReceived information about HTTP response that was received.
+     */
+    @Override
+    public ResponseReceivedAction handleHttpResponseReceived(HttpResponseReceived responseReceived) {
+
+        // 组装一组请求
+        httpReqAndRes httpReqAndRes = BurpApiUtensil.withHttpReqAndRes(responseReceived.initiatingRequest(), responseReceived, responseReceived.annotations());
+
+        HttpResponseAction httpResponseAction = client.httpHandleResponseReceived(httpReqAndRes);   // 发起Grpc 请求
+
+        httpResGroup httpResGroup = httpResponseAction.getHttpResGroup();
+        Annotations annotations = BurpApiUtensil.annotationsTextToAnnotations(httpResGroup.getAnnotationsText());
+
+
+        if (httpResponseAction.getContinue()) {     // 继续
+            return ResponseReceivedAction.continueWith(responseReceived, annotations);
+        }
+
+        if (httpResponseAction.getIsReviseRes()) {  // 修改响应
+            HttpResponse httpResponse = BurpApiUtensil.httpResDataToHttpResponse(httpResGroup.getHttpResData());
+            return ResponseReceivedAction.continueWith(httpResponse, annotations);
+        }
+
+        return null;
+    }
+}
+
+
 
 
 

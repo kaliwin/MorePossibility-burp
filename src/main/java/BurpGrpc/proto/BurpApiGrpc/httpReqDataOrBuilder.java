@@ -66,4 +66,31 @@ public interface httpReqDataOrBuilder extends
    */
   com.google.protobuf.ByteString
       getHttpVersionBytes();
+
+  /**
+   * <pre>
+   * 目标信息
+   * </pre>
+   *
+   * <code>.burpApi.httpReqService httpReqService = 5;</code>
+   * @return Whether the httpReqService field is set.
+   */
+  boolean hasHttpReqService();
+  /**
+   * <pre>
+   * 目标信息
+   * </pre>
+   *
+   * <code>.burpApi.httpReqService httpReqService = 5;</code>
+   * @return The httpReqService.
+   */
+  BurpGrpc.proto.BurpApiGrpc.httpReqService getHttpReqService();
+  /**
+   * <pre>
+   * 目标信息
+   * </pre>
+   *
+   * <code>.burpApi.httpReqService httpReqService = 5;</code>
+   */
+  BurpGrpc.proto.BurpApiGrpc.httpReqServiceOrBuilder getHttpReqServiceOrBuilder();
 }

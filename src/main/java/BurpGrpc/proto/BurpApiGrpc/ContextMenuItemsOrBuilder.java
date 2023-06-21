@@ -9,7 +9,7 @@ public interface ContextMenuItemsOrBuilder extends
 
   /**
    * <pre>
-   * 名称
+   *名称
    * </pre>
    *
    * <code>string name = 3;</code>
@@ -18,7 +18,7 @@ public interface ContextMenuItemsOrBuilder extends
   java.lang.String getName();
   /**
    * <pre>
-   * 名称
+   *名称
    * </pre>
    *
    * <code>string name = 3;</code>
@@ -26,6 +26,16 @@ public interface ContextMenuItemsOrBuilder extends
    */
   com.google.protobuf.ByteString
       getNameBytes();
+
+  /**
+   * <pre>
+   * 是否有选中的数据
+   * </pre>
+   *
+   * <code>bool isSelect = 4;</code>
+   * @return The isSelect.
+   */
+  boolean getIsSelect();
 
   /**
    * <pre>

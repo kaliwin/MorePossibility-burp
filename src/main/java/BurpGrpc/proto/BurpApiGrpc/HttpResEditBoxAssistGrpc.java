@@ -4,7 +4,6 @@ import static io.grpc.MethodDescriptor.generateFullMethodName;
 
 /**
  * <pre>
- * 编辑框辅助服务
  * 提供响应编辑框
  * </pre>
  */
@@ -127,7 +126,6 @@ public final class HttpResEditBoxAssistGrpc {
 
   /**
    * <pre>
-   * 编辑框辅助服务
    * 提供响应编辑框
    * </pre>
    */
@@ -169,7 +167,6 @@ public final class HttpResEditBoxAssistGrpc {
 
   /**
    * <pre>
-   * 编辑框辅助服务
    * 提供响应编辑框
    * </pre>
    */
@@ -204,7 +201,6 @@ public final class HttpResEditBoxAssistGrpc {
 
   /**
    * <pre>
-   * 编辑框辅助服务
    * 提供响应编辑框
    * </pre>
    */
@@ -237,7 +233,6 @@ public final class HttpResEditBoxAssistGrpc {
 
   /**
    * <pre>
-   * 编辑框辅助服务
    * 提供响应编辑框
    * </pre>
    */

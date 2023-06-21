@@ -15,7 +15,7 @@ import io.grpc.stub.StreamObserver;
 import java.io.IOException;
 
 /**
- * @description: 实现类用于构建Grpc通信连接和管理提供监听服务注册客户端和卸载操作
+ * @description: 该类用于构建Grpc通信, 服务端 / 客户端
  * @author: cyvk
  * @date: 2023/5/30 下午12:03
  */
@@ -23,7 +23,6 @@ public class RunAchieve {
     public Server grpcServer; //服务端
 
     public RunAchieve() {
-
 
 
     }
@@ -95,7 +94,7 @@ public class RunAchieve {
      * @author: cyvk
      * @date: 2023/6/8 下午3:05
      */
-    public boolean getRealTimeTrafficMirroring(String target,String name) {
+    public boolean getRealTimeTrafficMirroring(String target, String name) {
 
         BurpServerGrpc.BurpServerStub burpServerStub = BurpServerGrpc.newStub(OkHttpChannelBuilder.forTarget(target).usePlaintext().build());
         StreamObserver<httpReqAndRes> httpReqAndResStreamObserver = burpServerStub.realTimeTrafficMirroring(new StreamObserver<Str>() {
@@ -119,29 +118,87 @@ public class RunAchieve {
 
 
     /**
-     * @description: http请求编辑框
-     * @param target:  目标地址
+     * @param target: 目标地址
      * @return BurpGrpc.proto.BurpApiGrpc.HttpReqEditBoxAssistGrpc.HttpReqEditBoxAssistBlockingStub
+     * @description: http请求编辑框
      * @author: cyvk
      * @date: 2023/6/11 下午4:05
      */
-    public HttpReqEditBoxAssistGrpc.HttpReqEditBoxAssistBlockingStub getHttpReqEditClient(String target){
-        return   HttpReqEditBoxAssistGrpc.newBlockingStub(OkHttpChannelBuilder.forTarget(target).usePlaintext().build());
+    public HttpReqEditBoxAssistGrpc.HttpReqEditBoxAssistBlockingStub getHttpReqEditClient(String target) {
+        return HttpReqEditBoxAssistGrpc.newBlockingStub(OkHttpChannelBuilder.forTarget(target).usePlaintext().build());
     }
 
 
     /**
-     * @description: http响应编辑框
-     * @param target:  grpc 地址
+     * @param target: grpc 地址
      * @return BurpGrpc.proto.BurpApiGrpc.HttpResEditBoxAssistGrpc.HttpResEditBoxAssistBlockingStub
+     * @description: http响应编辑框
      * @author: cyvk
      * @date: 2023/6/11 下午6:01
      */
-    public HttpResEditBoxAssistGrpc.HttpResEditBoxAssistBlockingStub getHttpResEditClient(String target){
+    public HttpResEditBoxAssistGrpc.HttpResEditBoxAssistBlockingStub getHttpResEditClient(String target) {
         return HttpResEditBoxAssistGrpc.newBlockingStub(OkHttpChannelBuilder.forTarget(target).usePlaintext().build());
     }
 
 
+    /**
+     * @param tarGet: grpc 地址
+     * @return BurpGrpc.proto.BurpApiGrpc.GetConTextMenuItemsServerGrpc.GetConTextMenuItemsServerBlockingStub
+     * @description: 获取菜单项
+     * @author: cyvk
+     * @date: 2023/6/16 下午4:15
+     */
+    public GetConTextMenuItemsServerGrpc.GetConTextMenuItemsServerBlockingStub getConTextMenuItemsServer(String tarGet) {
+        return GetConTextMenuItemsServerGrpc.newBlockingStub(OkHttpChannelBuilder.forTarget(tarGet).usePlaintext().build());
+    }
+
+
+    /**
+     * @param tarGet: grpc 地址
+     * @return BurpGrpc.proto.BurpApiGrpc.ContextMenuItemsProviderGrpc.ContextMenuItemsProviderBlockingStub
+     * @description: 获取菜单项处理客户端
+     * @author: cyvk
+     * @date: 2023/6/16 下午4:17
+     */
+    public ContextMenuItemsProviderGrpc.ContextMenuItemsProviderBlockingStub getMenuItemsProviderClient(String tarGet) {
+        return ContextMenuItemsProviderGrpc.newBlockingStub(OkHttpChannelBuilder.forTarget(tarGet).usePlaintext().build());
+    }
+
+
+    /**
+     * @param tarGet: grpc 地址
+     * @return BurpGrpc.proto.BurpApiGrpc.ProxyRequestHandlerGrpc.ProxyRequestHandlerBlockingStub
+     * @description: 获取代理请求处理器
+     * @author: cyvk
+     * @date: 2023/6/19 上午11:31
+     */
+    public ProxyRequestHandlerGrpc.ProxyRequestHandlerBlockingStub getProxyRequestHandlerClient(String tarGet) {
+        return ProxyRequestHandlerGrpc.newBlockingStub(OkHttpChannelBuilder.forTarget(tarGet).usePlaintext().build());
+    }
+
+
+    /**
+     * @param tarGet: grpc 地址
+     * @return BurpGrpc.proto.BurpApiGrpc.ProxyResponseHandlerGrpc.ProxyResponseHandlerBlockingStub
+     * @description: 获取代理响应处理器
+     * @author: cyvk
+     * @date: 2023/6/19 下午2:39
+     */
+    public ProxyResponseHandlerGrpc.ProxyResponseHandlerBlockingStub getProxyResponseHandlerClient(String tarGet) {
+        return ProxyResponseHandlerGrpc.newBlockingStub(OkHttpChannelBuilder.forTarget(tarGet).usePlaintext().build());
+    }
+
+
+    /**
+     * @param tarGet: grpc地址
+     * @return BurpGrpc.proto.BurpApiGrpc.HttpRequestHandlerGrpc.HttpRequestHandlerBlockingStub
+     * @description: http 请求流量处理器
+     * @author: cyvk
+     * @date: 2023/6/19 下午5:31
+     */
+    public HttpFlowHandlerGrpc.HttpFlowHandlerBlockingStub getHttpFlowHandlerClient(String tarGet) {
+        return HttpFlowHandlerGrpc.newBlockingStub(OkHttpChannelBuilder.forTarget(tarGet).usePlaintext().build());
+    }
 
 }
 

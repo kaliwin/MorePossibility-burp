@@ -51,4 +51,19 @@ public interface httpReqAndResOrBuilder extends
    * <code>.burpApi.httpInfo info = 3;</code>
    */
   BurpGrpc.proto.BurpApiGrpc.httpInfoOrBuilder getInfoOrBuilder();
+
+  /**
+   * <code>.burpApi.annotationsText annotationsText = 4;</code>
+   * @return Whether the annotationsText field is set.
+   */
+  boolean hasAnnotationsText();
+  /**
+   * <code>.burpApi.annotationsText annotationsText = 4;</code>
+   * @return The annotationsText.
+   */
+  BurpGrpc.proto.BurpApiGrpc.annotationsText getAnnotationsText();
+  /**
+   * <code>.burpApi.annotationsText annotationsText = 4;</code>
+   */
+  BurpGrpc.proto.BurpApiGrpc.annotationsTextOrBuilder getAnnotationsTextOrBuilder();
 }

@@ -1,43 +1,36 @@
+import BurpGrpc.proto.BurpApiGrpc.httpReqData;
+import burp.BurpApiUtensil;
+import org.checkerframework.checker.units.qual.N;
+
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class tmp {
     public static void main(String[] args) {
-        JFrame frame = new JFrame("Menu Demo");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JMenuBar menuBar = new JMenuBar();
 
-        JMenu fileMenu = new JMenu("File");
-        JMenu subMenu = new JMenu("Sub Menu");
 
-        JMenuItem openItem = new JMenuItem("Open");
-        JMenuItem saveItem = new JMenuItem("Save");
 
-        subMenu.add(openItem);
-        fileMenu.add(subMenu);
-        fileMenu.add(saveItem);
+//        BurpApiUtensil.HttpRequestToHttpReqData();
 
-        menuBar.add(fileMenu);
 
-        frame.setJMenuBar(menuBar);
-        frame.setSize(300, 200);
-        frame.setVisible(true);
-
-        // 添加动作监听器
-        openItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Open menu item clicked");
-            }
-        });
-
-        saveItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Save menu item clicked");
-            }
-        });
+//        JFrame frame = new JFrame("JMenuItem Demo");
+//        JMenu menu = new JMenu("Menu");
+//        JMenuItem menuItem = new JMenuItem("cyvk");
+//
+//        // 添加菜单项到菜单
+//        menu.add(menuItem);
+//
+//        // 添加菜单到菜单栏
+//        JMenuBar menuBar = new JMenuBar();
+//        menuBar.add(menu);
+//        frame.setJMenuBar(menuBar);
+//
+//        // 获取菜单项的名称
+//        String itemName = menuItem.getText();
+//        System.out.println("菜单项名称: " + itemName);
+//
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        frame.setSize(300, 200);
+//        frame.setVisible(true);
     }
 }

@@ -40,6 +40,9 @@ public class ManGrpcGUI extends JPanel {
         button1 = new JButton();
         button2 = new JButton();
 
+
+        consoleLog.setEditable(false);
+        pluginLog.setEditable(false);
         //======== this ========
 
         //======== scrollPane1 ========

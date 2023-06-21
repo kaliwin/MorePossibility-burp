@@ -120,6 +120,32 @@ private static final long serialVersionUID = 0L;
     return info_ == null ? BurpGrpc.proto.BurpApiGrpc.httpInfo.getDefaultInstance() : info_;
   }
 
+  public static final int ANNOTATIONSTEXT_FIELD_NUMBER = 4;
+  private BurpGrpc.proto.BurpApiGrpc.annotationsText annotationsText_;
+  /**
+   * <code>.burpApi.annotationsText annotationsText = 4;</code>
+   * @return Whether the annotationsText field is set.
+   */
+  @java.lang.Override
+  public boolean hasAnnotationsText() {
+    return annotationsText_ != null;
+  }
+  /**
+   * <code>.burpApi.annotationsText annotationsText = 4;</code>
+   * @return The annotationsText.
+   */
+  @java.lang.Override
+  public BurpGrpc.proto.BurpApiGrpc.annotationsText getAnnotationsText() {
+    return annotationsText_ == null ? BurpGrpc.proto.BurpApiGrpc.annotationsText.getDefaultInstance() : annotationsText_;
+  }
+  /**
+   * <code>.burpApi.annotationsText annotationsText = 4;</code>
+   */
+  @java.lang.Override
+  public BurpGrpc.proto.BurpApiGrpc.annotationsTextOrBuilder getAnnotationsTextOrBuilder() {
+    return annotationsText_ == null ? BurpGrpc.proto.BurpApiGrpc.annotationsText.getDefaultInstance() : annotationsText_;
+  }
+
   private byte memoizedIsInitialized = -1;
   @java.lang.Override
   public final boolean isInitialized() {
@@ -143,6 +169,9 @@ private static final long serialVersionUID = 0L;
     if (info_ != null) {
       output.writeMessage(3, getInfo());
     }
+    if (annotationsText_ != null) {
+      output.writeMessage(4, getAnnotationsText());
+    }
     getUnknownFields().writeTo(output);
   }
 
@@ -163,6 +192,10 @@ private static final long serialVersionUID = 0L;
     if (info_ != null) {
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(3, getInfo());
+    }
+    if (annotationsText_ != null) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(4, getAnnotationsText());
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSize = size;
@@ -194,6 +227,11 @@ private static final long serialVersionUID = 0L;
       if (!getInfo()
           .equals(other.getInfo())) return false;
     }
+    if (hasAnnotationsText() != other.hasAnnotationsText()) return false;
+    if (hasAnnotationsText()) {
+      if (!getAnnotationsText()
+          .equals(other.getAnnotationsText())) return false;
+    }
     if (!getUnknownFields().equals(other.getUnknownFields())) return false;
     return true;
   }
@@ -216,6 +254,10 @@ private static final long serialVersionUID = 0L;
     if (hasInfo()) {
       hash = (37 * hash) + INFO_FIELD_NUMBER;
       hash = (53 * hash) + getInfo().hashCode();
+    }
+    if (hasAnnotationsText()) {
+      hash = (37 * hash) + ANNOTATIONSTEXT_FIELD_NUMBER;
+      hash = (53 * hash) + getAnnotationsText().hashCode();
     }
     hash = (29 * hash) + getUnknownFields().hashCode();
     memoizedHashCode = hash;
@@ -365,6 +407,11 @@ private static final long serialVersionUID = 0L;
         infoBuilder_.dispose();
         infoBuilder_ = null;
       }
+      annotationsText_ = null;
+      if (annotationsTextBuilder_ != null) {
+        annotationsTextBuilder_.dispose();
+        annotationsTextBuilder_ = null;
+      }
       return this;
     }
 
@@ -413,6 +460,11 @@ private static final long serialVersionUID = 0L;
             ? info_
             : infoBuilder_.build();
       }
+      if (((from_bitField0_ & 0x00000008) != 0)) {
+        result.annotationsText_ = annotationsTextBuilder_ == null
+            ? annotationsText_
+            : annotationsTextBuilder_.build();
+      }
     }
 
     @java.lang.Override
@@ -435,6 +487,9 @@ private static final long serialVersionUID = 0L;
       }
       if (other.hasInfo()) {
         mergeInfo(other.getInfo());
+      }
+      if (other.hasAnnotationsText()) {
+        mergeAnnotationsText(other.getAnnotationsText());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       onChanged();
@@ -483,6 +538,13 @@ private static final long serialVersionUID = 0L;
               bitField0_ |= 0x00000004;
               break;
             } // case 26
+            case 34: {
+              input.readMessage(
+                  getAnnotationsTextFieldBuilder().getBuilder(),
+                  extensionRegistry);
+              bitField0_ |= 0x00000008;
+              break;
+            } // case 34
             default: {
               if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                 done = true; // was an endgroup tag
@@ -855,6 +917,125 @@ private static final long serialVersionUID = 0L;
         info_ = null;
       }
       return infoBuilder_;
+    }
+
+    private BurpGrpc.proto.BurpApiGrpc.annotationsText annotationsText_;
+    private com.google.protobuf.SingleFieldBuilderV3<
+        BurpGrpc.proto.BurpApiGrpc.annotationsText, BurpGrpc.proto.BurpApiGrpc.annotationsText.Builder, BurpGrpc.proto.BurpApiGrpc.annotationsTextOrBuilder> annotationsTextBuilder_;
+    /**
+     * <code>.burpApi.annotationsText annotationsText = 4;</code>
+     * @return Whether the annotationsText field is set.
+     */
+    public boolean hasAnnotationsText() {
+      return ((bitField0_ & 0x00000008) != 0);
+    }
+    /**
+     * <code>.burpApi.annotationsText annotationsText = 4;</code>
+     * @return The annotationsText.
+     */
+    public BurpGrpc.proto.BurpApiGrpc.annotationsText getAnnotationsText() {
+      if (annotationsTextBuilder_ == null) {
+        return annotationsText_ == null ? BurpGrpc.proto.BurpApiGrpc.annotationsText.getDefaultInstance() : annotationsText_;
+      } else {
+        return annotationsTextBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>.burpApi.annotationsText annotationsText = 4;</code>
+     */
+    public Builder setAnnotationsText(BurpGrpc.proto.BurpApiGrpc.annotationsText value) {
+      if (annotationsTextBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        annotationsText_ = value;
+      } else {
+        annotationsTextBuilder_.setMessage(value);
+      }
+      bitField0_ |= 0x00000008;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>.burpApi.annotationsText annotationsText = 4;</code>
+     */
+    public Builder setAnnotationsText(
+        BurpGrpc.proto.BurpApiGrpc.annotationsText.Builder builderForValue) {
+      if (annotationsTextBuilder_ == null) {
+        annotationsText_ = builderForValue.build();
+      } else {
+        annotationsTextBuilder_.setMessage(builderForValue.build());
+      }
+      bitField0_ |= 0x00000008;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>.burpApi.annotationsText annotationsText = 4;</code>
+     */
+    public Builder mergeAnnotationsText(BurpGrpc.proto.BurpApiGrpc.annotationsText value) {
+      if (annotationsTextBuilder_ == null) {
+        if (((bitField0_ & 0x00000008) != 0) &&
+          annotationsText_ != null &&
+          annotationsText_ != BurpGrpc.proto.BurpApiGrpc.annotationsText.getDefaultInstance()) {
+          getAnnotationsTextBuilder().mergeFrom(value);
+        } else {
+          annotationsText_ = value;
+        }
+      } else {
+        annotationsTextBuilder_.mergeFrom(value);
+      }
+      bitField0_ |= 0x00000008;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>.burpApi.annotationsText annotationsText = 4;</code>
+     */
+    public Builder clearAnnotationsText() {
+      bitField0_ = (bitField0_ & ~0x00000008);
+      annotationsText_ = null;
+      if (annotationsTextBuilder_ != null) {
+        annotationsTextBuilder_.dispose();
+        annotationsTextBuilder_ = null;
+      }
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>.burpApi.annotationsText annotationsText = 4;</code>
+     */
+    public BurpGrpc.proto.BurpApiGrpc.annotationsText.Builder getAnnotationsTextBuilder() {
+      bitField0_ |= 0x00000008;
+      onChanged();
+      return getAnnotationsTextFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>.burpApi.annotationsText annotationsText = 4;</code>
+     */
+    public BurpGrpc.proto.BurpApiGrpc.annotationsTextOrBuilder getAnnotationsTextOrBuilder() {
+      if (annotationsTextBuilder_ != null) {
+        return annotationsTextBuilder_.getMessageOrBuilder();
+      } else {
+        return annotationsText_ == null ?
+            BurpGrpc.proto.BurpApiGrpc.annotationsText.getDefaultInstance() : annotationsText_;
+      }
+    }
+    /**
+     * <code>.burpApi.annotationsText annotationsText = 4;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        BurpGrpc.proto.BurpApiGrpc.annotationsText, BurpGrpc.proto.BurpApiGrpc.annotationsText.Builder, BurpGrpc.proto.BurpApiGrpc.annotationsTextOrBuilder> 
+        getAnnotationsTextFieldBuilder() {
+      if (annotationsTextBuilder_ == null) {
+        annotationsTextBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            BurpGrpc.proto.BurpApiGrpc.annotationsText, BurpGrpc.proto.BurpApiGrpc.annotationsText.Builder, BurpGrpc.proto.BurpApiGrpc.annotationsTextOrBuilder>(
+                getAnnotationsText(),
+                getParentForChildren(),
+                isClean());
+        annotationsText_ = null;
+      }
+      return annotationsTextBuilder_;
     }
     @java.lang.Override
     public final Builder setUnknownFields(

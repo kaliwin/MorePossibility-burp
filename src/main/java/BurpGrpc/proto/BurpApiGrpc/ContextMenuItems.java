@@ -49,7 +49,7 @@ private static final long serialVersionUID = 0L;
   private volatile java.lang.Object name_ = "";
   /**
    * <pre>
-   * 名称
+   *名称
    * </pre>
    *
    * <code>string name = 3;</code>
@@ -70,7 +70,7 @@ private static final long serialVersionUID = 0L;
   }
   /**
    * <pre>
-   * 名称
+   *名称
    * </pre>
    *
    * <code>string name = 3;</code>
@@ -89,6 +89,21 @@ private static final long serialVersionUID = 0L;
     } else {
       return (com.google.protobuf.ByteString) ref;
     }
+  }
+
+  public static final int ISSELECT_FIELD_NUMBER = 4;
+  private boolean isSelect_ = false;
+  /**
+   * <pre>
+   * 是否有选中的数据
+   * </pre>
+   *
+   * <code>bool isSelect = 4;</code>
+   * @return The isSelect.
+   */
+  @java.lang.Override
+  public boolean getIsSelect() {
+    return isSelect_;
   }
 
   public static final int HTTPREQANDRES_FIELD_NUMBER = 1;
@@ -167,6 +182,9 @@ private static final long serialVersionUID = 0L;
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(name_)) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 3, name_);
     }
+    if (isSelect_ != false) {
+      output.writeBool(4, isSelect_);
+    }
     getUnknownFields().writeTo(output);
   }
 
@@ -187,6 +205,10 @@ private static final long serialVersionUID = 0L;
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(name_)) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, name_);
     }
+    if (isSelect_ != false) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeBoolSize(4, isSelect_);
+    }
     size += getUnknownFields().getSerializedSize();
     memoizedSize = size;
     return size;
@@ -204,6 +226,8 @@ private static final long serialVersionUID = 0L;
 
     if (!getName()
         .equals(other.getName())) return false;
+    if (getIsSelect()
+        != other.getIsSelect()) return false;
     if (hasHttpReqAndRes() != other.hasHttpReqAndRes()) return false;
     if (hasHttpReqAndRes()) {
       if (!getHttpReqAndRes()
@@ -224,6 +248,9 @@ private static final long serialVersionUID = 0L;
     hash = (19 * hash) + getDescriptor().hashCode();
     hash = (37 * hash) + NAME_FIELD_NUMBER;
     hash = (53 * hash) + getName().hashCode();
+    hash = (37 * hash) + ISSELECT_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+        getIsSelect());
     if (hasHttpReqAndRes()) {
       hash = (37 * hash) + HTTPREQANDRES_FIELD_NUMBER;
       hash = (53 * hash) + getHttpReqAndRes().hashCode();
@@ -364,6 +391,7 @@ private static final long serialVersionUID = 0L;
       super.clear();
       bitField0_ = 0;
       name_ = "";
+      isSelect_ = false;
       httpReqAndRes_ = null;
       if (httpReqAndResBuilder_ != null) {
         httpReqAndResBuilder_.dispose();
@@ -407,11 +435,14 @@ private static final long serialVersionUID = 0L;
         result.name_ = name_;
       }
       if (((from_bitField0_ & 0x00000002) != 0)) {
+        result.isSelect_ = isSelect_;
+      }
+      if (((from_bitField0_ & 0x00000004) != 0)) {
         result.httpReqAndRes_ = httpReqAndResBuilder_ == null
             ? httpReqAndRes_
             : httpReqAndResBuilder_.build();
       }
-      if (((from_bitField0_ & 0x00000004) != 0)) {
+      if (((from_bitField0_ & 0x00000008) != 0)) {
         result.selectData_ = selectData_;
       }
     }
@@ -432,6 +463,9 @@ private static final long serialVersionUID = 0L;
         name_ = other.name_;
         bitField0_ |= 0x00000001;
         onChanged();
+      }
+      if (other.getIsSelect() != false) {
+        setIsSelect(other.getIsSelect());
       }
       if (other.hasHttpReqAndRes()) {
         mergeHttpReqAndRes(other.getHttpReqAndRes());
@@ -469,12 +503,12 @@ private static final long serialVersionUID = 0L;
               input.readMessage(
                   getHttpReqAndResFieldBuilder().getBuilder(),
                   extensionRegistry);
-              bitField0_ |= 0x00000002;
+              bitField0_ |= 0x00000004;
               break;
             } // case 10
             case 18: {
               selectData_ = input.readBytes();
-              bitField0_ |= 0x00000004;
+              bitField0_ |= 0x00000008;
               break;
             } // case 18
             case 26: {
@@ -482,6 +516,11 @@ private static final long serialVersionUID = 0L;
               bitField0_ |= 0x00000001;
               break;
             } // case 26
+            case 32: {
+              isSelect_ = input.readBool();
+              bitField0_ |= 0x00000002;
+              break;
+            } // case 32
             default: {
               if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                 done = true; // was an endgroup tag
@@ -502,7 +541,7 @@ private static final long serialVersionUID = 0L;
     private java.lang.Object name_ = "";
     /**
      * <pre>
-     * 名称
+     *名称
      * </pre>
      *
      * <code>string name = 3;</code>
@@ -522,7 +561,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * 名称
+     *名称
      * </pre>
      *
      * <code>string name = 3;</code>
@@ -543,7 +582,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * 名称
+     *名称
      * </pre>
      *
      * <code>string name = 3;</code>
@@ -560,7 +599,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * 名称
+     *名称
      * </pre>
      *
      * <code>string name = 3;</code>
@@ -574,7 +613,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * 名称
+     *名称
      * </pre>
      *
      * <code>string name = 3;</code>
@@ -591,6 +630,50 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
+    private boolean isSelect_ ;
+    /**
+     * <pre>
+     * 是否有选中的数据
+     * </pre>
+     *
+     * <code>bool isSelect = 4;</code>
+     * @return The isSelect.
+     */
+    @java.lang.Override
+    public boolean getIsSelect() {
+      return isSelect_;
+    }
+    /**
+     * <pre>
+     * 是否有选中的数据
+     * </pre>
+     *
+     * <code>bool isSelect = 4;</code>
+     * @param value The isSelect to set.
+     * @return This builder for chaining.
+     */
+    public Builder setIsSelect(boolean value) {
+
+      isSelect_ = value;
+      bitField0_ |= 0x00000002;
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * 是否有选中的数据
+     * </pre>
+     *
+     * <code>bool isSelect = 4;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearIsSelect() {
+      bitField0_ = (bitField0_ & ~0x00000002);
+      isSelect_ = false;
+      onChanged();
+      return this;
+    }
+
     private BurpGrpc.proto.BurpApiGrpc.httpReqAndRes httpReqAndRes_;
     private com.google.protobuf.SingleFieldBuilderV3<
         BurpGrpc.proto.BurpApiGrpc.httpReqAndRes, BurpGrpc.proto.BurpApiGrpc.httpReqAndRes.Builder, BurpGrpc.proto.BurpApiGrpc.httpReqAndResOrBuilder> httpReqAndResBuilder_;
@@ -603,7 +686,7 @@ private static final long serialVersionUID = 0L;
      * @return Whether the httpReqAndRes field is set.
      */
     public boolean hasHttpReqAndRes() {
-      return ((bitField0_ & 0x00000002) != 0);
+      return ((bitField0_ & 0x00000004) != 0);
     }
     /**
      * <pre>
@@ -636,7 +719,7 @@ private static final long serialVersionUID = 0L;
       } else {
         httpReqAndResBuilder_.setMessage(value);
       }
-      bitField0_ |= 0x00000002;
+      bitField0_ |= 0x00000004;
       onChanged();
       return this;
     }
@@ -654,7 +737,7 @@ private static final long serialVersionUID = 0L;
       } else {
         httpReqAndResBuilder_.setMessage(builderForValue.build());
       }
-      bitField0_ |= 0x00000002;
+      bitField0_ |= 0x00000004;
       onChanged();
       return this;
     }
@@ -667,7 +750,7 @@ private static final long serialVersionUID = 0L;
      */
     public Builder mergeHttpReqAndRes(BurpGrpc.proto.BurpApiGrpc.httpReqAndRes value) {
       if (httpReqAndResBuilder_ == null) {
-        if (((bitField0_ & 0x00000002) != 0) &&
+        if (((bitField0_ & 0x00000004) != 0) &&
           httpReqAndRes_ != null &&
           httpReqAndRes_ != BurpGrpc.proto.BurpApiGrpc.httpReqAndRes.getDefaultInstance()) {
           getHttpReqAndResBuilder().mergeFrom(value);
@@ -677,7 +760,7 @@ private static final long serialVersionUID = 0L;
       } else {
         httpReqAndResBuilder_.mergeFrom(value);
       }
-      bitField0_ |= 0x00000002;
+      bitField0_ |= 0x00000004;
       onChanged();
       return this;
     }
@@ -689,7 +772,7 @@ private static final long serialVersionUID = 0L;
      * <code>.burpApi.httpReqAndRes httpReqAndRes = 1;</code>
      */
     public Builder clearHttpReqAndRes() {
-      bitField0_ = (bitField0_ & ~0x00000002);
+      bitField0_ = (bitField0_ & ~0x00000004);
       httpReqAndRes_ = null;
       if (httpReqAndResBuilder_ != null) {
         httpReqAndResBuilder_.dispose();
@@ -706,7 +789,7 @@ private static final long serialVersionUID = 0L;
      * <code>.burpApi.httpReqAndRes httpReqAndRes = 1;</code>
      */
     public BurpGrpc.proto.BurpApiGrpc.httpReqAndRes.Builder getHttpReqAndResBuilder() {
-      bitField0_ |= 0x00000002;
+      bitField0_ |= 0x00000004;
       onChanged();
       return getHttpReqAndResFieldBuilder().getBuilder();
     }
@@ -771,7 +854,7 @@ private static final long serialVersionUID = 0L;
     public Builder setSelectData(com.google.protobuf.ByteString value) {
       if (value == null) { throw new NullPointerException(); }
       selectData_ = value;
-      bitField0_ |= 0x00000004;
+      bitField0_ |= 0x00000008;
       onChanged();
       return this;
     }
@@ -784,7 +867,7 @@ private static final long serialVersionUID = 0L;
      * @return This builder for chaining.
      */
     public Builder clearSelectData() {
-      bitField0_ = (bitField0_ & ~0x00000004);
+      bitField0_ = (bitField0_ & ~0x00000008);
       selectData_ = getDefaultInstance().getSelectData();
       onChanged();
       return this;

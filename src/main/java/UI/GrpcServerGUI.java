@@ -40,8 +40,6 @@ public class GrpcServerGUI extends JPanel {
                 pluginLog.append(selectedData+": "+name+" 注册失败 已存在相同名字的服务"+"\n");
             }
         }
-
-
 //        tableModel.addRow(new Object[]{selectedData, target, name});
         textField1.setText("");
         textField2.setText("");

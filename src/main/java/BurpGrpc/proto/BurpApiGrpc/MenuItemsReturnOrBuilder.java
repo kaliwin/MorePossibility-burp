@@ -18,10 +18,6 @@ public interface MenuItemsReturnOrBuilder extends
   boolean getIsReviseReq();
 
   /**
-   * <pre>
-   * 修改响应
-   * </pre>
-   *
    * <code>bool IsReviseRes = 2;</code>
    * @return The isReviseRes.
    */
@@ -32,52 +28,18 @@ public interface MenuItemsReturnOrBuilder extends
    * 请求数据用于覆盖burp 请求   用于修改 http编辑框
    * </pre>
    *
-   * <code>.burpApi.httpReqData ReqData = 3;</code>
-   * @return Whether the reqData field is set.
-   */
-  boolean hasReqData();
-  /**
-   * <pre>
-   * 请求数据用于覆盖burp 请求   用于修改 http编辑框
-   * </pre>
-   *
-   * <code>.burpApi.httpReqData ReqData = 3;</code>
+   * <code>bytes ReqData = 3;</code>
    * @return The reqData.
    */
-  BurpGrpc.proto.BurpApiGrpc.httpReqData getReqData();
-  /**
-   * <pre>
-   * 请求数据用于覆盖burp 请求   用于修改 http编辑框
-   * </pre>
-   *
-   * <code>.burpApi.httpReqData ReqData = 3;</code>
-   */
-  BurpGrpc.proto.BurpApiGrpc.httpReqDataOrBuilder getReqDataOrBuilder();
+  com.google.protobuf.ByteString getReqData();
 
   /**
    * <pre>
-   * 响应数据用于覆盖burp 响应
+   * 请求数据用于覆盖burp 请求   用于修改 http编辑框
    * </pre>
    *
-   * <code>.burpApi.httpResData ResData = 4;</code>
-   * @return Whether the resData field is set.
-   */
-  boolean hasResData();
-  /**
-   * <pre>
-   * 响应数据用于覆盖burp 响应
-   * </pre>
-   *
-   * <code>.burpApi.httpResData ResData = 4;</code>
+   * <code>bytes ResData = 4;</code>
    * @return The resData.
    */
-  BurpGrpc.proto.BurpApiGrpc.httpResData getResData();
-  /**
-   * <pre>
-   * 响应数据用于覆盖burp 响应
-   * </pre>
-   *
-   * <code>.burpApi.httpResData ResData = 4;</code>
-   */
-  BurpGrpc.proto.BurpApiGrpc.httpResDataOrBuilder getResDataOrBuilder();
+  com.google.protobuf.ByteString getResData();
 }

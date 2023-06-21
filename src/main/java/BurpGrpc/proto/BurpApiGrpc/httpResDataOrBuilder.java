@@ -36,4 +36,16 @@ public interface httpResDataOrBuilder extends
    * @return The bodyIndex.
    */
   long getBodyIndex();
+
+  /**
+   * <code>string httpVersion = 5;</code>
+   * @return The httpVersion.
+   */
+  java.lang.String getHttpVersion();
+  /**
+   * <code>string httpVersion = 5;</code>
+   * @return The bytes for httpVersion.
+   */
+  com.google.protobuf.ByteString
+      getHttpVersionBytes();
 }

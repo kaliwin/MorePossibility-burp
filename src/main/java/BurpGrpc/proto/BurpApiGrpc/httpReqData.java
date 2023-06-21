@@ -169,6 +169,44 @@ private static final long serialVersionUID = 0L;
     }
   }
 
+  public static final int HTTPREQSERVICE_FIELD_NUMBER = 5;
+  private BurpGrpc.proto.BurpApiGrpc.httpReqService httpReqService_;
+  /**
+   * <pre>
+   * 目标信息
+   * </pre>
+   *
+   * <code>.burpApi.httpReqService httpReqService = 5;</code>
+   * @return Whether the httpReqService field is set.
+   */
+  @java.lang.Override
+  public boolean hasHttpReqService() {
+    return httpReqService_ != null;
+  }
+  /**
+   * <pre>
+   * 目标信息
+   * </pre>
+   *
+   * <code>.burpApi.httpReqService httpReqService = 5;</code>
+   * @return The httpReqService.
+   */
+  @java.lang.Override
+  public BurpGrpc.proto.BurpApiGrpc.httpReqService getHttpReqService() {
+    return httpReqService_ == null ? BurpGrpc.proto.BurpApiGrpc.httpReqService.getDefaultInstance() : httpReqService_;
+  }
+  /**
+   * <pre>
+   * 目标信息
+   * </pre>
+   *
+   * <code>.burpApi.httpReqService httpReqService = 5;</code>
+   */
+  @java.lang.Override
+  public BurpGrpc.proto.BurpApiGrpc.httpReqServiceOrBuilder getHttpReqServiceOrBuilder() {
+    return httpReqService_ == null ? BurpGrpc.proto.BurpApiGrpc.httpReqService.getDefaultInstance() : httpReqService_;
+  }
+
   private byte memoizedIsInitialized = -1;
   @java.lang.Override
   public final boolean isInitialized() {
@@ -195,6 +233,9 @@ private static final long serialVersionUID = 0L;
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(httpVersion_)) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 4, httpVersion_);
     }
+    if (httpReqService_ != null) {
+      output.writeMessage(5, getHttpReqService());
+    }
     getUnknownFields().writeTo(output);
   }
 
@@ -217,6 +258,10 @@ private static final long serialVersionUID = 0L;
     }
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(httpVersion_)) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, httpVersion_);
+    }
+    if (httpReqService_ != null) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(5, getHttpReqService());
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSize = size;
@@ -241,6 +286,11 @@ private static final long serialVersionUID = 0L;
         != other.getBodyIndex()) return false;
     if (!getHttpVersion()
         .equals(other.getHttpVersion())) return false;
+    if (hasHttpReqService() != other.hasHttpReqService()) return false;
+    if (hasHttpReqService()) {
+      if (!getHttpReqService()
+          .equals(other.getHttpReqService())) return false;
+    }
     if (!getUnknownFields().equals(other.getUnknownFields())) return false;
     return true;
   }
@@ -261,6 +311,10 @@ private static final long serialVersionUID = 0L;
         getBodyIndex());
     hash = (37 * hash) + HTTPVERSION_FIELD_NUMBER;
     hash = (53 * hash) + getHttpVersion().hashCode();
+    if (hasHttpReqService()) {
+      hash = (37 * hash) + HTTPREQSERVICE_FIELD_NUMBER;
+      hash = (53 * hash) + getHttpReqService().hashCode();
+    }
     hash = (29 * hash) + getUnknownFields().hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -398,6 +452,11 @@ private static final long serialVersionUID = 0L;
       url_ = "";
       bodyIndex_ = 0L;
       httpVersion_ = "";
+      httpReqService_ = null;
+      if (httpReqServiceBuilder_ != null) {
+        httpReqServiceBuilder_.dispose();
+        httpReqServiceBuilder_ = null;
+      }
       return this;
     }
 
@@ -443,6 +502,11 @@ private static final long serialVersionUID = 0L;
       if (((from_bitField0_ & 0x00000008) != 0)) {
         result.httpVersion_ = httpVersion_;
       }
+      if (((from_bitField0_ & 0x00000010) != 0)) {
+        result.httpReqService_ = httpReqServiceBuilder_ == null
+            ? httpReqService_
+            : httpReqServiceBuilder_.build();
+      }
     }
 
     @java.lang.Override
@@ -472,6 +536,9 @@ private static final long serialVersionUID = 0L;
         httpVersion_ = other.httpVersion_;
         bitField0_ |= 0x00000008;
         onChanged();
+      }
+      if (other.hasHttpReqService()) {
+        mergeHttpReqService(other.getHttpReqService());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       onChanged();
@@ -519,6 +586,13 @@ private static final long serialVersionUID = 0L;
               bitField0_ |= 0x00000008;
               break;
             } // case 34
+            case 42: {
+              input.readMessage(
+                  getHttpReqServiceFieldBuilder().getBuilder(),
+                  extensionRegistry);
+              bitField0_ |= 0x00000010;
+              break;
+            } // case 42
             default: {
               if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                 done = true; // was an endgroup tag
@@ -806,6 +880,161 @@ private static final long serialVersionUID = 0L;
       bitField0_ |= 0x00000008;
       onChanged();
       return this;
+    }
+
+    private BurpGrpc.proto.BurpApiGrpc.httpReqService httpReqService_;
+    private com.google.protobuf.SingleFieldBuilderV3<
+        BurpGrpc.proto.BurpApiGrpc.httpReqService, BurpGrpc.proto.BurpApiGrpc.httpReqService.Builder, BurpGrpc.proto.BurpApiGrpc.httpReqServiceOrBuilder> httpReqServiceBuilder_;
+    /**
+     * <pre>
+     * 目标信息
+     * </pre>
+     *
+     * <code>.burpApi.httpReqService httpReqService = 5;</code>
+     * @return Whether the httpReqService field is set.
+     */
+    public boolean hasHttpReqService() {
+      return ((bitField0_ & 0x00000010) != 0);
+    }
+    /**
+     * <pre>
+     * 目标信息
+     * </pre>
+     *
+     * <code>.burpApi.httpReqService httpReqService = 5;</code>
+     * @return The httpReqService.
+     */
+    public BurpGrpc.proto.BurpApiGrpc.httpReqService getHttpReqService() {
+      if (httpReqServiceBuilder_ == null) {
+        return httpReqService_ == null ? BurpGrpc.proto.BurpApiGrpc.httpReqService.getDefaultInstance() : httpReqService_;
+      } else {
+        return httpReqServiceBuilder_.getMessage();
+      }
+    }
+    /**
+     * <pre>
+     * 目标信息
+     * </pre>
+     *
+     * <code>.burpApi.httpReqService httpReqService = 5;</code>
+     */
+    public Builder setHttpReqService(BurpGrpc.proto.BurpApiGrpc.httpReqService value) {
+      if (httpReqServiceBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        httpReqService_ = value;
+      } else {
+        httpReqServiceBuilder_.setMessage(value);
+      }
+      bitField0_ |= 0x00000010;
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * 目标信息
+     * </pre>
+     *
+     * <code>.burpApi.httpReqService httpReqService = 5;</code>
+     */
+    public Builder setHttpReqService(
+        BurpGrpc.proto.BurpApiGrpc.httpReqService.Builder builderForValue) {
+      if (httpReqServiceBuilder_ == null) {
+        httpReqService_ = builderForValue.build();
+      } else {
+        httpReqServiceBuilder_.setMessage(builderForValue.build());
+      }
+      bitField0_ |= 0x00000010;
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * 目标信息
+     * </pre>
+     *
+     * <code>.burpApi.httpReqService httpReqService = 5;</code>
+     */
+    public Builder mergeHttpReqService(BurpGrpc.proto.BurpApiGrpc.httpReqService value) {
+      if (httpReqServiceBuilder_ == null) {
+        if (((bitField0_ & 0x00000010) != 0) &&
+          httpReqService_ != null &&
+          httpReqService_ != BurpGrpc.proto.BurpApiGrpc.httpReqService.getDefaultInstance()) {
+          getHttpReqServiceBuilder().mergeFrom(value);
+        } else {
+          httpReqService_ = value;
+        }
+      } else {
+        httpReqServiceBuilder_.mergeFrom(value);
+      }
+      bitField0_ |= 0x00000010;
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * 目标信息
+     * </pre>
+     *
+     * <code>.burpApi.httpReqService httpReqService = 5;</code>
+     */
+    public Builder clearHttpReqService() {
+      bitField0_ = (bitField0_ & ~0x00000010);
+      httpReqService_ = null;
+      if (httpReqServiceBuilder_ != null) {
+        httpReqServiceBuilder_.dispose();
+        httpReqServiceBuilder_ = null;
+      }
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * 目标信息
+     * </pre>
+     *
+     * <code>.burpApi.httpReqService httpReqService = 5;</code>
+     */
+    public BurpGrpc.proto.BurpApiGrpc.httpReqService.Builder getHttpReqServiceBuilder() {
+      bitField0_ |= 0x00000010;
+      onChanged();
+      return getHttpReqServiceFieldBuilder().getBuilder();
+    }
+    /**
+     * <pre>
+     * 目标信息
+     * </pre>
+     *
+     * <code>.burpApi.httpReqService httpReqService = 5;</code>
+     */
+    public BurpGrpc.proto.BurpApiGrpc.httpReqServiceOrBuilder getHttpReqServiceOrBuilder() {
+      if (httpReqServiceBuilder_ != null) {
+        return httpReqServiceBuilder_.getMessageOrBuilder();
+      } else {
+        return httpReqService_ == null ?
+            BurpGrpc.proto.BurpApiGrpc.httpReqService.getDefaultInstance() : httpReqService_;
+      }
+    }
+    /**
+     * <pre>
+     * 目标信息
+     * </pre>
+     *
+     * <code>.burpApi.httpReqService httpReqService = 5;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        BurpGrpc.proto.BurpApiGrpc.httpReqService, BurpGrpc.proto.BurpApiGrpc.httpReqService.Builder, BurpGrpc.proto.BurpApiGrpc.httpReqServiceOrBuilder> 
+        getHttpReqServiceFieldBuilder() {
+      if (httpReqServiceBuilder_ == null) {
+        httpReqServiceBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            BurpGrpc.proto.BurpApiGrpc.httpReqService, BurpGrpc.proto.BurpApiGrpc.httpReqService.Builder, BurpGrpc.proto.BurpApiGrpc.httpReqServiceOrBuilder>(
+                getHttpReqService(),
+                getParentForChildren(),
+                isClean());
+        httpReqService_ = null;
+      }
+      return httpReqServiceBuilder_;
     }
     @java.lang.Override
     public final Builder setUnknownFields(

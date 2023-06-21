@@ -13,7 +13,7 @@ public class ManGUI extends JTabbedPane {
     public ManGUI() {
 
         // 创建第一个面板
-        JPanel panel1 = new ManGrpcGUI();
+        JPanel panel1 = new Hu();
 //        panel1.add(new JLabel("这是面板 1"));
         addTab("服务注册面板", panel1);
 
