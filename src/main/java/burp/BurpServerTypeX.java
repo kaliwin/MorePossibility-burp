@@ -15,7 +15,7 @@ public enum BurpServerTypeX {
     CONTEXT_MENU_ITEMS_PROVIDER ,   // 上下文菜单提供程序
     PROXY_REQUEST_HANDLER ,         // 代理请求处理器
     PROXY_RESPONSE_HANDLER,         // 代理响应处理器
-    HTTP_REQUEST_HANDLER,           // http请求处理器
-    HTTP_RESPONSE_HANDLER           // http响应处理器
+    HTTP_FLOW_HANDLER,           // http请求处理器
+//    HTTP_RESPONSE_HANDLER           // http响应处理器
 
 }

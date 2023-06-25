@@ -7,6 +7,9 @@ option java_outer_classname = "BurpApi";              //类名
 option objc_class_prefix = "HLW";                     //生成前缀 未知用法
 option go_package = "/BurpApi";                        //go 实例包名路径
 
+//import "google/api/annotations.proto";
+
+
 //包名 服务名称 用于http2路由
 package burpApi;
 
@@ -27,33 +30,40 @@ service BurpServer{
     */
   rpc RealTimeTrafficMirroring(stream httpReqAndRes) returns (Str){}
 
-  //  // 迭代器载荷处理
-  //  rpc IntruderPayloadProcessor(ByteData)returns(ByteData){}
-  //
-  //  // 迭代器载荷生成
-  //  rpc IntruderPayloadGeneratorProvider(IntruderGeneratorData) returns (ByteData){}
-
   // 注册服务
   // 服务注册 主动向burp发起请求进行注册服务
-  rpc RegisterServer(Str) returns (Status){}
+//  rpc RegisterServer(serviceRegisterRouting) returns (processingStatus){}
+
+  // 服务注册列表 包含多个服务  多个服务其中有一个注册失败不会影响到已经成功的 只要有一个失败便会返回false
+  rpc RegisterServerList(serviceRegisterRoutingList) returns (processingStatus){}
+
 }
+
+//  注册服务路由列表
+service RegisterServerRoutingList{
+  rpc RegisterServerList(Str) returns (serviceRegisterRoutingList);  // 一建注册服务
+}
+
 
 // 侦查服务
 service ScoutServer {
   // 添加http编辑器加解密键值对 参数为http编辑组件名称以及key、value
-  rpc addHttpEditorEncryptAndDecryptKeyValue(httpEditorKeyValue)returns(Status){}
+  rpc addHttpEditorEncryptAndDecryptKeyValue(httpEditorKeyValue)returns(processingStatus){}
 
   rpc AddHttpKeyValuePair(httpKeyValuePair) returns(Boole){}   //添加http键值对
 
 }
 
 // 迭代器服务, 两个函数 处理器和生成器,用于引入第三方程序
-service IntruderServer {
+service IntruderPayloadProcessorServer {
   // 迭代器载荷处理
   rpc IntruderPayloadProcessor(ByteData)returns(ByteData){}
+}
 
+// 迭代器 生成器
+service IntruderPayloadGeneratorServer{
   // 迭代器载荷生成, 服务端流 流终止就为生成结束
-  rpc IntruderPayloadGeneratorProvider(IntruderGeneratorData) returns (ByteData){}
+  rpc IntruderPayloadGeneratorProvider(IntruderGeneratorData) returns (PayloadGeneratorResult){}
 }
 
 
@@ -77,7 +87,7 @@ service ContextMenuItemsProvider{
 }
 
 
-// 获取上下文菜单项服务器
+// 获取上下文菜单项服务器  发送菜单项的名字
 service GetConTextMenuItemsServer {
   rpc GetConTextMenuItems(Str)returns(MenuInfo){}
 }
@@ -99,10 +109,11 @@ service HttpFlowHandler{
   rpc HttpHandleResponseReceived(httpReqAndRes) returns(HttpResponseAction){}
 }
 
-//// http 响应处理器
-//service HttpResponseHandler{
-//
-//}
+// 下标的偏移量 用于在字节流中定位准确数据
+message SubscriptOffsets{
+  int64 startIndex = 1; // 开始下标
+  int64 endIndex = 2;   // 结束下标
+}
 
 
 // http请求操作
@@ -196,18 +207,33 @@ message MenuItem{
 
 // 上下文处理器 , 提供 一组请求响应 和选中的数据
 message ContextMenuItems{
-  string  name = 3;                  //名称
-  bool isSelect = 4;                // 是否有选中的数据
-  httpReqAndRes httpReqAndRes = 1;  // 一组请求和响应
-  bytes selectData = 2;             // 用户选中的数据
+  string  name = 1;                  //名称
+  bool isSelect = 2;                 // 是否有选中的数据
+  HttpSource selectSource = 3;       // 选中来源 只有选中数据才能知道从哪点的
+  httpReqAndRes httpReqAndRes = 4;   // 一组请求和响应
+  bytes selectData = 5;              // 用户选中的数据
+  SubscriptOffsets selectOffsets = 6; // 选中的下标偏移量
+}
+
+// http来源类型
+enum HttpSource{
+  Request = 0;
+  Response = 1 ;
 }
 
 // 菜单项返回 给burp 要做的操作
 message MenuItemsReturn{
-  bool IsReviseReq = 1 ; // 修改请求
-  bool IsReviseRes = 2 ;
-  bytes ReqData = 3 ; // 请求数据用于覆盖burp 请求   用于修改 http编辑框
-  bytes ResData = 4 ; // 请求数据用于覆盖burp 请求   用于修改 http编辑框
+  // 以下只能有一个为true
+
+  bool IsContinue = 1 ;  // 继续不做任何处理
+  bool IsReviseSelect = 2; // 修改选中数据
+  bool IsReviseReq = 3 ; // 修改请求
+  bool IsReviseRes = 4 ; // 修改响应 此前burp 可修改重放器响应现在不能 先保留
+
+  bytes ReqData = 5 ; // 请求数据用于覆盖burp 请求   用于修改 http编辑框
+  bytes ResData = 6 ; // 请求数据用于覆盖burp 请求   用于修改 http编辑框
+  bytes SelectDate = 7 ; // 选中数据 用于替换 用户在重放器选中的数据
+
 }
 
 // 布尔值
@@ -216,11 +242,9 @@ message Boole{
 }
 
 // 状态,用于表示函数执行状态，服务或对象状态
-message Status{
+message processingStatus{
   bool boole = 1;     // 布尔值
-  int64 code = 2;     // 状态码
   string info = 3;    // 描述信息
-  bytes tmpByte = 4;  // 字节流用于占位和预留
 }
 
 
@@ -231,13 +255,19 @@ message Str{
 
 //服务路由表 包含零号以及第三方拓展愿意向burp提供的服务
 message serviceRoutingTable{
-  repeated serviceRouting Routing = 1;
+  repeated serviceRegisterRouting Routing = 1;
 }
 
-// 服务路由
-message serviceRouting{
-  serverName sn = 1;
-  Str Name = 2;
+// 服务注册路由
+message serviceRegisterRouting{
+  serverTypeName serverType = 1;  // 服务类型
+  string Name = 2;                // 名称
+  string GrpcAddress = 3;        // grpc地址
+}
+
+// 服务注册列表 用于表示服务列表
+message serviceRegisterRoutingList{
+  repeated serviceRegisterRouting serviceList = 1 ;
 }
 
 
@@ -260,6 +290,13 @@ message InsertionPointOffsets{
 message ByteData {
   bytes byteData = 1;
 }
+
+// 载荷生成器结果
+message PayloadGeneratorResult{
+  bytes byteData = 1; // 生成的载荷
+  bool IsEnd = 2;     // 是否结束 true 为结束
+}
+
 
 
 // 一组http请求 (请求和响应)
@@ -320,21 +357,26 @@ message httpInfo {
 message annotationsText {
   bool isInfo = 1;           // 是否有注解信息
   string notes = 2 ;         // 注解文本
-  string color = 3;          // 颜色
+  highlightColor color = 3;          // 颜色
 }
 
-// 服务名称
-enum serverName {
-  RealTimeTrafficMirroring = 0;   // 实时流量镜像服务
-  IntruderProvider = 1 ;          // 迭代器处理
-  IntruderGenerator = 2 ;          // 迭代器生成
-  ScoutIntelligence = 3 ;          // 斥候情报
+// 服务类型名称
+enum serverTypeName {
+  INTRUDER_PROCESSOR = 0;           // 迭代处理器
+  INTRUDER_GENERATE = 1;            // 迭代生成器
+  REAL_TIME_TRAFFIC_MIRRORING = 2;   // 实时流量镜像
+  HTTP_EDITOR_KEY_VALUE = 3;         // http键值对用于相互转换
+  HTTP_REQUEST_EDITOR_PROCESSOR = 4; // 请求编辑处理器
+  HTTP_RESPONSE_EDITOR_PROCESSOR = 5; // 响应编辑处理器
+  CONTEXT_MENU_ITEMS_PROVIDER = 6;    // 上下文菜单提供程序
+  PROXY_REQUEST_HANDLER = 7;         // 代理请求处理器
+  PROXY_RESPONSE_HANDLER = 8;        // 代理响应处理器
+  HTTP_FLOW_HANDLER = 9;              // http请求处理器
 }
-
 
 // 注解颜色
 enum highlightColor {
-  NONE = 0;
+  NONE = 0;    // 没有任何颜色
   RED = 1;
   ORANGE = 2;
   YELLOW = 3;

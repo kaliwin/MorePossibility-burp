@@ -80,35 +80,35 @@ public final class BurpServerGrpc {
     return getRealTimeTrafficMirroringMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.Str,
-      BurpGrpc.proto.BurpApiGrpc.Status> getRegisterServerMethod;
+  private static volatile io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.serviceRegisterRoutingList,
+      BurpGrpc.proto.BurpApiGrpc.processingStatus> getRegisterServerListMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "RegisterServer",
-      requestType = BurpGrpc.proto.BurpApiGrpc.Str.class,
-      responseType = BurpGrpc.proto.BurpApiGrpc.Status.class,
+      fullMethodName = SERVICE_NAME + '/' + "RegisterServerList",
+      requestType = BurpGrpc.proto.BurpApiGrpc.serviceRegisterRoutingList.class,
+      responseType = BurpGrpc.proto.BurpApiGrpc.processingStatus.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.Str,
-      BurpGrpc.proto.BurpApiGrpc.Status> getRegisterServerMethod() {
-    io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.Str, BurpGrpc.proto.BurpApiGrpc.Status> getRegisterServerMethod;
-    if ((getRegisterServerMethod = BurpServerGrpc.getRegisterServerMethod) == null) {
+  public static io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.serviceRegisterRoutingList,
+      BurpGrpc.proto.BurpApiGrpc.processingStatus> getRegisterServerListMethod() {
+    io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.serviceRegisterRoutingList, BurpGrpc.proto.BurpApiGrpc.processingStatus> getRegisterServerListMethod;
+    if ((getRegisterServerListMethod = BurpServerGrpc.getRegisterServerListMethod) == null) {
       synchronized (BurpServerGrpc.class) {
-        if ((getRegisterServerMethod = BurpServerGrpc.getRegisterServerMethod) == null) {
-          BurpServerGrpc.getRegisterServerMethod = getRegisterServerMethod =
-              io.grpc.MethodDescriptor.<BurpGrpc.proto.BurpApiGrpc.Str, BurpGrpc.proto.BurpApiGrpc.Status>newBuilder()
+        if ((getRegisterServerListMethod = BurpServerGrpc.getRegisterServerListMethod) == null) {
+          BurpServerGrpc.getRegisterServerListMethod = getRegisterServerListMethod =
+              io.grpc.MethodDescriptor.<BurpGrpc.proto.BurpApiGrpc.serviceRegisterRoutingList, BurpGrpc.proto.BurpApiGrpc.processingStatus>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "RegisterServer"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "RegisterServerList"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  BurpGrpc.proto.BurpApiGrpc.Str.getDefaultInstance()))
+                  BurpGrpc.proto.BurpApiGrpc.serviceRegisterRoutingList.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  BurpGrpc.proto.BurpApiGrpc.Status.getDefaultInstance()))
-              .setSchemaDescriptor(new BurpServerMethodDescriptorSupplier("RegisterServer"))
+                  BurpGrpc.proto.BurpApiGrpc.processingStatus.getDefaultInstance()))
+              .setSchemaDescriptor(new BurpServerMethodDescriptorSupplier("RegisterServerList"))
               .build();
         }
       }
     }
-    return getRegisterServerMethod;
+    return getRegisterServerListMethod;
   }
 
   /**
@@ -186,13 +186,12 @@ public final class BurpServerGrpc {
 
     /**
      * <pre>
-     * 注册服务
-     * 服务注册 主动向burp发起请求进行注册服务
+     * 服务注册列表 包含多个服务  多个服务其中有一个注册失败不会影响到已经成功的 只要有一个失败便会返回false
      * </pre>
      */
-    public void registerServer(BurpGrpc.proto.BurpApiGrpc.Str request,
-        io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.Status> responseObserver) {
-      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getRegisterServerMethod(), responseObserver);
+    public void registerServerList(BurpGrpc.proto.BurpApiGrpc.serviceRegisterRoutingList request,
+        io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.processingStatus> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getRegisterServerListMethod(), responseObserver);
     }
 
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
@@ -212,12 +211,12 @@ public final class BurpServerGrpc {
                 BurpGrpc.proto.BurpApiGrpc.Str>(
                   this, METHODID_REAL_TIME_TRAFFIC_MIRRORING)))
           .addMethod(
-            getRegisterServerMethod(),
+            getRegisterServerListMethod(),
             io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
-                BurpGrpc.proto.BurpApiGrpc.Str,
-                BurpGrpc.proto.BurpApiGrpc.Status>(
-                  this, METHODID_REGISTER_SERVER)))
+                BurpGrpc.proto.BurpApiGrpc.serviceRegisterRoutingList,
+                BurpGrpc.proto.BurpApiGrpc.processingStatus>(
+                  this, METHODID_REGISTER_SERVER_LIST)))
           .build();
     }
   }
@@ -265,14 +264,13 @@ public final class BurpServerGrpc {
 
     /**
      * <pre>
-     * 注册服务
-     * 服务注册 主动向burp发起请求进行注册服务
+     * 服务注册列表 包含多个服务  多个服务其中有一个注册失败不会影响到已经成功的 只要有一个失败便会返回false
      * </pre>
      */
-    public void registerServer(BurpGrpc.proto.BurpApiGrpc.Str request,
-        io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.Status> responseObserver) {
+    public void registerServerList(BurpGrpc.proto.BurpApiGrpc.serviceRegisterRoutingList request,
+        io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.processingStatus> responseObserver) {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
-          getChannel().newCall(getRegisterServerMethod(), getCallOptions()), request, responseObserver);
+          getChannel().newCall(getRegisterServerListMethod(), getCallOptions()), request, responseObserver);
     }
   }
 
@@ -307,13 +305,12 @@ public final class BurpServerGrpc {
 
     /**
      * <pre>
-     * 注册服务
-     * 服务注册 主动向burp发起请求进行注册服务
+     * 服务注册列表 包含多个服务  多个服务其中有一个注册失败不会影响到已经成功的 只要有一个失败便会返回false
      * </pre>
      */
-    public BurpGrpc.proto.BurpApiGrpc.Status registerServer(BurpGrpc.proto.BurpApiGrpc.Str request) {
+    public BurpGrpc.proto.BurpApiGrpc.processingStatus registerServerList(BurpGrpc.proto.BurpApiGrpc.serviceRegisterRoutingList request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
-          getChannel(), getRegisterServerMethod(), getCallOptions(), request);
+          getChannel(), getRegisterServerListMethod(), getCallOptions(), request);
     }
   }
 
@@ -336,19 +333,18 @@ public final class BurpServerGrpc {
 
     /**
      * <pre>
-     * 注册服务
-     * 服务注册 主动向burp发起请求进行注册服务
+     * 服务注册列表 包含多个服务  多个服务其中有一个注册失败不会影响到已经成功的 只要有一个失败便会返回false
      * </pre>
      */
-    public com.google.common.util.concurrent.ListenableFuture<BurpGrpc.proto.BurpApiGrpc.Status> registerServer(
-        BurpGrpc.proto.BurpApiGrpc.Str request) {
+    public com.google.common.util.concurrent.ListenableFuture<BurpGrpc.proto.BurpApiGrpc.processingStatus> registerServerList(
+        BurpGrpc.proto.BurpApiGrpc.serviceRegisterRoutingList request) {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
-          getChannel().newCall(getRegisterServerMethod(), getCallOptions()), request);
+          getChannel().newCall(getRegisterServerListMethod(), getCallOptions()), request);
     }
   }
 
   private static final int METHODID_REGISTER_REAL_TIME_TRAFFIC_MIRRORING = 0;
-  private static final int METHODID_REGISTER_SERVER = 1;
+  private static final int METHODID_REGISTER_SERVER_LIST = 1;
   private static final int METHODID_REAL_TIME_TRAFFIC_MIRRORING = 2;
 
   private static final class MethodHandlers<Req, Resp> implements
@@ -372,9 +368,9 @@ public final class BurpServerGrpc {
           serviceImpl.registerRealTimeTrafficMirroring((BurpGrpc.proto.BurpApiGrpc.Str) request,
               (io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.httpReqAndRes>) responseObserver);
           break;
-        case METHODID_REGISTER_SERVER:
-          serviceImpl.registerServer((BurpGrpc.proto.BurpApiGrpc.Str) request,
-              (io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.Status>) responseObserver);
+        case METHODID_REGISTER_SERVER_LIST:
+          serviceImpl.registerServerList((BurpGrpc.proto.BurpApiGrpc.serviceRegisterRoutingList) request,
+              (io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.processingStatus>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -442,7 +438,7 @@ public final class BurpServerGrpc {
               .setSchemaDescriptor(new BurpServerFileDescriptorSupplier())
               .addMethod(getRegisterRealTimeTrafficMirroringMethod())
               .addMethod(getRealTimeTrafficMirroringMethod())
-              .addMethod(getRegisterServerMethod())
+              .addMethod(getRegisterServerListMethod())
               .build();
         }
       }

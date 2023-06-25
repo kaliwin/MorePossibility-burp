@@ -42,18 +42,17 @@ public interface annotationsTextOrBuilder extends
    * 颜色
    * </pre>
    *
-   * <code>string color = 3;</code>
-   * @return The color.
+   * <code>.burpApi.highlightColor color = 3;</code>
+   * @return The enum numeric value on the wire for color.
    */
-  java.lang.String getColor();
+  int getColorValue();
   /**
    * <pre>
    * 颜色
    * </pre>
    *
-   * <code>string color = 3;</code>
-   * @return The bytes for color.
+   * <code>.burpApi.highlightColor color = 3;</code>
+   * @return The color.
    */
-  com.google.protobuf.ByteString
-      getColorBytes();
+  BurpGrpc.proto.BurpApiGrpc.highlightColor getColor();
 }

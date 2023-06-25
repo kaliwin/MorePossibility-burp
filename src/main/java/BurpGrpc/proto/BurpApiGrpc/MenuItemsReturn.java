@@ -22,6 +22,7 @@ private static final long serialVersionUID = 0L;
   private MenuItemsReturn() {
     reqData_ = com.google.protobuf.ByteString.EMPTY;
     resData_ = com.google.protobuf.ByteString.EMPTY;
+    selectDate_ = com.google.protobuf.ByteString.EMPTY;
   }
 
   @java.lang.Override
@@ -44,14 +45,44 @@ private static final long serialVersionUID = 0L;
             BurpGrpc.proto.BurpApiGrpc.MenuItemsReturn.class, BurpGrpc.proto.BurpApiGrpc.MenuItemsReturn.Builder.class);
   }
 
-  public static final int ISREVISEREQ_FIELD_NUMBER = 1;
+  public static final int ISCONTINUE_FIELD_NUMBER = 1;
+  private boolean isContinue_ = false;
+  /**
+   * <pre>
+   * 继续不做任何处理
+   * </pre>
+   *
+   * <code>bool IsContinue = 1;</code>
+   * @return The isContinue.
+   */
+  @java.lang.Override
+  public boolean getIsContinue() {
+    return isContinue_;
+  }
+
+  public static final int ISREVISESELECT_FIELD_NUMBER = 2;
+  private boolean isReviseSelect_ = false;
+  /**
+   * <pre>
+   * 修改选中数据
+   * </pre>
+   *
+   * <code>bool IsReviseSelect = 2;</code>
+   * @return The isReviseSelect.
+   */
+  @java.lang.Override
+  public boolean getIsReviseSelect() {
+    return isReviseSelect_;
+  }
+
+  public static final int ISREVISEREQ_FIELD_NUMBER = 3;
   private boolean isReviseReq_ = false;
   /**
    * <pre>
    * 修改请求
    * </pre>
    *
-   * <code>bool IsReviseReq = 1;</code>
+   * <code>bool IsReviseReq = 3;</code>
    * @return The isReviseReq.
    */
   @java.lang.Override
@@ -59,10 +90,14 @@ private static final long serialVersionUID = 0L;
     return isReviseReq_;
   }
 
-  public static final int ISREVISERES_FIELD_NUMBER = 2;
+  public static final int ISREVISERES_FIELD_NUMBER = 4;
   private boolean isReviseRes_ = false;
   /**
-   * <code>bool IsReviseRes = 2;</code>
+   * <pre>
+   * 修改响应 此前burp 可修改重放器响应现在不能 先保留
+   * </pre>
+   *
+   * <code>bool IsReviseRes = 4;</code>
    * @return The isReviseRes.
    */
   @java.lang.Override
@@ -70,14 +105,14 @@ private static final long serialVersionUID = 0L;
     return isReviseRes_;
   }
 
-  public static final int REQDATA_FIELD_NUMBER = 3;
+  public static final int REQDATA_FIELD_NUMBER = 5;
   private com.google.protobuf.ByteString reqData_ = com.google.protobuf.ByteString.EMPTY;
   /**
    * <pre>
    * 请求数据用于覆盖burp 请求   用于修改 http编辑框
    * </pre>
    *
-   * <code>bytes ReqData = 3;</code>
+   * <code>bytes ReqData = 5;</code>
    * @return The reqData.
    */
   @java.lang.Override
@@ -85,19 +120,34 @@ private static final long serialVersionUID = 0L;
     return reqData_;
   }
 
-  public static final int RESDATA_FIELD_NUMBER = 4;
+  public static final int RESDATA_FIELD_NUMBER = 6;
   private com.google.protobuf.ByteString resData_ = com.google.protobuf.ByteString.EMPTY;
   /**
    * <pre>
    * 请求数据用于覆盖burp 请求   用于修改 http编辑框
    * </pre>
    *
-   * <code>bytes ResData = 4;</code>
+   * <code>bytes ResData = 6;</code>
    * @return The resData.
    */
   @java.lang.Override
   public com.google.protobuf.ByteString getResData() {
     return resData_;
+  }
+
+  public static final int SELECTDATE_FIELD_NUMBER = 7;
+  private com.google.protobuf.ByteString selectDate_ = com.google.protobuf.ByteString.EMPTY;
+  /**
+   * <pre>
+   * 选中数据 用于替换 用户在重放器选中的数据
+   * </pre>
+   *
+   * <code>bytes SelectDate = 7;</code>
+   * @return The selectDate.
+   */
+  @java.lang.Override
+  public com.google.protobuf.ByteString getSelectDate() {
+    return selectDate_;
   }
 
   private byte memoizedIsInitialized = -1;
@@ -114,17 +164,26 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
+    if (isContinue_ != false) {
+      output.writeBool(1, isContinue_);
+    }
+    if (isReviseSelect_ != false) {
+      output.writeBool(2, isReviseSelect_);
+    }
     if (isReviseReq_ != false) {
-      output.writeBool(1, isReviseReq_);
+      output.writeBool(3, isReviseReq_);
     }
     if (isReviseRes_ != false) {
-      output.writeBool(2, isReviseRes_);
+      output.writeBool(4, isReviseRes_);
     }
     if (!reqData_.isEmpty()) {
-      output.writeBytes(3, reqData_);
+      output.writeBytes(5, reqData_);
     }
     if (!resData_.isEmpty()) {
-      output.writeBytes(4, resData_);
+      output.writeBytes(6, resData_);
+    }
+    if (!selectDate_.isEmpty()) {
+      output.writeBytes(7, selectDate_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -135,21 +194,33 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
+    if (isContinue_ != false) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeBoolSize(1, isContinue_);
+    }
+    if (isReviseSelect_ != false) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeBoolSize(2, isReviseSelect_);
+    }
     if (isReviseReq_ != false) {
       size += com.google.protobuf.CodedOutputStream
-        .computeBoolSize(1, isReviseReq_);
+        .computeBoolSize(3, isReviseReq_);
     }
     if (isReviseRes_ != false) {
       size += com.google.protobuf.CodedOutputStream
-        .computeBoolSize(2, isReviseRes_);
+        .computeBoolSize(4, isReviseRes_);
     }
     if (!reqData_.isEmpty()) {
       size += com.google.protobuf.CodedOutputStream
-        .computeBytesSize(3, reqData_);
+        .computeBytesSize(5, reqData_);
     }
     if (!resData_.isEmpty()) {
       size += com.google.protobuf.CodedOutputStream
-        .computeBytesSize(4, resData_);
+        .computeBytesSize(6, resData_);
+    }
+    if (!selectDate_.isEmpty()) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeBytesSize(7, selectDate_);
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSize = size;
@@ -166,6 +237,10 @@ private static final long serialVersionUID = 0L;
     }
     BurpGrpc.proto.BurpApiGrpc.MenuItemsReturn other = (BurpGrpc.proto.BurpApiGrpc.MenuItemsReturn) obj;
 
+    if (getIsContinue()
+        != other.getIsContinue()) return false;
+    if (getIsReviseSelect()
+        != other.getIsReviseSelect()) return false;
     if (getIsReviseReq()
         != other.getIsReviseReq()) return false;
     if (getIsReviseRes()
@@ -174,6 +249,8 @@ private static final long serialVersionUID = 0L;
         .equals(other.getReqData())) return false;
     if (!getResData()
         .equals(other.getResData())) return false;
+    if (!getSelectDate()
+        .equals(other.getSelectDate())) return false;
     if (!getUnknownFields().equals(other.getUnknownFields())) return false;
     return true;
   }
@@ -185,6 +262,12 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
+    hash = (37 * hash) + ISCONTINUE_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+        getIsContinue());
+    hash = (37 * hash) + ISREVISESELECT_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+        getIsReviseSelect());
     hash = (37 * hash) + ISREVISEREQ_FIELD_NUMBER;
     hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
         getIsReviseReq());
@@ -195,6 +278,8 @@ private static final long serialVersionUID = 0L;
     hash = (53 * hash) + getReqData().hashCode();
     hash = (37 * hash) + RESDATA_FIELD_NUMBER;
     hash = (53 * hash) + getResData().hashCode();
+    hash = (37 * hash) + SELECTDATE_FIELD_NUMBER;
+    hash = (53 * hash) + getSelectDate().hashCode();
     hash = (29 * hash) + getUnknownFields().hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -328,10 +413,13 @@ private static final long serialVersionUID = 0L;
     public Builder clear() {
       super.clear();
       bitField0_ = 0;
+      isContinue_ = false;
+      isReviseSelect_ = false;
       isReviseReq_ = false;
       isReviseRes_ = false;
       reqData_ = com.google.protobuf.ByteString.EMPTY;
       resData_ = com.google.protobuf.ByteString.EMPTY;
+      selectDate_ = com.google.protobuf.ByteString.EMPTY;
       return this;
     }
 
@@ -366,16 +454,25 @@ private static final long serialVersionUID = 0L;
     private void buildPartial0(BurpGrpc.proto.BurpApiGrpc.MenuItemsReturn result) {
       int from_bitField0_ = bitField0_;
       if (((from_bitField0_ & 0x00000001) != 0)) {
-        result.isReviseReq_ = isReviseReq_;
+        result.isContinue_ = isContinue_;
       }
       if (((from_bitField0_ & 0x00000002) != 0)) {
-        result.isReviseRes_ = isReviseRes_;
+        result.isReviseSelect_ = isReviseSelect_;
       }
       if (((from_bitField0_ & 0x00000004) != 0)) {
-        result.reqData_ = reqData_;
+        result.isReviseReq_ = isReviseReq_;
       }
       if (((from_bitField0_ & 0x00000008) != 0)) {
+        result.isReviseRes_ = isReviseRes_;
+      }
+      if (((from_bitField0_ & 0x00000010) != 0)) {
+        result.reqData_ = reqData_;
+      }
+      if (((from_bitField0_ & 0x00000020) != 0)) {
         result.resData_ = resData_;
+      }
+      if (((from_bitField0_ & 0x00000040) != 0)) {
+        result.selectDate_ = selectDate_;
       }
     }
 
@@ -391,6 +488,12 @@ private static final long serialVersionUID = 0L;
 
     public Builder mergeFrom(BurpGrpc.proto.BurpApiGrpc.MenuItemsReturn other) {
       if (other == BurpGrpc.proto.BurpApiGrpc.MenuItemsReturn.getDefaultInstance()) return this;
+      if (other.getIsContinue() != false) {
+        setIsContinue(other.getIsContinue());
+      }
+      if (other.getIsReviseSelect() != false) {
+        setIsReviseSelect(other.getIsReviseSelect());
+      }
       if (other.getIsReviseReq() != false) {
         setIsReviseReq(other.getIsReviseReq());
       }
@@ -402,6 +505,9 @@ private static final long serialVersionUID = 0L;
       }
       if (other.getResData() != com.google.protobuf.ByteString.EMPTY) {
         setResData(other.getResData());
+      }
+      if (other.getSelectDate() != com.google.protobuf.ByteString.EMPTY) {
+        setSelectDate(other.getSelectDate());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       onChanged();
@@ -430,25 +536,40 @@ private static final long serialVersionUID = 0L;
               done = true;
               break;
             case 8: {
-              isReviseReq_ = input.readBool();
+              isContinue_ = input.readBool();
               bitField0_ |= 0x00000001;
               break;
             } // case 8
             case 16: {
-              isReviseRes_ = input.readBool();
+              isReviseSelect_ = input.readBool();
               bitField0_ |= 0x00000002;
               break;
             } // case 16
-            case 26: {
-              reqData_ = input.readBytes();
+            case 24: {
+              isReviseReq_ = input.readBool();
               bitField0_ |= 0x00000004;
               break;
-            } // case 26
-            case 34: {
-              resData_ = input.readBytes();
+            } // case 24
+            case 32: {
+              isReviseRes_ = input.readBool();
               bitField0_ |= 0x00000008;
               break;
-            } // case 34
+            } // case 32
+            case 42: {
+              reqData_ = input.readBytes();
+              bitField0_ |= 0x00000010;
+              break;
+            } // case 42
+            case 50: {
+              resData_ = input.readBytes();
+              bitField0_ |= 0x00000020;
+              break;
+            } // case 50
+            case 58: {
+              selectDate_ = input.readBytes();
+              bitField0_ |= 0x00000040;
+              break;
+            } // case 58
             default: {
               if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                 done = true; // was an endgroup tag
@@ -466,13 +587,101 @@ private static final long serialVersionUID = 0L;
     }
     private int bitField0_;
 
+    private boolean isContinue_ ;
+    /**
+     * <pre>
+     * 继续不做任何处理
+     * </pre>
+     *
+     * <code>bool IsContinue = 1;</code>
+     * @return The isContinue.
+     */
+    @java.lang.Override
+    public boolean getIsContinue() {
+      return isContinue_;
+    }
+    /**
+     * <pre>
+     * 继续不做任何处理
+     * </pre>
+     *
+     * <code>bool IsContinue = 1;</code>
+     * @param value The isContinue to set.
+     * @return This builder for chaining.
+     */
+    public Builder setIsContinue(boolean value) {
+
+      isContinue_ = value;
+      bitField0_ |= 0x00000001;
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * 继续不做任何处理
+     * </pre>
+     *
+     * <code>bool IsContinue = 1;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearIsContinue() {
+      bitField0_ = (bitField0_ & ~0x00000001);
+      isContinue_ = false;
+      onChanged();
+      return this;
+    }
+
+    private boolean isReviseSelect_ ;
+    /**
+     * <pre>
+     * 修改选中数据
+     * </pre>
+     *
+     * <code>bool IsReviseSelect = 2;</code>
+     * @return The isReviseSelect.
+     */
+    @java.lang.Override
+    public boolean getIsReviseSelect() {
+      return isReviseSelect_;
+    }
+    /**
+     * <pre>
+     * 修改选中数据
+     * </pre>
+     *
+     * <code>bool IsReviseSelect = 2;</code>
+     * @param value The isReviseSelect to set.
+     * @return This builder for chaining.
+     */
+    public Builder setIsReviseSelect(boolean value) {
+
+      isReviseSelect_ = value;
+      bitField0_ |= 0x00000002;
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * 修改选中数据
+     * </pre>
+     *
+     * <code>bool IsReviseSelect = 2;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearIsReviseSelect() {
+      bitField0_ = (bitField0_ & ~0x00000002);
+      isReviseSelect_ = false;
+      onChanged();
+      return this;
+    }
+
     private boolean isReviseReq_ ;
     /**
      * <pre>
      * 修改请求
      * </pre>
      *
-     * <code>bool IsReviseReq = 1;</code>
+     * <code>bool IsReviseReq = 3;</code>
      * @return The isReviseReq.
      */
     @java.lang.Override
@@ -484,14 +693,14 @@ private static final long serialVersionUID = 0L;
      * 修改请求
      * </pre>
      *
-     * <code>bool IsReviseReq = 1;</code>
+     * <code>bool IsReviseReq = 3;</code>
      * @param value The isReviseReq to set.
      * @return This builder for chaining.
      */
     public Builder setIsReviseReq(boolean value) {
 
       isReviseReq_ = value;
-      bitField0_ |= 0x00000001;
+      bitField0_ |= 0x00000004;
       onChanged();
       return this;
     }
@@ -500,11 +709,11 @@ private static final long serialVersionUID = 0L;
      * 修改请求
      * </pre>
      *
-     * <code>bool IsReviseReq = 1;</code>
+     * <code>bool IsReviseReq = 3;</code>
      * @return This builder for chaining.
      */
     public Builder clearIsReviseReq() {
-      bitField0_ = (bitField0_ & ~0x00000001);
+      bitField0_ = (bitField0_ & ~0x00000004);
       isReviseReq_ = false;
       onChanged();
       return this;
@@ -512,7 +721,11 @@ private static final long serialVersionUID = 0L;
 
     private boolean isReviseRes_ ;
     /**
-     * <code>bool IsReviseRes = 2;</code>
+     * <pre>
+     * 修改响应 此前burp 可修改重放器响应现在不能 先保留
+     * </pre>
+     *
+     * <code>bool IsReviseRes = 4;</code>
      * @return The isReviseRes.
      */
     @java.lang.Override
@@ -520,23 +733,31 @@ private static final long serialVersionUID = 0L;
       return isReviseRes_;
     }
     /**
-     * <code>bool IsReviseRes = 2;</code>
+     * <pre>
+     * 修改响应 此前burp 可修改重放器响应现在不能 先保留
+     * </pre>
+     *
+     * <code>bool IsReviseRes = 4;</code>
      * @param value The isReviseRes to set.
      * @return This builder for chaining.
      */
     public Builder setIsReviseRes(boolean value) {
 
       isReviseRes_ = value;
-      bitField0_ |= 0x00000002;
+      bitField0_ |= 0x00000008;
       onChanged();
       return this;
     }
     /**
-     * <code>bool IsReviseRes = 2;</code>
+     * <pre>
+     * 修改响应 此前burp 可修改重放器响应现在不能 先保留
+     * </pre>
+     *
+     * <code>bool IsReviseRes = 4;</code>
      * @return This builder for chaining.
      */
     public Builder clearIsReviseRes() {
-      bitField0_ = (bitField0_ & ~0x00000002);
+      bitField0_ = (bitField0_ & ~0x00000008);
       isReviseRes_ = false;
       onChanged();
       return this;
@@ -548,7 +769,7 @@ private static final long serialVersionUID = 0L;
      * 请求数据用于覆盖burp 请求   用于修改 http编辑框
      * </pre>
      *
-     * <code>bytes ReqData = 3;</code>
+     * <code>bytes ReqData = 5;</code>
      * @return The reqData.
      */
     @java.lang.Override
@@ -560,14 +781,14 @@ private static final long serialVersionUID = 0L;
      * 请求数据用于覆盖burp 请求   用于修改 http编辑框
      * </pre>
      *
-     * <code>bytes ReqData = 3;</code>
+     * <code>bytes ReqData = 5;</code>
      * @param value The reqData to set.
      * @return This builder for chaining.
      */
     public Builder setReqData(com.google.protobuf.ByteString value) {
       if (value == null) { throw new NullPointerException(); }
       reqData_ = value;
-      bitField0_ |= 0x00000004;
+      bitField0_ |= 0x00000010;
       onChanged();
       return this;
     }
@@ -576,11 +797,11 @@ private static final long serialVersionUID = 0L;
      * 请求数据用于覆盖burp 请求   用于修改 http编辑框
      * </pre>
      *
-     * <code>bytes ReqData = 3;</code>
+     * <code>bytes ReqData = 5;</code>
      * @return This builder for chaining.
      */
     public Builder clearReqData() {
-      bitField0_ = (bitField0_ & ~0x00000004);
+      bitField0_ = (bitField0_ & ~0x00000010);
       reqData_ = getDefaultInstance().getReqData();
       onChanged();
       return this;
@@ -592,7 +813,7 @@ private static final long serialVersionUID = 0L;
      * 请求数据用于覆盖burp 请求   用于修改 http编辑框
      * </pre>
      *
-     * <code>bytes ResData = 4;</code>
+     * <code>bytes ResData = 6;</code>
      * @return The resData.
      */
     @java.lang.Override
@@ -604,14 +825,14 @@ private static final long serialVersionUID = 0L;
      * 请求数据用于覆盖burp 请求   用于修改 http编辑框
      * </pre>
      *
-     * <code>bytes ResData = 4;</code>
+     * <code>bytes ResData = 6;</code>
      * @param value The resData to set.
      * @return This builder for chaining.
      */
     public Builder setResData(com.google.protobuf.ByteString value) {
       if (value == null) { throw new NullPointerException(); }
       resData_ = value;
-      bitField0_ |= 0x00000008;
+      bitField0_ |= 0x00000020;
       onChanged();
       return this;
     }
@@ -620,12 +841,56 @@ private static final long serialVersionUID = 0L;
      * 请求数据用于覆盖burp 请求   用于修改 http编辑框
      * </pre>
      *
-     * <code>bytes ResData = 4;</code>
+     * <code>bytes ResData = 6;</code>
      * @return This builder for chaining.
      */
     public Builder clearResData() {
-      bitField0_ = (bitField0_ & ~0x00000008);
+      bitField0_ = (bitField0_ & ~0x00000020);
       resData_ = getDefaultInstance().getResData();
+      onChanged();
+      return this;
+    }
+
+    private com.google.protobuf.ByteString selectDate_ = com.google.protobuf.ByteString.EMPTY;
+    /**
+     * <pre>
+     * 选中数据 用于替换 用户在重放器选中的数据
+     * </pre>
+     *
+     * <code>bytes SelectDate = 7;</code>
+     * @return The selectDate.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getSelectDate() {
+      return selectDate_;
+    }
+    /**
+     * <pre>
+     * 选中数据 用于替换 用户在重放器选中的数据
+     * </pre>
+     *
+     * <code>bytes SelectDate = 7;</code>
+     * @param value The selectDate to set.
+     * @return This builder for chaining.
+     */
+    public Builder setSelectDate(com.google.protobuf.ByteString value) {
+      if (value == null) { throw new NullPointerException(); }
+      selectDate_ = value;
+      bitField0_ |= 0x00000040;
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * 选中数据 用于替换 用户在重放器选中的数据
+     * </pre>
+     *
+     * <code>bytes SelectDate = 7;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearSelectDate() {
+      bitField0_ = (bitField0_ & ~0x00000040);
+      selectDate_ = getDefaultInstance().getSelectDate();
       onChanged();
       return this;
     }

@@ -19,28 +19,28 @@ public final class ScoutServerGrpc {
 
   // Static method descriptors that strictly reflect the proto.
   private static volatile io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.httpEditorKeyValue,
-      BurpGrpc.proto.BurpApiGrpc.Status> getAddHttpEditorEncryptAndDecryptKeyValueMethod;
+      BurpGrpc.proto.BurpApiGrpc.processingStatus> getAddHttpEditorEncryptAndDecryptKeyValueMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "addHttpEditorEncryptAndDecryptKeyValue",
       requestType = BurpGrpc.proto.BurpApiGrpc.httpEditorKeyValue.class,
-      responseType = BurpGrpc.proto.BurpApiGrpc.Status.class,
+      responseType = BurpGrpc.proto.BurpApiGrpc.processingStatus.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
   public static io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.httpEditorKeyValue,
-      BurpGrpc.proto.BurpApiGrpc.Status> getAddHttpEditorEncryptAndDecryptKeyValueMethod() {
-    io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.httpEditorKeyValue, BurpGrpc.proto.BurpApiGrpc.Status> getAddHttpEditorEncryptAndDecryptKeyValueMethod;
+      BurpGrpc.proto.BurpApiGrpc.processingStatus> getAddHttpEditorEncryptAndDecryptKeyValueMethod() {
+    io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.httpEditorKeyValue, BurpGrpc.proto.BurpApiGrpc.processingStatus> getAddHttpEditorEncryptAndDecryptKeyValueMethod;
     if ((getAddHttpEditorEncryptAndDecryptKeyValueMethod = ScoutServerGrpc.getAddHttpEditorEncryptAndDecryptKeyValueMethod) == null) {
       synchronized (ScoutServerGrpc.class) {
         if ((getAddHttpEditorEncryptAndDecryptKeyValueMethod = ScoutServerGrpc.getAddHttpEditorEncryptAndDecryptKeyValueMethod) == null) {
           ScoutServerGrpc.getAddHttpEditorEncryptAndDecryptKeyValueMethod = getAddHttpEditorEncryptAndDecryptKeyValueMethod =
-              io.grpc.MethodDescriptor.<BurpGrpc.proto.BurpApiGrpc.httpEditorKeyValue, BurpGrpc.proto.BurpApiGrpc.Status>newBuilder()
+              io.grpc.MethodDescriptor.<BurpGrpc.proto.BurpApiGrpc.httpEditorKeyValue, BurpGrpc.proto.BurpApiGrpc.processingStatus>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "addHttpEditorEncryptAndDecryptKeyValue"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   BurpGrpc.proto.BurpApiGrpc.httpEditorKeyValue.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  BurpGrpc.proto.BurpApiGrpc.Status.getDefaultInstance()))
+                  BurpGrpc.proto.BurpApiGrpc.processingStatus.getDefaultInstance()))
               .setSchemaDescriptor(new ScoutServerMethodDescriptorSupplier("addHttpEditorEncryptAndDecryptKeyValue"))
               .build();
         }
@@ -137,7 +137,7 @@ public final class ScoutServerGrpc {
      * </pre>
      */
     public void addHttpEditorEncryptAndDecryptKeyValue(BurpGrpc.proto.BurpApiGrpc.httpEditorKeyValue request,
-        io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.Status> responseObserver) {
+        io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.processingStatus> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getAddHttpEditorEncryptAndDecryptKeyValueMethod(), responseObserver);
     }
 
@@ -155,7 +155,7 @@ public final class ScoutServerGrpc {
             io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 BurpGrpc.proto.BurpApiGrpc.httpEditorKeyValue,
-                BurpGrpc.proto.BurpApiGrpc.Status>(
+                BurpGrpc.proto.BurpApiGrpc.processingStatus>(
                   this, METHODID_ADD_HTTP_EDITOR_ENCRYPT_AND_DECRYPT_KEY_VALUE)))
           .addMethod(
             getAddHttpKeyValuePairMethod(),
@@ -191,7 +191,7 @@ public final class ScoutServerGrpc {
      * </pre>
      */
     public void addHttpEditorEncryptAndDecryptKeyValue(BurpGrpc.proto.BurpApiGrpc.httpEditorKeyValue request,
-        io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.Status> responseObserver) {
+        io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.processingStatus> responseObserver) {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getAddHttpEditorEncryptAndDecryptKeyValueMethod(), getCallOptions()), request, responseObserver);
     }
@@ -227,7 +227,7 @@ public final class ScoutServerGrpc {
      * 添加http编辑器加解密键值对 参数为http编辑组件名称以及key、value
      * </pre>
      */
-    public BurpGrpc.proto.BurpApiGrpc.Status addHttpEditorEncryptAndDecryptKeyValue(BurpGrpc.proto.BurpApiGrpc.httpEditorKeyValue request) {
+    public BurpGrpc.proto.BurpApiGrpc.processingStatus addHttpEditorEncryptAndDecryptKeyValue(BurpGrpc.proto.BurpApiGrpc.httpEditorKeyValue request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getAddHttpEditorEncryptAndDecryptKeyValueMethod(), getCallOptions(), request);
     }
@@ -262,7 +262,7 @@ public final class ScoutServerGrpc {
      * 添加http编辑器加解密键值对 参数为http编辑组件名称以及key、value
      * </pre>
      */
-    public com.google.common.util.concurrent.ListenableFuture<BurpGrpc.proto.BurpApiGrpc.Status> addHttpEditorEncryptAndDecryptKeyValue(
+    public com.google.common.util.concurrent.ListenableFuture<BurpGrpc.proto.BurpApiGrpc.processingStatus> addHttpEditorEncryptAndDecryptKeyValue(
         BurpGrpc.proto.BurpApiGrpc.httpEditorKeyValue request) {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getAddHttpEditorEncryptAndDecryptKeyValueMethod(), getCallOptions()), request);
@@ -299,7 +299,7 @@ public final class ScoutServerGrpc {
       switch (methodId) {
         case METHODID_ADD_HTTP_EDITOR_ENCRYPT_AND_DECRYPT_KEY_VALUE:
           serviceImpl.addHttpEditorEncryptAndDecryptKeyValue((BurpGrpc.proto.BurpApiGrpc.httpEditorKeyValue) request,
-              (io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.Status>) responseObserver);
+              (io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.processingStatus>) responseObserver);
           break;
         case METHODID_ADD_HTTP_KEY_VALUE_PAIR:
           serviceImpl.addHttpKeyValuePair((BurpGrpc.proto.BurpApiGrpc.httpKeyValuePair) request,

@@ -12,7 +12,7 @@ public interface ContextMenuItemsOrBuilder extends
    *名称
    * </pre>
    *
-   * <code>string name = 3;</code>
+   * <code>string name = 1;</code>
    * @return The name.
    */
   java.lang.String getName();
@@ -21,7 +21,7 @@ public interface ContextMenuItemsOrBuilder extends
    *名称
    * </pre>
    *
-   * <code>string name = 3;</code>
+   * <code>string name = 1;</code>
    * @return The bytes for name.
    */
   com.google.protobuf.ByteString
@@ -32,17 +32,36 @@ public interface ContextMenuItemsOrBuilder extends
    * 是否有选中的数据
    * </pre>
    *
-   * <code>bool isSelect = 4;</code>
+   * <code>bool isSelect = 2;</code>
    * @return The isSelect.
    */
   boolean getIsSelect();
 
   /**
    * <pre>
+   * 选中来源 只有选中数据才能知道从哪点的
+   * </pre>
+   *
+   * <code>.burpApi.HttpSource selectSource = 3;</code>
+   * @return The enum numeric value on the wire for selectSource.
+   */
+  int getSelectSourceValue();
+  /**
+   * <pre>
+   * 选中来源 只有选中数据才能知道从哪点的
+   * </pre>
+   *
+   * <code>.burpApi.HttpSource selectSource = 3;</code>
+   * @return The selectSource.
+   */
+  BurpGrpc.proto.BurpApiGrpc.HttpSource getSelectSource();
+
+  /**
+   * <pre>
    * 一组请求和响应
    * </pre>
    *
-   * <code>.burpApi.httpReqAndRes httpReqAndRes = 1;</code>
+   * <code>.burpApi.httpReqAndRes httpReqAndRes = 4;</code>
    * @return Whether the httpReqAndRes field is set.
    */
   boolean hasHttpReqAndRes();
@@ -51,7 +70,7 @@ public interface ContextMenuItemsOrBuilder extends
    * 一组请求和响应
    * </pre>
    *
-   * <code>.burpApi.httpReqAndRes httpReqAndRes = 1;</code>
+   * <code>.burpApi.httpReqAndRes httpReqAndRes = 4;</code>
    * @return The httpReqAndRes.
    */
   BurpGrpc.proto.BurpApiGrpc.httpReqAndRes getHttpReqAndRes();
@@ -60,7 +79,7 @@ public interface ContextMenuItemsOrBuilder extends
    * 一组请求和响应
    * </pre>
    *
-   * <code>.burpApi.httpReqAndRes httpReqAndRes = 1;</code>
+   * <code>.burpApi.httpReqAndRes httpReqAndRes = 4;</code>
    */
   BurpGrpc.proto.BurpApiGrpc.httpReqAndResOrBuilder getHttpReqAndResOrBuilder();
 
@@ -69,8 +88,35 @@ public interface ContextMenuItemsOrBuilder extends
    * 用户选中的数据
    * </pre>
    *
-   * <code>bytes selectData = 2;</code>
+   * <code>bytes selectData = 5;</code>
    * @return The selectData.
    */
   com.google.protobuf.ByteString getSelectData();
+
+  /**
+   * <pre>
+   * 选中的下标偏移量
+   * </pre>
+   *
+   * <code>.burpApi.SubscriptOffsets selectOffsets = 6;</code>
+   * @return Whether the selectOffsets field is set.
+   */
+  boolean hasSelectOffsets();
+  /**
+   * <pre>
+   * 选中的下标偏移量
+   * </pre>
+   *
+   * <code>.burpApi.SubscriptOffsets selectOffsets = 6;</code>
+   * @return The selectOffsets.
+   */
+  BurpGrpc.proto.BurpApiGrpc.SubscriptOffsets getSelectOffsets();
+  /**
+   * <pre>
+   * 选中的下标偏移量
+   * </pre>
+   *
+   * <code>.burpApi.SubscriptOffsets selectOffsets = 6;</code>
+   */
+  BurpGrpc.proto.BurpApiGrpc.SubscriptOffsetsOrBuilder getSelectOffsetsOrBuilder();
 }

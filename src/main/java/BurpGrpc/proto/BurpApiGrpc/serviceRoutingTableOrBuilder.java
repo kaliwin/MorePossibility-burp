@@ -8,26 +8,26 @@ public interface serviceRoutingTableOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>repeated .burpApi.serviceRouting Routing = 1;</code>
+   * <code>repeated .burpApi.serviceRegisterRouting Routing = 1;</code>
    */
-  java.util.List<BurpGrpc.proto.BurpApiGrpc.serviceRouting> 
+  java.util.List<BurpGrpc.proto.BurpApiGrpc.serviceRegisterRouting> 
       getRoutingList();
   /**
-   * <code>repeated .burpApi.serviceRouting Routing = 1;</code>
+   * <code>repeated .burpApi.serviceRegisterRouting Routing = 1;</code>
    */
-  BurpGrpc.proto.BurpApiGrpc.serviceRouting getRouting(int index);
+  BurpGrpc.proto.BurpApiGrpc.serviceRegisterRouting getRouting(int index);
   /**
-   * <code>repeated .burpApi.serviceRouting Routing = 1;</code>
+   * <code>repeated .burpApi.serviceRegisterRouting Routing = 1;</code>
    */
   int getRoutingCount();
   /**
-   * <code>repeated .burpApi.serviceRouting Routing = 1;</code>
+   * <code>repeated .burpApi.serviceRegisterRouting Routing = 1;</code>
    */
-  java.util.List<? extends BurpGrpc.proto.BurpApiGrpc.serviceRoutingOrBuilder> 
+  java.util.List<? extends BurpGrpc.proto.BurpApiGrpc.serviceRegisterRoutingOrBuilder> 
       getRoutingOrBuilderList();
   /**
-   * <code>repeated .burpApi.serviceRouting Routing = 1;</code>
+   * <code>repeated .burpApi.serviceRegisterRouting Routing = 1;</code>
    */
-  BurpGrpc.proto.BurpApiGrpc.serviceRoutingOrBuilder getRoutingOrBuilder(
+  BurpGrpc.proto.BurpApiGrpc.serviceRegisterRoutingOrBuilder getRoutingOrBuilder(
       int index);
 }

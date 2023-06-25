@@ -1,0 +1,34 @@
+//指定的当前proto语法的版本, 有2和3
+syntax = "proto3";
+
+option java_multiple_files = true;                    //等于true则将为每个消息类型生成单独的文件。
+option java_package = "BurpApiGrpc";   //实例包名
+option java_outer_classname = "BurpApi";              //类名
+option objc_class_prefix = "HLW";                     //生成前缀 未知用法
+option go_package = "/BurpApi";                        //go 实例包名路径
+
+//import "google/api/annotations.proto";
+
+
+import "google/api/annotations.proto";
+
+// Here is the overall greeting service definition where we define all our endpoints
+service Greeter {
+  // Sends a greeting
+  rpc SayHello (HelloRequest) returns (HelloReply) {
+    option (google.api.http) = {
+      post: "/v1/example/echo"
+      body: "*"
+    };
+  }
+}
+
+// The request message containing the user's name
+message HelloRequest {
+  string name = 1;
+}
+
+// The response message containing the greetings
+message HelloReply {
+  string message = 1;
+}

@@ -19,7 +19,7 @@ import java.io.IOException;
  * @author: cyvk
  * @date: 2023/5/30 下午12:03
  */
-public class RunAchieve {
+public class    RunAchieve {
     public Server grpcServer; //服务端
 
     public RunAchieve() {
@@ -40,12 +40,9 @@ public class RunAchieve {
     public void startServer(int port) {
         OkHttpServerBuilder okHttpServerBuilder = OkHttpServerBuilder.forPort(port, InsecureServerCredentials.create());
         Server grpcServer = okHttpServerBuilder.addService(new BurpServer()).build();
-
         try {
             grpcServer.start();
         } catch (IOException e) {
-//            MorePossibility.logging.error().println("错误: ");
-//            MorePossibility.logging.error().println(e);
             ManGrpcGUI.pluginLog.append("错误: " + e + "\n");
 
             throw new RuntimeException(e);
@@ -64,6 +61,11 @@ public class RunAchieve {
     }
 
 
+    public static ManagedChannel getChannel(String target) {
+        return OkHttpChannelBuilder.forTarget(target).usePlaintext().build();
+    }
+
+
     /**
      * @param target: 目标 "127.0.0.1:9525"
      * @return BurpServerGrpc.BurpServerStub 获取BurpServer的客户端API,用于burp调用远程函数
@@ -72,18 +74,29 @@ public class RunAchieve {
      * @date: 2023/5/30 上午11:44
      */
     public BurpServerGrpc.BurpServerStub getClient(String target) {
-        return BurpServerGrpc.newStub(OkHttpChannelBuilder.forTarget(target).usePlaintext().build());
+        return BurpServerGrpc.newStub(getChannel(target));
     }
 
     /**
      * @param target: 目标地址 "127.0.0.1:9525"
      * @return BurpGrpc.proto.BurpApiGrpc.IntruderServerGrpc.IntruderServerStub  操作类,用于调用远程rpc函数
-     * @description: 连接远程Grpc服务器获取迭代器客户端API 调用处理和生成两个函数
+     * @description: 迭代处理器
      * @author: cyvk
      * @date: 2023/5/30 下午2:32
      */
-    public IntruderServerGrpc.IntruderServerBlockingStub getIntruderClient(String target) {
-        return IntruderServerGrpc.newBlockingStub(OkHttpChannelBuilder.forTarget(target).usePlaintext().build());
+    public IntruderPayloadProcessorServerGrpc.IntruderPayloadProcessorServerBlockingStub getIntruderProcessorClient(String target) {
+        return IntruderPayloadProcessorServerGrpc.newBlockingStub(getChannel(target));
+    }
+
+    /**
+     * @param target: grpc 地址
+     * @return BurpGrpc.proto.BurpApiGrpc.IntruderPayloadGeneratorServerGrpc.IntruderPayloadGeneratorServerBlockingStub
+     * @description: 迭代生成器
+     * @author: cyvk
+     * @date: 2023/6/25 下午2:46
+     */
+    public IntruderPayloadGeneratorServerGrpc.IntruderPayloadGeneratorServerBlockingStub getIntruderGeneratorClient(String target) {
+        return IntruderPayloadGeneratorServerGrpc.newBlockingStub(getChannel(target));
     }
 
 
@@ -96,8 +109,8 @@ public class RunAchieve {
      */
     public boolean getRealTimeTrafficMirroring(String target, String name) {
 
-        BurpServerGrpc.BurpServerStub burpServerStub = BurpServerGrpc.newStub(OkHttpChannelBuilder.forTarget(target).usePlaintext().build());
-        StreamObserver<httpReqAndRes> httpReqAndResStreamObserver = burpServerStub.realTimeTrafficMirroring(new StreamObserver<Str>() {
+        BurpServerGrpc.BurpServerStub burpServerStub = BurpServerGrpc.newStub(getChannel(target));
+        StreamObserver<httpReqAndRes> httpReqAndResStreamObserver = burpServerStub.realTimeTrafficMirroring(new StreamObserver<>() {
             @Override
             public void onNext(Str value) {
                 ManGrpcGUI.consoleLog.append(Str.getDefaultInstance().getName());
@@ -125,7 +138,7 @@ public class RunAchieve {
      * @date: 2023/6/11 下午4:05
      */
     public HttpReqEditBoxAssistGrpc.HttpReqEditBoxAssistBlockingStub getHttpReqEditClient(String target) {
-        return HttpReqEditBoxAssistGrpc.newBlockingStub(OkHttpChannelBuilder.forTarget(target).usePlaintext().build());
+        return HttpReqEditBoxAssistGrpc.newBlockingStub(getChannel(target));
     }
 
 
@@ -137,67 +150,67 @@ public class RunAchieve {
      * @date: 2023/6/11 下午6:01
      */
     public HttpResEditBoxAssistGrpc.HttpResEditBoxAssistBlockingStub getHttpResEditClient(String target) {
-        return HttpResEditBoxAssistGrpc.newBlockingStub(OkHttpChannelBuilder.forTarget(target).usePlaintext().build());
+        return HttpResEditBoxAssistGrpc.newBlockingStub(getChannel(target));
     }
 
 
     /**
-     * @param tarGet: grpc 地址
+     * @param target: grpc 地址
      * @return BurpGrpc.proto.BurpApiGrpc.GetConTextMenuItemsServerGrpc.GetConTextMenuItemsServerBlockingStub
      * @description: 获取菜单项
      * @author: cyvk
      * @date: 2023/6/16 下午4:15
      */
-    public GetConTextMenuItemsServerGrpc.GetConTextMenuItemsServerBlockingStub getConTextMenuItemsServer(String tarGet) {
-        return GetConTextMenuItemsServerGrpc.newBlockingStub(OkHttpChannelBuilder.forTarget(tarGet).usePlaintext().build());
+    public GetConTextMenuItemsServerGrpc.GetConTextMenuItemsServerBlockingStub getConTextMenuItemsServer(String target) {
+        return GetConTextMenuItemsServerGrpc.newBlockingStub(getChannel(target));
     }
 
 
     /**
-     * @param tarGet: grpc 地址
+     * @param target: grpc 地址
      * @return BurpGrpc.proto.BurpApiGrpc.ContextMenuItemsProviderGrpc.ContextMenuItemsProviderBlockingStub
      * @description: 获取菜单项处理客户端
      * @author: cyvk
      * @date: 2023/6/16 下午4:17
      */
-    public ContextMenuItemsProviderGrpc.ContextMenuItemsProviderBlockingStub getMenuItemsProviderClient(String tarGet) {
-        return ContextMenuItemsProviderGrpc.newBlockingStub(OkHttpChannelBuilder.forTarget(tarGet).usePlaintext().build());
+    public ContextMenuItemsProviderGrpc.ContextMenuItemsProviderBlockingStub getMenuItemsProviderClient(String target) {
+        return ContextMenuItemsProviderGrpc.newBlockingStub(getChannel(target));
     }
 
 
     /**
-     * @param tarGet: grpc 地址
+     * @param target: grpc 地址
      * @return BurpGrpc.proto.BurpApiGrpc.ProxyRequestHandlerGrpc.ProxyRequestHandlerBlockingStub
      * @description: 获取代理请求处理器
      * @author: cyvk
      * @date: 2023/6/19 上午11:31
      */
-    public ProxyRequestHandlerGrpc.ProxyRequestHandlerBlockingStub getProxyRequestHandlerClient(String tarGet) {
-        return ProxyRequestHandlerGrpc.newBlockingStub(OkHttpChannelBuilder.forTarget(tarGet).usePlaintext().build());
+    public ProxyRequestHandlerGrpc.ProxyRequestHandlerBlockingStub getProxyRequestHandlerClient(String target) {
+        return ProxyRequestHandlerGrpc.newBlockingStub(getChannel(target));
     }
 
 
     /**
-     * @param tarGet: grpc 地址
+     * @param target: grpc 地址
      * @return BurpGrpc.proto.BurpApiGrpc.ProxyResponseHandlerGrpc.ProxyResponseHandlerBlockingStub
      * @description: 获取代理响应处理器
      * @author: cyvk
      * @date: 2023/6/19 下午2:39
      */
-    public ProxyResponseHandlerGrpc.ProxyResponseHandlerBlockingStub getProxyResponseHandlerClient(String tarGet) {
-        return ProxyResponseHandlerGrpc.newBlockingStub(OkHttpChannelBuilder.forTarget(tarGet).usePlaintext().build());
+    public ProxyResponseHandlerGrpc.ProxyResponseHandlerBlockingStub getProxyResponseHandlerClient(String target) {
+        return ProxyResponseHandlerGrpc.newBlockingStub(getChannel(target));
     }
 
 
     /**
-     * @param tarGet: grpc地址
+     * @param target: grpc地址
      * @return BurpGrpc.proto.BurpApiGrpc.HttpRequestHandlerGrpc.HttpRequestHandlerBlockingStub
      * @description: http 请求流量处理器
      * @author: cyvk
      * @date: 2023/6/19 下午5:31
      */
-    public HttpFlowHandlerGrpc.HttpFlowHandlerBlockingStub getHttpFlowHandlerClient(String tarGet) {
-        return HttpFlowHandlerGrpc.newBlockingStub(OkHttpChannelBuilder.forTarget(tarGet).usePlaintext().build());
+    public HttpFlowHandlerGrpc.HttpFlowHandlerBlockingStub getHttpFlowHandlerClient(String target) {
+        return HttpFlowHandlerGrpc.newBlockingStub(getChannel(target));
     }
 
 }

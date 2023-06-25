@@ -9,16 +9,40 @@ public interface MenuItemsReturnOrBuilder extends
 
   /**
    * <pre>
+   * 继续不做任何处理
+   * </pre>
+   *
+   * <code>bool IsContinue = 1;</code>
+   * @return The isContinue.
+   */
+  boolean getIsContinue();
+
+  /**
+   * <pre>
+   * 修改选中数据
+   * </pre>
+   *
+   * <code>bool IsReviseSelect = 2;</code>
+   * @return The isReviseSelect.
+   */
+  boolean getIsReviseSelect();
+
+  /**
+   * <pre>
    * 修改请求
    * </pre>
    *
-   * <code>bool IsReviseReq = 1;</code>
+   * <code>bool IsReviseReq = 3;</code>
    * @return The isReviseReq.
    */
   boolean getIsReviseReq();
 
   /**
-   * <code>bool IsReviseRes = 2;</code>
+   * <pre>
+   * 修改响应 此前burp 可修改重放器响应现在不能 先保留
+   * </pre>
+   *
+   * <code>bool IsReviseRes = 4;</code>
    * @return The isReviseRes.
    */
   boolean getIsReviseRes();
@@ -28,7 +52,7 @@ public interface MenuItemsReturnOrBuilder extends
    * 请求数据用于覆盖burp 请求   用于修改 http编辑框
    * </pre>
    *
-   * <code>bytes ReqData = 3;</code>
+   * <code>bytes ReqData = 5;</code>
    * @return The reqData.
    */
   com.google.protobuf.ByteString getReqData();
@@ -38,8 +62,18 @@ public interface MenuItemsReturnOrBuilder extends
    * 请求数据用于覆盖burp 请求   用于修改 http编辑框
    * </pre>
    *
-   * <code>bytes ResData = 4;</code>
+   * <code>bytes ResData = 6;</code>
    * @return The resData.
    */
   com.google.protobuf.ByteString getResData();
+
+  /**
+   * <pre>
+   * 选中数据 用于替换 用户在重放器选中的数据
+   * </pre>
+   *
+   * <code>bytes SelectDate = 7;</code>
+   * @return The selectDate.
+   */
+  com.google.protobuf.ByteString getSelectDate();
 }

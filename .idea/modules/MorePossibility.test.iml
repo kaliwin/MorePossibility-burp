@@ -22,6 +22,7 @@
     <orderEntry type="library" name="Gradle: io.grpc:grpc-protobuf:1.54.1" level="project" />
     <orderEntry type="library" name="Gradle: io.grpc:grpc-core:1.54.1" level="project" />
     <orderEntry type="library" name="Gradle: io.grpc:grpc-stub:1.54.1" level="project" />
+    <orderEntry type="library" name="Gradle: net.portswigger.burp.extensions:montoya-api:2023.3" level="project" />
     <orderEntry type="library" name="Gradle: com.google.guava:guava:32.0.0-jre" level="project" />
     <orderEntry type="library" name="Gradle: junit:junit:4.13.2" level="project" />
     <orderEntry type="library" name="Gradle: io.grpc:grpc-protobuf-lite:1.54.1" level="project" />

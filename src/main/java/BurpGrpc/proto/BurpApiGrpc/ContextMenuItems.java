@@ -21,6 +21,7 @@ private static final long serialVersionUID = 0L;
   }
   private ContextMenuItems() {
     name_ = "";
+    selectSource_ = 0;
     selectData_ = com.google.protobuf.ByteString.EMPTY;
   }
 
@@ -44,7 +45,7 @@ private static final long serialVersionUID = 0L;
             BurpGrpc.proto.BurpApiGrpc.ContextMenuItems.class, BurpGrpc.proto.BurpApiGrpc.ContextMenuItems.Builder.class);
   }
 
-  public static final int NAME_FIELD_NUMBER = 3;
+  public static final int NAME_FIELD_NUMBER = 1;
   @SuppressWarnings("serial")
   private volatile java.lang.Object name_ = "";
   /**
@@ -52,7 +53,7 @@ private static final long serialVersionUID = 0L;
    *名称
    * </pre>
    *
-   * <code>string name = 3;</code>
+   * <code>string name = 1;</code>
    * @return The name.
    */
   @java.lang.Override
@@ -73,7 +74,7 @@ private static final long serialVersionUID = 0L;
    *名称
    * </pre>
    *
-   * <code>string name = 3;</code>
+   * <code>string name = 1;</code>
    * @return The bytes for name.
    */
   @java.lang.Override
@@ -91,14 +92,14 @@ private static final long serialVersionUID = 0L;
     }
   }
 
-  public static final int ISSELECT_FIELD_NUMBER = 4;
+  public static final int ISSELECT_FIELD_NUMBER = 2;
   private boolean isSelect_ = false;
   /**
    * <pre>
    * 是否有选中的数据
    * </pre>
    *
-   * <code>bool isSelect = 4;</code>
+   * <code>bool isSelect = 2;</code>
    * @return The isSelect.
    */
   @java.lang.Override
@@ -106,14 +107,40 @@ private static final long serialVersionUID = 0L;
     return isSelect_;
   }
 
-  public static final int HTTPREQANDRES_FIELD_NUMBER = 1;
+  public static final int SELECTSOURCE_FIELD_NUMBER = 3;
+  private int selectSource_ = 0;
+  /**
+   * <pre>
+   * 选中来源 只有选中数据才能知道从哪点的
+   * </pre>
+   *
+   * <code>.burpApi.HttpSource selectSource = 3;</code>
+   * @return The enum numeric value on the wire for selectSource.
+   */
+  @java.lang.Override public int getSelectSourceValue() {
+    return selectSource_;
+  }
+  /**
+   * <pre>
+   * 选中来源 只有选中数据才能知道从哪点的
+   * </pre>
+   *
+   * <code>.burpApi.HttpSource selectSource = 3;</code>
+   * @return The selectSource.
+   */
+  @java.lang.Override public BurpGrpc.proto.BurpApiGrpc.HttpSource getSelectSource() {
+    BurpGrpc.proto.BurpApiGrpc.HttpSource result = BurpGrpc.proto.BurpApiGrpc.HttpSource.forNumber(selectSource_);
+    return result == null ? BurpGrpc.proto.BurpApiGrpc.HttpSource.UNRECOGNIZED : result;
+  }
+
+  public static final int HTTPREQANDRES_FIELD_NUMBER = 4;
   private BurpGrpc.proto.BurpApiGrpc.httpReqAndRes httpReqAndRes_;
   /**
    * <pre>
    * 一组请求和响应
    * </pre>
    *
-   * <code>.burpApi.httpReqAndRes httpReqAndRes = 1;</code>
+   * <code>.burpApi.httpReqAndRes httpReqAndRes = 4;</code>
    * @return Whether the httpReqAndRes field is set.
    */
   @java.lang.Override
@@ -125,7 +152,7 @@ private static final long serialVersionUID = 0L;
    * 一组请求和响应
    * </pre>
    *
-   * <code>.burpApi.httpReqAndRes httpReqAndRes = 1;</code>
+   * <code>.burpApi.httpReqAndRes httpReqAndRes = 4;</code>
    * @return The httpReqAndRes.
    */
   @java.lang.Override
@@ -137,26 +164,64 @@ private static final long serialVersionUID = 0L;
    * 一组请求和响应
    * </pre>
    *
-   * <code>.burpApi.httpReqAndRes httpReqAndRes = 1;</code>
+   * <code>.burpApi.httpReqAndRes httpReqAndRes = 4;</code>
    */
   @java.lang.Override
   public BurpGrpc.proto.BurpApiGrpc.httpReqAndResOrBuilder getHttpReqAndResOrBuilder() {
     return httpReqAndRes_ == null ? BurpGrpc.proto.BurpApiGrpc.httpReqAndRes.getDefaultInstance() : httpReqAndRes_;
   }
 
-  public static final int SELECTDATA_FIELD_NUMBER = 2;
+  public static final int SELECTDATA_FIELD_NUMBER = 5;
   private com.google.protobuf.ByteString selectData_ = com.google.protobuf.ByteString.EMPTY;
   /**
    * <pre>
    * 用户选中的数据
    * </pre>
    *
-   * <code>bytes selectData = 2;</code>
+   * <code>bytes selectData = 5;</code>
    * @return The selectData.
    */
   @java.lang.Override
   public com.google.protobuf.ByteString getSelectData() {
     return selectData_;
+  }
+
+  public static final int SELECTOFFSETS_FIELD_NUMBER = 6;
+  private BurpGrpc.proto.BurpApiGrpc.SubscriptOffsets selectOffsets_;
+  /**
+   * <pre>
+   * 选中的下标偏移量
+   * </pre>
+   *
+   * <code>.burpApi.SubscriptOffsets selectOffsets = 6;</code>
+   * @return Whether the selectOffsets field is set.
+   */
+  @java.lang.Override
+  public boolean hasSelectOffsets() {
+    return selectOffsets_ != null;
+  }
+  /**
+   * <pre>
+   * 选中的下标偏移量
+   * </pre>
+   *
+   * <code>.burpApi.SubscriptOffsets selectOffsets = 6;</code>
+   * @return The selectOffsets.
+   */
+  @java.lang.Override
+  public BurpGrpc.proto.BurpApiGrpc.SubscriptOffsets getSelectOffsets() {
+    return selectOffsets_ == null ? BurpGrpc.proto.BurpApiGrpc.SubscriptOffsets.getDefaultInstance() : selectOffsets_;
+  }
+  /**
+   * <pre>
+   * 选中的下标偏移量
+   * </pre>
+   *
+   * <code>.burpApi.SubscriptOffsets selectOffsets = 6;</code>
+   */
+  @java.lang.Override
+  public BurpGrpc.proto.BurpApiGrpc.SubscriptOffsetsOrBuilder getSelectOffsetsOrBuilder() {
+    return selectOffsets_ == null ? BurpGrpc.proto.BurpApiGrpc.SubscriptOffsets.getDefaultInstance() : selectOffsets_;
   }
 
   private byte memoizedIsInitialized = -1;
@@ -173,17 +238,23 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (httpReqAndRes_ != null) {
-      output.writeMessage(1, getHttpReqAndRes());
-    }
-    if (!selectData_.isEmpty()) {
-      output.writeBytes(2, selectData_);
-    }
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(name_)) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 3, name_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, name_);
     }
     if (isSelect_ != false) {
-      output.writeBool(4, isSelect_);
+      output.writeBool(2, isSelect_);
+    }
+    if (selectSource_ != BurpGrpc.proto.BurpApiGrpc.HttpSource.Request.getNumber()) {
+      output.writeEnum(3, selectSource_);
+    }
+    if (httpReqAndRes_ != null) {
+      output.writeMessage(4, getHttpReqAndRes());
+    }
+    if (!selectData_.isEmpty()) {
+      output.writeBytes(5, selectData_);
+    }
+    if (selectOffsets_ != null) {
+      output.writeMessage(6, getSelectOffsets());
     }
     getUnknownFields().writeTo(output);
   }
@@ -194,20 +265,28 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (httpReqAndRes_ != null) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(1, getHttpReqAndRes());
-    }
-    if (!selectData_.isEmpty()) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeBytesSize(2, selectData_);
-    }
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(name_)) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, name_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, name_);
     }
     if (isSelect_ != false) {
       size += com.google.protobuf.CodedOutputStream
-        .computeBoolSize(4, isSelect_);
+        .computeBoolSize(2, isSelect_);
+    }
+    if (selectSource_ != BurpGrpc.proto.BurpApiGrpc.HttpSource.Request.getNumber()) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeEnumSize(3, selectSource_);
+    }
+    if (httpReqAndRes_ != null) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(4, getHttpReqAndRes());
+    }
+    if (!selectData_.isEmpty()) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeBytesSize(5, selectData_);
+    }
+    if (selectOffsets_ != null) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(6, getSelectOffsets());
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSize = size;
@@ -228,6 +307,7 @@ private static final long serialVersionUID = 0L;
         .equals(other.getName())) return false;
     if (getIsSelect()
         != other.getIsSelect()) return false;
+    if (selectSource_ != other.selectSource_) return false;
     if (hasHttpReqAndRes() != other.hasHttpReqAndRes()) return false;
     if (hasHttpReqAndRes()) {
       if (!getHttpReqAndRes()
@@ -235,6 +315,11 @@ private static final long serialVersionUID = 0L;
     }
     if (!getSelectData()
         .equals(other.getSelectData())) return false;
+    if (hasSelectOffsets() != other.hasSelectOffsets()) return false;
+    if (hasSelectOffsets()) {
+      if (!getSelectOffsets()
+          .equals(other.getSelectOffsets())) return false;
+    }
     if (!getUnknownFields().equals(other.getUnknownFields())) return false;
     return true;
   }
@@ -251,12 +336,18 @@ private static final long serialVersionUID = 0L;
     hash = (37 * hash) + ISSELECT_FIELD_NUMBER;
     hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
         getIsSelect());
+    hash = (37 * hash) + SELECTSOURCE_FIELD_NUMBER;
+    hash = (53 * hash) + selectSource_;
     if (hasHttpReqAndRes()) {
       hash = (37 * hash) + HTTPREQANDRES_FIELD_NUMBER;
       hash = (53 * hash) + getHttpReqAndRes().hashCode();
     }
     hash = (37 * hash) + SELECTDATA_FIELD_NUMBER;
     hash = (53 * hash) + getSelectData().hashCode();
+    if (hasSelectOffsets()) {
+      hash = (37 * hash) + SELECTOFFSETS_FIELD_NUMBER;
+      hash = (53 * hash) + getSelectOffsets().hashCode();
+    }
     hash = (29 * hash) + getUnknownFields().hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -392,12 +483,18 @@ private static final long serialVersionUID = 0L;
       bitField0_ = 0;
       name_ = "";
       isSelect_ = false;
+      selectSource_ = 0;
       httpReqAndRes_ = null;
       if (httpReqAndResBuilder_ != null) {
         httpReqAndResBuilder_.dispose();
         httpReqAndResBuilder_ = null;
       }
       selectData_ = com.google.protobuf.ByteString.EMPTY;
+      selectOffsets_ = null;
+      if (selectOffsetsBuilder_ != null) {
+        selectOffsetsBuilder_.dispose();
+        selectOffsetsBuilder_ = null;
+      }
       return this;
     }
 
@@ -438,12 +535,20 @@ private static final long serialVersionUID = 0L;
         result.isSelect_ = isSelect_;
       }
       if (((from_bitField0_ & 0x00000004) != 0)) {
+        result.selectSource_ = selectSource_;
+      }
+      if (((from_bitField0_ & 0x00000008) != 0)) {
         result.httpReqAndRes_ = httpReqAndResBuilder_ == null
             ? httpReqAndRes_
             : httpReqAndResBuilder_.build();
       }
-      if (((from_bitField0_ & 0x00000008) != 0)) {
+      if (((from_bitField0_ & 0x00000010) != 0)) {
         result.selectData_ = selectData_;
+      }
+      if (((from_bitField0_ & 0x00000020) != 0)) {
+        result.selectOffsets_ = selectOffsetsBuilder_ == null
+            ? selectOffsets_
+            : selectOffsetsBuilder_.build();
       }
     }
 
@@ -467,11 +572,17 @@ private static final long serialVersionUID = 0L;
       if (other.getIsSelect() != false) {
         setIsSelect(other.getIsSelect());
       }
+      if (other.selectSource_ != 0) {
+        setSelectSourceValue(other.getSelectSourceValue());
+      }
       if (other.hasHttpReqAndRes()) {
         mergeHttpReqAndRes(other.getHttpReqAndRes());
       }
       if (other.getSelectData() != com.google.protobuf.ByteString.EMPTY) {
         setSelectData(other.getSelectData());
+      }
+      if (other.hasSelectOffsets()) {
+        mergeSelectOffsets(other.getSelectOffsets());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       onChanged();
@@ -500,27 +611,39 @@ private static final long serialVersionUID = 0L;
               done = true;
               break;
             case 10: {
-              input.readMessage(
-                  getHttpReqAndResFieldBuilder().getBuilder(),
-                  extensionRegistry);
-              bitField0_ |= 0x00000004;
-              break;
-            } // case 10
-            case 18: {
-              selectData_ = input.readBytes();
-              bitField0_ |= 0x00000008;
-              break;
-            } // case 18
-            case 26: {
               name_ = input.readStringRequireUtf8();
               bitField0_ |= 0x00000001;
               break;
-            } // case 26
-            case 32: {
+            } // case 10
+            case 16: {
               isSelect_ = input.readBool();
               bitField0_ |= 0x00000002;
               break;
-            } // case 32
+            } // case 16
+            case 24: {
+              selectSource_ = input.readEnum();
+              bitField0_ |= 0x00000004;
+              break;
+            } // case 24
+            case 34: {
+              input.readMessage(
+                  getHttpReqAndResFieldBuilder().getBuilder(),
+                  extensionRegistry);
+              bitField0_ |= 0x00000008;
+              break;
+            } // case 34
+            case 42: {
+              selectData_ = input.readBytes();
+              bitField0_ |= 0x00000010;
+              break;
+            } // case 42
+            case 50: {
+              input.readMessage(
+                  getSelectOffsetsFieldBuilder().getBuilder(),
+                  extensionRegistry);
+              bitField0_ |= 0x00000020;
+              break;
+            } // case 50
             default: {
               if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                 done = true; // was an endgroup tag
@@ -544,7 +667,7 @@ private static final long serialVersionUID = 0L;
      *名称
      * </pre>
      *
-     * <code>string name = 3;</code>
+     * <code>string name = 1;</code>
      * @return The name.
      */
     public java.lang.String getName() {
@@ -564,7 +687,7 @@ private static final long serialVersionUID = 0L;
      *名称
      * </pre>
      *
-     * <code>string name = 3;</code>
+     * <code>string name = 1;</code>
      * @return The bytes for name.
      */
     public com.google.protobuf.ByteString
@@ -585,7 +708,7 @@ private static final long serialVersionUID = 0L;
      *名称
      * </pre>
      *
-     * <code>string name = 3;</code>
+     * <code>string name = 1;</code>
      * @param value The name to set.
      * @return This builder for chaining.
      */
@@ -602,7 +725,7 @@ private static final long serialVersionUID = 0L;
      *名称
      * </pre>
      *
-     * <code>string name = 3;</code>
+     * <code>string name = 1;</code>
      * @return This builder for chaining.
      */
     public Builder clearName() {
@@ -616,7 +739,7 @@ private static final long serialVersionUID = 0L;
      *名称
      * </pre>
      *
-     * <code>string name = 3;</code>
+     * <code>string name = 1;</code>
      * @param value The bytes for name to set.
      * @return This builder for chaining.
      */
@@ -636,7 +759,7 @@ private static final long serialVersionUID = 0L;
      * 是否有选中的数据
      * </pre>
      *
-     * <code>bool isSelect = 4;</code>
+     * <code>bool isSelect = 2;</code>
      * @return The isSelect.
      */
     @java.lang.Override
@@ -648,7 +771,7 @@ private static final long serialVersionUID = 0L;
      * 是否有选中的数据
      * </pre>
      *
-     * <code>bool isSelect = 4;</code>
+     * <code>bool isSelect = 2;</code>
      * @param value The isSelect to set.
      * @return This builder for chaining.
      */
@@ -664,12 +787,85 @@ private static final long serialVersionUID = 0L;
      * 是否有选中的数据
      * </pre>
      *
-     * <code>bool isSelect = 4;</code>
+     * <code>bool isSelect = 2;</code>
      * @return This builder for chaining.
      */
     public Builder clearIsSelect() {
       bitField0_ = (bitField0_ & ~0x00000002);
       isSelect_ = false;
+      onChanged();
+      return this;
+    }
+
+    private int selectSource_ = 0;
+    /**
+     * <pre>
+     * 选中来源 只有选中数据才能知道从哪点的
+     * </pre>
+     *
+     * <code>.burpApi.HttpSource selectSource = 3;</code>
+     * @return The enum numeric value on the wire for selectSource.
+     */
+    @java.lang.Override public int getSelectSourceValue() {
+      return selectSource_;
+    }
+    /**
+     * <pre>
+     * 选中来源 只有选中数据才能知道从哪点的
+     * </pre>
+     *
+     * <code>.burpApi.HttpSource selectSource = 3;</code>
+     * @param value The enum numeric value on the wire for selectSource to set.
+     * @return This builder for chaining.
+     */
+    public Builder setSelectSourceValue(int value) {
+      selectSource_ = value;
+      bitField0_ |= 0x00000004;
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * 选中来源 只有选中数据才能知道从哪点的
+     * </pre>
+     *
+     * <code>.burpApi.HttpSource selectSource = 3;</code>
+     * @return The selectSource.
+     */
+    @java.lang.Override
+    public BurpGrpc.proto.BurpApiGrpc.HttpSource getSelectSource() {
+      BurpGrpc.proto.BurpApiGrpc.HttpSource result = BurpGrpc.proto.BurpApiGrpc.HttpSource.forNumber(selectSource_);
+      return result == null ? BurpGrpc.proto.BurpApiGrpc.HttpSource.UNRECOGNIZED : result;
+    }
+    /**
+     * <pre>
+     * 选中来源 只有选中数据才能知道从哪点的
+     * </pre>
+     *
+     * <code>.burpApi.HttpSource selectSource = 3;</code>
+     * @param value The selectSource to set.
+     * @return This builder for chaining.
+     */
+    public Builder setSelectSource(BurpGrpc.proto.BurpApiGrpc.HttpSource value) {
+      if (value == null) {
+        throw new NullPointerException();
+      }
+      bitField0_ |= 0x00000004;
+      selectSource_ = value.getNumber();
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * 选中来源 只有选中数据才能知道从哪点的
+     * </pre>
+     *
+     * <code>.burpApi.HttpSource selectSource = 3;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearSelectSource() {
+      bitField0_ = (bitField0_ & ~0x00000004);
+      selectSource_ = 0;
       onChanged();
       return this;
     }
@@ -682,18 +878,18 @@ private static final long serialVersionUID = 0L;
      * 一组请求和响应
      * </pre>
      *
-     * <code>.burpApi.httpReqAndRes httpReqAndRes = 1;</code>
+     * <code>.burpApi.httpReqAndRes httpReqAndRes = 4;</code>
      * @return Whether the httpReqAndRes field is set.
      */
     public boolean hasHttpReqAndRes() {
-      return ((bitField0_ & 0x00000004) != 0);
+      return ((bitField0_ & 0x00000008) != 0);
     }
     /**
      * <pre>
      * 一组请求和响应
      * </pre>
      *
-     * <code>.burpApi.httpReqAndRes httpReqAndRes = 1;</code>
+     * <code>.burpApi.httpReqAndRes httpReqAndRes = 4;</code>
      * @return The httpReqAndRes.
      */
     public BurpGrpc.proto.BurpApiGrpc.httpReqAndRes getHttpReqAndRes() {
@@ -708,7 +904,7 @@ private static final long serialVersionUID = 0L;
      * 一组请求和响应
      * </pre>
      *
-     * <code>.burpApi.httpReqAndRes httpReqAndRes = 1;</code>
+     * <code>.burpApi.httpReqAndRes httpReqAndRes = 4;</code>
      */
     public Builder setHttpReqAndRes(BurpGrpc.proto.BurpApiGrpc.httpReqAndRes value) {
       if (httpReqAndResBuilder_ == null) {
@@ -719,7 +915,7 @@ private static final long serialVersionUID = 0L;
       } else {
         httpReqAndResBuilder_.setMessage(value);
       }
-      bitField0_ |= 0x00000004;
+      bitField0_ |= 0x00000008;
       onChanged();
       return this;
     }
@@ -728,7 +924,7 @@ private static final long serialVersionUID = 0L;
      * 一组请求和响应
      * </pre>
      *
-     * <code>.burpApi.httpReqAndRes httpReqAndRes = 1;</code>
+     * <code>.burpApi.httpReqAndRes httpReqAndRes = 4;</code>
      */
     public Builder setHttpReqAndRes(
         BurpGrpc.proto.BurpApiGrpc.httpReqAndRes.Builder builderForValue) {
@@ -737,7 +933,7 @@ private static final long serialVersionUID = 0L;
       } else {
         httpReqAndResBuilder_.setMessage(builderForValue.build());
       }
-      bitField0_ |= 0x00000004;
+      bitField0_ |= 0x00000008;
       onChanged();
       return this;
     }
@@ -746,11 +942,11 @@ private static final long serialVersionUID = 0L;
      * 一组请求和响应
      * </pre>
      *
-     * <code>.burpApi.httpReqAndRes httpReqAndRes = 1;</code>
+     * <code>.burpApi.httpReqAndRes httpReqAndRes = 4;</code>
      */
     public Builder mergeHttpReqAndRes(BurpGrpc.proto.BurpApiGrpc.httpReqAndRes value) {
       if (httpReqAndResBuilder_ == null) {
-        if (((bitField0_ & 0x00000004) != 0) &&
+        if (((bitField0_ & 0x00000008) != 0) &&
           httpReqAndRes_ != null &&
           httpReqAndRes_ != BurpGrpc.proto.BurpApiGrpc.httpReqAndRes.getDefaultInstance()) {
           getHttpReqAndResBuilder().mergeFrom(value);
@@ -760,7 +956,7 @@ private static final long serialVersionUID = 0L;
       } else {
         httpReqAndResBuilder_.mergeFrom(value);
       }
-      bitField0_ |= 0x00000004;
+      bitField0_ |= 0x00000008;
       onChanged();
       return this;
     }
@@ -769,10 +965,10 @@ private static final long serialVersionUID = 0L;
      * 一组请求和响应
      * </pre>
      *
-     * <code>.burpApi.httpReqAndRes httpReqAndRes = 1;</code>
+     * <code>.burpApi.httpReqAndRes httpReqAndRes = 4;</code>
      */
     public Builder clearHttpReqAndRes() {
-      bitField0_ = (bitField0_ & ~0x00000004);
+      bitField0_ = (bitField0_ & ~0x00000008);
       httpReqAndRes_ = null;
       if (httpReqAndResBuilder_ != null) {
         httpReqAndResBuilder_.dispose();
@@ -786,10 +982,10 @@ private static final long serialVersionUID = 0L;
      * 一组请求和响应
      * </pre>
      *
-     * <code>.burpApi.httpReqAndRes httpReqAndRes = 1;</code>
+     * <code>.burpApi.httpReqAndRes httpReqAndRes = 4;</code>
      */
     public BurpGrpc.proto.BurpApiGrpc.httpReqAndRes.Builder getHttpReqAndResBuilder() {
-      bitField0_ |= 0x00000004;
+      bitField0_ |= 0x00000008;
       onChanged();
       return getHttpReqAndResFieldBuilder().getBuilder();
     }
@@ -798,7 +994,7 @@ private static final long serialVersionUID = 0L;
      * 一组请求和响应
      * </pre>
      *
-     * <code>.burpApi.httpReqAndRes httpReqAndRes = 1;</code>
+     * <code>.burpApi.httpReqAndRes httpReqAndRes = 4;</code>
      */
     public BurpGrpc.proto.BurpApiGrpc.httpReqAndResOrBuilder getHttpReqAndResOrBuilder() {
       if (httpReqAndResBuilder_ != null) {
@@ -813,7 +1009,7 @@ private static final long serialVersionUID = 0L;
      * 一组请求和响应
      * </pre>
      *
-     * <code>.burpApi.httpReqAndRes httpReqAndRes = 1;</code>
+     * <code>.burpApi.httpReqAndRes httpReqAndRes = 4;</code>
      */
     private com.google.protobuf.SingleFieldBuilderV3<
         BurpGrpc.proto.BurpApiGrpc.httpReqAndRes, BurpGrpc.proto.BurpApiGrpc.httpReqAndRes.Builder, BurpGrpc.proto.BurpApiGrpc.httpReqAndResOrBuilder> 
@@ -835,7 +1031,7 @@ private static final long serialVersionUID = 0L;
      * 用户选中的数据
      * </pre>
      *
-     * <code>bytes selectData = 2;</code>
+     * <code>bytes selectData = 5;</code>
      * @return The selectData.
      */
     @java.lang.Override
@@ -847,14 +1043,14 @@ private static final long serialVersionUID = 0L;
      * 用户选中的数据
      * </pre>
      *
-     * <code>bytes selectData = 2;</code>
+     * <code>bytes selectData = 5;</code>
      * @param value The selectData to set.
      * @return This builder for chaining.
      */
     public Builder setSelectData(com.google.protobuf.ByteString value) {
       if (value == null) { throw new NullPointerException(); }
       selectData_ = value;
-      bitField0_ |= 0x00000008;
+      bitField0_ |= 0x00000010;
       onChanged();
       return this;
     }
@@ -863,14 +1059,169 @@ private static final long serialVersionUID = 0L;
      * 用户选中的数据
      * </pre>
      *
-     * <code>bytes selectData = 2;</code>
+     * <code>bytes selectData = 5;</code>
      * @return This builder for chaining.
      */
     public Builder clearSelectData() {
-      bitField0_ = (bitField0_ & ~0x00000008);
+      bitField0_ = (bitField0_ & ~0x00000010);
       selectData_ = getDefaultInstance().getSelectData();
       onChanged();
       return this;
+    }
+
+    private BurpGrpc.proto.BurpApiGrpc.SubscriptOffsets selectOffsets_;
+    private com.google.protobuf.SingleFieldBuilderV3<
+        BurpGrpc.proto.BurpApiGrpc.SubscriptOffsets, BurpGrpc.proto.BurpApiGrpc.SubscriptOffsets.Builder, BurpGrpc.proto.BurpApiGrpc.SubscriptOffsetsOrBuilder> selectOffsetsBuilder_;
+    /**
+     * <pre>
+     * 选中的下标偏移量
+     * </pre>
+     *
+     * <code>.burpApi.SubscriptOffsets selectOffsets = 6;</code>
+     * @return Whether the selectOffsets field is set.
+     */
+    public boolean hasSelectOffsets() {
+      return ((bitField0_ & 0x00000020) != 0);
+    }
+    /**
+     * <pre>
+     * 选中的下标偏移量
+     * </pre>
+     *
+     * <code>.burpApi.SubscriptOffsets selectOffsets = 6;</code>
+     * @return The selectOffsets.
+     */
+    public BurpGrpc.proto.BurpApiGrpc.SubscriptOffsets getSelectOffsets() {
+      if (selectOffsetsBuilder_ == null) {
+        return selectOffsets_ == null ? BurpGrpc.proto.BurpApiGrpc.SubscriptOffsets.getDefaultInstance() : selectOffsets_;
+      } else {
+        return selectOffsetsBuilder_.getMessage();
+      }
+    }
+    /**
+     * <pre>
+     * 选中的下标偏移量
+     * </pre>
+     *
+     * <code>.burpApi.SubscriptOffsets selectOffsets = 6;</code>
+     */
+    public Builder setSelectOffsets(BurpGrpc.proto.BurpApiGrpc.SubscriptOffsets value) {
+      if (selectOffsetsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        selectOffsets_ = value;
+      } else {
+        selectOffsetsBuilder_.setMessage(value);
+      }
+      bitField0_ |= 0x00000020;
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * 选中的下标偏移量
+     * </pre>
+     *
+     * <code>.burpApi.SubscriptOffsets selectOffsets = 6;</code>
+     */
+    public Builder setSelectOffsets(
+        BurpGrpc.proto.BurpApiGrpc.SubscriptOffsets.Builder builderForValue) {
+      if (selectOffsetsBuilder_ == null) {
+        selectOffsets_ = builderForValue.build();
+      } else {
+        selectOffsetsBuilder_.setMessage(builderForValue.build());
+      }
+      bitField0_ |= 0x00000020;
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * 选中的下标偏移量
+     * </pre>
+     *
+     * <code>.burpApi.SubscriptOffsets selectOffsets = 6;</code>
+     */
+    public Builder mergeSelectOffsets(BurpGrpc.proto.BurpApiGrpc.SubscriptOffsets value) {
+      if (selectOffsetsBuilder_ == null) {
+        if (((bitField0_ & 0x00000020) != 0) &&
+          selectOffsets_ != null &&
+          selectOffsets_ != BurpGrpc.proto.BurpApiGrpc.SubscriptOffsets.getDefaultInstance()) {
+          getSelectOffsetsBuilder().mergeFrom(value);
+        } else {
+          selectOffsets_ = value;
+        }
+      } else {
+        selectOffsetsBuilder_.mergeFrom(value);
+      }
+      bitField0_ |= 0x00000020;
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * 选中的下标偏移量
+     * </pre>
+     *
+     * <code>.burpApi.SubscriptOffsets selectOffsets = 6;</code>
+     */
+    public Builder clearSelectOffsets() {
+      bitField0_ = (bitField0_ & ~0x00000020);
+      selectOffsets_ = null;
+      if (selectOffsetsBuilder_ != null) {
+        selectOffsetsBuilder_.dispose();
+        selectOffsetsBuilder_ = null;
+      }
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * 选中的下标偏移量
+     * </pre>
+     *
+     * <code>.burpApi.SubscriptOffsets selectOffsets = 6;</code>
+     */
+    public BurpGrpc.proto.BurpApiGrpc.SubscriptOffsets.Builder getSelectOffsetsBuilder() {
+      bitField0_ |= 0x00000020;
+      onChanged();
+      return getSelectOffsetsFieldBuilder().getBuilder();
+    }
+    /**
+     * <pre>
+     * 选中的下标偏移量
+     * </pre>
+     *
+     * <code>.burpApi.SubscriptOffsets selectOffsets = 6;</code>
+     */
+    public BurpGrpc.proto.BurpApiGrpc.SubscriptOffsetsOrBuilder getSelectOffsetsOrBuilder() {
+      if (selectOffsetsBuilder_ != null) {
+        return selectOffsetsBuilder_.getMessageOrBuilder();
+      } else {
+        return selectOffsets_ == null ?
+            BurpGrpc.proto.BurpApiGrpc.SubscriptOffsets.getDefaultInstance() : selectOffsets_;
+      }
+    }
+    /**
+     * <pre>
+     * 选中的下标偏移量
+     * </pre>
+     *
+     * <code>.burpApi.SubscriptOffsets selectOffsets = 6;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        BurpGrpc.proto.BurpApiGrpc.SubscriptOffsets, BurpGrpc.proto.BurpApiGrpc.SubscriptOffsets.Builder, BurpGrpc.proto.BurpApiGrpc.SubscriptOffsetsOrBuilder> 
+        getSelectOffsetsFieldBuilder() {
+      if (selectOffsetsBuilder_ == null) {
+        selectOffsetsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            BurpGrpc.proto.BurpApiGrpc.SubscriptOffsets, BurpGrpc.proto.BurpApiGrpc.SubscriptOffsets.Builder, BurpGrpc.proto.BurpApiGrpc.SubscriptOffsetsOrBuilder>(
+                getSelectOffsets(),
+                getParentForChildren(),
+                isClean());
+        selectOffsets_ = null;
+      }
+      return selectOffsetsBuilder_;
     }
     @java.lang.Override
     public final Builder setUnknownFields(

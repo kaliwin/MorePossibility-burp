@@ -21,7 +21,7 @@ private static final long serialVersionUID = 0L;
   }
   private annotationsText() {
     notes_ = "";
-    color_ = "";
+    color_ = 0;
   }
 
   @java.lang.Override
@@ -107,50 +107,29 @@ private static final long serialVersionUID = 0L;
   }
 
   public static final int COLOR_FIELD_NUMBER = 3;
-  @SuppressWarnings("serial")
-  private volatile java.lang.Object color_ = "";
+  private int color_ = 0;
   /**
    * <pre>
    * 颜色
    * </pre>
    *
-   * <code>string color = 3;</code>
-   * @return The color.
+   * <code>.burpApi.highlightColor color = 3;</code>
+   * @return The enum numeric value on the wire for color.
    */
-  @java.lang.Override
-  public java.lang.String getColor() {
-    java.lang.Object ref = color_;
-    if (ref instanceof java.lang.String) {
-      return (java.lang.String) ref;
-    } else {
-      com.google.protobuf.ByteString bs = 
-          (com.google.protobuf.ByteString) ref;
-      java.lang.String s = bs.toStringUtf8();
-      color_ = s;
-      return s;
-    }
+  @java.lang.Override public int getColorValue() {
+    return color_;
   }
   /**
    * <pre>
    * 颜色
    * </pre>
    *
-   * <code>string color = 3;</code>
-   * @return The bytes for color.
+   * <code>.burpApi.highlightColor color = 3;</code>
+   * @return The color.
    */
-  @java.lang.Override
-  public com.google.protobuf.ByteString
-      getColorBytes() {
-    java.lang.Object ref = color_;
-    if (ref instanceof java.lang.String) {
-      com.google.protobuf.ByteString b = 
-          com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
-      color_ = b;
-      return b;
-    } else {
-      return (com.google.protobuf.ByteString) ref;
-    }
+  @java.lang.Override public BurpGrpc.proto.BurpApiGrpc.highlightColor getColor() {
+    BurpGrpc.proto.BurpApiGrpc.highlightColor result = BurpGrpc.proto.BurpApiGrpc.highlightColor.forNumber(color_);
+    return result == null ? BurpGrpc.proto.BurpApiGrpc.highlightColor.UNRECOGNIZED : result;
   }
 
   private byte memoizedIsInitialized = -1;
@@ -173,8 +152,8 @@ private static final long serialVersionUID = 0L;
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(notes_)) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 2, notes_);
     }
-    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(color_)) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 3, color_);
+    if (color_ != BurpGrpc.proto.BurpApiGrpc.highlightColor.NONE.getNumber()) {
+      output.writeEnum(3, color_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -192,8 +171,9 @@ private static final long serialVersionUID = 0L;
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(notes_)) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, notes_);
     }
-    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(color_)) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, color_);
+    if (color_ != BurpGrpc.proto.BurpApiGrpc.highlightColor.NONE.getNumber()) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeEnumSize(3, color_);
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSize = size;
@@ -214,8 +194,7 @@ private static final long serialVersionUID = 0L;
         != other.getIsInfo()) return false;
     if (!getNotes()
         .equals(other.getNotes())) return false;
-    if (!getColor()
-        .equals(other.getColor())) return false;
+    if (color_ != other.color_) return false;
     if (!getUnknownFields().equals(other.getUnknownFields())) return false;
     return true;
   }
@@ -233,7 +212,7 @@ private static final long serialVersionUID = 0L;
     hash = (37 * hash) + NOTES_FIELD_NUMBER;
     hash = (53 * hash) + getNotes().hashCode();
     hash = (37 * hash) + COLOR_FIELD_NUMBER;
-    hash = (53 * hash) + getColor().hashCode();
+    hash = (53 * hash) + color_;
     hash = (29 * hash) + getUnknownFields().hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -369,7 +348,7 @@ private static final long serialVersionUID = 0L;
       bitField0_ = 0;
       isInfo_ = false;
       notes_ = "";
-      color_ = "";
+      color_ = 0;
       return this;
     }
 
@@ -434,10 +413,8 @@ private static final long serialVersionUID = 0L;
         bitField0_ |= 0x00000002;
         onChanged();
       }
-      if (!other.getColor().isEmpty()) {
-        color_ = other.color_;
-        bitField0_ |= 0x00000004;
-        onChanged();
+      if (other.color_ != 0) {
+        setColorValue(other.getColorValue());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       onChanged();
@@ -475,11 +452,11 @@ private static final long serialVersionUID = 0L;
               bitField0_ |= 0x00000002;
               break;
             } // case 18
-            case 26: {
-              color_ = input.readStringRequireUtf8();
+            case 24: {
+              color_ = input.readEnum();
               bitField0_ |= 0x00000004;
               break;
-            } // case 26
+            } // case 24
             default: {
               if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                 done = true; // was an endgroup tag
@@ -633,62 +610,61 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private java.lang.Object color_ = "";
+    private int color_ = 0;
     /**
      * <pre>
      * 颜色
      * </pre>
      *
-     * <code>string color = 3;</code>
+     * <code>.burpApi.highlightColor color = 3;</code>
+     * @return The enum numeric value on the wire for color.
+     */
+    @java.lang.Override public int getColorValue() {
+      return color_;
+    }
+    /**
+     * <pre>
+     * 颜色
+     * </pre>
+     *
+     * <code>.burpApi.highlightColor color = 3;</code>
+     * @param value The enum numeric value on the wire for color to set.
+     * @return This builder for chaining.
+     */
+    public Builder setColorValue(int value) {
+      color_ = value;
+      bitField0_ |= 0x00000004;
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * 颜色
+     * </pre>
+     *
+     * <code>.burpApi.highlightColor color = 3;</code>
      * @return The color.
      */
-    public java.lang.String getColor() {
-      java.lang.Object ref = color_;
-      if (!(ref instanceof java.lang.String)) {
-        com.google.protobuf.ByteString bs =
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        color_ = s;
-        return s;
-      } else {
-        return (java.lang.String) ref;
-      }
+    @java.lang.Override
+    public BurpGrpc.proto.BurpApiGrpc.highlightColor getColor() {
+      BurpGrpc.proto.BurpApiGrpc.highlightColor result = BurpGrpc.proto.BurpApiGrpc.highlightColor.forNumber(color_);
+      return result == null ? BurpGrpc.proto.BurpApiGrpc.highlightColor.UNRECOGNIZED : result;
     }
     /**
      * <pre>
      * 颜色
      * </pre>
      *
-     * <code>string color = 3;</code>
-     * @return The bytes for color.
-     */
-    public com.google.protobuf.ByteString
-        getColorBytes() {
-      java.lang.Object ref = color_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        color_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-    /**
-     * <pre>
-     * 颜色
-     * </pre>
-     *
-     * <code>string color = 3;</code>
+     * <code>.burpApi.highlightColor color = 3;</code>
      * @param value The color to set.
      * @return This builder for chaining.
      */
-    public Builder setColor(
-        java.lang.String value) {
-      if (value == null) { throw new NullPointerException(); }
-      color_ = value;
+    public Builder setColor(BurpGrpc.proto.BurpApiGrpc.highlightColor value) {
+      if (value == null) {
+        throw new NullPointerException();
+      }
       bitField0_ |= 0x00000004;
+      color_ = value.getNumber();
       onChanged();
       return this;
     }
@@ -697,30 +673,12 @@ private static final long serialVersionUID = 0L;
      * 颜色
      * </pre>
      *
-     * <code>string color = 3;</code>
+     * <code>.burpApi.highlightColor color = 3;</code>
      * @return This builder for chaining.
      */
     public Builder clearColor() {
-      color_ = getDefaultInstance().getColor();
       bitField0_ = (bitField0_ & ~0x00000004);
-      onChanged();
-      return this;
-    }
-    /**
-     * <pre>
-     * 颜色
-     * </pre>
-     *
-     * <code>string color = 3;</code>
-     * @param value The bytes for color to set.
-     * @return This builder for chaining.
-     */
-    public Builder setColorBytes(
-        com.google.protobuf.ByteString value) {
-      if (value == null) { throw new NullPointerException(); }
-      checkByteStringIsUtf8(value);
-      color_ = value;
-      bitField0_ |= 0x00000004;
+      color_ = 0;
       onChanged();
       return this;
     }

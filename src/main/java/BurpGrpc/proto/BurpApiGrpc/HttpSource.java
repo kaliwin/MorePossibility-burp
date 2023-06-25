@@ -5,80 +5,32 @@ package BurpGrpc.proto.BurpApiGrpc;
 
 /**
  * <pre>
- * 服务名称
+ * http来源类型
  * </pre>
  *
- * Protobuf enum {@code burpApi.serverName}
+ * Protobuf enum {@code burpApi.HttpSource}
  */
-public enum serverName
+public enum HttpSource
     implements com.google.protobuf.ProtocolMessageEnum {
   /**
-   * <pre>
-   * 实时流量镜像服务
-   * </pre>
-   *
-   * <code>RealTimeTrafficMirroring = 0;</code>
+   * <code>Request = 0;</code>
    */
-  RealTimeTrafficMirroring(0),
+  Request(0),
   /**
-   * <pre>
-   * 迭代器处理
-   * </pre>
-   *
-   * <code>IntruderProvider = 1;</code>
+   * <code>Response = 1;</code>
    */
-  IntruderProvider(1),
-  /**
-   * <pre>
-   * 迭代器生成
-   * </pre>
-   *
-   * <code>IntruderGenerator = 2;</code>
-   */
-  IntruderGenerator(2),
-  /**
-   * <pre>
-   * 斥候情报
-   * </pre>
-   *
-   * <code>ScoutIntelligence = 3;</code>
-   */
-  ScoutIntelligence(3),
+  Response(1),
   UNRECOGNIZED(-1),
   ;
 
   /**
-   * <pre>
-   * 实时流量镜像服务
-   * </pre>
-   *
-   * <code>RealTimeTrafficMirroring = 0;</code>
+   * <code>Request = 0;</code>
    */
-  public static final int RealTimeTrafficMirroring_VALUE = 0;
+  public static final int Request_VALUE = 0;
   /**
-   * <pre>
-   * 迭代器处理
-   * </pre>
-   *
-   * <code>IntruderProvider = 1;</code>
+   * <code>Response = 1;</code>
    */
-  public static final int IntruderProvider_VALUE = 1;
-  /**
-   * <pre>
-   * 迭代器生成
-   * </pre>
-   *
-   * <code>IntruderGenerator = 2;</code>
-   */
-  public static final int IntruderGenerator_VALUE = 2;
-  /**
-   * <pre>
-   * 斥候情报
-   * </pre>
-   *
-   * <code>ScoutIntelligence = 3;</code>
-   */
-  public static final int ScoutIntelligence_VALUE = 3;
+  public static final int Response_VALUE = 1;
 
 
   public final int getNumber() {
@@ -95,7 +47,7 @@ public enum serverName
    * @deprecated Use {@link #forNumber(int)} instead.
    */
   @java.lang.Deprecated
-  public static serverName valueOf(int value) {
+  public static HttpSource valueOf(int value) {
     return forNumber(value);
   }
 
@@ -103,25 +55,23 @@ public enum serverName
    * @param value The numeric wire value of the corresponding enum entry.
    * @return The enum associated with the given numeric wire value.
    */
-  public static serverName forNumber(int value) {
+  public static HttpSource forNumber(int value) {
     switch (value) {
-      case 0: return RealTimeTrafficMirroring;
-      case 1: return IntruderProvider;
-      case 2: return IntruderGenerator;
-      case 3: return ScoutIntelligence;
+      case 0: return Request;
+      case 1: return Response;
       default: return null;
     }
   }
 
-  public static com.google.protobuf.Internal.EnumLiteMap<serverName>
+  public static com.google.protobuf.Internal.EnumLiteMap<HttpSource>
       internalGetValueMap() {
     return internalValueMap;
   }
   private static final com.google.protobuf.Internal.EnumLiteMap<
-      serverName> internalValueMap =
-        new com.google.protobuf.Internal.EnumLiteMap<serverName>() {
-          public serverName findValueByNumber(int number) {
-            return serverName.forNumber(number);
+      HttpSource> internalValueMap =
+        new com.google.protobuf.Internal.EnumLiteMap<HttpSource>() {
+          public HttpSource findValueByNumber(int number) {
+            return HttpSource.forNumber(number);
           }
         };
 
@@ -142,9 +92,9 @@ public enum serverName
     return BurpGrpc.proto.BurpApiGrpc.BurpApi.getDescriptor().getEnumTypes().get(0);
   }
 
-  private static final serverName[] VALUES = values();
+  private static final HttpSource[] VALUES = values();
 
-  public static serverName valueOf(
+  public static HttpSource valueOf(
       com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
     if (desc.getType() != getDescriptor()) {
       throw new java.lang.IllegalArgumentException(
@@ -158,10 +108,10 @@ public enum serverName
 
   private final int value;
 
-  private serverName(int value) {
+  private HttpSource(int value) {
     this.value = value;
   }
 
-  // @@protoc_insertion_point(enum_scope:burpApi.serverName)
+  // @@protoc_insertion_point(enum_scope:burpApi.HttpSource)
 }
 

@@ -8,40 +8,39 @@ package BurpGrpc.proto.BurpApiGrpc;
  * 状态,用于表示函数执行状态，服务或对象状态
  * </pre>
  *
- * Protobuf type {@code burpApi.Status}
+ * Protobuf type {@code burpApi.processingStatus}
  */
-public final class Status extends
+public final class processingStatus extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:burpApi.Status)
-    StatusOrBuilder {
+    // @@protoc_insertion_point(message_implements:burpApi.processingStatus)
+    processingStatusOrBuilder {
 private static final long serialVersionUID = 0L;
-  // Use Status.newBuilder() to construct.
-  private Status(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+  // Use processingStatus.newBuilder() to construct.
+  private processingStatus(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
-  private Status() {
+  private processingStatus() {
     info_ = "";
-    tmpByte_ = com.google.protobuf.ByteString.EMPTY;
   }
 
   @java.lang.Override
   @SuppressWarnings({"unused"})
   protected java.lang.Object newInstance(
       UnusedPrivateParameter unused) {
-    return new Status();
+    return new processingStatus();
   }
 
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return BurpGrpc.proto.BurpApiGrpc.BurpApi.internal_static_burpApi_Status_descriptor;
+    return BurpGrpc.proto.BurpApiGrpc.BurpApi.internal_static_burpApi_processingStatus_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return BurpGrpc.proto.BurpApiGrpc.BurpApi.internal_static_burpApi_Status_fieldAccessorTable
+    return BurpGrpc.proto.BurpApiGrpc.BurpApi.internal_static_burpApi_processingStatus_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            BurpGrpc.proto.BurpApiGrpc.Status.class, BurpGrpc.proto.BurpApiGrpc.Status.Builder.class);
+            BurpGrpc.proto.BurpApiGrpc.processingStatus.class, BurpGrpc.proto.BurpApiGrpc.processingStatus.Builder.class);
   }
 
   public static final int BOOLE_FIELD_NUMBER = 1;
@@ -57,21 +56,6 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public boolean getBoole() {
     return boole_;
-  }
-
-  public static final int CODE_FIELD_NUMBER = 2;
-  private long code_ = 0L;
-  /**
-   * <pre>
-   * 状态码
-   * </pre>
-   *
-   * <code>int64 code = 2;</code>
-   * @return The code.
-   */
-  @java.lang.Override
-  public long getCode() {
-    return code_;
   }
 
   public static final int INFO_FIELD_NUMBER = 3;
@@ -121,21 +105,6 @@ private static final long serialVersionUID = 0L;
     }
   }
 
-  public static final int TMPBYTE_FIELD_NUMBER = 4;
-  private com.google.protobuf.ByteString tmpByte_ = com.google.protobuf.ByteString.EMPTY;
-  /**
-   * <pre>
-   * 字节流用于占位和预留
-   * </pre>
-   *
-   * <code>bytes tmpByte = 4;</code>
-   * @return The tmpByte.
-   */
-  @java.lang.Override
-  public com.google.protobuf.ByteString getTmpByte() {
-    return tmpByte_;
-  }
-
   private byte memoizedIsInitialized = -1;
   @java.lang.Override
   public final boolean isInitialized() {
@@ -153,14 +122,8 @@ private static final long serialVersionUID = 0L;
     if (boole_ != false) {
       output.writeBool(1, boole_);
     }
-    if (code_ != 0L) {
-      output.writeInt64(2, code_);
-    }
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(info_)) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 3, info_);
-    }
-    if (!tmpByte_.isEmpty()) {
-      output.writeBytes(4, tmpByte_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -175,16 +138,8 @@ private static final long serialVersionUID = 0L;
       size += com.google.protobuf.CodedOutputStream
         .computeBoolSize(1, boole_);
     }
-    if (code_ != 0L) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeInt64Size(2, code_);
-    }
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(info_)) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, info_);
-    }
-    if (!tmpByte_.isEmpty()) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeBytesSize(4, tmpByte_);
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSize = size;
@@ -196,19 +151,15 @@ private static final long serialVersionUID = 0L;
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof BurpGrpc.proto.BurpApiGrpc.Status)) {
+    if (!(obj instanceof BurpGrpc.proto.BurpApiGrpc.processingStatus)) {
       return super.equals(obj);
     }
-    BurpGrpc.proto.BurpApiGrpc.Status other = (BurpGrpc.proto.BurpApiGrpc.Status) obj;
+    BurpGrpc.proto.BurpApiGrpc.processingStatus other = (BurpGrpc.proto.BurpApiGrpc.processingStatus) obj;
 
     if (getBoole()
         != other.getBoole()) return false;
-    if (getCode()
-        != other.getCode()) return false;
     if (!getInfo()
         .equals(other.getInfo())) return false;
-    if (!getTmpByte()
-        .equals(other.getTmpByte())) return false;
     if (!getUnknownFields().equals(other.getUnknownFields())) return false;
     return true;
   }
@@ -223,81 +174,76 @@ private static final long serialVersionUID = 0L;
     hash = (37 * hash) + BOOLE_FIELD_NUMBER;
     hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
         getBoole());
-    hash = (37 * hash) + CODE_FIELD_NUMBER;
-    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-        getCode());
     hash = (37 * hash) + INFO_FIELD_NUMBER;
     hash = (53 * hash) + getInfo().hashCode();
-    hash = (37 * hash) + TMPBYTE_FIELD_NUMBER;
-    hash = (53 * hash) + getTmpByte().hashCode();
     hash = (29 * hash) + getUnknownFields().hashCode();
     memoizedHashCode = hash;
     return hash;
   }
 
-  public static BurpGrpc.proto.BurpApiGrpc.Status parseFrom(
+  public static BurpGrpc.proto.BurpApiGrpc.processingStatus parseFrom(
       java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static BurpGrpc.proto.BurpApiGrpc.Status parseFrom(
+  public static BurpGrpc.proto.BurpApiGrpc.processingStatus parseFrom(
       java.nio.ByteBuffer data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static BurpGrpc.proto.BurpApiGrpc.Status parseFrom(
+  public static BurpGrpc.proto.BurpApiGrpc.processingStatus parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static BurpGrpc.proto.BurpApiGrpc.Status parseFrom(
+  public static BurpGrpc.proto.BurpApiGrpc.processingStatus parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static BurpGrpc.proto.BurpApiGrpc.Status parseFrom(byte[] data)
+  public static BurpGrpc.proto.BurpApiGrpc.processingStatus parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static BurpGrpc.proto.BurpApiGrpc.Status parseFrom(
+  public static BurpGrpc.proto.BurpApiGrpc.processingStatus parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static BurpGrpc.proto.BurpApiGrpc.Status parseFrom(java.io.InputStream input)
+  public static BurpGrpc.proto.BurpApiGrpc.processingStatus parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static BurpGrpc.proto.BurpApiGrpc.Status parseFrom(
+  public static BurpGrpc.proto.BurpApiGrpc.processingStatus parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
-  public static BurpGrpc.proto.BurpApiGrpc.Status parseDelimitedFrom(java.io.InputStream input)
+  public static BurpGrpc.proto.BurpApiGrpc.processingStatus parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
-  public static BurpGrpc.proto.BurpApiGrpc.Status parseDelimitedFrom(
+  public static BurpGrpc.proto.BurpApiGrpc.processingStatus parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static BurpGrpc.proto.BurpApiGrpc.Status parseFrom(
+  public static BurpGrpc.proto.BurpApiGrpc.processingStatus parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static BurpGrpc.proto.BurpApiGrpc.Status parseFrom(
+  public static BurpGrpc.proto.BurpApiGrpc.processingStatus parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -310,7 +256,7 @@ private static final long serialVersionUID = 0L;
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(BurpGrpc.proto.BurpApiGrpc.Status prototype) {
+  public static Builder newBuilder(BurpGrpc.proto.BurpApiGrpc.processingStatus prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   @java.lang.Override
@@ -330,26 +276,26 @@ private static final long serialVersionUID = 0L;
    * 状态,用于表示函数执行状态，服务或对象状态
    * </pre>
    *
-   * Protobuf type {@code burpApi.Status}
+   * Protobuf type {@code burpApi.processingStatus}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:burpApi.Status)
-      BurpGrpc.proto.BurpApiGrpc.StatusOrBuilder {
+      // @@protoc_insertion_point(builder_implements:burpApi.processingStatus)
+      BurpGrpc.proto.BurpApiGrpc.processingStatusOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return BurpGrpc.proto.BurpApiGrpc.BurpApi.internal_static_burpApi_Status_descriptor;
+      return BurpGrpc.proto.BurpApiGrpc.BurpApi.internal_static_burpApi_processingStatus_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return BurpGrpc.proto.BurpApiGrpc.BurpApi.internal_static_burpApi_Status_fieldAccessorTable
+      return BurpGrpc.proto.BurpApiGrpc.BurpApi.internal_static_burpApi_processingStatus_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              BurpGrpc.proto.BurpApiGrpc.Status.class, BurpGrpc.proto.BurpApiGrpc.Status.Builder.class);
+              BurpGrpc.proto.BurpApiGrpc.processingStatus.class, BurpGrpc.proto.BurpApiGrpc.processingStatus.Builder.class);
     }
 
-    // Construct using BurpGrpc.proto.BurpApiGrpc.Status.newBuilder()
+    // Construct using BurpGrpc.proto.BurpApiGrpc.processingStatus.newBuilder()
     private Builder() {
 
     }
@@ -364,26 +310,24 @@ private static final long serialVersionUID = 0L;
       super.clear();
       bitField0_ = 0;
       boole_ = false;
-      code_ = 0L;
       info_ = "";
-      tmpByte_ = com.google.protobuf.ByteString.EMPTY;
       return this;
     }
 
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return BurpGrpc.proto.BurpApiGrpc.BurpApi.internal_static_burpApi_Status_descriptor;
+      return BurpGrpc.proto.BurpApiGrpc.BurpApi.internal_static_burpApi_processingStatus_descriptor;
     }
 
     @java.lang.Override
-    public BurpGrpc.proto.BurpApiGrpc.Status getDefaultInstanceForType() {
-      return BurpGrpc.proto.BurpApiGrpc.Status.getDefaultInstance();
+    public BurpGrpc.proto.BurpApiGrpc.processingStatus getDefaultInstanceForType() {
+      return BurpGrpc.proto.BurpApiGrpc.processingStatus.getDefaultInstance();
     }
 
     @java.lang.Override
-    public BurpGrpc.proto.BurpApiGrpc.Status build() {
-      BurpGrpc.proto.BurpApiGrpc.Status result = buildPartial();
+    public BurpGrpc.proto.BurpApiGrpc.processingStatus build() {
+      BurpGrpc.proto.BurpApiGrpc.processingStatus result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
@@ -391,54 +335,42 @@ private static final long serialVersionUID = 0L;
     }
 
     @java.lang.Override
-    public BurpGrpc.proto.BurpApiGrpc.Status buildPartial() {
-      BurpGrpc.proto.BurpApiGrpc.Status result = new BurpGrpc.proto.BurpApiGrpc.Status(this);
+    public BurpGrpc.proto.BurpApiGrpc.processingStatus buildPartial() {
+      BurpGrpc.proto.BurpApiGrpc.processingStatus result = new BurpGrpc.proto.BurpApiGrpc.processingStatus(this);
       if (bitField0_ != 0) { buildPartial0(result); }
       onBuilt();
       return result;
     }
 
-    private void buildPartial0(BurpGrpc.proto.BurpApiGrpc.Status result) {
+    private void buildPartial0(BurpGrpc.proto.BurpApiGrpc.processingStatus result) {
       int from_bitField0_ = bitField0_;
       if (((from_bitField0_ & 0x00000001) != 0)) {
         result.boole_ = boole_;
       }
       if (((from_bitField0_ & 0x00000002) != 0)) {
-        result.code_ = code_;
-      }
-      if (((from_bitField0_ & 0x00000004) != 0)) {
         result.info_ = info_;
-      }
-      if (((from_bitField0_ & 0x00000008) != 0)) {
-        result.tmpByte_ = tmpByte_;
       }
     }
 
     @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof BurpGrpc.proto.BurpApiGrpc.Status) {
-        return mergeFrom((BurpGrpc.proto.BurpApiGrpc.Status)other);
+      if (other instanceof BurpGrpc.proto.BurpApiGrpc.processingStatus) {
+        return mergeFrom((BurpGrpc.proto.BurpApiGrpc.processingStatus)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(BurpGrpc.proto.BurpApiGrpc.Status other) {
-      if (other == BurpGrpc.proto.BurpApiGrpc.Status.getDefaultInstance()) return this;
+    public Builder mergeFrom(BurpGrpc.proto.BurpApiGrpc.processingStatus other) {
+      if (other == BurpGrpc.proto.BurpApiGrpc.processingStatus.getDefaultInstance()) return this;
       if (other.getBoole() != false) {
         setBoole(other.getBoole());
       }
-      if (other.getCode() != 0L) {
-        setCode(other.getCode());
-      }
       if (!other.getInfo().isEmpty()) {
         info_ = other.info_;
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000002;
         onChanged();
-      }
-      if (other.getTmpByte() != com.google.protobuf.ByteString.EMPTY) {
-        setTmpByte(other.getTmpByte());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       onChanged();
@@ -471,21 +403,11 @@ private static final long serialVersionUID = 0L;
               bitField0_ |= 0x00000001;
               break;
             } // case 8
-            case 16: {
-              code_ = input.readInt64();
-              bitField0_ |= 0x00000002;
-              break;
-            } // case 16
             case 26: {
               info_ = input.readStringRequireUtf8();
-              bitField0_ |= 0x00000004;
+              bitField0_ |= 0x00000002;
               break;
             } // case 26
-            case 34: {
-              tmpByte_ = input.readBytes();
-              bitField0_ |= 0x00000008;
-              break;
-            } // case 34
             default: {
               if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                 done = true; // was an endgroup tag
@@ -547,50 +469,6 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private long code_ ;
-    /**
-     * <pre>
-     * 状态码
-     * </pre>
-     *
-     * <code>int64 code = 2;</code>
-     * @return The code.
-     */
-    @java.lang.Override
-    public long getCode() {
-      return code_;
-    }
-    /**
-     * <pre>
-     * 状态码
-     * </pre>
-     *
-     * <code>int64 code = 2;</code>
-     * @param value The code to set.
-     * @return This builder for chaining.
-     */
-    public Builder setCode(long value) {
-
-      code_ = value;
-      bitField0_ |= 0x00000002;
-      onChanged();
-      return this;
-    }
-    /**
-     * <pre>
-     * 状态码
-     * </pre>
-     *
-     * <code>int64 code = 2;</code>
-     * @return This builder for chaining.
-     */
-    public Builder clearCode() {
-      bitField0_ = (bitField0_ & ~0x00000002);
-      code_ = 0L;
-      onChanged();
-      return this;
-    }
-
     private java.lang.Object info_ = "";
     /**
      * <pre>
@@ -646,7 +524,7 @@ private static final long serialVersionUID = 0L;
         java.lang.String value) {
       if (value == null) { throw new NullPointerException(); }
       info_ = value;
-      bitField0_ |= 0x00000004;
+      bitField0_ |= 0x00000002;
       onChanged();
       return this;
     }
@@ -660,7 +538,7 @@ private static final long serialVersionUID = 0L;
      */
     public Builder clearInfo() {
       info_ = getDefaultInstance().getInfo();
-      bitField0_ = (bitField0_ & ~0x00000004);
+      bitField0_ = (bitField0_ & ~0x00000002);
       onChanged();
       return this;
     }
@@ -678,51 +556,7 @@ private static final long serialVersionUID = 0L;
       if (value == null) { throw new NullPointerException(); }
       checkByteStringIsUtf8(value);
       info_ = value;
-      bitField0_ |= 0x00000004;
-      onChanged();
-      return this;
-    }
-
-    private com.google.protobuf.ByteString tmpByte_ = com.google.protobuf.ByteString.EMPTY;
-    /**
-     * <pre>
-     * 字节流用于占位和预留
-     * </pre>
-     *
-     * <code>bytes tmpByte = 4;</code>
-     * @return The tmpByte.
-     */
-    @java.lang.Override
-    public com.google.protobuf.ByteString getTmpByte() {
-      return tmpByte_;
-    }
-    /**
-     * <pre>
-     * 字节流用于占位和预留
-     * </pre>
-     *
-     * <code>bytes tmpByte = 4;</code>
-     * @param value The tmpByte to set.
-     * @return This builder for chaining.
-     */
-    public Builder setTmpByte(com.google.protobuf.ByteString value) {
-      if (value == null) { throw new NullPointerException(); }
-      tmpByte_ = value;
-      bitField0_ |= 0x00000008;
-      onChanged();
-      return this;
-    }
-    /**
-     * <pre>
-     * 字节流用于占位和预留
-     * </pre>
-     *
-     * <code>bytes tmpByte = 4;</code>
-     * @return This builder for chaining.
-     */
-    public Builder clearTmpByte() {
-      bitField0_ = (bitField0_ & ~0x00000008);
-      tmpByte_ = getDefaultInstance().getTmpByte();
+      bitField0_ |= 0x00000002;
       onChanged();
       return this;
     }
@@ -739,23 +573,23 @@ private static final long serialVersionUID = 0L;
     }
 
 
-    // @@protoc_insertion_point(builder_scope:burpApi.Status)
+    // @@protoc_insertion_point(builder_scope:burpApi.processingStatus)
   }
 
-  // @@protoc_insertion_point(class_scope:burpApi.Status)
-  private static final BurpGrpc.proto.BurpApiGrpc.Status DEFAULT_INSTANCE;
+  // @@protoc_insertion_point(class_scope:burpApi.processingStatus)
+  private static final BurpGrpc.proto.BurpApiGrpc.processingStatus DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new BurpGrpc.proto.BurpApiGrpc.Status();
+    DEFAULT_INSTANCE = new BurpGrpc.proto.BurpApiGrpc.processingStatus();
   }
 
-  public static BurpGrpc.proto.BurpApiGrpc.Status getDefaultInstance() {
+  public static BurpGrpc.proto.BurpApiGrpc.processingStatus getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<Status>
-      PARSER = new com.google.protobuf.AbstractParser<Status>() {
+  private static final com.google.protobuf.Parser<processingStatus>
+      PARSER = new com.google.protobuf.AbstractParser<processingStatus>() {
     @java.lang.Override
-    public Status parsePartialFrom(
+    public processingStatus parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -774,17 +608,17 @@ private static final long serialVersionUID = 0L;
     }
   };
 
-  public static com.google.protobuf.Parser<Status> parser() {
+  public static com.google.protobuf.Parser<processingStatus> parser() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.google.protobuf.Parser<Status> getParserForType() {
+  public com.google.protobuf.Parser<processingStatus> getParserForType() {
     return PARSER;
   }
 
   @java.lang.Override
-  public BurpGrpc.proto.BurpApiGrpc.Status getDefaultInstanceForType() {
+  public BurpGrpc.proto.BurpApiGrpc.processingStatus getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 

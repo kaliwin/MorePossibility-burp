@@ -1,0 +1,13 @@
+version: v1
+plugins:
+  - name: java
+    out: .
+    opt: paths=source_relative
+  - name: java-grpc
+    out: .
+    opt: paths=source_relative
+  - name: grpc-gateway
+    out: .
+    opt: paths=source_relative
+
+

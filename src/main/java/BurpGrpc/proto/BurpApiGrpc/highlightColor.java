@@ -13,6 +13,10 @@ package BurpGrpc.proto.BurpApiGrpc;
 public enum highlightColor
     implements com.google.protobuf.ProtocolMessageEnum {
   /**
+   * <pre>
+   * 没有任何颜色
+   * </pre>
+   *
    * <code>NONE = 0;</code>
    */
   NONE(0),
@@ -56,6 +60,10 @@ public enum highlightColor
   ;
 
   /**
+   * <pre>
+   * 没有任何颜色
+   * </pre>
+   *
    * <code>NONE = 0;</code>
    */
   public static final int NONE_VALUE = 0;
@@ -161,7 +169,7 @@ public enum highlightColor
   }
   public static final com.google.protobuf.Descriptors.EnumDescriptor
       getDescriptor() {
-    return BurpGrpc.proto.BurpApiGrpc.BurpApi.getDescriptor().getEnumTypes().get(1);
+    return BurpGrpc.proto.BurpApiGrpc.BurpApi.getDescriptor().getEnumTypes().get(2);
   }
 
   private static final highlightColor[] VALUES = values();

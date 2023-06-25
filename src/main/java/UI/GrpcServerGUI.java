@@ -25,22 +25,68 @@ public class GrpcServerGUI extends JPanel {
         initComponents();
     }
 
+    /**
+     * @param name:            名称
+     * @param grpcAddress:     grpc 地址
+     * @param burpServerTypeX:
+     * @description: 服务注册静态函数 通过中文名称注册
+     * @author: cyvk
+     * @date: 2023/6/25 下午4:16
+     */
+    public static void registerServer(String name, String grpcAddress, String burpServerTypeX) {
+        try {
+            if (burpServerTypeX != null && grpcAddress != null && name != null) {
+                //注册服务
+                if (MorePossibility.burpApiTool.registrationServer(name, grpcAddress, formalityChange.data.get(burpServerTypeX))) {
+                    tableModel.addRow(new Object[]{burpServerTypeX, grpcAddress, name}); // 表中添加数据
+                    pluginLog.append(burpServerTypeX + ": " + name + " 注册成功" + "\n");
+                    return;
+                } else {
+                    pluginLog.append(burpServerTypeX + ": " + name + " 注册失败 已存在相同名字的服务" + "\n");
+                }
+                return;
+            }
+        } catch (Exception e) {
+            pluginLog.append("异常 : " + e + "\n");
+        }
+        pluginLog.append(burpServerTypeX + ": " + name + " 注册失败 字段不全" + "\n");
+    }
+
+
+    /**
+     * @param name:            名称
+     * @param grpcAddress:     grpc 地址
+     * @param burpServerTypeX: 类型
+     * @return boolean
+     * @description: 静态注册函数 通过BurpServerTypeX 注册
+     * @author: cyvk
+     * @date: 2023/6/25 下午4:52
+     */
+    public static boolean registerServer(String name, String grpcAddress, BurpServerTypeX burpServerTypeX) {
+        try {
+            if (MorePossibility.burpApiTool.registrationServer(name, grpcAddress, burpServerTypeX)) {
+                String type = formalityChange.de.get(burpServerTypeX);    // 转为中文 用于表格渲染
+                tableModel.addRow(new Object[]{type, grpcAddress, name}); // 表中添加数据
+                pluginLog.append(type + ": " + name + " 注册成功" + "\n");
+                return true;
+            } else {
+                pluginLog.append(burpServerTypeX + ": " + name + " 注册失败 已存在相同名字的服务" + "\n");
+            }
+        } catch (Exception e) {
+            pluginLog.append("异常 : " + e + "\n");
+            return false;
+        }
+        pluginLog.append(burpServerTypeX + ": " + name + " 注册失败 字段不全" + "\n");
+        return false;
+    }
+
+
     private void addServer(ActionEvent e) {
         String selectedData = (String) comboBox1.getSelectedItem();
         String target = textField1.getText();
         String name = textField2.getText();
 
-        if (selectedData != null && target != null && !target.isEmpty() && name != null) {
-            //注册服务
-//            MorePossibility.burpApiTool.registrationServer(name,target)
-            if (MorePossibility.burpApiTool.registrationServer(name,target,formalityChange.data.get(selectedData))) {
-                pluginLog.append(selectedData+": "+name+" 注册成功"+"\n");
-                tableModel.addRow(new Object[]{selectedData, target, name});
-            }else {
-                pluginLog.append(selectedData+": "+name+" 注册失败 已存在相同名字的服务"+"\n");
-            }
-        }
-//        tableModel.addRow(new Object[]{selectedData, target, name});
+        registerServer(name, target, selectedData);
         textField1.setText("");
         textField2.setText("");
     }
@@ -53,14 +99,14 @@ public class GrpcServerGUI extends JPanel {
                 BurpServerTypeX burpServerTypeX = formalityChange.data.get(tableModel.getValueAt(i, 0));
 
                 boolean b = MorePossibility.burpApiTool.delServer((String) tableModel.getValueAt(i, 2), burpServerTypeX);
-                if (b){
+                if (b) {
 //                    MorePossibility.logging.output().println("卸载成功: "+tableModel.getValueAt(i,2));
-                    pluginLog.append("卸载成功: "+tableModel.getValueAt(i,2)+"\n");
+                    pluginLog.append("卸载成功: " + tableModel.getValueAt(i, 2) + "\n");
                     tableModel.deleteRow(selectedRows[i]);
-                }else {
+                } else {
 //                    MorePossibility.logging.output().println("卸载失败！！！ : "+tableModel.getValueAt(i,2));
 
-                    pluginLog.append("卸载失败！！！ : "+tableModel.getValueAt(i,2)+"\n");
+                    pluginLog.append("卸载失败！！！ : " + tableModel.getValueAt(i, 2) + "\n");
                 }
             }
         }
@@ -176,9 +222,9 @@ public class GrpcServerGUI extends JPanel {
     private JScrollPane scrollPane1;
     private JTable table1;
 
-    private MyTableModelX tableModel;
+    public static MyTableModelX tableModel;
 
-    private FormalityChange formalityChange;
+    public static FormalityChange formalityChange;
 
 
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on

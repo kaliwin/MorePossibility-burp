@@ -4,7 +4,7 @@ import static io.grpc.MethodDescriptor.generateFullMethodName;
 
 /**
  * <pre>
- * 获取上下文菜单项服务器
+ * 获取上下文菜单项服务器  发送菜单项的名字
  * </pre>
  */
 @javax.annotation.Generated(
@@ -95,7 +95,7 @@ public final class GetConTextMenuItemsServerGrpc {
 
   /**
    * <pre>
-   * 获取上下文菜单项服务器
+   * 获取上下文菜单项服务器  发送菜单项的名字
    * </pre>
    */
   public static abstract class GetConTextMenuItemsServerImplBase implements io.grpc.BindableService {
@@ -122,7 +122,7 @@ public final class GetConTextMenuItemsServerGrpc {
 
   /**
    * <pre>
-   * 获取上下文菜单项服务器
+   * 获取上下文菜单项服务器  发送菜单项的名字
    * </pre>
    */
   public static final class GetConTextMenuItemsServerStub extends io.grpc.stub.AbstractAsyncStub<GetConTextMenuItemsServerStub> {
@@ -148,7 +148,7 @@ public final class GetConTextMenuItemsServerGrpc {
 
   /**
    * <pre>
-   * 获取上下文菜单项服务器
+   * 获取上下文菜单项服务器  发送菜单项的名字
    * </pre>
    */
   public static final class GetConTextMenuItemsServerBlockingStub extends io.grpc.stub.AbstractBlockingStub<GetConTextMenuItemsServerBlockingStub> {
@@ -173,7 +173,7 @@ public final class GetConTextMenuItemsServerGrpc {
 
   /**
    * <pre>
-   * 获取上下文菜单项服务器
+   * 获取上下文菜单项服务器  发送菜单项的名字
    * </pre>
    */
   public static final class GetConTextMenuItemsServerFutureStub extends io.grpc.stub.AbstractFutureStub<GetConTextMenuItemsServerFutureStub> {

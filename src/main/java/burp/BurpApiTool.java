@@ -30,7 +30,6 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -46,18 +45,7 @@ import static burp.api.montoya.ui.editor.extension.EditorMode.READ_ONLY;
  */
 public class BurpApiTool {
 
-    //    HashMap<String, Registration> serverRegistration; // 服务注册的映射关系
     TreeBasedTable<String, BurpServerTypeX, Registration> serverRegistrationStatus;  // 服务注册状态,结构:名字 服务类型 注册状态
-
-
-//    public void test(String url) {
-//
-//        HttpRequest httpRequest = HttpRequest.httpRequestFromUrl(url);
-//        HttpRequestResponse httpRequestResponse = MorePossibility.burpApi.http().sendRequest(httpRequest);
-//        ManGrpcGUI.consoleLog.append(new String(httpRequestResponse.response().body().getBytes()) + " \n");
-//
-//    }
-
 
     public BurpApiTool() {
         this.serverRegistrationStatus = TreeBasedTable.create();
@@ -121,7 +109,7 @@ public class BurpApiTool {
         if (!serverRegistrationStatus.contains(name, BurpServerTypeX.INTRUDER_PROCESSOR)) {
 
             try {
-                IntruderServerGrpc.IntruderServerBlockingStub intruderClient = MorePossibility.runAchieve.getIntruderClient(target);
+                IntruderPayloadProcessorServerGrpc.IntruderPayloadProcessorServerBlockingStub intruderClient = runAchieve.getIntruderProcessorClient(target);
                 // == null 便是连接失败
 
                 if (intruderClient != null) {
@@ -153,7 +141,7 @@ public class BurpApiTool {
         if (!serverRegistrationStatus.contains(generatorName, INTRUDER_GENERATE)) {
 
             try {
-                IntruderServerGrpc.IntruderServerBlockingStub intruderClient = runAchieve.getIntruderClient(target);
+                IntruderPayloadGeneratorServerGrpc.IntruderPayloadGeneratorServerBlockingStub intruderClient = runAchieve.getIntruderGeneratorClient(target);
                 if (intruderClient != null) {
                     Registration intruderPayloadGenerator = burpApi.intruder().registerPayloadGeneratorProvider(new intruderGenerate(generatorName, intruderClient));
 
@@ -303,21 +291,19 @@ public class BurpApiTool {
      * @param tarGet: grpc 地址
      * @param name:   名称
      * @return boolean
-     * @description: http流量处理器 请求和响应放在一起
+     * @description: http流量处理器 请求和响应放在一起 不用可以返回继续
      * @author: cyvk
      * @date: 2023/6/20 下午12:43
      */
-    private boolean registerHttpReqHandler(String tarGet, String name) {
-        if (!serverRegistrationStatus.contains(name, HTTP_REQUEST_HANDLER)) {
+    private boolean registerHttpHandler(String tarGet, String name) {
+        if (!serverRegistrationStatus.contains(name, HTTP_FLOW_HANDLER)) {
             HttpFlowHandlerGrpc.HttpFlowHandlerBlockingStub httpFlowHandlerClient = runAchieve.getHttpFlowHandlerClient(tarGet);
             Registration registration = burpApi.http().registerHttpHandler(new HttpFlowHandler(httpFlowHandlerClient));
             if (registration.isRegistered()) {
-                serverRegistrationStatus.put(name, HTTP_REQUEST_HANDLER, registration);
+                serverRegistrationStatus.put(name, HTTP_FLOW_HANDLER, registration);
                 return true;
             }
-
         }
-
         return false;
     }
 
@@ -379,10 +365,9 @@ public class BurpApiTool {
             case PROXY_RESPONSE_HANDLER -> {
                 return registerProxyResHandler(target, name);
             }
-            case HTTP_REQUEST_HANDLER -> {
-                return registerHttpReqHandler(target, name);
+            case HTTP_FLOW_HANDLER -> {
+                return registerHttpHandler(target, name);
             }
-
 
         }
         return false;
@@ -422,7 +407,7 @@ class handleHttpTrafficMirroring implements HttpHandler {
 
         httpReqData req = BurpApiUtensil.HttpRequestTohttpReqData(responseReceived.initiatingRequest());   // 组装请求
 
-        httpResData res = BurpApiUtensil.HttpResponseTohttpResData(responseReceived);    // 组装响应
+        httpResData res = BurpApiUtensil.httpResponseTohttpResData(responseReceived);    // 组装响应
 
         //请求信息id、注释
         httpInfo info = httpInfo.newBuilder().setId(responseReceived.messageId()).setInfo(responseReceived.annotations().toString()).build();
@@ -442,10 +427,10 @@ class handleHttpTrafficMirroring implements HttpHandler {
 
 // 迭代器 载荷处理实现
 class intruderDemo implements PayloadProcessor {
-    IntruderServerGrpc.IntruderServerBlockingStub intruderServer;
+    IntruderPayloadProcessorServerGrpc.IntruderPayloadProcessorServerBlockingStub intruderServer;
     String name;
 
-    public intruderDemo(IntruderServerGrpc.IntruderServerBlockingStub intruderServer, String name) {
+    public intruderDemo(IntruderPayloadProcessorServerGrpc.IntruderPayloadProcessorServerBlockingStub intruderServer, String name) {
         this.intruderServer = intruderServer;
         this.name = name;
     }
@@ -475,10 +460,10 @@ class intruderDemo implements PayloadProcessor {
 // 迭代器 生成器实现
 class intruderGenerate implements PayloadGeneratorProvider, PayloadGenerator {
     String name;
-    IntruderServerGrpc.IntruderServerBlockingStub intruderServer;
+    IntruderPayloadGeneratorServerGrpc.IntruderPayloadGeneratorServerBlockingStub intruderServer;
     IntruderGeneratorData.Builder intruderGeneratorData;
 
-    public intruderGenerate(String name, IntruderServerGrpc.IntruderServerBlockingStub intruderServer) {
+    public intruderGenerate(String name, IntruderPayloadGeneratorServerGrpc.IntruderPayloadGeneratorServerBlockingStub intruderServer) {
         this.name = name;
         this.intruderServer = intruderServer;
     }
@@ -510,14 +495,12 @@ class intruderGenerate implements PayloadGeneratorProvider, PayloadGenerator {
     public GeneratedPayload generatePayloadFor(IntruderInsertionPoint insertionPoint) {
         try {
             intruderGeneratorData.setIntruderInsertionPoint(ByteString.copyFrom(insertionPoint.baseValue().getBytes()));
-            ByteData byteData = intruderServer.intruderPayloadGeneratorProvider(intruderGeneratorData.build());
-            String str = new String(byteData.getByteData().toByteArray());
+            PayloadGeneratorResult payloadGeneratorResult = intruderServer.intruderPayloadGeneratorProvider(intruderGeneratorData.build());
 
-            if (str.contains("ggc_end")) {    // 匹配结束符
+            if (payloadGeneratorResult.getIsEnd()) {
                 return GeneratedPayload.end();
             }
-
-            return GeneratedPayload.payload(ByteArray.byteArray(byteData.getByteData().toByteArray()));
+            return GeneratedPayload.payload(ByteArray.byteArray(payloadGeneratorResult.getByteData().toByteArray()));
 
         } catch (Exception e) {
             ManGrpcGUI.pluginLog.append("异常：" + e + "\n");
@@ -662,25 +645,9 @@ class httpReqEditor implements HttpRequestEditorProvider, ExtensionProvidedHttpR
         HttpRequest request = requestResponse.request();
         HttpResponse response = requestResponse.response();
 
-//        httpReqData req = httpReqData.newBuilder()
-//                .setData(ByteString.copyFrom(request.toByteArray().getBytes()))
-//                .setUrl(request.url())
-//                .setBodyIndex(request.bodyOffset())
-//                .setHttpVersion(request.httpVersion())
-//                .build();
-
-
         httpReqData req = BurpApiUtensil.HttpRequestTohttpReqData(request);
 
-
-//        httpResData res = httpResData.newBuilder()
-//                .setData(ByteString.copyFrom(response.toByteArray().getBytes()))
-//                .setBodyIndex(response.bodyOffset())
-//                .setStatusCode(response.statusCode())
-//                .build();
-
-
-        httpResData res = BurpApiUtensil.HttpResponseTohttpResData(response);
+        httpResData res = BurpApiUtensil.httpResponseTohttpResData(response);
 
         httpInfo httpInfoX = httpInfo.newBuilder()
                 .setInfo(requestResponse.annotations().notes())
@@ -708,7 +675,6 @@ class httpReqEditor implements HttpRequestEditorProvider, ExtensionProvidedHttpR
 
     /**
      * @param requestResponse The {@link HttpRequestResponse} to check.
-     * @return
      */
     @Override
     public boolean isEnabledFor(HttpRequestResponse requestResponse) {
@@ -717,24 +683,9 @@ class httpReqEditor implements HttpRequestEditorProvider, ExtensionProvidedHttpR
         HttpRequest request = requestResponse.request();
         HttpResponse response = requestResponse.response();
 
-//        httpReqData req = httpReqData.newBuilder()
-//                .setData(ByteString.copyFrom(request.toByteArray().getBytes()))
-//                .setUrl(request.url())
-//                .setBodyIndex(request.bodyOffset())
-//                .setHttpVersion(request.httpVersion())
-//                .build();
-
-
         httpReqData req = BurpApiUtensil.HttpRequestTohttpReqData(request);
 
-//        httpResData res = httpResData.newBuilder()
-//                .setData(ByteString.copyFrom(response.toByteArray().getBytes()))
-//                .setBodyIndex(response.bodyOffset())
-//                .setStatusCode(response.statusCode())
-//                .build();
-
-        httpResData res = BurpApiUtensil.HttpResponseTohttpResData(response);
-
+        httpResData res = BurpApiUtensil.httpResponseTohttpResData(response);
 
         httpInfo httpInfoX = httpInfo.newBuilder()
                 .setInfo(requestResponse.annotations().notes())
@@ -752,7 +703,6 @@ class httpReqEditor implements HttpRequestEditorProvider, ExtensionProvidedHttpR
                 .setHttpData(reqAndRes)
                 .build();
 
-
         if (httpReqEditBoxAssistClient.isReqHttpEditFor(heb).getBoole()) {
             ManGrpcGUI.consoleLog.append(name + ": 需要渲染" + "\n");
             return true;
@@ -761,36 +711,24 @@ class httpReqEditor implements HttpRequestEditorProvider, ExtensionProvidedHttpR
             return false;
         }
 
-//        return httpReqEditBoxAssistClient.isReqHttpEditFor(heb).getBoole();
     }
 
-    /**
-     * @return
-     */
     @Override
     public String caption() {
         return name;
     }
 
-    /**
-     * @return
-     */
     @Override
     public Component uiComponent() {
         return re.uiComponent();
     }
 
-    /**
-     * @return
-     */
+
     @Override
     public Selection selectedData() {
         return null;
     }
 
-    /**
-     * @return
-     */
     @Override
     public boolean isModified() {
         return false;
@@ -839,9 +777,7 @@ class httpResEditor implements HttpResponseEditorProvider, ExtensionProvidedHttp
         return this;
     }
 
-    /**
-     * @return
-     */
+
     @Override
     public HttpResponse getResponse() {
         return null;
@@ -855,23 +791,9 @@ class httpResEditor implements HttpResponseEditorProvider, ExtensionProvidedHttp
         HttpRequest request = requestResponse.request();
         HttpResponse response = requestResponse.response();
 
-//        httpReqData req = httpReqData.newBuilder()
-//                .setData(ByteString.copyFrom(request.toByteArray().getBytes()))
-//                .setUrl(request.url())
-//                .setBodyIndex(request.bodyOffset())
-//                .setHttpVersion(request.httpVersion())
-//                .build();
-
-
         httpReqData req = BurpApiUtensil.HttpRequestTohttpReqData(request);
 
-//        httpResData res = httpResData.newBuilder()
-//                .setData(ByteString.copyFrom(response.toByteArray().getBytes()))
-//                .setBodyIndex(response.bodyOffset())
-//                .setStatusCode(response.statusCode())
-//                .build();
-
-        httpResData res = BurpApiUtensil.HttpResponseTohttpResData(response);
+        httpResData res = BurpApiUtensil.httpResponseTohttpResData(response);
 
         httpInfo httpInfoX = httpInfo.newBuilder()
                 .setInfo(requestResponse.annotations().notes())
@@ -893,20 +815,14 @@ class httpResEditor implements HttpResponseEditorProvider, ExtensionProvidedHttp
 
     }
 
-    /**
-     * @param requestResponse The {@link HttpRequestResponse} to check.
-     * @return
-     */
     @Override
     public boolean isEnabledFor(HttpRequestResponse requestResponse) {
-
-
         HttpRequest request = requestResponse.request();
         HttpResponse response = requestResponse.response();
 
 
         httpReqData req = BurpApiUtensil.HttpRequestTohttpReqData(request);
-        httpResData res = BurpApiUtensil.HttpResponseTohttpResData(response);
+        httpResData res = BurpApiUtensil.httpResponseTohttpResData(response);
 
         httpInfo httpInfoX = httpInfo.newBuilder()
                 .setInfo(requestResponse.annotations().notes())
@@ -927,33 +843,24 @@ class httpResEditor implements HttpResponseEditorProvider, ExtensionProvidedHttp
         return this.httpResEditClient.isResHttpEditFor(heb).getBoole();
     }
 
-    /**
-     * @return
-     */
+
     @Override
     public String caption() {
         return name;
     }
 
-    /**
-     * @return
-     */
     @Override
     public Component uiComponent() {
         return re.uiComponent();
     }
 
-    /**
-     * @return
-     */
+
     @Override
     public Selection selectedData() {
         return null;
     }
 
-    /**
-     * @return
-     */
+
     @Override
     public boolean isModified() {
         return false;
@@ -993,11 +900,6 @@ class MenuItemsProvider implements ContextMenuItemsProvider {
 // 菜单
 class menu {
     Menu menuListList;
-//    List<MenuItem> menuItems ;
-//
-//    List<menu> menu;
-
-    String name;
 
     ContextMenuEvent event;
 
@@ -1011,7 +913,6 @@ class menu {
 
 
     public Component get() {  // 渲染菜单项
-
         JMenu jMenu = new JMenu(this.menuListList.getName());
 
         List<Menu> menuListList1 = this.menuListList.getMenuListList();
@@ -1030,11 +931,10 @@ class menu {
 
 }
 
-// 菜单项
+// 菜单项处理类 通过Grpc处理
 class menuItem {
     MenuItem menuItem;
     ContextMenuItemsProviderGrpc.ContextMenuItemsProviderBlockingStub client;
-
     ContextMenuEvent event;
 
 //    String name;
@@ -1048,72 +948,111 @@ class menuItem {
     public Component get() {
         JMenuItem jMenuItem = new JMenuItem(this.menuItem.getName());
 
-        jMenuItem.addActionListener(actionEvent -> {
+        jMenuItem.addActionListener(actionEvent -> {   // 点击事件
+            if (event.messageEditorRequestResponse().isPresent()) {
 
-            MessageEditorHttpRequestResponse messageEditorHttpRequestResponse = event.messageEditorRequestResponse().get();
-            HttpRequest request = messageEditorHttpRequestResponse.requestResponse().request();
-            HttpResponse response = messageEditorHttpRequestResponse.requestResponse().response();
+                MessageEditorHttpRequestResponse messageEditorHttpRequestResponse = event.messageEditorRequestResponse().get();
+                HttpRequest request = messageEditorHttpRequestResponse.requestResponse().request();    // 请求
+                HttpResponse response = messageEditorHttpRequestResponse.requestResponse().response(); // 响应
 
-            httpReqAndRes httpReqAndResData = BurpApiUtensil.withHttpReqAndRes(request, response, messageEditorHttpRequestResponse.requestResponse().annotations());
+                // 组装一组请求响应 包含注解
+                httpReqAndRes httpReqAndResData = BurpApiUtensil.withHttpReqAndRes(request, response, messageEditorHttpRequestResponse.requestResponse().annotations());
 
-            boolean isSelect = false;               // 是否有选中的数据
+                ContextMenuItems.Builder builder = ContextMenuItems.newBuilder()
+                        .setName(menuItem.getName())
+                        .setHttpReqAndRes(httpReqAndResData);   // 先设置必要属性
 
-            byte[] selectData = new byte[0];       // 选中的数据
+                Range range = messageEditorHttpRequestResponse.selectionOffsets().get();     // 选中下标
+                if (messageEditorHttpRequestResponse.selectionOffsets().isPresent()) { // 是否有选中数据
+                    builder.setIsSelect(true); // 有选中数据
+                    SubscriptOffsets subscriptOffsets = SubscriptOffsets.newBuilder()
+                            .setStartIndex(range.startIndexInclusive())
+                            .setEndIndex(range.endIndexExclusive())
+                            .build();
 
+                    builder.setSelectOffsets(subscriptOffsets);    // 设置下标
 
-
-            if (messageEditorHttpRequestResponse.selectionOffsets().isPresent()) {
-                isSelect = true;
-
-                switch (messageEditorHttpRequestResponse.selectionContext()) {
-                    case REQUEST -> {
-                        byte[] bytes = messageEditorHttpRequestResponse.requestResponse().request().toByteArray().getBytes();
-                        Range range = messageEditorHttpRequestResponse.selectionOffsets().get();
-                        selectData = Arrays.copyOfRange(bytes, range.startIndexInclusive(), range.endIndexExclusive());
-                        ManGrpcGUI.consoleLog.append("选中的数据: "+new String(selectData));
-                    }
-
-                    case RESPONSE -> {
-                        byte[] bytes = messageEditorHttpRequestResponse.requestResponse().response().toByteArray().getBytes();
-                        Range range = messageEditorHttpRequestResponse.selectionOffsets().get();
-                        selectData = Arrays.copyOfRange(bytes, range.startIndexInclusive(), range.endIndexExclusive());
+                    switch (messageEditorHttpRequestResponse.selectionContext()) {
+                        case REQUEST -> { // 设置选中数据和来源 只有有选中数据才能返回来源 否则不知道从哪点的
+                            byte[] bytes = messageEditorHttpRequestResponse.requestResponse().request().toByteArray().getBytes();
+                            builder.setSelectData(ByteString.copyFrom(Arrays.copyOfRange(bytes, range.startIndexInclusive(), range.endIndexExclusive())));
+                            builder.setSelectSource(HttpSource.Request); // 设置点击来源
+                        }
+                        case RESPONSE -> {
+                            byte[] bytes = messageEditorHttpRequestResponse.requestResponse().response().toByteArray().getBytes();
+                            builder.setSelectData(ByteString.copyFrom(Arrays.copyOfRange(bytes, range.startIndexInclusive(), range.endIndexExclusive())));
+                            builder.setSelectSource(HttpSource.Response);  // 设置点击来源
+                        }
                     }
                 }
 
-            }
+                ContextMenuItems contextMenuItems = builder.build();  // 构建上下文请求对象
 
+                MenuItemsReturn menuItemsReturn = client.menuItemsProvider(contextMenuItems);   // 发起Grpc调用
 
-            ContextMenuItems contextMenuItems = ContextMenuItems.newBuilder()
-                    .setName(menuItem.getName())
-                    .setHttpReqAndRes(httpReqAndResData)
-                    .setIsSelect(isSelect)
-                    .setSelectData(ByteString.copyFrom(selectData))
-                    .build();
+                if (menuItemsReturn.getIsContinue()) { // 继续不做任何处理
+                    return;
+                }
+                if (menuItemsReturn.getIsReviseSelect()) { // 修改选中数据
 
-            MenuItemsReturn menuItemsReturn = client.menuItemsProvider(contextMenuItems);   // 发起Grpc调用
+                    if (range.startIndexInclusive() == 0 && range.endIndexExclusive() == 0) { //
+                        return;
+                    }
 
+                    switch (messageEditorHttpRequestResponse.selectionContext()) {
+                        case REQUEST -> {
+                            byte[] req = request.toByteArray().getBytes(); // 请求数据
+                            byte[] start = Arrays.copyOfRange(req, 0, range.startIndexInclusive()); // 截止选中前
+                            byte[] selectData = menuItemsReturn.getSelectDate().toByteArray();           // 选中数据
+                            byte[] end = Arrays.copyOfRange(req, range.endIndexExclusive(), req.length); // 截止选中后
 
-            if (menuItemsReturn.getIsReviseReq()) { // 是否修改请求
-                ManGrpcGUI.pluginLog.append("修改请求 \n");
-                HttpRequest httpRequest = HttpRequest.httpRequest(ByteArray.byteArray(menuItemsReturn.getReqData().toByteArray()));
-                messageEditorHttpRequestResponse.setRequest(httpRequest);
-            }
+                            int totalLength = start.length + selectData.length + end.length;   // 拿到总长度
+                            byte[] newReqData = new byte[totalLength];
 
-//            if (menuItemsReturn.getIsReviseRes()) { // 是否修改响应
+                            System.arraycopy(start, 0, newReqData, 0, start.length);
+                            System.arraycopy(selectData, 0, newReqData, start.length, selectData.length);
+                            System.arraycopy(end, 0, newReqData, start.length + selectData.length, end.length);
+
+                            messageEditorHttpRequestResponse.setRequest(HttpRequest.httpRequest(ByteArray.byteArray(newReqData)));
+
+                        }
+                        case RESPONSE -> {
+                            byte[] res = response.toByteArray().getBytes(); // 请求数据
+
+                            byte[] start = Arrays.copyOfRange(res, 0, range.startIndexInclusive()); // 截止选中前
+                            byte[] selectData = menuItemsReturn.getSelectDate().toByteArray();           // 选中数据
+                            byte[] end = Arrays.copyOfRange(res, range.endIndexExclusive(), res.length); // 截止选中后
+
+                            int totalLength = start.length + selectData.length + end.length;   // 拿到总长度
+                            byte[] newReqData = new byte[totalLength];
+
+                            // 从组字节流
+                            System.arraycopy(start, 0, newReqData, 0, start.length);
+                            System.arraycopy(selectData, 0, newReqData, start.length, selectData.length);
+                            System.arraycopy(end, 0, newReqData, start.length + selectData.length, end.length);
+
+                            messageEditorHttpRequestResponse.setResponse(HttpResponse.httpResponse(ByteArray.byteArray(newReqData)));
+
+                        }
+                    }
+                }
+                if (menuItemsReturn.getIsReviseReq()) { // 是否修改请求
+//                ManGrpcGUI.pluginLog.append("修改请求 \n");
+                    HttpRequest httpRequest = HttpRequest.httpRequest(ByteArray.byteArray(menuItemsReturn.getReqData().toByteArray()));
+                    messageEditorHttpRequestResponse.setRequest(httpRequest);   // 修改请求
+                }
+
+                if (menuItemsReturn.getIsReviseRes()) { // 是否修改响应   BurpAPI中有修改响应的操作但是不可用
 //                ManGrpcGUI.pluginLog.append("修改响应 \n");
-//                HttpResponse httpResponse = HttpResponse.httpResponse(ByteArray.byteArray(menuItemsReturn.getResData().toByteArray()));
-//                messageEditorHttpRequestResponse.setResponse(httpResponse);
-//
-//            }
-
+                    HttpResponse httpResponse = HttpResponse.httpResponse(ByteArray.byteArray(menuItemsReturn.getResData().toByteArray()));
+                    messageEditorHttpRequestResponse.setResponse(httpResponse);  // 修改响应
+                }
+            }
         });
 
         return jMenuItem;
     }
-
-
 }
-
 
 /**
  * @description: 代理请求处理器
@@ -1121,8 +1060,6 @@ class menuItem {
  * @date: 2023/6/19 上午11:27
  */
 class ProxyReqHandler implements ProxyRequestHandler {
-
-
     ProxyRequestHandlerGrpc.ProxyRequestHandlerBlockingStub client;
 
     public ProxyReqHandler(ProxyRequestHandlerGrpc.ProxyRequestHandlerBlockingStub client) {
@@ -1131,16 +1068,14 @@ class ProxyReqHandler implements ProxyRequestHandler {
 
     /**
      * @param interceptedRequest An {@link InterceptedRequest} object that extensions can use to query and update details of the request.
-     * @return
      */
     @Override
     public ProxyRequestReceivedAction handleRequestReceived(InterceptedRequest interceptedRequest) {
 
         httpReqData httpReqData = BurpApiUtensil.HttpRequestTohttpReqData(interceptedRequest);  // 构造 请求数据
-        annotationsText annotationsText = BurpApiUtensil.AnnotationsToannotationsText(interceptedRequest.annotations()); // 构造响应数据
+        annotationsText annotationsText = BurpApiUtensil.annotationsToannotationsText(interceptedRequest.annotations()); // 构造响应数据
 
         httpReqGroup httpReqGroup = BurpApiUtensil.buildHttpReqGroup(httpReqData, annotationsText); // 构造请求组
-
 
         ProxyRequestAction proxyRequestAction = client.proxyHandleRequestReceived(httpReqGroup);  // 发起Grpc调用
 
@@ -1163,14 +1098,12 @@ class ProxyReqHandler implements ProxyRequestHandler {
             return ProxyRequestReceivedAction.drop();
         }
 
-
         return null;
 
     }
 
     /**
      * @param interceptedRequest An {@link InterceptedRequest} object that extensions can use to query and update details of the intercepted request.
-     * @return
      */
     @Override
     public ProxyRequestToBeSentAction handleRequestToBeSent(InterceptedRequest interceptedRequest) {
@@ -1184,9 +1117,7 @@ class ProxyReqHandler implements ProxyRequestHandler {
  * @date: 2023/6/19 下午5:37
  */
 class ProxyResHandler implements ProxyResponseHandler {
-
     ProxyResponseHandlerGrpc.ProxyResponseHandlerBlockingStub client;
-
 
     public ProxyResHandler(ProxyResponseHandlerGrpc.ProxyResponseHandlerBlockingStub client) {
         this.client = client;
@@ -1197,26 +1128,22 @@ class ProxyResHandler implements ProxyResponseHandler {
      *                            that extensions can use to query and update details of the response, and
      *                            control whether the response should be intercepted and displayed to the
      *                            user for manual review or modification.
-     * @return
      */
     @Override
     public ProxyResponseReceivedAction handleResponseReceived(InterceptedResponse interceptedResponse) {
 
         httpReqData httpReqData = BurpApiUtensil.HttpRequestTohttpReqData(interceptedResponse.initiatingRequest());
-        httpResData httpResData = BurpApiUtensil.HttpResponseTohttpResData(interceptedResponse);
+        httpResData httpResData = BurpApiUtensil.httpResponseTohttpResData(interceptedResponse);
 
-        annotationsText annotationsText = BurpApiUtensil.AnnotationsToannotationsText(interceptedResponse.annotations());
+        annotationsText annotationsText = BurpApiUtensil.annotationsToannotationsText(interceptedResponse.annotations());
 
         httpReqAndRes httpReqAndRes = BurpApiUtensil.withHttpReqAndRes(httpReqData, httpResData, annotationsText);
 
-
         ProxyResponseAction proxyResponseAction = client.proxyHandleResponseReceived(httpReqAndRes); // 发起Grpc 请求调用
-
 
         httpResGroup httpResGroup = proxyResponseAction.getHttpResGroup();   // 获取请求组
 
         Annotations annotations = BurpApiUtensil.annotationsTextToAnnotations(httpResGroup.getAnnotationsText());  // 注解
-
 
         if (proxyResponseAction.getContinue()) {    // 继续不做处理
             return ProxyResponseReceivedAction.continueWith(interceptedResponse, annotations);
@@ -1232,18 +1159,14 @@ class ProxyResHandler implements ProxyResponseHandler {
         }
 
         if (proxyResponseAction.getIsReviseRes()) { // 是否修改响应
-
             return ProxyResponseReceivedAction.continueWith(httpResponse, annotations);
-
         }
-
         return null;
     }
 
     /**
      * @param interceptedResponse An {@link InterceptedResponse} object
      *                            that extensions can use to query and update details of the response.
-     * @return
      */
     @Override
     public ProxyResponseToBeSentAction handleResponseToBeSent(InterceptedResponse interceptedResponse) {
@@ -1258,7 +1181,6 @@ class ProxyResHandler implements ProxyResponseHandler {
  * @date: 2023/6/19 下午5:43
  */
 class HttpFlowHandler implements HttpHandler {
-
     HttpFlowHandlerGrpc.HttpFlowHandlerBlockingStub client;
 
     public HttpFlowHandler(HttpFlowHandlerGrpc.HttpFlowHandlerBlockingStub client) {
@@ -1270,29 +1192,35 @@ class HttpFlowHandler implements HttpHandler {
      */
     @Override
     public RequestToBeSentAction handleHttpRequestToBeSent(HttpRequestToBeSent requestToBeSent) {
-        // 数据转换
-        httpReqData httpReqData = BurpApiUtensil.HttpRequestTohttpReqData(requestToBeSent);
-        annotationsText annotationsText = BurpApiUtensil.AnnotationsToannotationsText(requestToBeSent.annotations());
-        // 构造请求组
-        httpReqGroup httpReqGroup = BurpApiUtensil.buildHttpReqGroup(httpReqData, annotationsText);
 
-        // 发起Grpc 调用
-        HttpRequestAction httpRequestAction = client.httpHandleRequestReceived(httpReqGroup);
+        try {
 
-        // 提取请求组
-        BurpGrpc.proto.BurpApiGrpc.httpReqGroup ReqGroup = httpRequestAction.getHttpReqGroup();
-        // 获取注解
-        Annotations annotations = BurpApiUtensil.annotationsTextToAnnotations(ReqGroup.getAnnotationsText());
 
-        if (httpRequestAction.getContinue()) { // 继续不做处理
-            return RequestToBeSentAction.continueWith(requestToBeSent, annotations);
-        }
-        if (httpRequestAction.getIsReviseReq()) {  // 修改请求
             // 数据转换
-            HttpRequest httpRequest = BurpApiUtensil.httpReqDataTohttpRequest(ReqGroup.getHttpReqData());
-            return RequestToBeSentAction.continueWith(httpRequest, annotations);
-        }
+            httpReqData httpReqData = BurpApiUtensil.HttpRequestTohttpReqData(requestToBeSent);
+            annotationsText annotationsText = BurpApiUtensil.annotationsToannotationsText(requestToBeSent.annotations());
+            // 构造请求组
+            httpReqGroup httpReqGroup = BurpApiUtensil.buildHttpReqGroup(httpReqData, annotationsText);
 
+            // 发起Grpc 调用
+            HttpRequestAction httpRequestAction = client.httpHandleRequestReceived(httpReqGroup);
+
+            // 提取请求组
+            BurpGrpc.proto.BurpApiGrpc.httpReqGroup reqGroup = httpRequestAction.getHttpReqGroup();
+            // 获取注解
+            Annotations annotations = BurpApiUtensil.annotationsTextToAnnotations(reqGroup.getAnnotationsText());
+
+            if (httpRequestAction.getContinue()) { // 继续不做处理
+                return RequestToBeSentAction.continueWith(requestToBeSent, annotations);
+            }
+            if (httpRequestAction.getIsReviseReq()) {  // 修改请求
+                // 数据转换
+                HttpRequest httpRequest = BurpApiUtensil.httpReqDataTohttpRequest(reqGroup.getHttpReqData());
+                return RequestToBeSentAction.continueWith(httpRequest, annotations);
+            }
+        } catch (Exception e) {
+            return null;
+        }
         return null;
     }
 
@@ -1302,24 +1230,27 @@ class HttpFlowHandler implements HttpHandler {
     @Override
     public ResponseReceivedAction handleHttpResponseReceived(HttpResponseReceived responseReceived) {
 
-        // 组装一组请求
-        httpReqAndRes httpReqAndRes = BurpApiUtensil.withHttpReqAndRes(responseReceived.initiatingRequest(), responseReceived, responseReceived.annotations());
+        try {
 
-        HttpResponseAction httpResponseAction = client.httpHandleResponseReceived(httpReqAndRes);   // 发起Grpc 请求
+            // 组装一组请求
+            httpReqAndRes httpReqAndRes = BurpApiUtensil.withHttpReqAndRes(responseReceived.initiatingRequest(), responseReceived, responseReceived.annotations());
 
-        httpResGroup httpResGroup = httpResponseAction.getHttpResGroup();
-        Annotations annotations = BurpApiUtensil.annotationsTextToAnnotations(httpResGroup.getAnnotationsText());
+            HttpResponseAction httpResponseAction = client.httpHandleResponseReceived(httpReqAndRes);   // 发起Grpc 请求
 
+            httpResGroup httpResGroup = httpResponseAction.getHttpResGroup();
+            Annotations annotations = BurpApiUtensil.annotationsTextToAnnotations(httpResGroup.getAnnotationsText());
 
-        if (httpResponseAction.getContinue()) {     // 继续
-            return ResponseReceivedAction.continueWith(responseReceived, annotations);
+            if (httpResponseAction.getContinue()) {     // 继续
+                return ResponseReceivedAction.continueWith(responseReceived, annotations);
+            }
+
+            if (httpResponseAction.getIsReviseRes()) {  // 修改响应
+                HttpResponse httpResponse = BurpApiUtensil.httpResDataToHttpResponse(httpResGroup.getHttpResData());
+                return ResponseReceivedAction.continueWith(httpResponse, annotations);
+            }
+        } catch (Exception e) {
+            return null;
         }
-
-        if (httpResponseAction.getIsReviseRes()) {  // 修改响应
-            HttpResponse httpResponse = BurpApiUtensil.httpResDataToHttpResponse(httpResGroup.getHttpResData());
-            return ResponseReceivedAction.continueWith(httpResponse, annotations);
-        }
-
         return null;
     }
 }

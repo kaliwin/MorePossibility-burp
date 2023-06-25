@@ -17,7 +17,6 @@ import com.google.protobuf.ByteString;
  */
 public class BurpApiUtensil {
 
-
     /**
      * @param hr: burp中的请求对象  HTTP1.1 和 HTTP2 使用的都是这个对象 一旦错误会抛运行时异常
      * @return BurpGrpc.proto.BurpApiGrpc.httpReqData
@@ -34,23 +33,19 @@ public class BurpApiUtensil {
             int bodyIndex = hr.bodyOffset();              // 请求体偏移量
             String httpVersion = hr.httpVersion();        // http版本
 
-
             //     组装请求
             httpReqService reqService = httpReqService.newBuilder()
                     .setIp(httpService.host())
                     .setPort(httpService.port())
                     .setSecure(httpService.secure()).build();  // 组装服务路由
 
-
-            httpReqData httpReq = httpReqData.newBuilder()
+            return httpReqData.newBuilder()
                     .setUrl(url)
                     .setHttpVersion(httpVersion)
                     .setData(ByteString.copyFrom(reqData))
                     .setBodyIndex(bodyIndex)
                     .setHttpReqService(reqService)        // 组装请求
                     .build();
-
-            return httpReq;
 
         } catch (Exception e) {
             return null;
@@ -96,7 +91,7 @@ public class BurpApiUtensil {
      * @author: cyvk
      * @date: 2023/6/20 下午3:48
      */
-    public static httpResData HttpResponseTohttpResData(HttpResponse httpResponse) {
+    public static httpResData httpResponseTohttpResData(HttpResponse httpResponse) {
 
         try {
             short statusCode = httpResponse.statusCode();    // 响应状态码
@@ -104,14 +99,12 @@ public class BurpApiUtensil {
             byte[] bytes = httpResponse.toByteArray().getBytes(); // 字节流数据
             int bodyIndex = httpResponse.bodyOffset();          // 请求体下标
 
-            httpResData res = httpResData.newBuilder()    // 组装数据
+            return httpResData.newBuilder()    // 组装数据
                     .setStatusCode(statusCode)
                     .setData(ByteString.copyFrom(bytes))
                     .setBodyIndex(bodyIndex)
                     .setHttpVersion(httpVersion)
                     .build();
-
-            return res;
         } catch (Exception e) {
             return null;
         }
@@ -146,7 +139,10 @@ public class BurpApiUtensil {
      */
     public static Annotations annotationsTextToAnnotations(annotationsText annotationsText) {
         if (annotationsText.getIsInfo()) {
-            return Annotations.annotations(annotationsText.getNotes(), HighlightColor.highlightColor(annotationsText.getColor()));
+
+            highlightColor color = annotationsText.getColor();
+
+            return Annotations.annotations(annotationsText.getNotes(), HighlightColor.highlightColor(color.name()));
         } else {
             return Annotations.annotations();
         }
@@ -159,7 +155,7 @@ public class BurpApiUtensil {
      * @author: cyvk
      * @date: 2023/6/20 下午4:06
      */
-    public static annotationsText AnnotationsToannotationsText(Annotations annotations) {
+    public static annotationsText annotationsToannotationsText(Annotations annotations) {
 
         annotationsText.Builder builder = annotationsText.newBuilder();
         HighlightColor hc;
@@ -167,19 +163,13 @@ public class BurpApiUtensil {
             return builder.build();
         }
 
-        if (annotations.highlightColor().displayName() == null) {
-            hc = HighlightColor.highlightColor("");
-        } else {
-            hc = annotations.highlightColor();
-        }
-
-        annotationsText annotationsText = builder
+        annotations.highlightColor();
+        hc = annotations.highlightColor();
+        return builder
                 .setIsInfo(true)
-                .setColor(hc.displayName())
+                .setColor(highlightColor.valueOf(hc.name()))
                 .setNotes(annotations.notes())
                 .build();
-
-        return annotationsText;
 
     }
 
@@ -236,9 +226,27 @@ public class BurpApiUtensil {
      * @date: 2023/6/20 下午5:42
      */
     public static httpReqAndRes withHttpReqAndRes(HttpRequest req, HttpResponse res, Annotations annotations) {
-        httpReqData httpReqData = HttpRequestTohttpReqData(req);
-        httpResData httpResData = HttpResponseTohttpResData(res);
-        annotationsText annotationsText = AnnotationsToannotationsText(annotations);
+        httpReqData httpReqData ;
+        httpResData httpResData;
+        annotationsText annotationsText;
+        if (req != null){
+            httpReqData = HttpRequestTohttpReqData(req);
+        }else {
+            httpReqData = BurpGrpc.proto.BurpApiGrpc.httpReqData.newBuilder().build();
+        }
+
+        if (res != null){
+            httpResData =  httpResponseTohttpResData(res);
+        }else {
+            httpResData = BurpGrpc.proto.BurpApiGrpc.httpResData.newBuilder().build();
+        }
+
+        if (annotations != null){
+            annotationsText = annotationsToannotationsText(annotations);
+        }else {
+            annotationsText = BurpGrpc.proto.BurpApiGrpc.annotationsText.newBuilder().build();
+        }
+
         return withHttpReqAndRes(httpReqData, httpResData, annotationsText);
 
     }

@@ -3,8 +3,8 @@
 
 package BurpGrpc.proto.BurpApiGrpc;
 
-public interface StatusOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:burpApi.Status)
+public interface processingStatusOrBuilder extends
+    // @@protoc_insertion_point(interface_extends:burpApi.processingStatus)
     com.google.protobuf.MessageOrBuilder {
 
   /**
@@ -16,16 +16,6 @@ public interface StatusOrBuilder extends
    * @return The boole.
    */
   boolean getBoole();
-
-  /**
-   * <pre>
-   * 状态码
-   * </pre>
-   *
-   * <code>int64 code = 2;</code>
-   * @return The code.
-   */
-  long getCode();
 
   /**
    * <pre>
@@ -46,14 +36,4 @@ public interface StatusOrBuilder extends
    */
   com.google.protobuf.ByteString
       getInfoBytes();
-
-  /**
-   * <pre>
-   * 字节流用于占位和预留
-   * </pre>
-   *
-   * <code>bytes tmpByte = 4;</code>
-   * @return The tmpByte.
-   */
-  com.google.protobuf.ByteString getTmpByte();
 }
