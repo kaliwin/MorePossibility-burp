@@ -3,9 +3,9 @@ package burp;
 import BurpGrpc.achieve.RunAchieve;
 import InformationCenter.WebInformationProcessingCenter;
 import UI.ManGUI;
+import UI.ManGrpcGUI;
 import burp.api.montoya.BurpExtension;
 import burp.api.montoya.MontoyaApi;
-
 
 
 /**
@@ -39,21 +39,26 @@ public class MorePossibility implements BurpExtension {
      */
     @Override
     public void initialize(MontoyaApi api) {
-        burpApi = api;
-        this.init(); // 初始化
 
-        api.extension().setName("MorePossibility_test");
-        api.logging().output().println("启动了");
+        try {
 
-        api.userInterface().registerSuiteTab("MorePossibility_test", new ManGUI());  // 构建UI
+            burpApi = api;
+            this.init(); // 初始化
+
+            api.extension().setName("MorePossibility_test");
+            api.logging().output().println("启动了");
+
+            api.userInterface().registerSuiteTab("MorePossibility_test", new ManGUI());  // 构建UI
 
 
-        api.extension().registerUnloadingHandler(() -> {
+            api.extension().registerUnloadingHandler(() -> {
+                runAchieve.stopServer();
+            });
 
-            runAchieve.stopServer();
+        } catch (Exception e) {
+            ManGrpcGUI.consoleLog.append("[-] 异常 : " + e + "\n");
 
-        });
-
+        }
 //        runAchieve.startServer(9523);
     }
 }

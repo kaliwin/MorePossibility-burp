@@ -72,7 +72,7 @@ public class RunAchieve {
         }
     }
 
-
+    // 客户端调用 后续需要添加证书 在这改就行
     public static ManagedChannel getChannel(String target) {
         return OkHttpChannelBuilder.forTarget(target).usePlaintext().build();
     }
@@ -121,11 +121,13 @@ public class RunAchieve {
      */
     public boolean getRealTimeTrafficMirroring(String target, String name) {
 
-        BurpServerGrpc.BurpServerStub burpServerStub = BurpServerGrpc.newStub(getChannel(target));
+        RealTimeTrafficMirroringGrpc.RealTimeTrafficMirroringStub burpServerStub = RealTimeTrafficMirroringGrpc.newStub(getChannel(target));
+
+
         StreamObserver<httpReqAndRes> httpReqAndResStreamObserver = burpServerStub.realTimeTrafficMirroring(new StreamObserver<>() {
             @Override
             public void onNext(Str value) {
-                ManGrpcGUI.consoleLog.append(Str.getDefaultInstance().getName());
+                ManGrpcGUI.consoleLog.append(Str.getDefaultInstance().getName() + "\n");
             }
 
             @Override
@@ -138,6 +140,7 @@ public class RunAchieve {
                 ManGrpcGUI.consoleLog.append("实时镜像调用结束" + "\n");
             }
         });
+
         return MorePossibility.burpApiTool.realTimeTrafficMirroring(name, httpReqAndResStreamObserver);
     }
 

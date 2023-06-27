@@ -4,7 +4,7 @@ import static io.grpc.MethodDescriptor.generateFullMethodName;
 
 /**
  * <pre>
- * 侦查服务
+ * 侦查服务  未实现
  * </pre>
  */
 @javax.annotation.Generated(
@@ -126,7 +126,7 @@ public final class ScoutServerGrpc {
 
   /**
    * <pre>
-   * 侦查服务
+   * 侦查服务  未实现
    * </pre>
    */
   public static abstract class ScoutServerImplBase implements io.grpc.BindableService {
@@ -170,7 +170,7 @@ public final class ScoutServerGrpc {
 
   /**
    * <pre>
-   * 侦查服务
+   * 侦查服务  未实现
    * </pre>
    */
   public static final class ScoutServerStub extends io.grpc.stub.AbstractAsyncStub<ScoutServerStub> {
@@ -207,7 +207,7 @@ public final class ScoutServerGrpc {
 
   /**
    * <pre>
-   * 侦查服务
+   * 侦查服务  未实现
    * </pre>
    */
   public static final class ScoutServerBlockingStub extends io.grpc.stub.AbstractBlockingStub<ScoutServerBlockingStub> {
@@ -242,7 +242,7 @@ public final class ScoutServerGrpc {
 
   /**
    * <pre>
-   * 侦查服务
+   * 侦查服务  未实现
    * </pre>
    */
   public static final class ScoutServerFutureStub extends io.grpc.stub.AbstractFutureStub<ScoutServerFutureStub> {

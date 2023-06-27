@@ -39,17 +39,18 @@ public class GrpcServerGUI extends JPanel {
                 //注册服务
                 if (MorePossibility.burpApiTool.registrationServer(name, grpcAddress, formalityChange.data.get(burpServerTypeX))) {
                     tableModel.addRow(new Object[]{burpServerTypeX, grpcAddress, name}); // 表中添加数据
-                    pluginLog.append(burpServerTypeX + ": " + name + " 注册成功" + "\n");
+                    pluginLog.append("[+] "+burpServerTypeX + ": " + name + " 注册成功" + "\n");
                     return;
                 } else {
-                    pluginLog.append(burpServerTypeX + ": " + name + " 注册失败 已存在相同名字的服务" + "\n");
+                    pluginLog.append("[-] "+burpServerTypeX + ": " + name + " 注册失败 " + "\n");
                 }
                 return;
             }
         } catch (Exception e) {
             pluginLog.append("异常 : " + e + "\n");
+            return;
         }
-        pluginLog.append(burpServerTypeX + ": " + name + " 注册失败 字段不全" + "\n");
+        pluginLog.append("[-] "+burpServerTypeX + ": " + name + " 注册失败 字段不全" + "\n");
     }
 
 
@@ -70,13 +71,13 @@ public class GrpcServerGUI extends JPanel {
                 pluginLog.append(type + ": " + name + " 注册成功" + "\n");
                 return true;
             } else {
-                pluginLog.append(burpServerTypeX + ": " + name + " 注册失败 已存在相同名字的服务" + "\n");
+                pluginLog.append(burpServerTypeX + ": " + name + " 注册失败 " + "\n");
             }
         } catch (Exception e) {
             pluginLog.append("异常 : " + e + "\n");
             return false;
         }
-        pluginLog.append(burpServerTypeX + ": " + name + " 注册失败 字段不全" + "\n");
+        pluginLog.append("[-] "+burpServerTypeX + ": " + name + " 注册失败 字段不全" + "\n");
         return false;
     }
 

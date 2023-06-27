@@ -4,7 +4,7 @@ import static io.grpc.MethodDescriptor.generateFullMethodName;
 
 /**
  * <pre>
- * http 请求处理器 请求和响应放一起
+ * http流量处理器 请求和响应放一起
  * </pre>
  */
 @javax.annotation.Generated(
@@ -126,7 +126,7 @@ public final class HttpFlowHandlerGrpc {
 
   /**
    * <pre>
-   * http 请求处理器 请求和响应放一起
+   * http流量处理器 请求和响应放一起
    * </pre>
    */
   public static abstract class HttpFlowHandlerImplBase implements io.grpc.BindableService {
@@ -167,7 +167,7 @@ public final class HttpFlowHandlerGrpc {
 
   /**
    * <pre>
-   * http 请求处理器 请求和响应放一起
+   * http流量处理器 请求和响应放一起
    * </pre>
    */
   public static final class HttpFlowHandlerStub extends io.grpc.stub.AbstractAsyncStub<HttpFlowHandlerStub> {
@@ -201,7 +201,7 @@ public final class HttpFlowHandlerGrpc {
 
   /**
    * <pre>
-   * http 请求处理器 请求和响应放一起
+   * http流量处理器 请求和响应放一起
    * </pre>
    */
   public static final class HttpFlowHandlerBlockingStub extends io.grpc.stub.AbstractBlockingStub<HttpFlowHandlerBlockingStub> {
@@ -233,7 +233,7 @@ public final class HttpFlowHandlerGrpc {
 
   /**
    * <pre>
-   * http 请求处理器 请求和响应放一起
+   * http流量处理器 请求和响应放一起
    * </pre>
    */
   public static final class HttpFlowHandlerFutureStub extends io.grpc.stub.AbstractFutureStub<HttpFlowHandlerFutureStub> {

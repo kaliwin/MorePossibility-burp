@@ -179,7 +179,7 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (serverType_ != BurpGrpc.proto.BurpApiGrpc.serverTypeName.INTRUDER_PROCESSOR.getNumber()) {
+    if (serverType_ != BurpGrpc.proto.BurpApiGrpc.serverTypeName.NOLL.getNumber()) {
       output.writeEnum(1, serverType_);
     }
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(name_)) {
@@ -197,7 +197,7 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (serverType_ != BurpGrpc.proto.BurpApiGrpc.serverTypeName.INTRUDER_PROCESSOR.getNumber()) {
+    if (serverType_ != BurpGrpc.proto.BurpApiGrpc.serverTypeName.NOLL.getNumber()) {
       size += com.google.protobuf.CodedOutputStream
         .computeEnumSize(1, serverType_);
     }

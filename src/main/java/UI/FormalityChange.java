@@ -24,7 +24,7 @@ public class FormalityChange {
         data.put("实时流量镜像", BurpServerTypeX.REAL_TIME_TRAFFIC_MIRRORING);
         data.put("请求编辑处理器", BurpServerTypeX.HTTP_REQUEST_EDITOR_PROCESSOR);
         data.put("响应编辑处理器", BurpServerTypeX.HTTP_RESPONSE_EDITOR_PROCESSOR);
-        data.put("http键值对", BurpServerTypeX.HTTP_EDITOR_KEY_VALUE);
+//        data.put("http键值对", BurpServerTypeX.HTTP_EDITOR_KEY_VALUE);
         data.put("上下文菜单提供程序", BurpServerTypeX.CONTEXT_MENU_ITEMS_PROVIDER);
         data.put("Proxy请求处理器", BurpServerTypeX.PROXY_REQUEST_HANDLER);
         data.put("Proxy响应处理器", BurpServerTypeX.PROXY_RESPONSE_HANDLER);
@@ -39,7 +39,7 @@ public class FormalityChange {
         de.put(BurpServerTypeX.REAL_TIME_TRAFFIC_MIRRORING, "实时流量镜像");
         de.put(BurpServerTypeX.HTTP_REQUEST_EDITOR_PROCESSOR, "请求编辑处理器");
         de.put(BurpServerTypeX.HTTP_RESPONSE_EDITOR_PROCESSOR, "响应编辑处理器");
-        de.put(BurpServerTypeX.HTTP_EDITOR_KEY_VALUE, "http键值对");
+//        de.put(BurpServerTypeX.HTTP_EDITOR_KEY_VALUE, "http键值对");
         de.put(BurpServerTypeX.CONTEXT_MENU_ITEMS_PROVIDER, "上下文菜单提供程序");
         de.put(BurpServerTypeX.PROXY_REQUEST_HANDLER, "Proxy请求处理器");
         de.put(BurpServerTypeX.PROXY_RESPONSE_HANDLER, "Proxy响应处理器");

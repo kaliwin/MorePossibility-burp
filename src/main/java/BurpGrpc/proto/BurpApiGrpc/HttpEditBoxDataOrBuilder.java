@@ -32,27 +32,27 @@ public interface HttpEditBoxDataOrBuilder extends
    * 一组http数据 请求 / 响应
    * </pre>
    *
-   * <code>.burpApi.httpReqAndRes httpData = 2;</code>
-   * @return Whether the httpData field is set.
+   * <code>.burpApi.httpReqAndRes httpReqAndResData = 2;</code>
+   * @return Whether the httpReqAndResData field is set.
    */
-  boolean hasHttpData();
+  boolean hasHttpReqAndResData();
   /**
    * <pre>
    * 一组http数据 请求 / 响应
    * </pre>
    *
-   * <code>.burpApi.httpReqAndRes httpData = 2;</code>
-   * @return The httpData.
+   * <code>.burpApi.httpReqAndRes httpReqAndResData = 2;</code>
+   * @return The httpReqAndResData.
    */
-  BurpGrpc.proto.BurpApiGrpc.httpReqAndRes getHttpData();
+  BurpGrpc.proto.BurpApiGrpc.httpReqAndRes getHttpReqAndResData();
   /**
    * <pre>
    * 一组http数据 请求 / 响应
    * </pre>
    *
-   * <code>.burpApi.httpReqAndRes httpData = 2;</code>
+   * <code>.burpApi.httpReqAndRes httpReqAndResData = 2;</code>
    */
-  BurpGrpc.proto.BurpApiGrpc.httpReqAndResOrBuilder getHttpDataOrBuilder();
+  BurpGrpc.proto.BurpApiGrpc.httpReqAndResOrBuilder getHttpReqAndResDataOrBuilder();
 
   /**
    * <pre>

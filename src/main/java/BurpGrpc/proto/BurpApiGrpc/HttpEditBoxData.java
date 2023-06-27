@@ -91,42 +91,42 @@ private static final long serialVersionUID = 0L;
     }
   }
 
-  public static final int HTTPDATA_FIELD_NUMBER = 2;
-  private BurpGrpc.proto.BurpApiGrpc.httpReqAndRes httpData_;
+  public static final int HTTPREQANDRESDATA_FIELD_NUMBER = 2;
+  private BurpGrpc.proto.BurpApiGrpc.httpReqAndRes httpReqAndResData_;
   /**
    * <pre>
    * 一组http数据 请求 / 响应
    * </pre>
    *
-   * <code>.burpApi.httpReqAndRes httpData = 2;</code>
-   * @return Whether the httpData field is set.
+   * <code>.burpApi.httpReqAndRes httpReqAndResData = 2;</code>
+   * @return Whether the httpReqAndResData field is set.
    */
   @java.lang.Override
-  public boolean hasHttpData() {
-    return httpData_ != null;
+  public boolean hasHttpReqAndResData() {
+    return httpReqAndResData_ != null;
   }
   /**
    * <pre>
    * 一组http数据 请求 / 响应
    * </pre>
    *
-   * <code>.burpApi.httpReqAndRes httpData = 2;</code>
-   * @return The httpData.
+   * <code>.burpApi.httpReqAndRes httpReqAndResData = 2;</code>
+   * @return The httpReqAndResData.
    */
   @java.lang.Override
-  public BurpGrpc.proto.BurpApiGrpc.httpReqAndRes getHttpData() {
-    return httpData_ == null ? BurpGrpc.proto.BurpApiGrpc.httpReqAndRes.getDefaultInstance() : httpData_;
+  public BurpGrpc.proto.BurpApiGrpc.httpReqAndRes getHttpReqAndResData() {
+    return httpReqAndResData_ == null ? BurpGrpc.proto.BurpApiGrpc.httpReqAndRes.getDefaultInstance() : httpReqAndResData_;
   }
   /**
    * <pre>
    * 一组http数据 请求 / 响应
    * </pre>
    *
-   * <code>.burpApi.httpReqAndRes httpData = 2;</code>
+   * <code>.burpApi.httpReqAndRes httpReqAndResData = 2;</code>
    */
   @java.lang.Override
-  public BurpGrpc.proto.BurpApiGrpc.httpReqAndResOrBuilder getHttpDataOrBuilder() {
-    return httpData_ == null ? BurpGrpc.proto.BurpApiGrpc.httpReqAndRes.getDefaultInstance() : httpData_;
+  public BurpGrpc.proto.BurpApiGrpc.httpReqAndResOrBuilder getHttpReqAndResDataOrBuilder() {
+    return httpReqAndResData_ == null ? BurpGrpc.proto.BurpApiGrpc.httpReqAndRes.getDefaultInstance() : httpReqAndResData_;
   }
 
   public static final int INFO_FIELD_NUMBER = 3;
@@ -193,8 +193,8 @@ private static final long serialVersionUID = 0L;
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(name_)) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 1, name_);
     }
-    if (httpData_ != null) {
-      output.writeMessage(2, getHttpData());
+    if (httpReqAndResData_ != null) {
+      output.writeMessage(2, getHttpReqAndResData());
     }
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(info_)) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 3, info_);
@@ -211,9 +211,9 @@ private static final long serialVersionUID = 0L;
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(name_)) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, name_);
     }
-    if (httpData_ != null) {
+    if (httpReqAndResData_ != null) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(2, getHttpData());
+        .computeMessageSize(2, getHttpReqAndResData());
     }
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(info_)) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, info_);
@@ -235,10 +235,10 @@ private static final long serialVersionUID = 0L;
 
     if (!getName()
         .equals(other.getName())) return false;
-    if (hasHttpData() != other.hasHttpData()) return false;
-    if (hasHttpData()) {
-      if (!getHttpData()
-          .equals(other.getHttpData())) return false;
+    if (hasHttpReqAndResData() != other.hasHttpReqAndResData()) return false;
+    if (hasHttpReqAndResData()) {
+      if (!getHttpReqAndResData()
+          .equals(other.getHttpReqAndResData())) return false;
     }
     if (!getInfo()
         .equals(other.getInfo())) return false;
@@ -255,9 +255,9 @@ private static final long serialVersionUID = 0L;
     hash = (19 * hash) + getDescriptor().hashCode();
     hash = (37 * hash) + NAME_FIELD_NUMBER;
     hash = (53 * hash) + getName().hashCode();
-    if (hasHttpData()) {
-      hash = (37 * hash) + HTTPDATA_FIELD_NUMBER;
-      hash = (53 * hash) + getHttpData().hashCode();
+    if (hasHttpReqAndResData()) {
+      hash = (37 * hash) + HTTPREQANDRESDATA_FIELD_NUMBER;
+      hash = (53 * hash) + getHttpReqAndResData().hashCode();
     }
     hash = (37 * hash) + INFO_FIELD_NUMBER;
     hash = (53 * hash) + getInfo().hashCode();
@@ -395,10 +395,10 @@ private static final long serialVersionUID = 0L;
       super.clear();
       bitField0_ = 0;
       name_ = "";
-      httpData_ = null;
-      if (httpDataBuilder_ != null) {
-        httpDataBuilder_.dispose();
-        httpDataBuilder_ = null;
+      httpReqAndResData_ = null;
+      if (httpReqAndResDataBuilder_ != null) {
+        httpReqAndResDataBuilder_.dispose();
+        httpReqAndResDataBuilder_ = null;
       }
       info_ = "";
       return this;
@@ -438,9 +438,9 @@ private static final long serialVersionUID = 0L;
         result.name_ = name_;
       }
       if (((from_bitField0_ & 0x00000002) != 0)) {
-        result.httpData_ = httpDataBuilder_ == null
-            ? httpData_
-            : httpDataBuilder_.build();
+        result.httpReqAndResData_ = httpReqAndResDataBuilder_ == null
+            ? httpReqAndResData_
+            : httpReqAndResDataBuilder_.build();
       }
       if (((from_bitField0_ & 0x00000004) != 0)) {
         result.info_ = info_;
@@ -464,8 +464,8 @@ private static final long serialVersionUID = 0L;
         bitField0_ |= 0x00000001;
         onChanged();
       }
-      if (other.hasHttpData()) {
-        mergeHttpData(other.getHttpData());
+      if (other.hasHttpReqAndResData()) {
+        mergeHttpReqAndResData(other.getHttpReqAndResData());
       }
       if (!other.getInfo().isEmpty()) {
         info_ = other.info_;
@@ -505,7 +505,7 @@ private static final long serialVersionUID = 0L;
             } // case 10
             case 18: {
               input.readMessage(
-                  getHttpDataFieldBuilder().getBuilder(),
+                  getHttpReqAndResDataFieldBuilder().getBuilder(),
                   extensionRegistry);
               bitField0_ |= 0x00000002;
               break;
@@ -624,18 +624,18 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private BurpGrpc.proto.BurpApiGrpc.httpReqAndRes httpData_;
+    private BurpGrpc.proto.BurpApiGrpc.httpReqAndRes httpReqAndResData_;
     private com.google.protobuf.SingleFieldBuilderV3<
-        BurpGrpc.proto.BurpApiGrpc.httpReqAndRes, BurpGrpc.proto.BurpApiGrpc.httpReqAndRes.Builder, BurpGrpc.proto.BurpApiGrpc.httpReqAndResOrBuilder> httpDataBuilder_;
+        BurpGrpc.proto.BurpApiGrpc.httpReqAndRes, BurpGrpc.proto.BurpApiGrpc.httpReqAndRes.Builder, BurpGrpc.proto.BurpApiGrpc.httpReqAndResOrBuilder> httpReqAndResDataBuilder_;
     /**
      * <pre>
      * 一组http数据 请求 / 响应
      * </pre>
      *
-     * <code>.burpApi.httpReqAndRes httpData = 2;</code>
-     * @return Whether the httpData field is set.
+     * <code>.burpApi.httpReqAndRes httpReqAndResData = 2;</code>
+     * @return Whether the httpReqAndResData field is set.
      */
-    public boolean hasHttpData() {
+    public boolean hasHttpReqAndResData() {
       return ((bitField0_ & 0x00000002) != 0);
     }
     /**
@@ -643,14 +643,14 @@ private static final long serialVersionUID = 0L;
      * 一组http数据 请求 / 响应
      * </pre>
      *
-     * <code>.burpApi.httpReqAndRes httpData = 2;</code>
-     * @return The httpData.
+     * <code>.burpApi.httpReqAndRes httpReqAndResData = 2;</code>
+     * @return The httpReqAndResData.
      */
-    public BurpGrpc.proto.BurpApiGrpc.httpReqAndRes getHttpData() {
-      if (httpDataBuilder_ == null) {
-        return httpData_ == null ? BurpGrpc.proto.BurpApiGrpc.httpReqAndRes.getDefaultInstance() : httpData_;
+    public BurpGrpc.proto.BurpApiGrpc.httpReqAndRes getHttpReqAndResData() {
+      if (httpReqAndResDataBuilder_ == null) {
+        return httpReqAndResData_ == null ? BurpGrpc.proto.BurpApiGrpc.httpReqAndRes.getDefaultInstance() : httpReqAndResData_;
       } else {
-        return httpDataBuilder_.getMessage();
+        return httpReqAndResDataBuilder_.getMessage();
       }
     }
     /**
@@ -658,16 +658,16 @@ private static final long serialVersionUID = 0L;
      * 一组http数据 请求 / 响应
      * </pre>
      *
-     * <code>.burpApi.httpReqAndRes httpData = 2;</code>
+     * <code>.burpApi.httpReqAndRes httpReqAndResData = 2;</code>
      */
-    public Builder setHttpData(BurpGrpc.proto.BurpApiGrpc.httpReqAndRes value) {
-      if (httpDataBuilder_ == null) {
+    public Builder setHttpReqAndResData(BurpGrpc.proto.BurpApiGrpc.httpReqAndRes value) {
+      if (httpReqAndResDataBuilder_ == null) {
         if (value == null) {
           throw new NullPointerException();
         }
-        httpData_ = value;
+        httpReqAndResData_ = value;
       } else {
-        httpDataBuilder_.setMessage(value);
+        httpReqAndResDataBuilder_.setMessage(value);
       }
       bitField0_ |= 0x00000002;
       onChanged();
@@ -678,14 +678,14 @@ private static final long serialVersionUID = 0L;
      * 一组http数据 请求 / 响应
      * </pre>
      *
-     * <code>.burpApi.httpReqAndRes httpData = 2;</code>
+     * <code>.burpApi.httpReqAndRes httpReqAndResData = 2;</code>
      */
-    public Builder setHttpData(
+    public Builder setHttpReqAndResData(
         BurpGrpc.proto.BurpApiGrpc.httpReqAndRes.Builder builderForValue) {
-      if (httpDataBuilder_ == null) {
-        httpData_ = builderForValue.build();
+      if (httpReqAndResDataBuilder_ == null) {
+        httpReqAndResData_ = builderForValue.build();
       } else {
-        httpDataBuilder_.setMessage(builderForValue.build());
+        httpReqAndResDataBuilder_.setMessage(builderForValue.build());
       }
       bitField0_ |= 0x00000002;
       onChanged();
@@ -696,19 +696,19 @@ private static final long serialVersionUID = 0L;
      * 一组http数据 请求 / 响应
      * </pre>
      *
-     * <code>.burpApi.httpReqAndRes httpData = 2;</code>
+     * <code>.burpApi.httpReqAndRes httpReqAndResData = 2;</code>
      */
-    public Builder mergeHttpData(BurpGrpc.proto.BurpApiGrpc.httpReqAndRes value) {
-      if (httpDataBuilder_ == null) {
+    public Builder mergeHttpReqAndResData(BurpGrpc.proto.BurpApiGrpc.httpReqAndRes value) {
+      if (httpReqAndResDataBuilder_ == null) {
         if (((bitField0_ & 0x00000002) != 0) &&
-          httpData_ != null &&
-          httpData_ != BurpGrpc.proto.BurpApiGrpc.httpReqAndRes.getDefaultInstance()) {
-          getHttpDataBuilder().mergeFrom(value);
+          httpReqAndResData_ != null &&
+          httpReqAndResData_ != BurpGrpc.proto.BurpApiGrpc.httpReqAndRes.getDefaultInstance()) {
+          getHttpReqAndResDataBuilder().mergeFrom(value);
         } else {
-          httpData_ = value;
+          httpReqAndResData_ = value;
         }
       } else {
-        httpDataBuilder_.mergeFrom(value);
+        httpReqAndResDataBuilder_.mergeFrom(value);
       }
       bitField0_ |= 0x00000002;
       onChanged();
@@ -719,14 +719,14 @@ private static final long serialVersionUID = 0L;
      * 一组http数据 请求 / 响应
      * </pre>
      *
-     * <code>.burpApi.httpReqAndRes httpData = 2;</code>
+     * <code>.burpApi.httpReqAndRes httpReqAndResData = 2;</code>
      */
-    public Builder clearHttpData() {
+    public Builder clearHttpReqAndResData() {
       bitField0_ = (bitField0_ & ~0x00000002);
-      httpData_ = null;
-      if (httpDataBuilder_ != null) {
-        httpDataBuilder_.dispose();
-        httpDataBuilder_ = null;
+      httpReqAndResData_ = null;
+      if (httpReqAndResDataBuilder_ != null) {
+        httpReqAndResDataBuilder_.dispose();
+        httpReqAndResDataBuilder_ = null;
       }
       onChanged();
       return this;
@@ -736,26 +736,26 @@ private static final long serialVersionUID = 0L;
      * 一组http数据 请求 / 响应
      * </pre>
      *
-     * <code>.burpApi.httpReqAndRes httpData = 2;</code>
+     * <code>.burpApi.httpReqAndRes httpReqAndResData = 2;</code>
      */
-    public BurpGrpc.proto.BurpApiGrpc.httpReqAndRes.Builder getHttpDataBuilder() {
+    public BurpGrpc.proto.BurpApiGrpc.httpReqAndRes.Builder getHttpReqAndResDataBuilder() {
       bitField0_ |= 0x00000002;
       onChanged();
-      return getHttpDataFieldBuilder().getBuilder();
+      return getHttpReqAndResDataFieldBuilder().getBuilder();
     }
     /**
      * <pre>
      * 一组http数据 请求 / 响应
      * </pre>
      *
-     * <code>.burpApi.httpReqAndRes httpData = 2;</code>
+     * <code>.burpApi.httpReqAndRes httpReqAndResData = 2;</code>
      */
-    public BurpGrpc.proto.BurpApiGrpc.httpReqAndResOrBuilder getHttpDataOrBuilder() {
-      if (httpDataBuilder_ != null) {
-        return httpDataBuilder_.getMessageOrBuilder();
+    public BurpGrpc.proto.BurpApiGrpc.httpReqAndResOrBuilder getHttpReqAndResDataOrBuilder() {
+      if (httpReqAndResDataBuilder_ != null) {
+        return httpReqAndResDataBuilder_.getMessageOrBuilder();
       } else {
-        return httpData_ == null ?
-            BurpGrpc.proto.BurpApiGrpc.httpReqAndRes.getDefaultInstance() : httpData_;
+        return httpReqAndResData_ == null ?
+            BurpGrpc.proto.BurpApiGrpc.httpReqAndRes.getDefaultInstance() : httpReqAndResData_;
       }
     }
     /**
@@ -763,20 +763,20 @@ private static final long serialVersionUID = 0L;
      * 一组http数据 请求 / 响应
      * </pre>
      *
-     * <code>.burpApi.httpReqAndRes httpData = 2;</code>
+     * <code>.burpApi.httpReqAndRes httpReqAndResData = 2;</code>
      */
     private com.google.protobuf.SingleFieldBuilderV3<
         BurpGrpc.proto.BurpApiGrpc.httpReqAndRes, BurpGrpc.proto.BurpApiGrpc.httpReqAndRes.Builder, BurpGrpc.proto.BurpApiGrpc.httpReqAndResOrBuilder> 
-        getHttpDataFieldBuilder() {
-      if (httpDataBuilder_ == null) {
-        httpDataBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+        getHttpReqAndResDataFieldBuilder() {
+      if (httpReqAndResDataBuilder_ == null) {
+        httpReqAndResDataBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
             BurpGrpc.proto.BurpApiGrpc.httpReqAndRes, BurpGrpc.proto.BurpApiGrpc.httpReqAndRes.Builder, BurpGrpc.proto.BurpApiGrpc.httpReqAndResOrBuilder>(
-                getHttpData(),
+                getHttpReqAndResData(),
                 getParentForChildren(),
                 isClean());
-        httpData_ = null;
+        httpReqAndResData_ = null;
       }
-      return httpDataBuilder_;
+      return httpReqAndResDataBuilder_;
     }
 
     private java.lang.Object info_ = "";

@@ -30,8 +30,10 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.regex.Pattern;
 
 import static burp.BurpServerTypeX.*;
 import static burp.MorePossibility.*;
@@ -69,7 +71,7 @@ public class BurpApiTool {
      * @author: cyvk
      * @date: 2023/5/29 下午12:30
      */
-    public boolean realTimeTrafficMirroring(String name, StreamObserver<httpReqAndRes> responseObserver) {
+    public boolean realTimeTrafficMirroring(String name, StreamObserver<httpReqAndRes> responseObserver) { // 传输流
         //注册 http流量处理器
         Registration httpTrafficRegistration = burpApi.http().registerHttpHandler(new handleHttpTrafficMirroring(responseObserver));
         if (httpTrafficRegistration.isRegistered()) {
@@ -84,7 +86,7 @@ public class BurpApiTool {
      * @param target: 目标Grpc地址
      * @param name:   名称
      * @return boolean  是否建立成功
-     * @description: burp主动发起rpc请求通过客户端进行实时流量镜像
+     * @description: burp主动发起rpc请求通过客户端进行实时流量镜像  这是一个客户端流一旦连接断开需要重新连接
      * @author: cyvk
      * @date: 2023/6/8 下午3:11
      */
@@ -235,7 +237,9 @@ public class BurpApiTool {
 
         if (!serverRegistrationStatus.contains(name, CONTEXT_MENU_ITEMS_PROVIDER)) {
             // 调用Grpc  获取菜单项
-            MenuInfo conTextMenuItems = runAchieve.getConTextMenuItemsServer(tarGet).getConTextMenuItems(Str.newBuilder().setName(name).build());
+            MenuInfo conTextMenuItems = runAchieve.getConTextMenuItemsServer(tarGet)
+                    .withDeadlineAfter(2,TimeUnit.SECONDS)  // 设置超时
+                    .getConTextMenuItems(Str.newBuilder().setName(name).build());
 
             // 注册渲染
             Registration registration = burpApi.userInterface().registerContextMenuItemsProvider(new MenuItemsProvider(conTextMenuItems));
@@ -336,42 +340,72 @@ public class BurpApiTool {
      * @date: 2023/6/6 下午9:38
      */
     public boolean registrationServer(String name, String target, BurpServerTypeX burpServerTypeX) {
+
+        if (!isValidIpPort(target)) {
+            ManGrpcGUI.pluginLog.append("[-] Grpc地址不合法 \n");
+            return false;
+        }
+
         switch (burpServerTypeX) {
-            case INTRUDER_GENERATE -> {         // 迭代生成器
+            case INTRUDER_GENERATE -> {                 // 迭代生成器
                 return registerIntruderGeneratorPayload(target, name);
             }
-            case INTRUDER_PROCESSOR -> {        // 迭代处理器
+            case INTRUDER_PROCESSOR -> {                // 迭代处理器
                 return registerIntruderPayloadProcessor(target, name);
             }
-            case REAL_TIME_TRAFFIC_MIRRORING -> {  // 实时流量镜像
+            case REAL_TIME_TRAFFIC_MIRRORING -> {       // 实时流量镜像
                 return realTimeTrafficMirroring(target, name);
             }
-            case HTTP_EDITOR_KEY_VALUE -> {        // http键值对 需要后续测试才能使用
+            case HTTP_EDITOR_KEY_VALUE -> {             // http键值对 需要后续测试才能使用
                 return false;
             }
-            case HTTP_REQUEST_EDITOR_PROCESSOR -> {  // http请求编辑器
+            case HTTP_REQUEST_EDITOR_PROCESSOR -> {     // http请求编辑器
                 return registerHttpReqEdit(target, name);
             }
-            case HTTP_RESPONSE_EDITOR_PROCESSOR -> {  // http响应编辑器
+            case HTTP_RESPONSE_EDITOR_PROCESSOR -> {    // http响应编辑器
                 return registerHttpResEdit(target, name);
             }
 
             case CONTEXT_MENU_ITEMS_PROVIDER -> {      // 上下文菜单提供程序
                 return registerConTextMenuItems(target, name);
             }
-            case PROXY_REQUEST_HANDLER -> {
+            case PROXY_REQUEST_HANDLER -> {           // 代理请求处理器
                 return registerProxyReqHandler(target, name);
             }
-            case PROXY_RESPONSE_HANDLER -> {
+            case PROXY_RESPONSE_HANDLER -> {          // 响应请求处理器
                 return registerProxyResHandler(target, name);
             }
-            case HTTP_FLOW_HANDLER -> {
+            case HTTP_FLOW_HANDLER -> {               // http流量处理器 请求响应在一起
                 return registerHttpHandler(target, name);
             }
 
         }
         return false;
     }
+
+
+    public static boolean isValidIp(String ip) {
+        // IP地址正则表达式
+        String pattern = "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";
+        return Pattern.matches(pattern, ip);
+    }
+
+    public static boolean isValidPort(String port) {
+        // 端口号正则表达式，限制范围为1到65535
+        String pattern = "^([1-9]\\d{0,3}|[1-5]\\d{4}|6[0-4]\\d{3}|65[0-4]\\d{2}|655[0-2]\\d|6553[0-5])$";
+        return Pattern.matches(pattern, port);
+    }
+
+    public static boolean isValidIpPort(String input) {
+        String[] parts = input.split(":");
+        if (parts.length != 2) {
+            return false;
+        }
+        String ip = parts[0];
+        String port = parts[1];
+        return isValidIp(ip) && isValidPort(port);
+    }
+
 
 }
 
@@ -405,15 +439,18 @@ class handleHttpTrafficMirroring implements HttpHandler {
     @Override
     public ResponseReceivedAction handleHttpResponseReceived(HttpResponseReceived responseReceived) {
 
-        httpReqData req = BurpApiUtensil.HttpRequestTohttpReqData(responseReceived.initiatingRequest());   // 组装请求
+//        httpReqData req = BurpApiUtensil.HttpRequestTohttpReqData(responseReceived.initiatingRequest());   // 组装请求
+//
+//        httpResData res = BurpApiUtensil.httpResponseTohttpResData(responseReceived);    // 组装响应
+//
+//        //请求信息id、注释
+//        httpInfo info = httpInfo.newBuilder().setId(responseReceived.messageId()).setInfo(responseReceived.annotations().toString()).build();
+//
+//        // 组装一组请求、响应、信息
+//        httpReqAndRes reqAndRes = httpReqAndRes.newBuilder().setReq(req).setRes(res).setInfo(info).build();
 
-        httpResData res = BurpApiUtensil.httpResponseTohttpResData(responseReceived);    // 组装响应
-
-        //请求信息id、注释
-        httpInfo info = httpInfo.newBuilder().setId(responseReceived.messageId()).setInfo(responseReceived.annotations().toString()).build();
-
-        // 组装一组请求、响应、信息
-        httpReqAndRes reqAndRes = httpReqAndRes.newBuilder().setReq(req).setRes(res).setInfo(info).build();
+        // 组装一组http
+        httpReqAndRes reqAndRes = BurpApiUtensil.withHttpReqAndRes(responseReceived.initiatingRequest(), responseReceived, responseReceived.annotations());
 
         //设置锁避免并发操作流
         lock.lock();
@@ -642,35 +679,17 @@ class httpReqEditor implements HttpRequestEditorProvider, ExtensionProvidedHttpR
      */
     @Override
     public void setRequestResponse(HttpRequestResponse requestResponse) {
-        HttpRequest request = requestResponse.request();
-        HttpResponse response = requestResponse.response();
 
-        httpReqData req = BurpApiUtensil.HttpRequestTohttpReqData(request);
-
-        httpResData res = BurpApiUtensil.httpResponseTohttpResData(response);
-
-        httpInfo httpInfoX = httpInfo.newBuilder()
-                .setInfo(requestResponse.annotations().notes())
-                .build();
-
-        httpReqAndRes reqAndRes = httpReqAndRes.newBuilder()
-                .setReq(req)
-                .setRes(res)
-                .setInfo(httpInfoX)
-                .build();
-
+        httpReqAndRes reqAndRes = BurpApiUtensil.withHttpReqAndRes(requestResponse.request(), requestResponse.response(), requestResponse.annotations());
 
         HttpEditBoxData heb = HttpEditBoxData.newBuilder()
                 .setName(name)
-                .setHttpData(reqAndRes)
+                .setHttpReqAndResData(reqAndRes)
                 .build();
 
         ByteData byteData = httpReqEditBoxAssistClient.reqHttpEdit(heb);
 
-        ManGrpcGUI.consoleLog.append(name + ": 正在渲染" + "\n");
-
         re.setContents(ByteArray.byteArray(byteData.getByteData().toByteArray()));
-
     }
 
     /**
@@ -679,35 +698,16 @@ class httpReqEditor implements HttpRequestEditorProvider, ExtensionProvidedHttpR
     @Override
     public boolean isEnabledFor(HttpRequestResponse requestResponse) {
 
-
-        HttpRequest request = requestResponse.request();
-        HttpResponse response = requestResponse.response();
-
-        httpReqData req = BurpApiUtensil.HttpRequestTohttpReqData(request);
-
-        httpResData res = BurpApiUtensil.httpResponseTohttpResData(response);
-
-        httpInfo httpInfoX = httpInfo.newBuilder()
-                .setInfo(requestResponse.annotations().notes())
-                .build();
-
-        httpReqAndRes reqAndRes = httpReqAndRes.newBuilder()
-                .setReq(req)
-                .setRes(res)
-                .setInfo(httpInfoX)
-                .build();
-
+        httpReqAndRes reqAndRes = BurpApiUtensil.withHttpReqAndRes(requestResponse.request(), requestResponse.response(), requestResponse.annotations());
 
         HttpEditBoxData heb = HttpEditBoxData.newBuilder()
                 .setName(name)
-                .setHttpData(reqAndRes)
+                .setHttpReqAndResData(reqAndRes)
                 .build();
 
         if (httpReqEditBoxAssistClient.isReqHttpEditFor(heb).getBoole()) {
-            ManGrpcGUI.consoleLog.append(name + ": 需要渲染" + "\n");
             return true;
         } else {
-            ManGrpcGUI.consoleLog.append(name + ": 不需要渲染" + "\n");
             return false;
         }
 
@@ -808,7 +808,7 @@ class httpResEditor implements HttpResponseEditorProvider, ExtensionProvidedHttp
 
         HttpEditBoxData heb = HttpEditBoxData.newBuilder()
                 .setName(name)
-                .setHttpData(reqAndRes)
+                .setHttpReqAndResData(reqAndRes)
                 .build();
         ByteData byteData = this.httpResEditClient.resHttpEdit(heb);
         re.setContents(ByteArray.byteArray(byteData.getByteData().toByteArray()));
@@ -837,7 +837,7 @@ class httpResEditor implements HttpResponseEditorProvider, ExtensionProvidedHttp
 
         HttpEditBoxData heb = HttpEditBoxData.newBuilder()
                 .setName(name)
-                .setHttpData(reqAndRes)
+                .setHttpReqAndResData(reqAndRes)
                 .build();
 
         return this.httpResEditClient.isResHttpEditFor(heb).getBoole();
@@ -888,6 +888,10 @@ class MenuItemsProvider implements ContextMenuItemsProvider {
 
         // 调用 grpc 获取菜单项处理的客户端
         ContextMenuItemsProviderGrpc.ContextMenuItemsProviderBlockingStub client = runAchieve.getMenuItemsProviderClient(conTextMenuItems.getTarGet());
+
+
+//        client.withDeadlineAfter(2, TimeUnit.SECONDS)
+
 
         components.add(new menu(conTextMenuItems.getMenu(), event, client).get());    // 执行渲染并绑定点击事件
 

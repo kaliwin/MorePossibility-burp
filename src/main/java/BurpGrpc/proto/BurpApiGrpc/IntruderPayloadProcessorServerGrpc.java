@@ -4,7 +4,7 @@ import static io.grpc.MethodDescriptor.generateFullMethodName;
 
 /**
  * <pre>
- * 迭代器服务, 两个函数 处理器和生成器,用于引入第三方程序
+ * 迭代处理器
  * </pre>
  */
 @javax.annotation.Generated(
@@ -95,7 +95,7 @@ public final class IntruderPayloadProcessorServerGrpc {
 
   /**
    * <pre>
-   * 迭代器服务, 两个函数 处理器和生成器,用于引入第三方程序
+   * 迭代处理器
    * </pre>
    */
   public static abstract class IntruderPayloadProcessorServerImplBase implements io.grpc.BindableService {
@@ -125,7 +125,7 @@ public final class IntruderPayloadProcessorServerGrpc {
 
   /**
    * <pre>
-   * 迭代器服务, 两个函数 处理器和生成器,用于引入第三方程序
+   * 迭代处理器
    * </pre>
    */
   public static final class IntruderPayloadProcessorServerStub extends io.grpc.stub.AbstractAsyncStub<IntruderPayloadProcessorServerStub> {
@@ -154,7 +154,7 @@ public final class IntruderPayloadProcessorServerGrpc {
 
   /**
    * <pre>
-   * 迭代器服务, 两个函数 处理器和生成器,用于引入第三方程序
+   * 迭代处理器
    * </pre>
    */
   public static final class IntruderPayloadProcessorServerBlockingStub extends io.grpc.stub.AbstractBlockingStub<IntruderPayloadProcessorServerBlockingStub> {
@@ -182,7 +182,7 @@ public final class IntruderPayloadProcessorServerGrpc {
 
   /**
    * <pre>
-   * 迭代器服务, 两个函数 处理器和生成器,用于引入第三方程序
+   * 迭代处理器
    * </pre>
    */
   public static final class IntruderPayloadProcessorServerFutureStub extends io.grpc.stub.AbstractFutureStub<IntruderPayloadProcessorServerFutureStub> {

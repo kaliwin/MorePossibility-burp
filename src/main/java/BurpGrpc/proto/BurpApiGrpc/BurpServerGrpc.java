@@ -49,37 +49,6 @@ public final class BurpServerGrpc {
     return getRegisterRealTimeTrafficMirroringMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.httpReqAndRes,
-      BurpGrpc.proto.BurpApiGrpc.Str> getRealTimeTrafficMirroringMethod;
-
-  @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "RealTimeTrafficMirroring",
-      requestType = BurpGrpc.proto.BurpApiGrpc.httpReqAndRes.class,
-      responseType = BurpGrpc.proto.BurpApiGrpc.Str.class,
-      methodType = io.grpc.MethodDescriptor.MethodType.CLIENT_STREAMING)
-  public static io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.httpReqAndRes,
-      BurpGrpc.proto.BurpApiGrpc.Str> getRealTimeTrafficMirroringMethod() {
-    io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.httpReqAndRes, BurpGrpc.proto.BurpApiGrpc.Str> getRealTimeTrafficMirroringMethod;
-    if ((getRealTimeTrafficMirroringMethod = BurpServerGrpc.getRealTimeTrafficMirroringMethod) == null) {
-      synchronized (BurpServerGrpc.class) {
-        if ((getRealTimeTrafficMirroringMethod = BurpServerGrpc.getRealTimeTrafficMirroringMethod) == null) {
-          BurpServerGrpc.getRealTimeTrafficMirroringMethod = getRealTimeTrafficMirroringMethod =
-              io.grpc.MethodDescriptor.<BurpGrpc.proto.BurpApiGrpc.httpReqAndRes, BurpGrpc.proto.BurpApiGrpc.Str>newBuilder()
-              .setType(io.grpc.MethodDescriptor.MethodType.CLIENT_STREAMING)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "RealTimeTrafficMirroring"))
-              .setSampledToLocalTracing(true)
-              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  BurpGrpc.proto.BurpApiGrpc.httpReqAndRes.getDefaultInstance()))
-              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  BurpGrpc.proto.BurpApiGrpc.Str.getDefaultInstance()))
-              .setSchemaDescriptor(new BurpServerMethodDescriptorSupplier("RealTimeTrafficMirroring"))
-              .build();
-        }
-      }
-    }
-    return getRealTimeTrafficMirroringMethod;
-  }
-
   private static volatile io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.serviceRegisterRoutingList,
       BurpGrpc.proto.BurpApiGrpc.processingStatus> getRegisterServerListMethod;
 
@@ -175,17 +144,6 @@ public final class BurpServerGrpc {
 
     /**
      * <pre>
-     *实时流量传输
-     *burp将主动建立连接通过客户端流进行实时流量镜像
-     * </pre>
-     */
-    public io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.httpReqAndRes> realTimeTrafficMirroring(
-        io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.Str> responseObserver) {
-      return io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall(getRealTimeTrafficMirroringMethod(), responseObserver);
-    }
-
-    /**
-     * <pre>
      * 服务注册列表 包含多个服务  多个服务其中有一个注册失败不会影响到已经成功的 只要有一个失败便会返回false
      * </pre>
      */
@@ -203,13 +161,6 @@ public final class BurpServerGrpc {
                 BurpGrpc.proto.BurpApiGrpc.Str,
                 BurpGrpc.proto.BurpApiGrpc.httpReqAndRes>(
                   this, METHODID_REGISTER_REAL_TIME_TRAFFIC_MIRRORING)))
-          .addMethod(
-            getRealTimeTrafficMirroringMethod(),
-            io.grpc.stub.ServerCalls.asyncClientStreamingCall(
-              new MethodHandlers<
-                BurpGrpc.proto.BurpApiGrpc.httpReqAndRes,
-                BurpGrpc.proto.BurpApiGrpc.Str>(
-                  this, METHODID_REAL_TIME_TRAFFIC_MIRRORING)))
           .addMethod(
             getRegisterServerListMethod(),
             io.grpc.stub.ServerCalls.asyncUnaryCall(
@@ -248,18 +199,6 @@ public final class BurpServerGrpc {
         io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.httpReqAndRes> responseObserver) {
       io.grpc.stub.ClientCalls.asyncServerStreamingCall(
           getChannel().newCall(getRegisterRealTimeTrafficMirroringMethod(), getCallOptions()), request, responseObserver);
-    }
-
-    /**
-     * <pre>
-     *实时流量传输
-     *burp将主动建立连接通过客户端流进行实时流量镜像
-     * </pre>
-     */
-    public io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.httpReqAndRes> realTimeTrafficMirroring(
-        io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.Str> responseObserver) {
-      return io.grpc.stub.ClientCalls.asyncClientStreamingCall(
-          getChannel().newCall(getRealTimeTrafficMirroringMethod(), getCallOptions()), responseObserver);
     }
 
     /**
@@ -345,7 +284,6 @@ public final class BurpServerGrpc {
 
   private static final int METHODID_REGISTER_REAL_TIME_TRAFFIC_MIRRORING = 0;
   private static final int METHODID_REGISTER_SERVER_LIST = 1;
-  private static final int METHODID_REAL_TIME_TRAFFIC_MIRRORING = 2;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -382,9 +320,6 @@ public final class BurpServerGrpc {
     public io.grpc.stub.StreamObserver<Req> invoke(
         io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
-        case METHODID_REAL_TIME_TRAFFIC_MIRRORING:
-          return (io.grpc.stub.StreamObserver<Req>) serviceImpl.realTimeTrafficMirroring(
-              (io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.Str>) responseObserver);
         default:
           throw new AssertionError();
       }
@@ -437,7 +372,6 @@ public final class BurpServerGrpc {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new BurpServerFileDescriptorSupplier())
               .addMethod(getRegisterRealTimeTrafficMirroringMethod())
-              .addMethod(getRealTimeTrafficMirroringMethod())
               .addMethod(getRegisterServerListMethod())
               .build();
         }
