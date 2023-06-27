@@ -40,10 +40,10 @@ shadowJar {
     archiveFileName = 'MorePossibility.jar'
 
 //        manifest { // 主程序入口类
-//            attributes 'Main-Class': 'text.tmp'
-//        }
+//         attributes 'Main-Class': 'text.tmp'
+//
+//         zip64 true  // 启用 ZIP64 扩展以支持大于 4GB 的 JAR 文件
 
-    //    zip64 true  // 启用 ZIP64 扩展以支持大于 4GB 的 JAR 文件
 }
 // 定义一个构建任务，依赖于 shadowJar 任务
 tasks.register('buildJar', Copy) {

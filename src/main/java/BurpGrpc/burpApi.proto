@@ -45,7 +45,7 @@ service RegisterServerRoutingList{
 }
 
 
-// 侦查服务
+// 侦查服务  未实现
 service ScoutServer {
   // 添加http编辑器加解密键值对 参数为http编辑组件名称以及key、value
   rpc addHttpEditorEncryptAndDecryptKeyValue(httpEditorKeyValue)returns(processingStatus){}

@@ -740,7 +740,7 @@ class httpReqEditor implements HttpRequestEditorProvider, ExtensionProvidedHttpR
     @Override
     public ExtensionProvidedHttpRequestEditor provideHttpRequestEditor(EditorCreationContext creationContext) {
         RawEditor rawEditor = burpApi.userInterface().createRawEditor();  // 创建一个原始编辑器
-        rawEditor.setEditable(creationContext.editorMode() != READ_ONLY); //以调用方期望的状态设置 是否可编辑
+        rawEditor.setEditable(false); //以调用方期望的状态设置 是否可编辑
         this.re = rawEditor;
         return this;
 

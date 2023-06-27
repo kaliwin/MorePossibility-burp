@@ -19,7 +19,7 @@ import java.io.IOException;
  * @author: cyvk
  * @date: 2023/5/30 下午12:03
  */
-public class    RunAchieve {
+public class RunAchieve {
     public Server grpcServer; //服务端
 
     public RunAchieve() {
@@ -37,17 +37,27 @@ public class    RunAchieve {
      * @author: cyvk
      * @date: 2023/5/29 下午2:14
      */
-    public void startServer(int port) {
+    public boolean startServer(int port) {
+
+        if (this.grpcServer != null) {
+            if (!this.grpcServer.isShutdown()) {
+                ManGrpcGUI.consoleLog.append("[-] 服务正在运行请先关闭原服务才能开启新服务  服务端口" + this.grpcServer.getPort() + "\n");
+                return false;
+            }
+        }
+
         OkHttpServerBuilder okHttpServerBuilder = OkHttpServerBuilder.forPort(port, InsecureServerCredentials.create());
         Server grpcServer = okHttpServerBuilder.addService(new BurpServer()).build();
         try {
             grpcServer.start();
+            this.grpcServer = grpcServer;
+            return true;
         } catch (IOException e) {
-            ManGrpcGUI.pluginLog.append("错误: " + e + "\n");
-
-            throw new RuntimeException(e);
+            ManGrpcGUI.pluginLog.append("[-] 错误: " + e + "\n");
+//            throw new RuntimeException(e);
+            return false;
         }
-        this.grpcServer = grpcServer;
+
     }
 
 
@@ -57,7 +67,9 @@ public class    RunAchieve {
      * @date: 2023/5/30 下午2:38
      */
     public void stopServer() {
-        this.grpcServer.shutdownNow();
+        if (grpcServer != null) {
+            this.grpcServer.shutdownNow();
+        }
     }
 
 

@@ -4,8 +4,8 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq {space :p:137:p, comp textField1:::p:192:p, space :p:97:p, comp button1:::p::p, space :p:45:p, comp button2:::p::p, space ::618:x}, seq {space :p:18:p, comp panel1::::1221:x, space :::p}}"
-			"$verticalGroup": "par l {seq {space :p:20:p, par b {comp textField1::b:p::p, comp button1::b:p::p, comp button2::b:p::p}, space s:::p, comp panel1::::828:x, space :::p}}"
+			"$horizontalGroup": "par t {seq {space :p:33:p, comp label1:::p:146:p, space :p:27:p, comp textField1:::p:81:p, space :p:89:p, comp button1:::p::p, space s:::p, comp button2:::p::p, space :p:33:p, comp label2:::p:344:p, space ::302:x}, seq t {space :::p, comp panel1::::1233:x, space :::p}}"
+			"$verticalGroup": "par l {seq {space :::x, par b {comp button1::b:p::p, comp textField1::b:p::p, comp label1::b:::x, comp button2::b:p::p, comp label2::b:p:37:p}, space :::p, comp panel1::::828:x, space :p:12:p}}"
 		} ) {
 			name: "this"
 			add( new FormComponent( "javax.swing.JTextField" ) {
@@ -13,15 +13,25 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "button1"
-				"text": "发送测试"
+				"text": "开启服务"
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "send", true ) )
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "startServer", true ) )
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "button2"
-				"text": "text"
+				"text": "关闭服务"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "stopServer", true ) )
 			} )
 			add( new FormComponent( "UI.ManGrpcGUI" ) {
 				name: "panel1"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label1"
+				"text": "burpAPI服务端口"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label2"
+				"text": "服务未启动"
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 55, 25 )
