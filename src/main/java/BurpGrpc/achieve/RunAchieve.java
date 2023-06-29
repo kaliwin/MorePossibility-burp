@@ -33,7 +33,7 @@ public class RunAchieve {
     /**
      * @param port: 监听端口 并启动服务
      * @description: 启动Grpc服务端, 开始监听端口,将BurpGrpc.BurpServer.BurpServer类作为rpc服务的实现类
-     * 只能监听一个端口多个服务由该函数一并开启
+     * 只能监听一个端口多个服务由该函数一并开启 Grpc单个消息大小设置为 500MB
      * @author: cyvk
      * @date: 2023/5/29 下午2:14
      */
@@ -45,8 +45,21 @@ public class RunAchieve {
                 return false;
             }
         }
+//int maxMessageSize = 50 * 1024 * 1024;
+//
+//        Server server = ServerBuilder.forPort(50051)
+//            .maxInboundMessageSize(maxMessageSize)
+//            .addService(new MyServiceImpl())
+//            .build()
+//            .start();
 
-        OkHttpServerBuilder okHttpServerBuilder = OkHttpServerBuilder.forPort(port, InsecureServerCredentials.create());
+        int maxMessageSize = 500 * 1024 * 1024;
+        OkHttpServerBuilder okHttpServerBuilder = OkHttpServerBuilder
+                .forPort(port, InsecureServerCredentials.create())
+                .maxInboundMessageSize(maxMessageSize);
+
+
+
         Server grpcServer = okHttpServerBuilder.addService(new BurpServer()).build();
         try {
             grpcServer.start();
@@ -132,7 +145,7 @@ public class RunAchieve {
 
             @Override
             public void onError(Throwable t) {
-                ManGrpcGUI.consoleLog.append("异常: " + t.toString() + "\n");
+                ManGrpcGUI.consoleLog.append("实时流量镜像 异常: " + t.toString() + "\n");
             }
 
             @Override
@@ -189,6 +202,7 @@ public class RunAchieve {
      * @date: 2023/6/16 下午4:17
      */
     public ContextMenuItemsProviderGrpc.ContextMenuItemsProviderBlockingStub getMenuItemsProviderClient(String target) {
+
         return ContextMenuItemsProviderGrpc.newBlockingStub(getChannel(target));
     }
 

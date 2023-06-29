@@ -13,10 +13,18 @@ package BurpGrpc.proto.BurpApiGrpc;
 public enum HttpSource
     implements com.google.protobuf.ProtocolMessageEnum {
   /**
+   * <pre>
+   * 请求
+   * </pre>
+   *
    * <code>Request = 0;</code>
    */
   Request(0),
   /**
+   * <pre>
+   * 响应
+   * </pre>
+   *
    * <code>Response = 1;</code>
    */
   Response(1),
@@ -24,10 +32,18 @@ public enum HttpSource
   ;
 
   /**
+   * <pre>
+   * 请求
+   * </pre>
+   *
    * <code>Request = 0;</code>
    */
   public static final int Request_VALUE = 0;
   /**
+   * <pre>
+   * 响应
+   * </pre>
+   *
    * <code>Response = 1;</code>
    */
   public static final int Response_VALUE = 1;

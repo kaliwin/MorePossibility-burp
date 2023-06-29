@@ -14,7 +14,6 @@ option go_package = "/BurpApi";                        //go 实例包名路径
 package burpApi;
 
 
-
 //burpApi服务
 service BurpServer{
 
@@ -30,6 +29,10 @@ service BurpServer{
 
   // 服务注册列表 包含多个服务  多个服务其中有一个注册失败不会影响到已经成功的 只要有一个失败便会返回false
   rpc RegisterServerList(serviceRegisterRoutingList) returns (processingStatus){}
+
+  // 获取代理历史请求 由于过滤会很复杂因此直接返回所有历史数据 入参为只占位符不用理睬
+  // 由于数据过大默认单个消息最大为500MB 客户端也需要处理 后续将提供分块传输 过滤提取等方式
+  rpc GetProxyHistory(Str) returns(ProxyHistoryData){}
 
 }
 
@@ -113,6 +116,12 @@ service HttpFlowHandler{
   rpc HttpHandleRequestReceived(httpReqGroup) returns(HttpRequestAction){}
   rpc HttpHandleResponseReceived(httpReqAndRes) returns(HttpResponseAction){}
 }
+
+// 代理历史流量数据
+message ProxyHistoryData{
+  repeated httpReqAndRes httpReqAndResData = 1;
+}
+
 
 // 下标的偏移量 用于在字节流中定位准确数据
 message SubscriptOffsets{
@@ -222,8 +231,8 @@ message ContextMenuItems{
 
 // http来源类型
 enum HttpSource{
-  Request = 0;
-  Response = 1 ;
+  Request = 0;   // 请求
+  Response = 1 ; // 响应
 }
 
 // 菜单项返回 给burp 要做的操作
@@ -367,10 +376,10 @@ message annotationsText {
 
 // 服务类型名称
 enum serverTypeName {
-  NOLL = 0;
+  NOLL = 0;                         // 空值占位 避免不同语言序列化后无法判断是否有值
   INTRUDER_PROCESSOR = 1;           // 迭代处理器
   INTRUDER_GENERATE = 2;            // 迭代生成器
-  REAL_TIME_TRAFFIC_MIRRORING = 3;   // 实时流量镜像
+//  REAL_TIME_TRAFFIC_MIRRORING = 3;   // 实时流量镜像   不允许注册流量镜像 要不手动要不直接通过服务端流建立镜像流
 //  HTTP_EDITOR_KEY_VALUE = 4;         // http键值对用于相互转换  先废除
   HTTP_REQUEST_EDITOR_PROCESSOR = 5; // 请求编辑处理器
   HTTP_RESPONSE_EDITOR_PROCESSOR = 6; // 响应编辑处理器

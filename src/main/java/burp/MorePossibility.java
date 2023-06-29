@@ -21,7 +21,6 @@ public class MorePossibility implements BurpExtension {
     // 启动实现, 关于Grpc通信类,提供服务监听,建立rpc连接通信
     public static RunAchieve runAchieve;
 
-
     public static WebInformationProcessingCenter webInformationProcessingCenter; // web信息处理中心
 
 
@@ -41,7 +40,6 @@ public class MorePossibility implements BurpExtension {
     public void initialize(MontoyaApi api) {
 
         try {
-
             burpApi = api;
             this.init(); // 初始化
 
@@ -52,14 +50,13 @@ public class MorePossibility implements BurpExtension {
 
 
             api.extension().registerUnloadingHandler(() -> {
+                // 设置关闭选项 目前存在隐藏bug会出现部分服务无法关闭的情况但是不影响使用
                 runAchieve.stopServer();
             });
 
         } catch (Exception e) {
-            ManGrpcGUI.consoleLog.append("[-] 异常 : " + e + "\n");
-
+            ManGrpcGUI.consoleLog.append("[-] 插件主线程抛出异常 : " + e + "\n");
         }
-//        runAchieve.startServer(9523);
     }
 }
 

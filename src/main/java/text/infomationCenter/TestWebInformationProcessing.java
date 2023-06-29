@@ -1,10 +1,8 @@
 package text.infomationCenter;
 
-import InformationCenter.WebInfo;
+
 import InformationCenter.WebInformationProcessingCenter;
 
-import javax.swing.plaf.synth.SynthOptionPaneUI;
-import java.util.List;
 
 /**
  * @author cyvk

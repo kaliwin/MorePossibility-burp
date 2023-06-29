@@ -10,7 +10,7 @@ import java.net.URL;
 public class tmpTest extends TestCase {
 
     public static void main(String[] args) {
-        String urlString = "https://103.52.14.2:9521/path/to/page.js?do=dsi";
+        String urlString = "https://127.0.0.1:9521/path/to/page.js?do=dsi";
 
         try {
             URL url = new URL(urlString);

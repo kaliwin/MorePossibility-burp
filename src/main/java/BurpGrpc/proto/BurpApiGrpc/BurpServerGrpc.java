@@ -80,6 +80,37 @@ public final class BurpServerGrpc {
     return getRegisterServerListMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.Str,
+      BurpGrpc.proto.BurpApiGrpc.ProxyHistoryData> getGetProxyHistoryMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "GetProxyHistory",
+      requestType = BurpGrpc.proto.BurpApiGrpc.Str.class,
+      responseType = BurpGrpc.proto.BurpApiGrpc.ProxyHistoryData.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.Str,
+      BurpGrpc.proto.BurpApiGrpc.ProxyHistoryData> getGetProxyHistoryMethod() {
+    io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.Str, BurpGrpc.proto.BurpApiGrpc.ProxyHistoryData> getGetProxyHistoryMethod;
+    if ((getGetProxyHistoryMethod = BurpServerGrpc.getGetProxyHistoryMethod) == null) {
+      synchronized (BurpServerGrpc.class) {
+        if ((getGetProxyHistoryMethod = BurpServerGrpc.getGetProxyHistoryMethod) == null) {
+          BurpServerGrpc.getGetProxyHistoryMethod = getGetProxyHistoryMethod =
+              io.grpc.MethodDescriptor.<BurpGrpc.proto.BurpApiGrpc.Str, BurpGrpc.proto.BurpApiGrpc.ProxyHistoryData>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "GetProxyHistory"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  BurpGrpc.proto.BurpApiGrpc.Str.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  BurpGrpc.proto.BurpApiGrpc.ProxyHistoryData.getDefaultInstance()))
+              .setSchemaDescriptor(new BurpServerMethodDescriptorSupplier("GetProxyHistory"))
+              .build();
+        }
+      }
+    }
+    return getGetProxyHistoryMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -152,6 +183,17 @@ public final class BurpServerGrpc {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getRegisterServerListMethod(), responseObserver);
     }
 
+    /**
+     * <pre>
+     * 获取代理历史请求 由于过滤会很复杂因此直接返回所有历史数据 入参为只占位符不用理睬
+     * 由于数据过大默认单个消息最大为500MB 客户端也需要处理 后续将提供分块传输 过滤提取等方式
+     * </pre>
+     */
+    public void getProxyHistory(BurpGrpc.proto.BurpApiGrpc.Str request,
+        io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.ProxyHistoryData> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetProxyHistoryMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -168,6 +210,13 @@ public final class BurpServerGrpc {
                 BurpGrpc.proto.BurpApiGrpc.serviceRegisterRoutingList,
                 BurpGrpc.proto.BurpApiGrpc.processingStatus>(
                   this, METHODID_REGISTER_SERVER_LIST)))
+          .addMethod(
+            getGetProxyHistoryMethod(),
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
+              new MethodHandlers<
+                BurpGrpc.proto.BurpApiGrpc.Str,
+                BurpGrpc.proto.BurpApiGrpc.ProxyHistoryData>(
+                  this, METHODID_GET_PROXY_HISTORY)))
           .build();
     }
   }
@@ -211,6 +260,18 @@ public final class BurpServerGrpc {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getRegisterServerListMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     * <pre>
+     * 获取代理历史请求 由于过滤会很复杂因此直接返回所有历史数据 入参为只占位符不用理睬
+     * 由于数据过大默认单个消息最大为500MB 客户端也需要处理 后续将提供分块传输 过滤提取等方式
+     * </pre>
+     */
+    public void getProxyHistory(BurpGrpc.proto.BurpApiGrpc.Str request,
+        io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.ProxyHistoryData> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
+          getChannel().newCall(getGetProxyHistoryMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -251,6 +312,17 @@ public final class BurpServerGrpc {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getRegisterServerListMethod(), getCallOptions(), request);
     }
+
+    /**
+     * <pre>
+     * 获取代理历史请求 由于过滤会很复杂因此直接返回所有历史数据 入参为只占位符不用理睬
+     * 由于数据过大默认单个消息最大为500MB 客户端也需要处理 后续将提供分块传输 过滤提取等方式
+     * </pre>
+     */
+    public BurpGrpc.proto.BurpApiGrpc.ProxyHistoryData getProxyHistory(BurpGrpc.proto.BurpApiGrpc.Str request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getGetProxyHistoryMethod(), getCallOptions(), request);
+    }
   }
 
   /**
@@ -280,10 +352,23 @@ public final class BurpServerGrpc {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getRegisterServerListMethod(), getCallOptions()), request);
     }
+
+    /**
+     * <pre>
+     * 获取代理历史请求 由于过滤会很复杂因此直接返回所有历史数据 入参为只占位符不用理睬
+     * 由于数据过大默认单个消息最大为500MB 客户端也需要处理 后续将提供分块传输 过滤提取等方式
+     * </pre>
+     */
+    public com.google.common.util.concurrent.ListenableFuture<BurpGrpc.proto.BurpApiGrpc.ProxyHistoryData> getProxyHistory(
+        BurpGrpc.proto.BurpApiGrpc.Str request) {
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
+          getChannel().newCall(getGetProxyHistoryMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_REGISTER_REAL_TIME_TRAFFIC_MIRRORING = 0;
   private static final int METHODID_REGISTER_SERVER_LIST = 1;
+  private static final int METHODID_GET_PROXY_HISTORY = 2;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -309,6 +394,10 @@ public final class BurpServerGrpc {
         case METHODID_REGISTER_SERVER_LIST:
           serviceImpl.registerServerList((BurpGrpc.proto.BurpApiGrpc.serviceRegisterRoutingList) request,
               (io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.processingStatus>) responseObserver);
+          break;
+        case METHODID_GET_PROXY_HISTORY:
+          serviceImpl.getProxyHistory((BurpGrpc.proto.BurpApiGrpc.Str) request,
+              (io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.ProxyHistoryData>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -373,6 +462,7 @@ public final class BurpServerGrpc {
               .setSchemaDescriptor(new BurpServerFileDescriptorSupplier())
               .addMethod(getRegisterRealTimeTrafficMirroringMethod())
               .addMethod(getRegisterServerListMethod())
+              .addMethod(getGetProxyHistoryMethod())
               .build();
         }
       }

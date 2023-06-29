@@ -9,6 +9,9 @@ import io.grpc.ManagedChannel;
 import io.grpc.okhttp.OkHttpChannelBuilder;
 import io.grpc.stub.StreamObserver;
 
+/**
+ * @author cyvk
+ */
 public class ClientDemoS {
 
 

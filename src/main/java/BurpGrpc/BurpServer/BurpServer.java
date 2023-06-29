@@ -2,7 +2,11 @@ package BurpGrpc.BurpServer;
 
 import BurpGrpc.proto.BurpApiGrpc.*;
 import UI.GrpcServerGUI;
+import UI.ManGrpcGUI;
+import burp.BurpApiUtensil;
 import burp.BurpServerTypeX;
+import burp.MorePossibility;
+import burp.api.montoya.proxy.ProxyHttpRequestResponse;
 import io.grpc.stub.StreamObserver;
 
 import java.util.List;
@@ -25,15 +29,12 @@ public class BurpServer extends BurpServerGrpc.BurpServerImplBase {
      */
     @Override
     public void registerRealTimeTrafficMirroring(Str request, StreamObserver<httpReqAndRes> responseObserver) {
-//        logging.output().println("接收到实时流量镜像请求: " + request.getName());
 
         pluginLog.append("接收到实时流量镜像请求: " + request.getName() + "\n");
 
         if (burpApiTool.realTimeTrafficMirroring(request.getName(), responseObserver)) {
-//            logging.output().println("实时流量注册成功");
             pluginLog.append("实时流量注册成功" + "\n");
         }
-        ;
     }
 
 
@@ -77,5 +78,55 @@ public class BurpServer extends BurpServerGrpc.BurpServerImplBase {
         responseObserver.onNext(build);
         responseObserver.onCompleted();
     }
+
+
+    /**
+     * @param request:          占位
+     * @param responseObserver: 响应
+     * @description: 获取代理历史请求 全部无过滤  使用外网服务器的注意带宽堵塞 最大限制500MB
+     * @author: cyvk
+     * @date: 2023/6/27 下午4:34
+     */
+    @Override
+    public void getProxyHistory(Str request, StreamObserver<ProxyHistoryData> responseObserver) {
+
+        pluginLog.append("调用Proxy历史流量\n");
+
+        List<ProxyHttpRequestResponse> history = MorePossibility.burpApi.proxy().history();
+
+        ProxyHistoryData.Builder builder = ProxyHistoryData.newBuilder();
+
+        try {
+            for (ProxyHttpRequestResponse proxyHttpRequestResponse : history) {
+                httpReqAndRes httpReqAndRes = BurpApiUtensil.withHttpReqAndRes(proxyHttpRequestResponse.finalRequest(), proxyHttpRequestResponse.originalResponse(), proxyHttpRequestResponse.annotations());
+                builder.addHttpReqAndResData(httpReqAndRes);
+            }
+
+            responseObserver.onNext(builder.build());
+            responseObserver.onCompleted();
+        }catch (Exception e){
+            ManGrpcGUI.consoleLog.append("异常 : "+e+"\n");
+        }
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

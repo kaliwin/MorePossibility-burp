@@ -2,6 +2,7 @@ package burp;
 
 
 import BurpGrpc.proto.BurpApiGrpc.*;
+import UI.ManGrpcGUI;
 import burp.api.montoya.core.Annotations;
 import burp.api.montoya.core.ByteArray;
 import burp.api.montoya.core.HighlightColor;
@@ -9,6 +10,8 @@ import burp.api.montoya.http.HttpService;
 import burp.api.montoya.http.message.requests.HttpRequest;
 import burp.api.montoya.http.message.responses.HttpResponse;
 import com.google.protobuf.ByteString;
+
+import java.util.Objects;
 
 /**
  * @description: BurpApiUtensil 公共工具类 提供静态函数 用于将burp中的对象转化为Grpc proto文件中定义的消息类型
@@ -24,7 +27,7 @@ public class BurpApiUtensil {
      * @author: cyvk
      * @date: 2023/6/20 下午3:06
      */
-    public static httpReqData HttpRequestTohttpReqData(HttpRequest hr) {
+    public static httpReqData httpRequestTohttpReqData(HttpRequest hr) {
         try {
             //      获取所需字段
             String url = hr.url();   //url
@@ -48,7 +51,7 @@ public class BurpApiUtensil {
                     .build();
 
         } catch (Exception e) {
-            return null;
+            return httpReqData.newBuilder().build();
         }
     }
 
@@ -106,7 +109,7 @@ public class BurpApiUtensil {
                     .setHttpVersion(httpVersion)
                     .build();
         } catch (Exception e) {
-            return null;
+            return httpResData.newBuilder().build();
         }
     }
 
@@ -120,7 +123,6 @@ public class BurpApiUtensil {
      */
     public static HttpResponse httpResDataToHttpResponse(httpResData httpRes) {
         try {
-
 
             return HttpResponse.httpResponse(ByteArray.byteArray(httpRes.getData().toByteArray()));
         } catch (Exception e) {
@@ -159,8 +161,10 @@ public class BurpApiUtensil {
 
         annotationsText.Builder builder = annotationsText.newBuilder();
         HighlightColor hc;
-        if (annotations.notes() == null) {
-            return builder.build();
+        if (annotations.notes() == null || annotations.notes().isEmpty()) {
+            return builder
+                    .setIsInfo(false)
+                    .build();
         }
 
         annotations.highlightColor();
@@ -170,7 +174,6 @@ public class BurpApiUtensil {
                 .setColor(highlightColor.valueOf(hc.name()))
                 .setNotes(annotations.notes())
                 .build();
-
     }
 
     //with
@@ -226,28 +229,35 @@ public class BurpApiUtensil {
      * @date: 2023/6/20 下午5:42
      */
     public static httpReqAndRes withHttpReqAndRes(HttpRequest req, HttpResponse res, Annotations annotations) {
-        httpReqData httpReqData ;
-        httpResData httpResData;
-        annotationsText annotationsText;
-        if (req != null){
-            httpReqData = HttpRequestTohttpReqData(req);
-        }else {
-            httpReqData = BurpGrpc.proto.BurpApiGrpc.httpReqData.newBuilder().build();
-        }
 
-        if (res != null){
-            httpResData =  httpResponseTohttpResData(res);
-        }else {
-            httpResData = BurpGrpc.proto.BurpApiGrpc.httpResData.newBuilder().build();
-        }
+        try {
+            httpReqData httpReqData;
+            httpResData httpResData;
+            annotationsText annotationsText;
+            if (req != null) {
+                httpReqData = httpRequestTohttpReqData(req);
+            } else {
+                httpReqData = BurpGrpc.proto.BurpApiGrpc.httpReqData.newBuilder().build();
+            }
 
-        if (annotations != null){
-            annotationsText = annotationsToannotationsText(annotations);
-        }else {
-            annotationsText = BurpGrpc.proto.BurpApiGrpc.annotationsText.newBuilder().build();
-        }
+            if (res != null) {
+                httpResData = httpResponseTohttpResData(res);
+            } else {
+                httpResData = BurpGrpc.proto.BurpApiGrpc.httpResData.newBuilder().build();
+            }
 
-        return withHttpReqAndRes(httpReqData, httpResData, annotationsText);
+            if (annotations != null) {
+                annotationsText = annotationsToannotationsText(annotations);
+            } else {
+                annotationsText = BurpGrpc.proto.BurpApiGrpc.annotationsText.newBuilder().build();
+            }
+
+            return withHttpReqAndRes(httpReqData, httpResData, annotationsText);
+        } catch (Exception e) {
+
+            ManGrpcGUI.consoleLog.append("异常: " + e + "\n");
+            return httpReqAndRes.newBuilder().build();
+        }
 
     }
 

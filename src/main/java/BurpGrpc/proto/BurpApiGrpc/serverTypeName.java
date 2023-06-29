@@ -13,6 +13,10 @@ package BurpGrpc.proto.BurpApiGrpc;
 public enum serverTypeName
     implements com.google.protobuf.ProtocolMessageEnum {
   /**
+   * <pre>
+   * 空值占位 避免不同语言序列化后无法判断是否有值
+   * </pre>
+   *
    * <code>NOLL = 0;</code>
    */
   NOLL(0),
@@ -34,14 +38,7 @@ public enum serverTypeName
   INTRUDER_GENERATE(2),
   /**
    * <pre>
-   * 实时流量镜像
-   * </pre>
-   *
-   * <code>REAL_TIME_TRAFFIC_MIRRORING = 3;</code>
-   */
-  REAL_TIME_TRAFFIC_MIRRORING(3),
-  /**
-   * <pre>
+   *  REAL_TIME_TRAFFIC_MIRRORING = 3;   // 实时流量镜像   不允许注册流量镜像 要不手动要不直接通过服务端流建立镜像流
    *  HTTP_EDITOR_KEY_VALUE = 4;         // http键值对用于相互转换  先废除
    * </pre>
    *
@@ -92,6 +89,10 @@ public enum serverTypeName
   ;
 
   /**
+   * <pre>
+   * 空值占位 避免不同语言序列化后无法判断是否有值
+   * </pre>
+   *
    * <code>NOLL = 0;</code>
    */
   public static final int NOLL_VALUE = 0;
@@ -113,14 +114,7 @@ public enum serverTypeName
   public static final int INTRUDER_GENERATE_VALUE = 2;
   /**
    * <pre>
-   * 实时流量镜像
-   * </pre>
-   *
-   * <code>REAL_TIME_TRAFFIC_MIRRORING = 3;</code>
-   */
-  public static final int REAL_TIME_TRAFFIC_MIRRORING_VALUE = 3;
-  /**
-   * <pre>
+   *  REAL_TIME_TRAFFIC_MIRRORING = 3;   // 实时流量镜像   不允许注册流量镜像 要不手动要不直接通过服务端流建立镜像流
    *  HTTP_EDITOR_KEY_VALUE = 4;         // http键值对用于相互转换  先废除
    * </pre>
    *
@@ -196,7 +190,6 @@ public enum serverTypeName
       case 0: return NOLL;
       case 1: return INTRUDER_PROCESSOR;
       case 2: return INTRUDER_GENERATE;
-      case 3: return REAL_TIME_TRAFFIC_MIRRORING;
       case 5: return HTTP_REQUEST_EDITOR_PROCESSOR;
       case 6: return HTTP_RESPONSE_EDITOR_PROCESSOR;
       case 7: return CONTEXT_MENU_ITEMS_PROVIDER;

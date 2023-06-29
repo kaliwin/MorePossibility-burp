@@ -14,6 +14,8 @@ import burp.api.montoya.http.message.HttpRequestResponse;
 import burp.api.montoya.http.message.requests.HttpRequest;
 import burp.api.montoya.http.message.responses.HttpResponse;
 import burp.api.montoya.intruder.*;
+import burp.api.montoya.proxy.ProxyHistoryFilter;
+import burp.api.montoya.proxy.ProxyHttpRequestResponse;
 import burp.api.montoya.proxy.http.*;
 import burp.api.montoya.ui.Selection;
 import burp.api.montoya.ui.contextmenu.ContextMenuEvent;
@@ -60,6 +62,16 @@ public class BurpApiTool {
      * @date: 2023/6/11 下午2:23
      */
     private void init() {
+
+
+        burpApi.proxy().history(new ProxyHistoryFilter() {
+            @Override
+            public boolean matches(ProxyHttpRequestResponse requestResponse) {
+
+                return false;
+            }
+        });
+
 //        burpApi.userInterface().registerHttpRequestEditorProvider(new initHttpKeyValueEditor("Key_Value_test"));
     }
 
@@ -238,7 +250,7 @@ public class BurpApiTool {
         if (!serverRegistrationStatus.contains(name, CONTEXT_MENU_ITEMS_PROVIDER)) {
             // 调用Grpc  获取菜单项
             MenuInfo conTextMenuItems = runAchieve.getConTextMenuItemsServer(tarGet)
-                    .withDeadlineAfter(2,TimeUnit.SECONDS)  // 设置超时
+                    .withDeadlineAfter(2, TimeUnit.SECONDS)  // 设置超时
                     .getConTextMenuItems(Str.newBuilder().setName(name).build());
 
             // 注册渲染
@@ -412,11 +424,12 @@ public class BurpApiTool {
 
 // 处理流量镜像
 class handleHttpTrafficMirroring implements HttpHandler {
-    final Lock lock = new ReentrantLock();   // 线程锁避免并发导致传输流断裂
+    Lock lock;   // 线程锁避免并发导致传输流断裂
     StreamObserver<httpReqAndRes> trafficFlow; // 传输流
 
     public handleHttpTrafficMirroring(StreamObserver<httpReqAndRes> trafficFlow) {
         this.trafficFlow = trafficFlow;
+        this.lock = new ReentrantLock();
     }
 
     /**
@@ -427,7 +440,7 @@ class handleHttpTrafficMirroring implements HttpHandler {
      */
     @Override
     public RequestToBeSentAction handleHttpRequestToBeSent(HttpRequestToBeSent requestToBeSent) {
-        return null;
+        return RequestToBeSentAction.continueWith(requestToBeSent);
     }
 
     /**
@@ -705,11 +718,7 @@ class httpReqEditor implements HttpRequestEditorProvider, ExtensionProvidedHttpR
                 .setHttpReqAndResData(reqAndRes)
                 .build();
 
-        if (httpReqEditBoxAssistClient.isReqHttpEditFor(heb).getBoole()) {
-            return true;
-        } else {
-            return false;
-        }
+        return httpReqEditBoxAssistClient.isReqHttpEditFor(heb).getBoole();
 
     }
 
@@ -791,7 +800,7 @@ class httpResEditor implements HttpResponseEditorProvider, ExtensionProvidedHttp
         HttpRequest request = requestResponse.request();
         HttpResponse response = requestResponse.response();
 
-        httpReqData req = BurpApiUtensil.HttpRequestTohttpReqData(request);
+        httpReqData req = BurpApiUtensil.httpRequestTohttpReqData(request);
 
         httpResData res = BurpApiUtensil.httpResponseTohttpResData(response);
 
@@ -821,7 +830,7 @@ class httpResEditor implements HttpResponseEditorProvider, ExtensionProvidedHttp
         HttpResponse response = requestResponse.response();
 
 
-        httpReqData req = BurpApiUtensil.HttpRequestTohttpReqData(request);
+        httpReqData req = BurpApiUtensil.httpRequestTohttpReqData(request);
         httpResData res = BurpApiUtensil.httpResponseTohttpResData(response);
 
         httpInfo httpInfoX = httpInfo.newBuilder()
@@ -941,117 +950,126 @@ class menuItem {
     ContextMenuItemsProviderGrpc.ContextMenuItemsProviderBlockingStub client;
     ContextMenuEvent event;
 
-//    String name;
-
     public menuItem(MenuItem menuItem, ContextMenuItemsProviderGrpc.ContextMenuItemsProviderBlockingStub client, ContextMenuEvent event) {
         this.event = event;
         this.menuItem = menuItem;
         this.client = client;
     }
 
-    public Component get() {
+    public Component get() {  // 渲染菜单项并绑定点击事件
         JMenuItem jMenuItem = new JMenuItem(this.menuItem.getName());
 
         jMenuItem.addActionListener(actionEvent -> {   // 点击事件
-            if (event.messageEditorRequestResponse().isPresent()) {
+            try {
+                if (event.messageEditorRequestResponse().isPresent()) { // 请求响应数据是否存在，不存在不处理
+                    MessageEditorHttpRequestResponse messageEditorHttpRequestResponse = event.messageEditorRequestResponse().get();
+                    HttpRequest request = messageEditorHttpRequestResponse.requestResponse().request();    // 请求
+                    HttpResponse response = messageEditorHttpRequestResponse.requestResponse().response(); // 响应
 
-                MessageEditorHttpRequestResponse messageEditorHttpRequestResponse = event.messageEditorRequestResponse().get();
-                HttpRequest request = messageEditorHttpRequestResponse.requestResponse().request();    // 请求
-                HttpResponse response = messageEditorHttpRequestResponse.requestResponse().response(); // 响应
+                    // 组装一组请求响应 包含注解
+                    httpReqAndRes httpReqAndResData = BurpApiUtensil.withHttpReqAndRes(request, response, messageEditorHttpRequestResponse.requestResponse().annotations());
 
-                // 组装一组请求响应 包含注解
-                httpReqAndRes httpReqAndResData = BurpApiUtensil.withHttpReqAndRes(request, response, messageEditorHttpRequestResponse.requestResponse().annotations());
+                    ContextMenuItems.Builder builder = ContextMenuItems.newBuilder()
+                            .setName(menuItem.getName())
+                            .setHttpReqAndRes(httpReqAndResData);   // 先设置必要属性
 
-                ContextMenuItems.Builder builder = ContextMenuItems.newBuilder()
-                        .setName(menuItem.getName())
-                        .setHttpReqAndRes(httpReqAndResData);   // 先设置必要属性
 
-                Range range = messageEditorHttpRequestResponse.selectionOffsets().get();     // 选中下标
-                if (messageEditorHttpRequestResponse.selectionOffsets().isPresent()) { // 是否有选中数据
-                    builder.setIsSelect(true); // 有选中数据
-                    SubscriptOffsets subscriptOffsets = SubscriptOffsets.newBuilder()
-                            .setStartIndex(range.startIndexInclusive())
-                            .setEndIndex(range.endIndexExclusive())
-                            .build();
+                    Range range = Range.range(0, 0);  // 初始化数据
 
-                    builder.setSelectOffsets(subscriptOffsets);    // 设置下标
+                    if (messageEditorHttpRequestResponse.selectionOffsets().isPresent()) { // 是否有选中数据
+                        range = messageEditorHttpRequestResponse.selectionOffsets().get();     // 选中下标
+                        builder.setIsSelect(true); // 有选中数据
+                        SubscriptOffsets subscriptOffsets = SubscriptOffsets.newBuilder()
+                                .setStartIndex(range.startIndexInclusive())
+                                .setEndIndex(range.endIndexExclusive())
+                                .build();
 
-                    switch (messageEditorHttpRequestResponse.selectionContext()) {
-                        case REQUEST -> { // 设置选中数据和来源 只有有选中数据才能返回来源 否则不知道从哪点的
-                            byte[] bytes = messageEditorHttpRequestResponse.requestResponse().request().toByteArray().getBytes();
-                            builder.setSelectData(ByteString.copyFrom(Arrays.copyOfRange(bytes, range.startIndexInclusive(), range.endIndexExclusive())));
-                            builder.setSelectSource(HttpSource.Request); // 设置点击来源
-                        }
-                        case RESPONSE -> {
-                            byte[] bytes = messageEditorHttpRequestResponse.requestResponse().response().toByteArray().getBytes();
-                            builder.setSelectData(ByteString.copyFrom(Arrays.copyOfRange(bytes, range.startIndexInclusive(), range.endIndexExclusive())));
-                            builder.setSelectSource(HttpSource.Response);  // 设置点击来源
+                        builder.setSelectOffsets(subscriptOffsets);    // 设置下标
+
+                        switch (messageEditorHttpRequestResponse.selectionContext()) {
+                            case REQUEST -> { // 设置选中数据和来源 只有有选中数据才能返回来源 否则不知道从哪点的
+                                byte[] bytes = messageEditorHttpRequestResponse.requestResponse().request().toByteArray().getBytes();
+                                builder.setSelectData(ByteString.copyFrom(Arrays.copyOfRange(bytes, range.startIndexInclusive(), range.endIndexExclusive())));
+                                builder.setSelectSource(HttpSource.Request); // 设置点击来源
+                            }
+                            case RESPONSE -> {
+                                byte[] bytes = messageEditorHttpRequestResponse.requestResponse().response().toByteArray().getBytes();
+                                builder.setSelectData(ByteString.copyFrom(Arrays.copyOfRange(bytes, range.startIndexInclusive(), range.endIndexExclusive())));
+                                builder.setSelectSource(HttpSource.Response);  // 设置点击来源
+                            }
                         }
                     }
-                }
 
-                ContextMenuItems contextMenuItems = builder.build();  // 构建上下文请求对象
+                    ContextMenuItems contextMenuItems = builder.build();  // 构建上下文请求对象
 
-                MenuItemsReturn menuItemsReturn = client.menuItemsProvider(contextMenuItems);   // 发起Grpc调用
+                    MenuItemsReturn menuItemsReturn = client.menuItemsProvider(contextMenuItems);   // 发起Grpc调用
 
-                if (menuItemsReturn.getIsContinue()) { // 继续不做任何处理
-                    return;
-                }
-                if (menuItemsReturn.getIsReviseSelect()) { // 修改选中数据
-
-                    if (range.startIndexInclusive() == 0 && range.endIndexExclusive() == 0) { //
+                    // 处理返回结果
+                    if (menuItemsReturn.getIsContinue()) { // 继续不做任何处理
                         return;
                     }
+                    if (menuItemsReturn.getIsReviseSelect()) { // 修改选中数据
 
-                    switch (messageEditorHttpRequestResponse.selectionContext()) {
-                        case REQUEST -> {
-                            byte[] req = request.toByteArray().getBytes(); // 请求数据
-                            byte[] start = Arrays.copyOfRange(req, 0, range.startIndexInclusive()); // 截止选中前
-                            byte[] selectData = menuItemsReturn.getSelectDate().toByteArray();           // 选中数据
-                            byte[] end = Arrays.copyOfRange(req, range.endIndexExclusive(), req.length); // 截止选中后
-
-                            int totalLength = start.length + selectData.length + end.length;   // 拿到总长度
-                            byte[] newReqData = new byte[totalLength];
-
-                            System.arraycopy(start, 0, newReqData, 0, start.length);
-                            System.arraycopy(selectData, 0, newReqData, start.length, selectData.length);
-                            System.arraycopy(end, 0, newReqData, start.length + selectData.length, end.length);
-
-                            messageEditorHttpRequestResponse.setRequest(HttpRequest.httpRequest(ByteArray.byteArray(newReqData)));
-
+                        if (range.startIndexInclusive() == 0 && range.endIndexExclusive() == 0) { // 二次判断是否真的有选中数据, 避免抛出空指针
+                            return;
                         }
-                        case RESPONSE -> {
-                            byte[] res = response.toByteArray().getBytes(); // 请求数据
+                        // 之前可以修改 重放器的响应包如今不行 先保留代码 看官方后续如何处理
+                        switch (messageEditorHttpRequestResponse.selectionContext()) {
+                            case REQUEST -> {
+                                byte[] req = request.toByteArray().getBytes(); // 请求数据
+                                byte[] start = Arrays.copyOfRange(req, 0, range.startIndexInclusive()); // 截止选中前
+                                byte[] selectData = menuItemsReturn.getSelectDate().toByteArray();           // 选中数据
+                                byte[] end = Arrays.copyOfRange(req, range.endIndexExclusive(), req.length); // 截止选中后
 
-                            byte[] start = Arrays.copyOfRange(res, 0, range.startIndexInclusive()); // 截止选中前
-                            byte[] selectData = menuItemsReturn.getSelectDate().toByteArray();           // 选中数据
-                            byte[] end = Arrays.copyOfRange(res, range.endIndexExclusive(), res.length); // 截止选中后
+                                int totalLength = start.length + selectData.length + end.length;   // 拿到总长度
+                                byte[] newReqData = new byte[totalLength];   // 创建新数据
 
-                            int totalLength = start.length + selectData.length + end.length;   // 拿到总长度
-                            byte[] newReqData = new byte[totalLength];
+                                // 依次拼接组装新请求
+                                System.arraycopy(start, 0, newReqData, 0, start.length);
+                                System.arraycopy(selectData, 0, newReqData, start.length, selectData.length);
+                                System.arraycopy(end, 0, newReqData, start.length + selectData.length, end.length);
 
-                            // 从组字节流
-                            System.arraycopy(start, 0, newReqData, 0, start.length);
-                            System.arraycopy(selectData, 0, newReqData, start.length, selectData.length);
-                            System.arraycopy(end, 0, newReqData, start.length + selectData.length, end.length);
+                                messageEditorHttpRequestResponse.setRequest(HttpRequest.httpRequest(ByteArray.byteArray(newReqData)));
 
-                            messageEditorHttpRequestResponse.setResponse(HttpResponse.httpResponse(ByteArray.byteArray(newReqData)));
+                            }
+                            case RESPONSE -> {
+                                byte[] res = response.toByteArray().getBytes(); // 请求数据
 
+                                byte[] start = Arrays.copyOfRange(res, 0, range.startIndexInclusive()); // 截止选中前
+                                byte[] selectData = menuItemsReturn.getSelectDate().toByteArray();           // 选中数据
+                                byte[] end = Arrays.copyOfRange(res, range.endIndexExclusive(), res.length); // 截止选中后
+
+                                int totalLength = start.length + selectData.length + end.length;   // 拿到总长度
+                                byte[] newReqData = new byte[totalLength];
+
+                                // 重组字节流
+                                System.arraycopy(start, 0, newReqData, 0, start.length);
+                                System.arraycopy(selectData, 0, newReqData, start.length, selectData.length);
+                                System.arraycopy(end, 0, newReqData, start.length + selectData.length, end.length);
+
+                                messageEditorHttpRequestResponse.setResponse(HttpResponse.httpResponse(ByteArray.byteArray(newReqData)));
+
+                            }
                         }
                     }
-                }
-                if (menuItemsReturn.getIsReviseReq()) { // 是否修改请求
+                    if (menuItemsReturn.getIsReviseReq()) { // 是否修改请求
 //                ManGrpcGUI.pluginLog.append("修改请求 \n");
-                    HttpRequest httpRequest = HttpRequest.httpRequest(ByteArray.byteArray(menuItemsReturn.getReqData().toByteArray()));
-                    messageEditorHttpRequestResponse.setRequest(httpRequest);   // 修改请求
+                        HttpRequest httpRequest = HttpRequest.httpRequest(ByteArray.byteArray(menuItemsReturn.getReqData().toByteArray()));
+                        messageEditorHttpRequestResponse.setRequest(httpRequest);   // 修改请求
+                    }
+
+                    if (menuItemsReturn.getIsReviseRes()) { // 是否修改响应   BurpAPI中有修改响应的操作但是不可用
+//                ManGrpcGUI.pluginLog.append("修改响应 \n");
+                        HttpResponse httpResponse = HttpResponse.httpResponse(ByteArray.byteArray(menuItemsReturn.getResData().toByteArray()));
+                        messageEditorHttpRequestResponse.setResponse(httpResponse);  // 修改响应
+                    }
                 }
 
-                if (menuItemsReturn.getIsReviseRes()) { // 是否修改响应   BurpAPI中有修改响应的操作但是不可用
-//                ManGrpcGUI.pluginLog.append("修改响应 \n");
-                    HttpResponse httpResponse = HttpResponse.httpResponse(ByteArray.byteArray(menuItemsReturn.getResData().toByteArray()));
-                    messageEditorHttpRequestResponse.setResponse(httpResponse);  // 修改响应
-                }
+
+            } catch (Exception e) {
+                ManGrpcGUI.consoleLog.append("[-] 异常: " + e + "\n");
             }
+
         });
 
         return jMenuItem;
@@ -1076,7 +1094,7 @@ class ProxyReqHandler implements ProxyRequestHandler {
     @Override
     public ProxyRequestReceivedAction handleRequestReceived(InterceptedRequest interceptedRequest) {
 
-        httpReqData httpReqData = BurpApiUtensil.HttpRequestTohttpReqData(interceptedRequest);  // 构造 请求数据
+        httpReqData httpReqData = BurpApiUtensil.httpRequestTohttpReqData(interceptedRequest);  // 构造 请求数据
         annotationsText annotationsText = BurpApiUtensil.annotationsToannotationsText(interceptedRequest.annotations()); // 构造响应数据
 
         httpReqGroup httpReqGroup = BurpApiUtensil.buildHttpReqGroup(httpReqData, annotationsText); // 构造请求组
@@ -1085,7 +1103,14 @@ class ProxyReqHandler implements ProxyRequestHandler {
 
         BurpGrpc.proto.BurpApiGrpc.httpReqGroup httpReqGroup1 = proxyRequestAction.getHttpReqGroup(); // 提取请求组
 
-        Annotations annotations = BurpApiUtensil.annotationsTextToAnnotations(httpReqGroup1.getAnnotationsText()); // 注解 保证永远不为null
+        Annotations annotations;
+
+        if (httpReqGroup1.getAnnotationsText().getIsInfo()) {
+            annotations = BurpApiUtensil.annotationsTextToAnnotations(httpReqGroup1.getAnnotationsText()); // 注解 保证永远不为null
+        } else {
+            annotations = interceptedRequest.annotations();
+        }
+
 
         if (proxyRequestAction.getContinue()) {  // 继续不做处理
             return ProxyRequestReceivedAction.continueWith(interceptedRequest, annotations);
@@ -1136,7 +1161,7 @@ class ProxyResHandler implements ProxyResponseHandler {
     @Override
     public ProxyResponseReceivedAction handleResponseReceived(InterceptedResponse interceptedResponse) {
 
-        httpReqData httpReqData = BurpApiUtensil.HttpRequestTohttpReqData(interceptedResponse.initiatingRequest());
+        httpReqData httpReqData = BurpApiUtensil.httpRequestTohttpReqData(interceptedResponse.initiatingRequest());
         httpResData httpResData = BurpApiUtensil.httpResponseTohttpResData(interceptedResponse);
 
         annotationsText annotationsText = BurpApiUtensil.annotationsToannotationsText(interceptedResponse.annotations());
@@ -1147,7 +1172,14 @@ class ProxyResHandler implements ProxyResponseHandler {
 
         httpResGroup httpResGroup = proxyResponseAction.getHttpResGroup();   // 获取请求组
 
-        Annotations annotations = BurpApiUtensil.annotationsTextToAnnotations(httpResGroup.getAnnotationsText());  // 注解
+        Annotations annotations;
+
+        if (httpResGroup.getAnnotationsText().getIsInfo()) {
+            annotations = BurpApiUtensil.annotationsTextToAnnotations(httpResGroup.getAnnotationsText());  // 注解
+        } else {
+            annotations = interceptedResponse.annotations();
+        }
+
 
         if (proxyResponseAction.getContinue()) {    // 继续不做处理
             return ProxyResponseReceivedAction.continueWith(interceptedResponse, annotations);
@@ -1157,6 +1189,7 @@ class ProxyResHandler implements ProxyResponseHandler {
         }
 
         HttpResponse httpResponse = BurpApiUtensil.httpResDataToHttpResponse(httpResGroup.getHttpResData()); // 格式转换
+
 
         if (proxyResponseAction.getIsIntercept()) { // 是否拦截
             return ProxyResponseReceivedAction.intercept(httpResponse, annotations);
@@ -1180,7 +1213,9 @@ class ProxyResHandler implements ProxyResponseHandler {
 
 
 /**
- * @description: 流量处理器 有请求和响应一起的要放一起 修改请求要自己处理 Content-Length
+ * @description: http流处理器 请求和响应要放一起 修改请求要自己处理 Content-Length
+ * 一定要处理Content-Length 计算body字节数 否则即便burp能发出包 目标服务器也会丢弃不合法的请求
+ * http2 以http1 的形式发出 不需要特别处理 burp会自动转换进行通信
  * @author: cyvk
  * @date: 2023/6/19 下午5:43
  */
@@ -1199,9 +1234,8 @@ class HttpFlowHandler implements HttpHandler {
 
         try {
 
-
             // 数据转换
-            httpReqData httpReqData = BurpApiUtensil.HttpRequestTohttpReqData(requestToBeSent);
+            httpReqData httpReqData = BurpApiUtensil.httpRequestTohttpReqData(requestToBeSent);
             annotationsText annotationsText = BurpApiUtensil.annotationsToannotationsText(requestToBeSent.annotations());
             // 构造请求组
             httpReqGroup httpReqGroup = BurpApiUtensil.buildHttpReqGroup(httpReqData, annotationsText);
@@ -1211,18 +1245,27 @@ class HttpFlowHandler implements HttpHandler {
 
             // 提取请求组
             BurpGrpc.proto.BurpApiGrpc.httpReqGroup reqGroup = httpRequestAction.getHttpReqGroup();
-            // 获取注解
-            Annotations annotations = BurpApiUtensil.annotationsTextToAnnotations(reqGroup.getAnnotationsText());
+
+            Annotations annotations; // 响应数据中存在注解就会更新否则使用原注解
+
+            if (reqGroup.getAnnotationsText().getIsInfo()) {
+                annotations = BurpApiUtensil.annotationsTextToAnnotations(reqGroup.getAnnotationsText());
+            } else {
+                annotations = requestToBeSent.annotations();
+            }
 
             if (httpRequestAction.getContinue()) { // 继续不做处理
                 return RequestToBeSentAction.continueWith(requestToBeSent, annotations);
             }
+
             if (httpRequestAction.getIsReviseReq()) {  // 修改请求
                 // 数据转换
                 HttpRequest httpRequest = BurpApiUtensil.httpReqDataTohttpRequest(reqGroup.getHttpReqData());
                 return RequestToBeSentAction.continueWith(httpRequest, annotations);
             }
         } catch (Exception e) {
+            ManGrpcGUI.consoleLog.append("[-] 异常: " + e + "\n");
+
             return null;
         }
         return null;
@@ -1242,7 +1285,14 @@ class HttpFlowHandler implements HttpHandler {
             HttpResponseAction httpResponseAction = client.httpHandleResponseReceived(httpReqAndRes);   // 发起Grpc 请求
 
             httpResGroup httpResGroup = httpResponseAction.getHttpResGroup();
-            Annotations annotations = BurpApiUtensil.annotationsTextToAnnotations(httpResGroup.getAnnotationsText());
+
+            Annotations annotations; // 响应数据中存在注解就会更新否则使用原注解
+
+            if (httpResGroup.getAnnotationsText().getIsInfo()) {
+                annotations = BurpApiUtensil.annotationsTextToAnnotations(httpResGroup.getAnnotationsText());
+            } else {
+                annotations = responseReceived.annotations();
+            }
 
             if (httpResponseAction.getContinue()) {     // 继续
                 return ResponseReceivedAction.continueWith(responseReceived, annotations);

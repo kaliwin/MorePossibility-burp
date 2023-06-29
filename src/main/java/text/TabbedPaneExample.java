@@ -1,10 +1,12 @@
 package text;
 
 import UI.ManGUI;
-import UI.ManGrpcGUI;
 
 import javax.swing.*;
 
+/**
+ * @author cyvk
+ */
 public class TabbedPaneExample {
     public static void main(String[] args) {
         JFrame frame = new JFrame("选项卡示例");
