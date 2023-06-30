@@ -56,5 +56,5 @@ tasks.withType(JavaCompile).configureEach {
 }
 //    tasks.withType(JavaCompile).configureEach {
 //        // 开启预览功能
-//        options.compilerArgs += ["--source", "20", "--enable-preview" ]
-//    }
+//        options.compilerArgs += ["--ssdource", "20", "--enable-preview" ]
+//    }sds爱上的地方

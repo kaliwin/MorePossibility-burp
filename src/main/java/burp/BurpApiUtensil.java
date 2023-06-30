@@ -11,17 +11,16 @@ import burp.api.montoya.http.message.requests.HttpRequest;
 import burp.api.montoya.http.message.responses.HttpResponse;
 import com.google.protobuf.ByteString;
 
-import java.util.Objects;
 
 /**
- * @description: BurpApiUtensil 公共工具类 提供静态函数 用于将burp中的对象转化为Grpc proto文件中定义的消息类型
+ * @description: BurpApiUtensil 公共工具类 提供静态函数 用于将burp中的对象和proto文件中的消息类型互转
  * @author: cyvk
  * @date: 2023/6/20 下午3:00
  */
 public class BurpApiUtensil {
 
     /**
-     * @param hr: burp中的请求对象  HTTP1.1 和 HTTP2 使用的都是这个对象 一旦错误会抛运行时异常
+     * @param hr: burp中的请求对象  HTTP1.1 和 HTTP2 使用的都是这个对象 一旦错误 会返回一个基本对象 (各个字段为空 用于保证不为Null避免空指针)
      * @return BurpGrpc.proto.BurpApiGrpc.httpReqData
      * @description: 讲burp请求转换为Grpc 定义的 httpReqData
      * @author: cyvk
@@ -69,8 +68,6 @@ public class BurpApiUtensil {
      * @date: 2023/6/20 下午3:10
      */
     public static HttpRequest httpReqDataTohttpRequest(httpReqData httpReqData) {
-
-
         try {
 
             httpReqService httpReqService = httpReqData.getHttpReqService();   // 路由
@@ -83,7 +80,6 @@ public class BurpApiUtensil {
         } catch (Exception e) {
             return null;
         }
-
     }
 
 

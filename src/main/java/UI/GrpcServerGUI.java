@@ -97,17 +97,17 @@ public class GrpcServerGUI extends JPanel {
         if (selectedRows.length > 0) {
             for (int i = selectedRows.length - 1; i >= 0; i--) {
                 // 卸载服务
-                BurpServerTypeX burpServerTypeX = formalityChange.data.get(tableModel.getValueAt(i, 0));
+                BurpServerTypeX burpServerTypeX = formalityChange.data.get(tableModel.getValueAt(selectedRows[i], 0));
 
-                boolean b = MorePossibility.burpApiTool.delServer((String) tableModel.getValueAt(i, 2), burpServerTypeX);
+                boolean b = MorePossibility.burpApiTool.delServer((String) tableModel.getValueAt(selectedRows[i], 2), burpServerTypeX);
                 if (b) {
 //                    MorePossibility.logging.output().println("卸载成功: "+tableModel.getValueAt(i,2));
-                    pluginLog.append("卸载成功: " + tableModel.getValueAt(i, 2) + "\n");
+                    pluginLog.append("卸载成功: " + tableModel.getValueAt(selectedRows[i], 2) + "\n");
                     tableModel.deleteRow(selectedRows[i]);
                 } else {
 //                    MorePossibility.logging.output().println("卸载失败！！！ : "+tableModel.getValueAt(i,2));
 
-                    pluginLog.append("卸载失败！！！ : " + tableModel.getValueAt(i, 2) + "\n");
+                    pluginLog.append("卸载失败！！！ : " + tableModel.getValueAt(selectedRows[i], 2) + "\n");
                 }
             }
         }
