@@ -499,9 +499,15 @@ class intruderDemo implements PayloadProcessor {
     @Override
     public PayloadProcessingResult processPayload(PayloadData payloadData) {
         // 构建类型
-        ByteData payload = ByteData.newBuilder().setByteData(ByteString.copyFrom(payloadData.currentPayload().getBytes())).build();
+//        ByteData payload = ByteData.newBuilder().setByteData(ByteString.copyFrom(payloadData.currentPayload().getBytes())).build();
+        //
+        PayloadProcessorData processorData = PayloadProcessorData.newBuilder()
+                .setPayload(ByteString.copyFrom(payloadData.currentPayload().getBytes()))
+                .setName(displayName())
+                .build();
+
         // 通过rpc调用远程函数处理载荷
-        ByteData byteData = intruderServer.intruderPayloadProcessor(payload);
+        ByteData byteData = intruderServer.intruderPayloadProcessor(processorData);
         // 返回处理后的结果
         return PayloadProcessingResult.usePayload(ByteArray.byteArray(byteData.getByteData().toByteArray()));
     }
@@ -535,6 +541,15 @@ class intruderGenerate implements PayloadGeneratorProvider, PayloadGenerator {
         ByteArray content = attackConfiguration.requestTemplate().content();  // 原始请求
         intruderGeneratorData = IntruderGeneratorData.newBuilder()
                 .setContentData(ByteString.copyFrom(content.getBytes()));    // 初始化数据
+
+//        for (Range range : attackConfiguration.requestTemplate().insertionPointOffsets()) {
+//            InsertionPointOffsets offsets = InsertionPointOffsets.newBuilder()
+//                    .setStartIndex(range.startIndexInclusive())
+//                    .setEndIndex(range.endIndexExclusive())
+//                    .build();
+//            intruderGeneratorData.addInsertionPointOffsets(offsets);
+//        }
+
         return this;
     }
 
@@ -544,7 +559,13 @@ class intruderGenerate implements PayloadGeneratorProvider, PayloadGenerator {
     @Override
     public GeneratedPayload generatePayloadFor(IntruderInsertionPoint insertionPoint) {
         try {
+
+            // 插入点基值
             intruderGeneratorData.setIntruderInsertionPoint(ByteString.copyFrom(insertionPoint.baseValue().getBytes()));
+
+            intruderGeneratorData.setName(displayName());
+
+            // rpc调用
             PayloadGeneratorResult payloadGeneratorResult = intruderServer.intruderPayloadGeneratorProvider(intruderGeneratorData.build());
 
             if (payloadGeneratorResult.getIsEnd()) {
@@ -1240,8 +1261,18 @@ class HttpFlowHandler implements HttpHandler {
             // 构造请求组
             httpReqGroup httpReqGroup = BurpApiUtensil.buildHttpReqGroup(httpReqData, annotationsText);
 
+            // 构建数据来源
+            httpFlowSource httpFlowSource = BurpGrpc.proto.BurpApiGrpc.httpFlowSource.valueOf(requestToBeSent.toolSource().toolType().name());
+
+            // 构建请求实例
+            httpFlowReqData flowReqData = BurpGrpc.proto.BurpApiGrpc.httpFlowReqData.newBuilder()
+                    .setHttpReqGroup(httpReqGroup)
+                    .setHttpFlowSource(httpFlowSource)
+                    .build();
+
+
             // 发起Grpc 调用
-            HttpRequestAction httpRequestAction = client.httpHandleRequestReceived(httpReqGroup);
+            HttpRequestAction httpRequestAction = client.httpHandleRequestReceived(flowReqData);
 
             // 提取请求组
             BurpGrpc.proto.BurpApiGrpc.httpReqGroup reqGroup = httpRequestAction.getHttpReqGroup();
@@ -1282,7 +1313,16 @@ class HttpFlowHandler implements HttpHandler {
             // 组装一组请求
             httpReqAndRes httpReqAndRes = BurpApiUtensil.withHttpReqAndRes(responseReceived.initiatingRequest(), responseReceived, responseReceived.annotations());
 
-            HttpResponseAction httpResponseAction = client.httpHandleResponseReceived(httpReqAndRes);   // 发起Grpc 请求
+
+            // 构建数据来源
+            httpFlowSource httpFlowSource = BurpGrpc.proto.BurpApiGrpc.httpFlowSource.valueOf(responseReceived.toolSource().toolType().name());
+
+            httpFlowResData flowReqAndResData = BurpGrpc.proto.BurpApiGrpc.httpFlowResData.newBuilder()
+                    .setHttpReqAndRes(httpReqAndRes)
+                    .setHttpFlowSource(httpFlowSource)
+                    .build();
+
+            HttpResponseAction httpResponseAction = client.httpHandleResponseReceived(flowReqAndResData);   // 发起Grpc 请求
 
             httpResGroup httpResGroup = httpResponseAction.getHttpResGroup();
 

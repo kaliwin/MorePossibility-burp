@@ -61,7 +61,7 @@ private static final long serialVersionUID = 0L;
   private boolean isReviseRes_ = false;
   /**
    * <pre>
-   * 修改请求
+   * 修改响应
    * </pre>
    *
    * <code>bool isReviseRes = 3;</code>
@@ -501,7 +501,7 @@ private static final long serialVersionUID = 0L;
     private boolean isReviseRes_ ;
     /**
      * <pre>
-     * 修改请求
+     * 修改响应
      * </pre>
      *
      * <code>bool isReviseRes = 3;</code>
@@ -513,7 +513,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * 修改请求
+     * 修改响应
      * </pre>
      *
      * <code>bool isReviseRes = 3;</code>
@@ -529,7 +529,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * 修改请求
+     * 修改响应
      * </pre>
      *
      * <code>bool isReviseRes = 3;</code>

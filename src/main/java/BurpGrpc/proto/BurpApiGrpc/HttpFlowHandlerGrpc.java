@@ -18,27 +18,27 @@ public final class HttpFlowHandlerGrpc {
   public static final String SERVICE_NAME = "burpApi.HttpFlowHandler";
 
   // Static method descriptors that strictly reflect the proto.
-  private static volatile io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.httpReqGroup,
+  private static volatile io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.httpFlowReqData,
       BurpGrpc.proto.BurpApiGrpc.HttpRequestAction> getHttpHandleRequestReceivedMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "HttpHandleRequestReceived",
-      requestType = BurpGrpc.proto.BurpApiGrpc.httpReqGroup.class,
+      requestType = BurpGrpc.proto.BurpApiGrpc.httpFlowReqData.class,
       responseType = BurpGrpc.proto.BurpApiGrpc.HttpRequestAction.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.httpReqGroup,
+  public static io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.httpFlowReqData,
       BurpGrpc.proto.BurpApiGrpc.HttpRequestAction> getHttpHandleRequestReceivedMethod() {
-    io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.httpReqGroup, BurpGrpc.proto.BurpApiGrpc.HttpRequestAction> getHttpHandleRequestReceivedMethod;
+    io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.httpFlowReqData, BurpGrpc.proto.BurpApiGrpc.HttpRequestAction> getHttpHandleRequestReceivedMethod;
     if ((getHttpHandleRequestReceivedMethod = HttpFlowHandlerGrpc.getHttpHandleRequestReceivedMethod) == null) {
       synchronized (HttpFlowHandlerGrpc.class) {
         if ((getHttpHandleRequestReceivedMethod = HttpFlowHandlerGrpc.getHttpHandleRequestReceivedMethod) == null) {
           HttpFlowHandlerGrpc.getHttpHandleRequestReceivedMethod = getHttpHandleRequestReceivedMethod =
-              io.grpc.MethodDescriptor.<BurpGrpc.proto.BurpApiGrpc.httpReqGroup, BurpGrpc.proto.BurpApiGrpc.HttpRequestAction>newBuilder()
+              io.grpc.MethodDescriptor.<BurpGrpc.proto.BurpApiGrpc.httpFlowReqData, BurpGrpc.proto.BurpApiGrpc.HttpRequestAction>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "HttpHandleRequestReceived"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  BurpGrpc.proto.BurpApiGrpc.httpReqGroup.getDefaultInstance()))
+                  BurpGrpc.proto.BurpApiGrpc.httpFlowReqData.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   BurpGrpc.proto.BurpApiGrpc.HttpRequestAction.getDefaultInstance()))
               .setSchemaDescriptor(new HttpFlowHandlerMethodDescriptorSupplier("HttpHandleRequestReceived"))
@@ -49,27 +49,27 @@ public final class HttpFlowHandlerGrpc {
     return getHttpHandleRequestReceivedMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.httpReqAndRes,
+  private static volatile io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.httpFlowResData,
       BurpGrpc.proto.BurpApiGrpc.HttpResponseAction> getHttpHandleResponseReceivedMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "HttpHandleResponseReceived",
-      requestType = BurpGrpc.proto.BurpApiGrpc.httpReqAndRes.class,
+      requestType = BurpGrpc.proto.BurpApiGrpc.httpFlowResData.class,
       responseType = BurpGrpc.proto.BurpApiGrpc.HttpResponseAction.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.httpReqAndRes,
+  public static io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.httpFlowResData,
       BurpGrpc.proto.BurpApiGrpc.HttpResponseAction> getHttpHandleResponseReceivedMethod() {
-    io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.httpReqAndRes, BurpGrpc.proto.BurpApiGrpc.HttpResponseAction> getHttpHandleResponseReceivedMethod;
+    io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.httpFlowResData, BurpGrpc.proto.BurpApiGrpc.HttpResponseAction> getHttpHandleResponseReceivedMethod;
     if ((getHttpHandleResponseReceivedMethod = HttpFlowHandlerGrpc.getHttpHandleResponseReceivedMethod) == null) {
       synchronized (HttpFlowHandlerGrpc.class) {
         if ((getHttpHandleResponseReceivedMethod = HttpFlowHandlerGrpc.getHttpHandleResponseReceivedMethod) == null) {
           HttpFlowHandlerGrpc.getHttpHandleResponseReceivedMethod = getHttpHandleResponseReceivedMethod =
-              io.grpc.MethodDescriptor.<BurpGrpc.proto.BurpApiGrpc.httpReqAndRes, BurpGrpc.proto.BurpApiGrpc.HttpResponseAction>newBuilder()
+              io.grpc.MethodDescriptor.<BurpGrpc.proto.BurpApiGrpc.httpFlowResData, BurpGrpc.proto.BurpApiGrpc.HttpResponseAction>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "HttpHandleResponseReceived"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  BurpGrpc.proto.BurpApiGrpc.httpReqAndRes.getDefaultInstance()))
+                  BurpGrpc.proto.BurpApiGrpc.httpFlowResData.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   BurpGrpc.proto.BurpApiGrpc.HttpResponseAction.getDefaultInstance()))
               .setSchemaDescriptor(new HttpFlowHandlerMethodDescriptorSupplier("HttpHandleResponseReceived"))
@@ -133,14 +133,14 @@ public final class HttpFlowHandlerGrpc {
 
     /**
      */
-    public void httpHandleRequestReceived(BurpGrpc.proto.BurpApiGrpc.httpReqGroup request,
+    public void httpHandleRequestReceived(BurpGrpc.proto.BurpApiGrpc.httpFlowReqData request,
         io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.HttpRequestAction> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getHttpHandleRequestReceivedMethod(), responseObserver);
     }
 
     /**
      */
-    public void httpHandleResponseReceived(BurpGrpc.proto.BurpApiGrpc.httpReqAndRes request,
+    public void httpHandleResponseReceived(BurpGrpc.proto.BurpApiGrpc.httpFlowResData request,
         io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.HttpResponseAction> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getHttpHandleResponseReceivedMethod(), responseObserver);
     }
@@ -151,14 +151,14 @@ public final class HttpFlowHandlerGrpc {
             getHttpHandleRequestReceivedMethod(),
             io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
-                BurpGrpc.proto.BurpApiGrpc.httpReqGroup,
+                BurpGrpc.proto.BurpApiGrpc.httpFlowReqData,
                 BurpGrpc.proto.BurpApiGrpc.HttpRequestAction>(
                   this, METHODID_HTTP_HANDLE_REQUEST_RECEIVED)))
           .addMethod(
             getHttpHandleResponseReceivedMethod(),
             io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
-                BurpGrpc.proto.BurpApiGrpc.httpReqAndRes,
+                BurpGrpc.proto.BurpApiGrpc.httpFlowResData,
                 BurpGrpc.proto.BurpApiGrpc.HttpResponseAction>(
                   this, METHODID_HTTP_HANDLE_RESPONSE_RECEIVED)))
           .build();
@@ -184,7 +184,7 @@ public final class HttpFlowHandlerGrpc {
 
     /**
      */
-    public void httpHandleRequestReceived(BurpGrpc.proto.BurpApiGrpc.httpReqGroup request,
+    public void httpHandleRequestReceived(BurpGrpc.proto.BurpApiGrpc.httpFlowReqData request,
         io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.HttpRequestAction> responseObserver) {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getHttpHandleRequestReceivedMethod(), getCallOptions()), request, responseObserver);
@@ -192,7 +192,7 @@ public final class HttpFlowHandlerGrpc {
 
     /**
      */
-    public void httpHandleResponseReceived(BurpGrpc.proto.BurpApiGrpc.httpReqAndRes request,
+    public void httpHandleResponseReceived(BurpGrpc.proto.BurpApiGrpc.httpFlowResData request,
         io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.HttpResponseAction> responseObserver) {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getHttpHandleResponseReceivedMethod(), getCallOptions()), request, responseObserver);
@@ -218,14 +218,14 @@ public final class HttpFlowHandlerGrpc {
 
     /**
      */
-    public BurpGrpc.proto.BurpApiGrpc.HttpRequestAction httpHandleRequestReceived(BurpGrpc.proto.BurpApiGrpc.httpReqGroup request) {
+    public BurpGrpc.proto.BurpApiGrpc.HttpRequestAction httpHandleRequestReceived(BurpGrpc.proto.BurpApiGrpc.httpFlowReqData request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getHttpHandleRequestReceivedMethod(), getCallOptions(), request);
     }
 
     /**
      */
-    public BurpGrpc.proto.BurpApiGrpc.HttpResponseAction httpHandleResponseReceived(BurpGrpc.proto.BurpApiGrpc.httpReqAndRes request) {
+    public BurpGrpc.proto.BurpApiGrpc.HttpResponseAction httpHandleResponseReceived(BurpGrpc.proto.BurpApiGrpc.httpFlowResData request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getHttpHandleResponseReceivedMethod(), getCallOptions(), request);
     }
@@ -251,7 +251,7 @@ public final class HttpFlowHandlerGrpc {
     /**
      */
     public com.google.common.util.concurrent.ListenableFuture<BurpGrpc.proto.BurpApiGrpc.HttpRequestAction> httpHandleRequestReceived(
-        BurpGrpc.proto.BurpApiGrpc.httpReqGroup request) {
+        BurpGrpc.proto.BurpApiGrpc.httpFlowReqData request) {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getHttpHandleRequestReceivedMethod(), getCallOptions()), request);
     }
@@ -259,7 +259,7 @@ public final class HttpFlowHandlerGrpc {
     /**
      */
     public com.google.common.util.concurrent.ListenableFuture<BurpGrpc.proto.BurpApiGrpc.HttpResponseAction> httpHandleResponseReceived(
-        BurpGrpc.proto.BurpApiGrpc.httpReqAndRes request) {
+        BurpGrpc.proto.BurpApiGrpc.httpFlowResData request) {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getHttpHandleResponseReceivedMethod(), getCallOptions()), request);
     }
@@ -286,11 +286,11 @@ public final class HttpFlowHandlerGrpc {
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
         case METHODID_HTTP_HANDLE_REQUEST_RECEIVED:
-          serviceImpl.httpHandleRequestReceived((BurpGrpc.proto.BurpApiGrpc.httpReqGroup) request,
+          serviceImpl.httpHandleRequestReceived((BurpGrpc.proto.BurpApiGrpc.httpFlowReqData) request,
               (io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.HttpRequestAction>) responseObserver);
           break;
         case METHODID_HTTP_HANDLE_RESPONSE_RECEIVED:
-          serviceImpl.httpHandleResponseReceived((BurpGrpc.proto.BurpApiGrpc.httpReqAndRes) request,
+          serviceImpl.httpHandleResponseReceived((BurpGrpc.proto.BurpApiGrpc.httpFlowResData) request,
               (io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.HttpResponseAction>) responseObserver);
           break;
         default:

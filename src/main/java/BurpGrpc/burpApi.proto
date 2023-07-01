@@ -13,7 +13,6 @@ option go_package = "/BurpApi";                        //go 实例包名路径
 //包名 服务名称 用于http2路由
 package burpApi;
 
-
 //burpApi服务
 service BurpServer{
 
@@ -25,7 +24,7 @@ service BurpServer{
 
   // 注册服务
   // 服务注册 主动向burp发起请求进行注册服务
-//  rpc RegisterServer(serviceRegisterRouting) returns (processingStatus){}
+  //  rpc RegisterServer(serviceRegisterRouting) returns (processingStatus){}
 
   // 服务注册列表 包含多个服务  多个服务其中有一个注册失败不会影响到已经成功的 只要有一个失败便会返回false
   rpc RegisterServerList(serviceRegisterRoutingList) returns (processingStatus){}
@@ -65,7 +64,7 @@ service ScoutServer {
 // 迭代处理器
 service IntruderPayloadProcessorServer {
   // 迭代器载荷处理
-  rpc IntruderPayloadProcessor(ByteData)returns(ByteData){}
+  rpc IntruderPayloadProcessor(PayloadProcessorData)returns(ByteData){}
 }
 
 // 迭代器 生成器
@@ -113,9 +112,30 @@ service ProxyResponseHandler{
 
 // http流量处理器 请求和响应放一起
 service HttpFlowHandler{
-  rpc HttpHandleRequestReceived(httpReqGroup) returns(HttpRequestAction){}
-  rpc HttpHandleResponseReceived(httpReqAndRes) returns(HttpResponseAction){}
+  rpc HttpHandleRequestReceived(httpFlowReqData) returns(HttpRequestAction){}
+  rpc HttpHandleResponseReceived(httpFlowResData) returns(HttpResponseAction){}
 }
+
+
+// http流量请求数据
+message httpFlowReqData {
+  httpReqGroup httpReqGroup = 1;
+  httpFlowSource httpFlowSource = 2;
+}
+
+// http流量响应数据
+message httpFlowResData{
+  httpReqAndRes httpReqAndRes = 1;
+  httpFlowSource httpFlowSource = 2;
+}
+
+
+// 迭代处理器数据 包含调用的名称用于应对多种不同类型调用
+message PayloadProcessorData{
+  string name = 1;   // 名称
+  bytes payload = 2; // 载荷
+}
+
 
 // 代理历史流量数据
 message ProxyHistoryData{
@@ -140,14 +160,8 @@ message HttpRequestAction{
 // http响应操作
 message HttpResponseAction{
   bool continue = 1; // 继续不做任何处理
-  bool isReviseRes = 3;  // 修改请求
-
+  bool isReviseRes = 3;  // 修改响应
   httpResGroup httpResGroup = 4;
-
-  //  httpReqData res = 4;
-  //  annotationsText annotation = 5 ; // 注解
-  //  bool isInit = 6;  // 是否初始化
-
 }
 
 // 收到代理请求的操作
@@ -291,6 +305,7 @@ message IntruderGeneratorData{
   bytes contentData = 1; // http 请求模板
   repeated  InsertionPointOffsets  insertionPointOffsets = 2;  // 插入点列表
   bytes IntruderInsertionPoint = 3;  //插入点基值
+  string name =4 ; // 名称
 }
 
 // 插入点
@@ -374,13 +389,31 @@ message annotationsText {
   highlightColor color = 3;          // 颜色
 }
 
+// 流量来源类型
+enum httpFlowSource{
+  NULL = 0 ;     // 空值占位表示null 避免不同语言序列化后无法判断对象是否为空
+  SUITE = 1;
+  TARGET = 2;
+  PROXY = 3;     // 代理器
+  SCANNER = 4;
+  INTRUDER = 5;  // 迭代器
+  REPEATER = 6;  // 重放器
+  LOGGER = 7;
+  SEQUENCER = 8;
+  DECODER = 9;
+  COMPARER = 10;
+  EXTENSIONS = 11;
+  RECORDED_LOGIN_REPLAYER = 12;
+}
+
+
 // 服务类型名称
 enum serverTypeName {
   NOLL = 0;                         // 空值占位 避免不同语言序列化后无法判断是否有值
   INTRUDER_PROCESSOR = 1;           // 迭代处理器
   INTRUDER_GENERATE = 2;            // 迭代生成器
-//  REAL_TIME_TRAFFIC_MIRRORING = 3;   // 实时流量镜像   不允许注册流量镜像 要不手动要不直接通过服务端流建立镜像流
-//  HTTP_EDITOR_KEY_VALUE = 4;         // http键值对用于相互转换  先废除
+  //  REAL_TIME_TRAFFIC_MIRRORING = 3;   // 实时流量镜像   不允许注册流量镜像 要不手动要不直接通过服务端流建立镜像流
+  //  HTTP_EDITOR_KEY_VALUE = 4;         // http键值对用于相互转换  先废除
   HTTP_REQUEST_EDITOR_PROCESSOR = 5; // 请求编辑处理器
   HTTP_RESPONSE_EDITOR_PROCESSOR = 6; // 响应编辑处理器
   CONTEXT_MENU_ITEMS_PROVIDER = 7;    // 上下文菜单提供程序
@@ -388,6 +421,9 @@ enum serverTypeName {
   PROXY_RESPONSE_HANDLER = 9;        // 代理响应处理器
   HTTP_FLOW_HANDLER = 10;              // http请求处理器
 }
+
+
+
 
 // 注解颜色
 enum highlightColor {

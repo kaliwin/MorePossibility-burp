@@ -43,16 +43,17 @@ public class MorePossibility implements BurpExtension {
             burpApi = api;
             this.init(); // 初始化
 
-            api.extension().setName("MorePossibility_test");
+            api.extension().setName("MorePossibility");
             api.logging().output().println("启动了");
 
-            api.userInterface().registerSuiteTab("MorePossibility_test", new ManGUI());  // 构建UI
+            api.userInterface().registerSuiteTab("MorePossibility", new ManGUI());  // 构建UI
 
 
             api.extension().registerUnloadingHandler(() -> {
                 // 设置关闭选项 目前存在隐藏bug会出现部分服务无法关闭的情况但是不影响使用
                 runAchieve.stopServer();
             });
+
 
         } catch (Exception e) {
             ManGrpcGUI.consoleLog.append("[-] 插件主线程抛出异常 : " + e + "\n");

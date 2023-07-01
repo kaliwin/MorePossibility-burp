@@ -70,4 +70,24 @@ public interface IntruderGeneratorDataOrBuilder extends
    * @return The intruderInsertionPoint.
    */
   com.google.protobuf.ByteString getIntruderInsertionPoint();
+
+  /**
+   * <pre>
+   * 名称
+   * </pre>
+   *
+   * <code>string name = 4;</code>
+   * @return The name.
+   */
+  java.lang.String getName();
+  /**
+   * <pre>
+   * 名称
+   * </pre>
+   *
+   * <code>string name = 4;</code>
+   * @return The bytes for name.
+   */
+  com.google.protobuf.ByteString
+      getNameBytes();
 }

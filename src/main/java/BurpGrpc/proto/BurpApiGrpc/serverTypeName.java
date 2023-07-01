@@ -226,7 +226,7 @@ public enum serverTypeName
   }
   public static final com.google.protobuf.Descriptors.EnumDescriptor
       getDescriptor() {
-    return BurpGrpc.proto.BurpApiGrpc.BurpApi.getDescriptor().getEnumTypes().get(1);
+    return BurpGrpc.proto.BurpApiGrpc.BurpApi.getDescriptor().getEnumTypes().get(2);
   }
 
   private static final serverTypeName[] VALUES = values();

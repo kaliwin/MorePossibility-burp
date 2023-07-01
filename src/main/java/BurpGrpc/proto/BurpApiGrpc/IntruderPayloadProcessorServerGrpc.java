@@ -18,27 +18,27 @@ public final class IntruderPayloadProcessorServerGrpc {
   public static final String SERVICE_NAME = "burpApi.IntruderPayloadProcessorServer";
 
   // Static method descriptors that strictly reflect the proto.
-  private static volatile io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.ByteData,
+  private static volatile io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.PayloadProcessorData,
       BurpGrpc.proto.BurpApiGrpc.ByteData> getIntruderPayloadProcessorMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "IntruderPayloadProcessor",
-      requestType = BurpGrpc.proto.BurpApiGrpc.ByteData.class,
+      requestType = BurpGrpc.proto.BurpApiGrpc.PayloadProcessorData.class,
       responseType = BurpGrpc.proto.BurpApiGrpc.ByteData.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.ByteData,
+  public static io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.PayloadProcessorData,
       BurpGrpc.proto.BurpApiGrpc.ByteData> getIntruderPayloadProcessorMethod() {
-    io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.ByteData, BurpGrpc.proto.BurpApiGrpc.ByteData> getIntruderPayloadProcessorMethod;
+    io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.PayloadProcessorData, BurpGrpc.proto.BurpApiGrpc.ByteData> getIntruderPayloadProcessorMethod;
     if ((getIntruderPayloadProcessorMethod = IntruderPayloadProcessorServerGrpc.getIntruderPayloadProcessorMethod) == null) {
       synchronized (IntruderPayloadProcessorServerGrpc.class) {
         if ((getIntruderPayloadProcessorMethod = IntruderPayloadProcessorServerGrpc.getIntruderPayloadProcessorMethod) == null) {
           IntruderPayloadProcessorServerGrpc.getIntruderPayloadProcessorMethod = getIntruderPayloadProcessorMethod =
-              io.grpc.MethodDescriptor.<BurpGrpc.proto.BurpApiGrpc.ByteData, BurpGrpc.proto.BurpApiGrpc.ByteData>newBuilder()
+              io.grpc.MethodDescriptor.<BurpGrpc.proto.BurpApiGrpc.PayloadProcessorData, BurpGrpc.proto.BurpApiGrpc.ByteData>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "IntruderPayloadProcessor"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  BurpGrpc.proto.BurpApiGrpc.ByteData.getDefaultInstance()))
+                  BurpGrpc.proto.BurpApiGrpc.PayloadProcessorData.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   BurpGrpc.proto.BurpApiGrpc.ByteData.getDefaultInstance()))
               .setSchemaDescriptor(new IntruderPayloadProcessorServerMethodDescriptorSupplier("IntruderPayloadProcessor"))
@@ -105,7 +105,7 @@ public final class IntruderPayloadProcessorServerGrpc {
      * 迭代器载荷处理
      * </pre>
      */
-    public void intruderPayloadProcessor(BurpGrpc.proto.BurpApiGrpc.ByteData request,
+    public void intruderPayloadProcessor(BurpGrpc.proto.BurpApiGrpc.PayloadProcessorData request,
         io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.ByteData> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getIntruderPayloadProcessorMethod(), responseObserver);
     }
@@ -116,7 +116,7 @@ public final class IntruderPayloadProcessorServerGrpc {
             getIntruderPayloadProcessorMethod(),
             io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
-                BurpGrpc.proto.BurpApiGrpc.ByteData,
+                BurpGrpc.proto.BurpApiGrpc.PayloadProcessorData,
                 BurpGrpc.proto.BurpApiGrpc.ByteData>(
                   this, METHODID_INTRUDER_PAYLOAD_PROCESSOR)))
           .build();
@@ -145,7 +145,7 @@ public final class IntruderPayloadProcessorServerGrpc {
      * 迭代器载荷处理
      * </pre>
      */
-    public void intruderPayloadProcessor(BurpGrpc.proto.BurpApiGrpc.ByteData request,
+    public void intruderPayloadProcessor(BurpGrpc.proto.BurpApiGrpc.PayloadProcessorData request,
         io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.ByteData> responseObserver) {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getIntruderPayloadProcessorMethod(), getCallOptions()), request, responseObserver);
@@ -174,7 +174,7 @@ public final class IntruderPayloadProcessorServerGrpc {
      * 迭代器载荷处理
      * </pre>
      */
-    public BurpGrpc.proto.BurpApiGrpc.ByteData intruderPayloadProcessor(BurpGrpc.proto.BurpApiGrpc.ByteData request) {
+    public BurpGrpc.proto.BurpApiGrpc.ByteData intruderPayloadProcessor(BurpGrpc.proto.BurpApiGrpc.PayloadProcessorData request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getIntruderPayloadProcessorMethod(), getCallOptions(), request);
     }
@@ -203,7 +203,7 @@ public final class IntruderPayloadProcessorServerGrpc {
      * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<BurpGrpc.proto.BurpApiGrpc.ByteData> intruderPayloadProcessor(
-        BurpGrpc.proto.BurpApiGrpc.ByteData request) {
+        BurpGrpc.proto.BurpApiGrpc.PayloadProcessorData request) {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getIntruderPayloadProcessorMethod(), getCallOptions()), request);
     }
@@ -229,7 +229,7 @@ public final class IntruderPayloadProcessorServerGrpc {
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
         case METHODID_INTRUDER_PAYLOAD_PROCESSOR:
-          serviceImpl.intruderPayloadProcessor((BurpGrpc.proto.BurpApiGrpc.ByteData) request,
+          serviceImpl.intruderPayloadProcessor((BurpGrpc.proto.BurpApiGrpc.PayloadProcessorData) request,
               (io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.ByteData>) responseObserver);
           break;
         default:

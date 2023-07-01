@@ -19,7 +19,7 @@ public interface HttpResponseActionOrBuilder extends
 
   /**
    * <pre>
-   * 修改请求
+   * 修改响应
    * </pre>
    *
    * <code>bool isReviseRes = 3;</code>
