@@ -1,0 +1,441 @@
+//指定的当前proto语法的版本, 有2和3
+syntax = "proto3";
+
+option java_multiple_files = true;                    //等于true则将为每个消息类型生成单独的文件。
+option java_package = "BurpGrpc.proto.BurpApiGrpc";   //实例包名
+option java_outer_classname = "BurpApi";              //类名
+option objc_class_prefix = "HLW";                     //生成前缀 未知用法
+option go_package = "/BurpApi";                        //go 实例包名路径
+
+//import "google/api/annotations.proto";
+
+
+//包名 服务名称 用于http2路由
+package burpApi;
+
+//burpApi服务
+service BurpServer{
+
+  /*
+    注册实时流量传输
+    burp将监听端口通过服务端端流进行实时流量镜像
+  */
+  rpc RegisterRealTimeTrafficMirroring(Str) returns (stream httpReqAndRes){}
+
+  // 注册服务
+  // 服务注册 主动向burp发起请求进行注册服务
+  //  rpc RegisterServer(serviceRegisterRouting) returns (processingStatus){}
+
+  // 服务注册列表 包含多个服务  多个服务其中有一个注册失败不会影响到已经成功的 只要有一个失败便会返回false
+  rpc RegisterServerList(serviceRegisterRoutingList) returns (processingStatus){}
+
+  // 获取代理历史请求 由于过滤会很复杂因此直接返回所有历史数据 入参为只占位符不用理睬
+  // 由于数据过大默认单个消息最大为500MB 客户端也需要处理 后续将提供分块传输 过滤提取等方式
+  rpc GetProxyHistory(Str) returns(ProxyHistoryData){}
+
+}
+
+// 实时流量镜像
+service RealTimeTrafficMirroring{
+  /*
+      实时流量传输
+      burp将主动建立连接通过客户端流进行实时流量镜像
+    */
+  rpc RealTimeTrafficMirroring(stream httpReqAndRes) returns (Str){}
+}
+
+
+
+//  注册服务路由列表
+service RegisterServerRoutingList{
+  rpc RegisterServerList(Str) returns (serviceRegisterRoutingList);  // 一建注册服务
+}
+
+
+// 侦查服务  未实现
+service ScoutServer {
+  // 添加http编辑器加解密键值对 参数为http编辑组件名称以及key、value
+  rpc addHttpEditorEncryptAndDecryptKeyValue(httpEditorKeyValue)returns(processingStatus){}
+
+  rpc AddHttpKeyValuePair(httpKeyValuePair) returns(Boole){}   //添加http键值对
+
+}
+
+// 迭代处理器
+service IntruderPayloadProcessorServer {
+  // 迭代器载荷处理
+  rpc IntruderPayloadProcessor(PayloadProcessorData)returns(ByteData){}
+}
+
+// 迭代器 生成器
+service IntruderPayloadGeneratorServer{
+  // 迭代器载荷生成, 服务端流 流终止就为生成结束
+  rpc IntruderPayloadGeneratorProvider(IntruderGeneratorData) returns (PayloadGeneratorResult){}
+}
+
+
+// 提供请求编辑框
+service HttpReqEditBoxAssist{
+  rpc ReqHttpEdit (HttpEditBoxData) returns (ByteData){}    // 返回数据渲染
+  rpc IsReqHttpEditFor(HttpEditBoxData) returns (Boole){}   // 是否要渲染
+}
+
+
+// 提供响应编辑框
+service HttpResEditBoxAssist{
+  rpc ResHttpEdit (HttpEditBoxData) returns (ByteData){}   // 返回数据渲染
+  rpc IsResHttpEditFor(HttpEditBoxData) returns (Boole){}  // 是否渲染 会频繁调用
+}
+
+
+// 右键菜单项执行程序
+service ContextMenuItemsProvider{
+  rpc MenuItemsProvider(ContextMenuItems) returns(MenuItemsReturn){}  // 菜单项处理
+}
+
+
+// 获取上下文菜单项服务器  发送菜单项的名字
+service GetConTextMenuItemsServer {
+  rpc GetConTextMenuItems(Str)returns(MenuInfo){}
+}
+
+
+// 代理请求处理器 提供请求修改拦截
+service ProxyRequestHandler{
+  rpc ProxyHandleRequestReceived(httpReqGroup) returns(ProxyRequestAction){} // 代理请求处理
+}
+
+// 代理响应处理器 提供对相应的处理
+service ProxyResponseHandler{
+  rpc ProxyHandleResponseReceived(httpReqAndRes)returns(ProxyResponseAction){}  // 代理响应处理
+}
+
+// http流量处理器 请求和响应放一起
+service HttpFlowHandler{
+  rpc HttpHandleRequestReceived(httpFlowReqData) returns(HttpRequestAction){}
+  rpc HttpHandleResponseReceived(httpFlowResData) returns(HttpResponseAction){}
+}
+
+
+// http流量请求数据
+message httpFlowReqData {
+  httpReqGroup httpReqGroup = 1;
+  httpFlowSource httpFlowSource = 2;
+}
+
+// http流量响应数据
+message httpFlowResData{
+  httpReqAndRes httpReqAndRes = 1;
+  httpFlowSource httpFlowSource = 2;
+}
+
+
+// 迭代处理器数据 包含调用的名称用于应对多种不同类型调用
+message PayloadProcessorData{
+  string name = 1;   // 名称
+  bytes payload = 2; // 载荷
+}
+
+
+// 代理历史流量数据
+message ProxyHistoryData{
+  repeated httpReqAndRes httpReqAndResData = 1;
+}
+
+
+// 下标的偏移量 用于在字节流中定位准确数据
+message SubscriptOffsets{
+  int64 startIndex = 1; // 开始下标
+  int64 endIndex = 2;   // 结束下标
+}
+
+
+// http请求操作
+message HttpRequestAction{
+  bool continue = 1; // 继续不做任何处理
+  bool isReviseReq = 3;  // 修改请求
+  httpReqGroup httpReqGroup = 4;
+}
+
+// http响应操作
+message HttpResponseAction{
+  bool continue = 1; // 继续不做任何处理
+  bool isReviseRes = 3;  // 修改响应
+  httpResGroup httpResGroup = 4;
+}
+
+// 收到代理请求的操作
+message ProxyRequestAction{
+  bool continue = 1; // 继续不做任何处理
+  bool drop = 2 ;  // 丢弃请求
+  bool isReviseReq = 3;  // 修改请求
+  bool isIntercept = 4 ;  // 是否拦截   无论是否修改都要返回数据也就是httpReqData 字段
+
+  httpReqGroup httpReqGroup = 5;
+
+  //  annotationsText annotation = 5 ; // 注解
+  //  httpReqData req = 6; // 修改请求
+}
+
+// 收到代理响应的操作
+message ProxyResponseAction{
+  bool continue = 1; // 继续不做任何处理
+  bool drop = 2 ;  // 丢弃响应
+  bool isReviseRes = 3;  // 修改响应
+  bool isIntercept = 4 ;  // 是否拦截  无论是否修改都要返回数据也就是httpReqData 字段
+  httpResGroup httpResGroup = 5;
+  //  annotationsText annotation = 5 ; // 注解
+  //  httpResData res = 6; // 修改响应
+}
+
+
+
+// http编辑框数据, 名字
+message HttpEditBoxData{
+  string name = 1; // 名字 编辑器名称
+  httpReqAndRes httpReqAndResData = 2; // 一组http数据 请求 / 响应
+  string info = 3 ; // 预留字段
+}
+
+
+// http键值对信息, 明文密文可相互匹配
+message httpKeyValuePair{
+  string domain = 1;      // 域名作用域 正则表达式 用于匹配适用的url
+  bytes ciphertext = 2 ;  // 明文数据
+  bytes plaintext = 3;    // 密文数据
+}
+
+
+// http编辑器的键值对用于命中密文转换为明文, 没命中将不会显示
+message httpEditorKeyValue{
+  ByteData key = 1;    // 键
+  ByteData value = 2 ; // 值
+  Str editorName = 3;  // 编辑器名称
+}
+
+
+// 一个上下文菜单项信息
+message MenuInfo{
+  //  string name = 1;  // 名称
+  string tarGet = 2; // 服务地址往后菜单项都用这个地址服务
+  Menu menu = 3;   // 菜单项
+}
+
+// 菜单 菜单下可包含多个菜单和菜单项
+message Menu{
+  string name = 1;
+  repeated Menu menuList = 2;
+  repeated MenuItem menuItemList = 3;
+}
+
+// 菜单项 实际处理程序用于点击
+message MenuItem{
+  string name = 1;
+}
+
+// 上下文处理器 , 提供 一组请求响应 和选中的数据
+message ContextMenuItems{
+  string  name = 1;                  //名称
+  bool isSelect = 2;                 // 是否有选中的数据
+  HttpSource selectSource = 3;       // 选中来源 只有选中数据才能知道从哪点的
+  httpReqAndRes httpReqAndRes = 4;   // 一组请求和响应
+  bytes selectData = 5;              // 用户选中的数据
+  SubscriptOffsets selectOffsets = 6; // 选中的下标偏移量
+}
+
+// http来源类型
+enum HttpSource{
+  Request = 0;   // 请求
+  Response = 1 ; // 响应
+}
+
+// 菜单项返回 给burp 要做的操作
+message MenuItemsReturn{
+  // 以下只能有一个为true
+
+  bool IsContinue = 1 ;  // 继续不做任何处理
+  bool IsReviseSelect = 2; // 修改选中数据
+  bool IsReviseReq = 3 ; // 修改请求
+  bool IsReviseRes = 4 ; // 修改响应 此前burp 可修改重放器响应现在不能 先保留
+
+  bytes ReqData = 5 ; // 请求数据用于覆盖burp 请求   用于修改 http编辑框
+  bytes ResData = 6 ; // 请求数据用于覆盖burp 请求   用于修改 http编辑框
+  bytes SelectDate = 7 ; // 选中数据 用于替换 用户在重放器选中的数据
+
+}
+
+// 布尔值
+message Boole{
+  bool boole = 1;
+}
+
+// 状态,用于表示函数执行状态，服务或对象状态
+message processingStatus{
+  bool boole = 1;     // 布尔值
+  string info = 3;    // 描述信息
+}
+
+
+//名称 String类型
+message Str{
+  string name = 1;
+}
+
+//服务路由表 包含零号以及第三方拓展愿意向burp提供的服务
+message serviceRoutingTable{
+  repeated serviceRegisterRouting Routing = 1;
+}
+
+// 服务注册路由
+message serviceRegisterRouting{
+  serverTypeName serverType = 1;  // 服务类型
+  string Name = 2;                // 名称
+  string GrpcAddress = 3;        // grpc地址
+}
+
+// 服务注册列表 用于表示服务列表
+message serviceRegisterRoutingList{
+  repeated serviceRegisterRouting serviceList = 1 ;
+}
+
+
+
+//迭代生成器 数据
+message IntruderGeneratorData{
+  bytes contentData = 1; // http 请求模板
+  repeated  InsertionPointOffsets  insertionPointOffsets = 2;  // 插入点列表
+  bytes IntruderInsertionPoint = 3;  //插入点基值
+  string name =4 ; // 名称
+}
+
+// 插入点
+message InsertionPointOffsets{
+  int64 StartIndex = 1; // 开始下标
+  int64 EndIndex = 2;   // 结束下标
+}
+
+
+// 字节数据
+message ByteData {
+  bytes byteData = 1;
+}
+
+// 载荷生成器结果
+message PayloadGeneratorResult{
+  bytes byteData = 1; // 生成的载荷
+  bool IsEnd = 2;     // 是否结束 true 为结束
+}
+
+
+
+// 一组http请求 (请求和响应)
+message httpReqAndRes {
+  httpReqData req = 1;
+  httpResData res = 2;
+  httpInfo info = 3;
+  annotationsText annotationsText = 4;
+}
+
+// http 单个请求 包含头部和体
+message httpReqData {
+  bytes Data = 1;                       //请求包数据
+  string Url = 2;                       //请求url
+  int64 BodyIndex = 3;                  //请求体开始下标,如若请求体下标与总长度一致就是没有请求体
+  string httpVersion = 4;               // http版本
+  httpReqService httpReqService = 5;    // 目标信息
+}
+
+// 单个请求组 用于包含 不同服务请求中的附带信息
+message httpReqGroup{
+  httpReqData httpReqData = 1;
+  annotationsText annotationsText = 2 ;
+}
+
+
+// http 单个响应 包含头部和体
+message httpResData {
+  bytes Data = 1;    //请求包数据
+  int32 StatusCode = 2 ; //状态码
+  int64 BodyIndex = 3;   //请求体开始下标,如若请求体下标与总长度一致就是没有请求体
+  string httpVersion = 5;
+}
+
+// http 单个响应组 用于包含 不同服务响应中的附带信息
+message httpResGroup{
+  httpResData httpResData = 1;
+  annotationsText annotationsText = 2 ;
+}
+
+
+// http 请求主机的信息
+message httpReqService{
+  string ip = 1 ;
+  int32  port = 2 ;
+  bool  secure = 3;  // 是否使用https
+}
+
+
+// http信息
+message httpInfo {
+  int64 id = 1;      // id
+  string info = 2;   // 简述信息
+  bytes tmp = 3;     // 预留类型
+}
+
+// 注释信息
+message annotationsText {
+  bool isInfo = 1;           // 是否有注解信息
+  string notes = 2 ;         // 注解文本
+  highlightColor color = 3;          // 颜色
+}
+
+// 流量来源类型
+enum httpFlowSource{
+  NULL = 0 ;     // 空值占位表示null 避免不同语言序列化后无法判断对象是否为空
+  SUITE = 1;
+  TARGET = 2;
+  PROXY = 3;     // 代理器
+  SCANNER = 4;
+  INTRUDER = 5;  // 迭代器
+  REPEATER = 6;  // 重放器
+  LOGGER = 7;
+  SEQUENCER = 8;
+  DECODER = 9;
+  COMPARER = 10;
+  EXTENSIONS = 11;
+  RECORDED_LOGIN_REPLAYER = 12;
+}
+
+
+// 服务类型名称
+enum serverTypeName {
+  NOLL = 0;                         // 空值占位 避免不同语言序列化后无法判断是否有值
+  INTRUDER_PROCESSOR = 1;           // 迭代处理器
+  INTRUDER_GENERATE = 2;            // 迭代生成器
+  //  REAL_TIME_TRAFFIC_MIRRORING = 3;   // 实时流量镜像   不允许注册流量镜像 要不手动要不直接通过服务端流建立镜像流
+  //  HTTP_EDITOR_KEY_VALUE = 4;         // http键值对用于相互转换  先废除
+  HTTP_REQUEST_EDITOR_PROCESSOR = 5; // 请求编辑处理器
+  HTTP_RESPONSE_EDITOR_PROCESSOR = 6; // 响应编辑处理器
+  CONTEXT_MENU_ITEMS_PROVIDER = 7;    // 上下文菜单提供程序
+  PROXY_REQUEST_HANDLER = 8;         // 代理请求处理器
+  PROXY_RESPONSE_HANDLER = 9;        // 代理响应处理器
+  HTTP_FLOW_HANDLER = 10;              // http请求处理器
+}
+
+
+
+
+// 注解颜色
+enum highlightColor {
+  NONE = 0;    // 没有任何颜色
+  RED = 1;
+  ORANGE = 2;
+  YELLOW = 3;
+  GREEN = 4;
+  CYAN = 5;
+  BLUE = 6;
+  PINK = 7;
+  MAGENTA = 8;
+  GRAY = 9;
+}
+
