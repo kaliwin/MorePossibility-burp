@@ -1182,6 +1182,10 @@ class ProxyResHandler implements ProxyResponseHandler {
     @Override
     public ProxyResponseReceivedAction handleResponseReceived(InterceptedResponse interceptedResponse) {
 
+
+//        interceptedResponse.initiatingRequest().
+
+
         httpReqData httpReqData = BurpApiUtensil.httpRequestTohttpReqData(interceptedResponse.initiatingRequest());
         httpResData httpResData = BurpApiUtensil.httpResponseTohttpResData(interceptedResponse);
 

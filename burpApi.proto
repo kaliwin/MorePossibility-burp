@@ -31,7 +31,7 @@ service BurpServer{
 
   // 获取代理历史请求 由于过滤会很复杂因此直接返回所有历史数据 入参为只占位符不用理睬
   // 由于数据过大默认单个消息最大为500MB 客户端也需要处理 后续将提供分块传输 过滤提取等方式
-  rpc GetProxyHistory(Str) returns(ProxyHistoryData){}
+  rpc GetProxyHistory(Str) returns(stream httpReqAndRes){}
 
 }
 

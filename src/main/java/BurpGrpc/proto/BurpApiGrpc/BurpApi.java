@@ -295,53 +295,53 @@ public final class BurpApi {
       "*{\n\016highlightColor\022\010\n\004NONE\020\000\022\007\n\003RED\020\001\022\n\n" +
       "\006ORANGE\020\002\022\n\n\006YELLOW\020\003\022\t\n\005GREEN\020\004\022\010\n\004CYAN" +
       "\020\005\022\010\n\004BLUE\020\006\022\010\n\004PINK\020\007\022\013\n\007MAGENTA\020\010\022\010\n\004G" +
-      "RAY\020\t2\360\001\n\nBurpServer\022L\n RegisterRealTime" +
+      "RAY\020\t2\357\001\n\nBurpServer\022L\n RegisterRealTime" +
       "TrafficMirroring\022\014.burpApi.Str\032\026.burpApi" +
       ".httpReqAndRes\"\0000\001\022V\n\022RegisterServerList" +
       "\022#.burpApi.serviceRegisterRoutingList\032\031." +
-      "burpApi.processingStatus\"\000\022<\n\017GetProxyHi" +
-      "story\022\014.burpApi.Str\032\031.burpApi.ProxyHisto" +
-      "ryData\"\0002`\n\030RealTimeTrafficMirroring\022D\n\030" +
-      "RealTimeTrafficMirroring\022\026.burpApi.httpR" +
-      "eqAndRes\032\014.burpApi.Str\"\000(\0012d\n\031RegisterSe" +
-      "rverRoutingList\022G\n\022RegisterServerList\022\014." +
-      "burpApi.Str\032#.burpApi.serviceRegisterRou" +
-      "tingList2\265\001\n\013ScoutServer\022b\n&addHttpEdito" +
-      "rEncryptAndDecryptKeyValue\022\033.burpApi.htt" +
-      "pEditorKeyValue\032\031.burpApi.processingStat" +
-      "us\"\000\022B\n\023AddHttpKeyValuePair\022\031.burpApi.ht" +
-      "tpKeyValuePair\032\016.burpApi.Boole\"\0002p\n\036Intr" +
-      "uderPayloadProcessorServer\022N\n\030IntruderPa" +
-      "yloadProcessor\022\035.burpApi.PayloadProcesso" +
-      "rData\032\021.burpApi.ByteData\"\0002\207\001\n\036IntruderP" +
-      "ayloadGeneratorServer\022e\n IntruderPayload" +
-      "GeneratorProvider\022\036.burpApi.IntruderGene" +
-      "ratorData\032\037.burpApi.PayloadGeneratorResu" +
-      "lt\"\0002\224\001\n\024HttpReqEditBoxAssist\022<\n\013ReqHttp" +
-      "Edit\022\030.burpApi.HttpEditBoxData\032\021.burpApi" +
-      ".ByteData\"\000\022>\n\020IsReqHttpEditFor\022\030.burpAp" +
-      "i.HttpEditBoxData\032\016.burpApi.Boole\"\0002\224\001\n\024" +
-      "HttpResEditBoxAssist\022<\n\013ResHttpEdit\022\030.bu" +
-      "rpApi.HttpEditBoxData\032\021.burpApi.ByteData" +
-      "\"\000\022>\n\020IsResHttpEditFor\022\030.burpApi.HttpEdi" +
-      "tBoxData\032\016.burpApi.Boole\"\0002f\n\030ContextMen" +
-      "uItemsProvider\022J\n\021MenuItemsProvider\022\031.bu" +
-      "rpApi.ContextMenuItems\032\030.burpApi.MenuIte" +
-      "msReturn\"\0002U\n\031GetConTextMenuItemsServer\022" +
-      "8\n\023GetConTextMenuItems\022\014.burpApi.Str\032\021.b" +
-      "urpApi.MenuInfo\"\0002i\n\023ProxyRequestHandler" +
-      "\022R\n\032ProxyHandleRequestReceived\022\025.burpApi" +
-      ".httpReqGroup\032\033.burpApi.ProxyRequestActi" +
-      "on\"\0002m\n\024ProxyResponseHandler\022U\n\033ProxyHan" +
-      "dleResponseReceived\022\026.burpApi.httpReqAnd" +
-      "Res\032\034.burpApi.ProxyResponseAction\"\0002\275\001\n\017" +
-      "HttpFlowHandler\022S\n\031HttpHandleRequestRece" +
-      "ived\022\030.burpApi.httpFlowReqData\032\032.burpApi" +
-      ".HttpRequestAction\"\000\022U\n\032HttpHandleRespon" +
-      "seReceived\022\030.burpApi.httpFlowResData\032\033.b" +
-      "urpApi.HttpResponseAction\"\000B7\n\032BurpGrpc." +
-      "proto.BurpApiGrpcB\007BurpApiP\001Z\010/BurpApi\242\002" +
-      "\003HLWb\006proto3"
+      "burpApi.processingStatus\"\000\022;\n\017GetProxyHi" +
+      "story\022\014.burpApi.Str\032\026.burpApi.httpReqAnd" +
+      "Res\"\0000\0012`\n\030RealTimeTrafficMirroring\022D\n\030R" +
+      "ealTimeTrafficMirroring\022\026.burpApi.httpRe" +
+      "qAndRes\032\014.burpApi.Str\"\000(\0012d\n\031RegisterSer" +
+      "verRoutingList\022G\n\022RegisterServerList\022\014.b" +
+      "urpApi.Str\032#.burpApi.serviceRegisterRout" +
+      "ingList2\265\001\n\013ScoutServer\022b\n&addHttpEditor" +
+      "EncryptAndDecryptKeyValue\022\033.burpApi.http" +
+      "EditorKeyValue\032\031.burpApi.processingStatu" +
+      "s\"\000\022B\n\023AddHttpKeyValuePair\022\031.burpApi.htt" +
+      "pKeyValuePair\032\016.burpApi.Boole\"\0002p\n\036Intru" +
+      "derPayloadProcessorServer\022N\n\030IntruderPay" +
+      "loadProcessor\022\035.burpApi.PayloadProcessor" +
+      "Data\032\021.burpApi.ByteData\"\0002\207\001\n\036IntruderPa" +
+      "yloadGeneratorServer\022e\n IntruderPayloadG" +
+      "eneratorProvider\022\036.burpApi.IntruderGener" +
+      "atorData\032\037.burpApi.PayloadGeneratorResul" +
+      "t\"\0002\224\001\n\024HttpReqEditBoxAssist\022<\n\013ReqHttpE" +
+      "dit\022\030.burpApi.HttpEditBoxData\032\021.burpApi." +
+      "ByteData\"\000\022>\n\020IsReqHttpEditFor\022\030.burpApi" +
+      ".HttpEditBoxData\032\016.burpApi.Boole\"\0002\224\001\n\024H" +
+      "ttpResEditBoxAssist\022<\n\013ResHttpEdit\022\030.bur" +
+      "pApi.HttpEditBoxData\032\021.burpApi.ByteData\"" +
+      "\000\022>\n\020IsResHttpEditFor\022\030.burpApi.HttpEdit" +
+      "BoxData\032\016.burpApi.Boole\"\0002f\n\030ContextMenu" +
+      "ItemsProvider\022J\n\021MenuItemsProvider\022\031.bur" +
+      "pApi.ContextMenuItems\032\030.burpApi.MenuItem" +
+      "sReturn\"\0002U\n\031GetConTextMenuItemsServer\0228" +
+      "\n\023GetConTextMenuItems\022\014.burpApi.Str\032\021.bu" +
+      "rpApi.MenuInfo\"\0002i\n\023ProxyRequestHandler\022" +
+      "R\n\032ProxyHandleRequestReceived\022\025.burpApi." +
+      "httpReqGroup\032\033.burpApi.ProxyRequestActio" +
+      "n\"\0002m\n\024ProxyResponseHandler\022U\n\033ProxyHand" +
+      "leResponseReceived\022\026.burpApi.httpReqAndR" +
+      "es\032\034.burpApi.ProxyResponseAction\"\0002\275\001\n\017H" +
+      "ttpFlowHandler\022S\n\031HttpHandleRequestRecei" +
+      "ved\022\030.burpApi.httpFlowReqData\032\032.burpApi." +
+      "HttpRequestAction\"\000\022U\n\032HttpHandleRespons" +
+      "eReceived\022\030.burpApi.httpFlowResData\032\033.bu" +
+      "rpApi.HttpResponseAction\"\000B7\n\032BurpGrpc.p" +
+      "roto.BurpApiGrpcB\007BurpApiP\001Z\010/BurpApi\242\002\003" +
+      "HLWb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

@@ -53,11 +53,11 @@ public class RunAchieve {
 //            .build()
 //            .start();
 
-        int maxMessageSize = 500 * 1024 * 1024;
+
+        int maxMessageSize = 2000 * 1024 * 1024;
         OkHttpServerBuilder okHttpServerBuilder = OkHttpServerBuilder
                 .forPort(port, InsecureServerCredentials.create())
                 .maxInboundMessageSize(maxMessageSize);
-
 
 
         Server grpcServer = okHttpServerBuilder.addService(new BurpServer()).build();

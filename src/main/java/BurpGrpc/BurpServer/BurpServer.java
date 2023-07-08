@@ -81,32 +81,25 @@ public class BurpServer extends BurpServerGrpc.BurpServerImplBase {
 
 
     /**
-     * @param request:          占位
-     * @param responseObserver: 响应
-     * @description: 获取代理历史请求 全部无过滤  使用外网服务器的注意带宽堵塞 最大限制500MB
+     * @param request:
+     * @param responseObserver:
+     * @description: 获取burp历史代理流量  修改逻辑通过流获取历史流量
      * @author: cyvk
-     * @date: 2023/6/27 下午4:34
+     * @date: 2023/7/7 下午5:14
      */
     @Override
-    public void getProxyHistory(Str request, StreamObserver<ProxyHistoryData> responseObserver) {
-
-        pluginLog.append("调用Proxy历史流量\n");
-
+    public void getProxyHistory(Str request, StreamObserver<httpReqAndRes> responseObserver) {
         List<ProxyHttpRequestResponse> history = MorePossibility.burpApi.proxy().history();
 
-        ProxyHistoryData.Builder builder = ProxyHistoryData.newBuilder();
-
-        try {
-            for (ProxyHttpRequestResponse proxyHttpRequestResponse : history) {
-                httpReqAndRes httpReqAndRes = BurpApiUtensil.withHttpReqAndRes(proxyHttpRequestResponse.finalRequest(), proxyHttpRequestResponse.originalResponse(), proxyHttpRequestResponse.annotations());
-                builder.addHttpReqAndResData(httpReqAndRes);
-            }
-
-            responseObserver.onNext(builder.build());
-            responseObserver.onCompleted();
-        }catch (Exception e){
-            ManGrpcGUI.consoleLog.append("异常 : "+e+"\n");
+        for (ProxyHttpRequestResponse proxyHttpRequestResponse : history) {
+            httpReqAndRes httpReqAndRes = BurpApiUtensil.withHttpReqAndRes(proxyHttpRequestResponse.finalRequest(),
+                    proxyHttpRequestResponse.originalResponse(),
+                    proxyHttpRequestResponse.annotations());
+            responseObserver.onNext(httpReqAndRes);
         }
+
+        responseObserver.onCompleted();
+//        super.getProxyHistory(request, responseObserver);
     }
 }
 
