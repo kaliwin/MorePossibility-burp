@@ -317,6 +317,7 @@ x
 
 
 
+![info](https://github.com/kaliwin/MorePossibility/assets/54166512/6003792d-dedb-4ba3-b59f-f3604631f8ba)
 
 
 
