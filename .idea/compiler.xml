@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <option name="USE_RELEASE_OPTION" value="false" />
-    <bytecodeTargetLevel target="18" />
-  </component>
-  <component name="JavacSettings">
-    <option name="ADDITIONAL_OPTIONS_STRING" value="--source=19 --enable-preview" />
+    <bytecodeTargetLevel target="21" />
   </component>
 </project>

@@ -8,14 +8,14 @@ import static io.grpc.MethodDescriptor.generateFullMethodName;
  * </pre>
  */
 @javax.annotation.Generated(
-    value = "by gRPC proto compiler (version 1.52.1)",
+    value = "by gRPC proto compiler (version 1.59.1)",
     comments = "Source: burpApi.proto")
 @io.grpc.stub.annotations.GrpcGenerated
 public final class ScoutServerGrpc {
 
   private ScoutServerGrpc() {}
 
-  public static final String SERVICE_NAME = "burpApi.ScoutServer";
+  public static final java.lang.String SERVICE_NAME = "BurpMorePossibilityApi.ScoutServer";
 
   // Static method descriptors that strictly reflect the proto.
   private static volatile io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.httpEditorKeyValue,
@@ -129,51 +129,48 @@ public final class ScoutServerGrpc {
    * 侦查服务  未实现
    * </pre>
    */
-  public static abstract class ScoutServerImplBase implements io.grpc.BindableService {
+  public interface AsyncService {
 
     /**
      * <pre>
      * 添加http编辑器加解密键值对 参数为http编辑组件名称以及key、value
      * </pre>
      */
-    public void addHttpEditorEncryptAndDecryptKeyValue(BurpGrpc.proto.BurpApiGrpc.httpEditorKeyValue request,
+    default void addHttpEditorEncryptAndDecryptKeyValue(BurpGrpc.proto.BurpApiGrpc.httpEditorKeyValue request,
         io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.processingStatus> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getAddHttpEditorEncryptAndDecryptKeyValueMethod(), responseObserver);
     }
 
     /**
      */
-    public void addHttpKeyValuePair(BurpGrpc.proto.BurpApiGrpc.httpKeyValuePair request,
+    default void addHttpKeyValuePair(BurpGrpc.proto.BurpApiGrpc.httpKeyValuePair request,
         io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.Boole> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getAddHttpKeyValuePairMethod(), responseObserver);
-    }
-
-    @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
-      return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
-          .addMethod(
-            getAddHttpEditorEncryptAndDecryptKeyValueMethod(),
-            io.grpc.stub.ServerCalls.asyncUnaryCall(
-              new MethodHandlers<
-                BurpGrpc.proto.BurpApiGrpc.httpEditorKeyValue,
-                BurpGrpc.proto.BurpApiGrpc.processingStatus>(
-                  this, METHODID_ADD_HTTP_EDITOR_ENCRYPT_AND_DECRYPT_KEY_VALUE)))
-          .addMethod(
-            getAddHttpKeyValuePairMethod(),
-            io.grpc.stub.ServerCalls.asyncUnaryCall(
-              new MethodHandlers<
-                BurpGrpc.proto.BurpApiGrpc.httpKeyValuePair,
-                BurpGrpc.proto.BurpApiGrpc.Boole>(
-                  this, METHODID_ADD_HTTP_KEY_VALUE_PAIR)))
-          .build();
     }
   }
 
   /**
+   * Base class for the server implementation of the service ScoutServer.
    * <pre>
    * 侦查服务  未实现
    * </pre>
    */
-  public static final class ScoutServerStub extends io.grpc.stub.AbstractAsyncStub<ScoutServerStub> {
+  public static abstract class ScoutServerImplBase
+      implements io.grpc.BindableService, AsyncService {
+
+    @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
+      return ScoutServerGrpc.bindService(this);
+    }
+  }
+
+  /**
+   * A stub to allow clients to do asynchronous rpc calls to service ScoutServer.
+   * <pre>
+   * 侦查服务  未实现
+   * </pre>
+   */
+  public static final class ScoutServerStub
+      extends io.grpc.stub.AbstractAsyncStub<ScoutServerStub> {
     private ScoutServerStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -206,11 +203,13 @@ public final class ScoutServerGrpc {
   }
 
   /**
+   * A stub to allow clients to do synchronous rpc calls to service ScoutServer.
    * <pre>
    * 侦查服务  未实现
    * </pre>
    */
-  public static final class ScoutServerBlockingStub extends io.grpc.stub.AbstractBlockingStub<ScoutServerBlockingStub> {
+  public static final class ScoutServerBlockingStub
+      extends io.grpc.stub.AbstractBlockingStub<ScoutServerBlockingStub> {
     private ScoutServerBlockingStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -241,11 +240,13 @@ public final class ScoutServerGrpc {
   }
 
   /**
+   * A stub to allow clients to do ListenableFuture-style rpc calls to service ScoutServer.
    * <pre>
    * 侦查服务  未实现
    * </pre>
    */
-  public static final class ScoutServerFutureStub extends io.grpc.stub.AbstractFutureStub<ScoutServerFutureStub> {
+  public static final class ScoutServerFutureStub
+      extends io.grpc.stub.AbstractFutureStub<ScoutServerFutureStub> {
     private ScoutServerFutureStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -285,10 +286,10 @@ public final class ScoutServerGrpc {
       io.grpc.stub.ServerCalls.ServerStreamingMethod<Req, Resp>,
       io.grpc.stub.ServerCalls.ClientStreamingMethod<Req, Resp>,
       io.grpc.stub.ServerCalls.BidiStreamingMethod<Req, Resp> {
-    private final ScoutServerImplBase serviceImpl;
+    private final AsyncService serviceImpl;
     private final int methodId;
 
-    MethodHandlers(ScoutServerImplBase serviceImpl, int methodId) {
+    MethodHandlers(AsyncService serviceImpl, int methodId) {
       this.serviceImpl = serviceImpl;
       this.methodId = methodId;
     }
@@ -321,6 +322,25 @@ public final class ScoutServerGrpc {
     }
   }
 
+  public static final io.grpc.ServerServiceDefinition bindService(AsyncService service) {
+    return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
+        .addMethod(
+          getAddHttpEditorEncryptAndDecryptKeyValueMethod(),
+          io.grpc.stub.ServerCalls.asyncUnaryCall(
+            new MethodHandlers<
+              BurpGrpc.proto.BurpApiGrpc.httpEditorKeyValue,
+              BurpGrpc.proto.BurpApiGrpc.processingStatus>(
+                service, METHODID_ADD_HTTP_EDITOR_ENCRYPT_AND_DECRYPT_KEY_VALUE)))
+        .addMethod(
+          getAddHttpKeyValuePairMethod(),
+          io.grpc.stub.ServerCalls.asyncUnaryCall(
+            new MethodHandlers<
+              BurpGrpc.proto.BurpApiGrpc.httpKeyValuePair,
+              BurpGrpc.proto.BurpApiGrpc.Boole>(
+                service, METHODID_ADD_HTTP_KEY_VALUE_PAIR)))
+        .build();
+  }
+
   private static abstract class ScoutServerBaseDescriptorSupplier
       implements io.grpc.protobuf.ProtoFileDescriptorSupplier, io.grpc.protobuf.ProtoServiceDescriptorSupplier {
     ScoutServerBaseDescriptorSupplier() {}
@@ -344,9 +364,9 @@ public final class ScoutServerGrpc {
   private static final class ScoutServerMethodDescriptorSupplier
       extends ScoutServerBaseDescriptorSupplier
       implements io.grpc.protobuf.ProtoMethodDescriptorSupplier {
-    private final String methodName;
+    private final java.lang.String methodName;
 
-    ScoutServerMethodDescriptorSupplier(String methodName) {
+    ScoutServerMethodDescriptorSupplier(java.lang.String methodName) {
       this.methodName = methodName;
     }
 

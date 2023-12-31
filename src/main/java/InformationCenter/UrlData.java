@@ -1,6 +1,7 @@
 package InformationCenter;
 
-import java.net.MalformedURLException;
+
+import java.net.URI;
 import java.net.URL;
 
 /**
@@ -24,10 +25,10 @@ public class UrlData {
 
 
     /**
-     * @description: 返回一个没有参数的URL
+     * description:  返回一个没有参数的URL
      * @return java.lang.String
-     * @author: cyvk
-     * @date: 2023/6/9 下午5:40
+     * author:  cyvk
+     * date:  2023/6/9 下午5:40
      */
     public String getNewUrl(){
         return protocol + "://" + authority + path;
@@ -35,8 +36,14 @@ public class UrlData {
 
     public static UrlData parseUrl(String url) {
         try {
-            URL urlX = new URL(url);
-            return new UrlData(urlX.getHost(), urlX.getPath(), urlX.getAuthority(), urlX.getPort(), urlX.getProtocol());
+//            URL urlX = new URL(url);
+
+            URI uri = new URI(url);
+
+//            uri.getScheme()
+
+
+            return new UrlData(uri.getHost(), uri.getPath(), uri.getAuthority(), uri.getPort(), uri.getScheme());
         } catch (Exception e) {
             return null;
         }

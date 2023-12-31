@@ -8,14 +8,14 @@ import static io.grpc.MethodDescriptor.generateFullMethodName;
  * </pre>
  */
 @javax.annotation.Generated(
-    value = "by gRPC proto compiler (version 1.52.1)",
+    value = "by gRPC proto compiler (version 1.59.1)",
     comments = "Source: burpApi.proto")
 @io.grpc.stub.annotations.GrpcGenerated
 public final class ContextMenuItemsProviderGrpc {
 
   private ContextMenuItemsProviderGrpc() {}
 
-  public static final String SERVICE_NAME = "burpApi.ContextMenuItemsProvider";
+  public static final java.lang.String SERVICE_NAME = "BurpMorePossibilityApi.ContextMenuItemsProvider";
 
   // Static method descriptors that strictly reflect the proto.
   private static volatile io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.ContextMenuItems,
@@ -98,34 +98,38 @@ public final class ContextMenuItemsProviderGrpc {
    * 右键菜单项执行程序
    * </pre>
    */
-  public static abstract class ContextMenuItemsProviderImplBase implements io.grpc.BindableService {
+  public interface AsyncService {
 
     /**
      */
-    public void menuItemsProvider(BurpGrpc.proto.BurpApiGrpc.ContextMenuItems request,
+    default void menuItemsProvider(BurpGrpc.proto.BurpApiGrpc.ContextMenuItems request,
         io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.MenuItemsReturn> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getMenuItemsProviderMethod(), responseObserver);
-    }
-
-    @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
-      return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
-          .addMethod(
-            getMenuItemsProviderMethod(),
-            io.grpc.stub.ServerCalls.asyncUnaryCall(
-              new MethodHandlers<
-                BurpGrpc.proto.BurpApiGrpc.ContextMenuItems,
-                BurpGrpc.proto.BurpApiGrpc.MenuItemsReturn>(
-                  this, METHODID_MENU_ITEMS_PROVIDER)))
-          .build();
     }
   }
 
   /**
+   * Base class for the server implementation of the service ContextMenuItemsProvider.
    * <pre>
    * 右键菜单项执行程序
    * </pre>
    */
-  public static final class ContextMenuItemsProviderStub extends io.grpc.stub.AbstractAsyncStub<ContextMenuItemsProviderStub> {
+  public static abstract class ContextMenuItemsProviderImplBase
+      implements io.grpc.BindableService, AsyncService {
+
+    @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
+      return ContextMenuItemsProviderGrpc.bindService(this);
+    }
+  }
+
+  /**
+   * A stub to allow clients to do asynchronous rpc calls to service ContextMenuItemsProvider.
+   * <pre>
+   * 右键菜单项执行程序
+   * </pre>
+   */
+  public static final class ContextMenuItemsProviderStub
+      extends io.grpc.stub.AbstractAsyncStub<ContextMenuItemsProviderStub> {
     private ContextMenuItemsProviderStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -147,11 +151,13 @@ public final class ContextMenuItemsProviderGrpc {
   }
 
   /**
+   * A stub to allow clients to do synchronous rpc calls to service ContextMenuItemsProvider.
    * <pre>
    * 右键菜单项执行程序
    * </pre>
    */
-  public static final class ContextMenuItemsProviderBlockingStub extends io.grpc.stub.AbstractBlockingStub<ContextMenuItemsProviderBlockingStub> {
+  public static final class ContextMenuItemsProviderBlockingStub
+      extends io.grpc.stub.AbstractBlockingStub<ContextMenuItemsProviderBlockingStub> {
     private ContextMenuItemsProviderBlockingStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -172,11 +178,13 @@ public final class ContextMenuItemsProviderGrpc {
   }
 
   /**
+   * A stub to allow clients to do ListenableFuture-style rpc calls to service ContextMenuItemsProvider.
    * <pre>
    * 右键菜单项执行程序
    * </pre>
    */
-  public static final class ContextMenuItemsProviderFutureStub extends io.grpc.stub.AbstractFutureStub<ContextMenuItemsProviderFutureStub> {
+  public static final class ContextMenuItemsProviderFutureStub
+      extends io.grpc.stub.AbstractFutureStub<ContextMenuItemsProviderFutureStub> {
     private ContextMenuItemsProviderFutureStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -204,10 +212,10 @@ public final class ContextMenuItemsProviderGrpc {
       io.grpc.stub.ServerCalls.ServerStreamingMethod<Req, Resp>,
       io.grpc.stub.ServerCalls.ClientStreamingMethod<Req, Resp>,
       io.grpc.stub.ServerCalls.BidiStreamingMethod<Req, Resp> {
-    private final ContextMenuItemsProviderImplBase serviceImpl;
+    private final AsyncService serviceImpl;
     private final int methodId;
 
-    MethodHandlers(ContextMenuItemsProviderImplBase serviceImpl, int methodId) {
+    MethodHandlers(AsyncService serviceImpl, int methodId) {
       this.serviceImpl = serviceImpl;
       this.methodId = methodId;
     }
@@ -236,6 +244,18 @@ public final class ContextMenuItemsProviderGrpc {
     }
   }
 
+  public static final io.grpc.ServerServiceDefinition bindService(AsyncService service) {
+    return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
+        .addMethod(
+          getMenuItemsProviderMethod(),
+          io.grpc.stub.ServerCalls.asyncUnaryCall(
+            new MethodHandlers<
+              BurpGrpc.proto.BurpApiGrpc.ContextMenuItems,
+              BurpGrpc.proto.BurpApiGrpc.MenuItemsReturn>(
+                service, METHODID_MENU_ITEMS_PROVIDER)))
+        .build();
+  }
+
   private static abstract class ContextMenuItemsProviderBaseDescriptorSupplier
       implements io.grpc.protobuf.ProtoFileDescriptorSupplier, io.grpc.protobuf.ProtoServiceDescriptorSupplier {
     ContextMenuItemsProviderBaseDescriptorSupplier() {}
@@ -259,9 +279,9 @@ public final class ContextMenuItemsProviderGrpc {
   private static final class ContextMenuItemsProviderMethodDescriptorSupplier
       extends ContextMenuItemsProviderBaseDescriptorSupplier
       implements io.grpc.protobuf.ProtoMethodDescriptorSupplier {
-    private final String methodName;
+    private final java.lang.String methodName;
 
-    ContextMenuItemsProviderMethodDescriptorSupplier(String methodName) {
+    ContextMenuItemsProviderMethodDescriptorSupplier(java.lang.String methodName) {
       this.methodName = methodName;
     }
 

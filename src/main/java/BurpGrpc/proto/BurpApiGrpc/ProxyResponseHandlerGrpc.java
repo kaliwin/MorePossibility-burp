@@ -8,14 +8,14 @@ import static io.grpc.MethodDescriptor.generateFullMethodName;
  * </pre>
  */
 @javax.annotation.Generated(
-    value = "by gRPC proto compiler (version 1.52.1)",
+    value = "by gRPC proto compiler (version 1.59.1)",
     comments = "Source: burpApi.proto")
 @io.grpc.stub.annotations.GrpcGenerated
 public final class ProxyResponseHandlerGrpc {
 
   private ProxyResponseHandlerGrpc() {}
 
-  public static final String SERVICE_NAME = "burpApi.ProxyResponseHandler";
+  public static final java.lang.String SERVICE_NAME = "BurpMorePossibilityApi.ProxyResponseHandler";
 
   // Static method descriptors that strictly reflect the proto.
   private static volatile io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.httpReqAndRes,
@@ -98,34 +98,38 @@ public final class ProxyResponseHandlerGrpc {
    * 代理响应处理器 提供对相应的处理
    * </pre>
    */
-  public static abstract class ProxyResponseHandlerImplBase implements io.grpc.BindableService {
+  public interface AsyncService {
 
     /**
      */
-    public void proxyHandleResponseReceived(BurpGrpc.proto.BurpApiGrpc.httpReqAndRes request,
+    default void proxyHandleResponseReceived(BurpGrpc.proto.BurpApiGrpc.httpReqAndRes request,
         io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.ProxyResponseAction> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getProxyHandleResponseReceivedMethod(), responseObserver);
-    }
-
-    @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
-      return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
-          .addMethod(
-            getProxyHandleResponseReceivedMethod(),
-            io.grpc.stub.ServerCalls.asyncUnaryCall(
-              new MethodHandlers<
-                BurpGrpc.proto.BurpApiGrpc.httpReqAndRes,
-                BurpGrpc.proto.BurpApiGrpc.ProxyResponseAction>(
-                  this, METHODID_PROXY_HANDLE_RESPONSE_RECEIVED)))
-          .build();
     }
   }
 
   /**
+   * Base class for the server implementation of the service ProxyResponseHandler.
    * <pre>
    * 代理响应处理器 提供对相应的处理
    * </pre>
    */
-  public static final class ProxyResponseHandlerStub extends io.grpc.stub.AbstractAsyncStub<ProxyResponseHandlerStub> {
+  public static abstract class ProxyResponseHandlerImplBase
+      implements io.grpc.BindableService, AsyncService {
+
+    @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
+      return ProxyResponseHandlerGrpc.bindService(this);
+    }
+  }
+
+  /**
+   * A stub to allow clients to do asynchronous rpc calls to service ProxyResponseHandler.
+   * <pre>
+   * 代理响应处理器 提供对相应的处理
+   * </pre>
+   */
+  public static final class ProxyResponseHandlerStub
+      extends io.grpc.stub.AbstractAsyncStub<ProxyResponseHandlerStub> {
     private ProxyResponseHandlerStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -147,11 +151,13 @@ public final class ProxyResponseHandlerGrpc {
   }
 
   /**
+   * A stub to allow clients to do synchronous rpc calls to service ProxyResponseHandler.
    * <pre>
    * 代理响应处理器 提供对相应的处理
    * </pre>
    */
-  public static final class ProxyResponseHandlerBlockingStub extends io.grpc.stub.AbstractBlockingStub<ProxyResponseHandlerBlockingStub> {
+  public static final class ProxyResponseHandlerBlockingStub
+      extends io.grpc.stub.AbstractBlockingStub<ProxyResponseHandlerBlockingStub> {
     private ProxyResponseHandlerBlockingStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -172,11 +178,13 @@ public final class ProxyResponseHandlerGrpc {
   }
 
   /**
+   * A stub to allow clients to do ListenableFuture-style rpc calls to service ProxyResponseHandler.
    * <pre>
    * 代理响应处理器 提供对相应的处理
    * </pre>
    */
-  public static final class ProxyResponseHandlerFutureStub extends io.grpc.stub.AbstractFutureStub<ProxyResponseHandlerFutureStub> {
+  public static final class ProxyResponseHandlerFutureStub
+      extends io.grpc.stub.AbstractFutureStub<ProxyResponseHandlerFutureStub> {
     private ProxyResponseHandlerFutureStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -204,10 +212,10 @@ public final class ProxyResponseHandlerGrpc {
       io.grpc.stub.ServerCalls.ServerStreamingMethod<Req, Resp>,
       io.grpc.stub.ServerCalls.ClientStreamingMethod<Req, Resp>,
       io.grpc.stub.ServerCalls.BidiStreamingMethod<Req, Resp> {
-    private final ProxyResponseHandlerImplBase serviceImpl;
+    private final AsyncService serviceImpl;
     private final int methodId;
 
-    MethodHandlers(ProxyResponseHandlerImplBase serviceImpl, int methodId) {
+    MethodHandlers(AsyncService serviceImpl, int methodId) {
       this.serviceImpl = serviceImpl;
       this.methodId = methodId;
     }
@@ -236,6 +244,18 @@ public final class ProxyResponseHandlerGrpc {
     }
   }
 
+  public static final io.grpc.ServerServiceDefinition bindService(AsyncService service) {
+    return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
+        .addMethod(
+          getProxyHandleResponseReceivedMethod(),
+          io.grpc.stub.ServerCalls.asyncUnaryCall(
+            new MethodHandlers<
+              BurpGrpc.proto.BurpApiGrpc.httpReqAndRes,
+              BurpGrpc.proto.BurpApiGrpc.ProxyResponseAction>(
+                service, METHODID_PROXY_HANDLE_RESPONSE_RECEIVED)))
+        .build();
+  }
+
   private static abstract class ProxyResponseHandlerBaseDescriptorSupplier
       implements io.grpc.protobuf.ProtoFileDescriptorSupplier, io.grpc.protobuf.ProtoServiceDescriptorSupplier {
     ProxyResponseHandlerBaseDescriptorSupplier() {}
@@ -259,9 +279,9 @@ public final class ProxyResponseHandlerGrpc {
   private static final class ProxyResponseHandlerMethodDescriptorSupplier
       extends ProxyResponseHandlerBaseDescriptorSupplier
       implements io.grpc.protobuf.ProtoMethodDescriptorSupplier {
-    private final String methodName;
+    private final java.lang.String methodName;
 
-    ProxyResponseHandlerMethodDescriptorSupplier(String methodName) {
+    ProxyResponseHandlerMethodDescriptorSupplier(java.lang.String methodName) {
       this.methodName = methodName;
     }
 

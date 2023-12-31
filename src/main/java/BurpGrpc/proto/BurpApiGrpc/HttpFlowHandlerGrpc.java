@@ -8,14 +8,14 @@ import static io.grpc.MethodDescriptor.generateFullMethodName;
  * </pre>
  */
 @javax.annotation.Generated(
-    value = "by gRPC proto compiler (version 1.52.1)",
+    value = "by gRPC proto compiler (version 1.59.1)",
     comments = "Source: burpApi.proto")
 @io.grpc.stub.annotations.GrpcGenerated
 public final class HttpFlowHandlerGrpc {
 
   private HttpFlowHandlerGrpc() {}
 
-  public static final String SERVICE_NAME = "burpApi.HttpFlowHandler";
+  public static final java.lang.String SERVICE_NAME = "BurpMorePossibilityApi.HttpFlowHandler";
 
   // Static method descriptors that strictly reflect the proto.
   private static volatile io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.httpFlowReqData,
@@ -129,48 +129,45 @@ public final class HttpFlowHandlerGrpc {
    * http流量处理器 请求和响应放一起
    * </pre>
    */
-  public static abstract class HttpFlowHandlerImplBase implements io.grpc.BindableService {
+  public interface AsyncService {
 
     /**
      */
-    public void httpHandleRequestReceived(BurpGrpc.proto.BurpApiGrpc.httpFlowReqData request,
+    default void httpHandleRequestReceived(BurpGrpc.proto.BurpApiGrpc.httpFlowReqData request,
         io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.HttpRequestAction> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getHttpHandleRequestReceivedMethod(), responseObserver);
     }
 
     /**
      */
-    public void httpHandleResponseReceived(BurpGrpc.proto.BurpApiGrpc.httpFlowResData request,
+    default void httpHandleResponseReceived(BurpGrpc.proto.BurpApiGrpc.httpFlowResData request,
         io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.HttpResponseAction> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getHttpHandleResponseReceivedMethod(), responseObserver);
-    }
-
-    @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
-      return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
-          .addMethod(
-            getHttpHandleRequestReceivedMethod(),
-            io.grpc.stub.ServerCalls.asyncUnaryCall(
-              new MethodHandlers<
-                BurpGrpc.proto.BurpApiGrpc.httpFlowReqData,
-                BurpGrpc.proto.BurpApiGrpc.HttpRequestAction>(
-                  this, METHODID_HTTP_HANDLE_REQUEST_RECEIVED)))
-          .addMethod(
-            getHttpHandleResponseReceivedMethod(),
-            io.grpc.stub.ServerCalls.asyncUnaryCall(
-              new MethodHandlers<
-                BurpGrpc.proto.BurpApiGrpc.httpFlowResData,
-                BurpGrpc.proto.BurpApiGrpc.HttpResponseAction>(
-                  this, METHODID_HTTP_HANDLE_RESPONSE_RECEIVED)))
-          .build();
     }
   }
 
   /**
+   * Base class for the server implementation of the service HttpFlowHandler.
    * <pre>
    * http流量处理器 请求和响应放一起
    * </pre>
    */
-  public static final class HttpFlowHandlerStub extends io.grpc.stub.AbstractAsyncStub<HttpFlowHandlerStub> {
+  public static abstract class HttpFlowHandlerImplBase
+      implements io.grpc.BindableService, AsyncService {
+
+    @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
+      return HttpFlowHandlerGrpc.bindService(this);
+    }
+  }
+
+  /**
+   * A stub to allow clients to do asynchronous rpc calls to service HttpFlowHandler.
+   * <pre>
+   * http流量处理器 请求和响应放一起
+   * </pre>
+   */
+  public static final class HttpFlowHandlerStub
+      extends io.grpc.stub.AbstractAsyncStub<HttpFlowHandlerStub> {
     private HttpFlowHandlerStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -200,11 +197,13 @@ public final class HttpFlowHandlerGrpc {
   }
 
   /**
+   * A stub to allow clients to do synchronous rpc calls to service HttpFlowHandler.
    * <pre>
    * http流量处理器 请求和响应放一起
    * </pre>
    */
-  public static final class HttpFlowHandlerBlockingStub extends io.grpc.stub.AbstractBlockingStub<HttpFlowHandlerBlockingStub> {
+  public static final class HttpFlowHandlerBlockingStub
+      extends io.grpc.stub.AbstractBlockingStub<HttpFlowHandlerBlockingStub> {
     private HttpFlowHandlerBlockingStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -232,11 +231,13 @@ public final class HttpFlowHandlerGrpc {
   }
 
   /**
+   * A stub to allow clients to do ListenableFuture-style rpc calls to service HttpFlowHandler.
    * <pre>
    * http流量处理器 请求和响应放一起
    * </pre>
    */
-  public static final class HttpFlowHandlerFutureStub extends io.grpc.stub.AbstractFutureStub<HttpFlowHandlerFutureStub> {
+  public static final class HttpFlowHandlerFutureStub
+      extends io.grpc.stub.AbstractFutureStub<HttpFlowHandlerFutureStub> {
     private HttpFlowHandlerFutureStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -273,10 +274,10 @@ public final class HttpFlowHandlerGrpc {
       io.grpc.stub.ServerCalls.ServerStreamingMethod<Req, Resp>,
       io.grpc.stub.ServerCalls.ClientStreamingMethod<Req, Resp>,
       io.grpc.stub.ServerCalls.BidiStreamingMethod<Req, Resp> {
-    private final HttpFlowHandlerImplBase serviceImpl;
+    private final AsyncService serviceImpl;
     private final int methodId;
 
-    MethodHandlers(HttpFlowHandlerImplBase serviceImpl, int methodId) {
+    MethodHandlers(AsyncService serviceImpl, int methodId) {
       this.serviceImpl = serviceImpl;
       this.methodId = methodId;
     }
@@ -309,6 +310,25 @@ public final class HttpFlowHandlerGrpc {
     }
   }
 
+  public static final io.grpc.ServerServiceDefinition bindService(AsyncService service) {
+    return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
+        .addMethod(
+          getHttpHandleRequestReceivedMethod(),
+          io.grpc.stub.ServerCalls.asyncUnaryCall(
+            new MethodHandlers<
+              BurpGrpc.proto.BurpApiGrpc.httpFlowReqData,
+              BurpGrpc.proto.BurpApiGrpc.HttpRequestAction>(
+                service, METHODID_HTTP_HANDLE_REQUEST_RECEIVED)))
+        .addMethod(
+          getHttpHandleResponseReceivedMethod(),
+          io.grpc.stub.ServerCalls.asyncUnaryCall(
+            new MethodHandlers<
+              BurpGrpc.proto.BurpApiGrpc.httpFlowResData,
+              BurpGrpc.proto.BurpApiGrpc.HttpResponseAction>(
+                service, METHODID_HTTP_HANDLE_RESPONSE_RECEIVED)))
+        .build();
+  }
+
   private static abstract class HttpFlowHandlerBaseDescriptorSupplier
       implements io.grpc.protobuf.ProtoFileDescriptorSupplier, io.grpc.protobuf.ProtoServiceDescriptorSupplier {
     HttpFlowHandlerBaseDescriptorSupplier() {}
@@ -332,9 +352,9 @@ public final class HttpFlowHandlerGrpc {
   private static final class HttpFlowHandlerMethodDescriptorSupplier
       extends HttpFlowHandlerBaseDescriptorSupplier
       implements io.grpc.protobuf.ProtoMethodDescriptorSupplier {
-    private final String methodName;
+    private final java.lang.String methodName;
 
-    HttpFlowHandlerMethodDescriptorSupplier(String methodName) {
+    HttpFlowHandlerMethodDescriptorSupplier(java.lang.String methodName) {
       this.methodName = methodName;
     }
 

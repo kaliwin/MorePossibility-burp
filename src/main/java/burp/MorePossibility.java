@@ -44,10 +44,9 @@ public class MorePossibility implements BurpExtension {
             this.init(); // 初始化
 
             api.extension().setName("MorePossibility");
-            api.logging().output().println("启动了");
+            api.logging().logToOutput("启动了");
 
             api.userInterface().registerSuiteTab("MorePossibility", new ManGUI());  // 构建UI
-
 
             api.extension().registerUnloadingHandler(() -> {
                 // 设置关闭选项 目前存在隐藏bug会出现部分服务无法关闭的情况但是不影响使用

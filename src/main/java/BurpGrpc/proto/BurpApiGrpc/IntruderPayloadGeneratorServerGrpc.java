@@ -8,14 +8,14 @@ import static io.grpc.MethodDescriptor.generateFullMethodName;
  * </pre>
  */
 @javax.annotation.Generated(
-    value = "by gRPC proto compiler (version 1.52.1)",
+    value = "by gRPC proto compiler (version 1.59.1)",
     comments = "Source: burpApi.proto")
 @io.grpc.stub.annotations.GrpcGenerated
 public final class IntruderPayloadGeneratorServerGrpc {
 
   private IntruderPayloadGeneratorServerGrpc() {}
 
-  public static final String SERVICE_NAME = "burpApi.IntruderPayloadGeneratorServer";
+  public static final java.lang.String SERVICE_NAME = "BurpMorePossibilityApi.IntruderPayloadGeneratorServer";
 
   // Static method descriptors that strictly reflect the proto.
   private static volatile io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.IntruderGeneratorData,
@@ -98,37 +98,41 @@ public final class IntruderPayloadGeneratorServerGrpc {
    * 迭代器 生成器
    * </pre>
    */
-  public static abstract class IntruderPayloadGeneratorServerImplBase implements io.grpc.BindableService {
+  public interface AsyncService {
 
     /**
      * <pre>
      * 迭代器载荷生成, 服务端流 流终止就为生成结束
      * </pre>
      */
-    public void intruderPayloadGeneratorProvider(BurpGrpc.proto.BurpApiGrpc.IntruderGeneratorData request,
+    default void intruderPayloadGeneratorProvider(BurpGrpc.proto.BurpApiGrpc.IntruderGeneratorData request,
         io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.PayloadGeneratorResult> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getIntruderPayloadGeneratorProviderMethod(), responseObserver);
-    }
-
-    @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
-      return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
-          .addMethod(
-            getIntruderPayloadGeneratorProviderMethod(),
-            io.grpc.stub.ServerCalls.asyncUnaryCall(
-              new MethodHandlers<
-                BurpGrpc.proto.BurpApiGrpc.IntruderGeneratorData,
-                BurpGrpc.proto.BurpApiGrpc.PayloadGeneratorResult>(
-                  this, METHODID_INTRUDER_PAYLOAD_GENERATOR_PROVIDER)))
-          .build();
     }
   }
 
   /**
+   * Base class for the server implementation of the service IntruderPayloadGeneratorServer.
    * <pre>
    * 迭代器 生成器
    * </pre>
    */
-  public static final class IntruderPayloadGeneratorServerStub extends io.grpc.stub.AbstractAsyncStub<IntruderPayloadGeneratorServerStub> {
+  public static abstract class IntruderPayloadGeneratorServerImplBase
+      implements io.grpc.BindableService, AsyncService {
+
+    @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
+      return IntruderPayloadGeneratorServerGrpc.bindService(this);
+    }
+  }
+
+  /**
+   * A stub to allow clients to do asynchronous rpc calls to service IntruderPayloadGeneratorServer.
+   * <pre>
+   * 迭代器 生成器
+   * </pre>
+   */
+  public static final class IntruderPayloadGeneratorServerStub
+      extends io.grpc.stub.AbstractAsyncStub<IntruderPayloadGeneratorServerStub> {
     private IntruderPayloadGeneratorServerStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -153,11 +157,13 @@ public final class IntruderPayloadGeneratorServerGrpc {
   }
 
   /**
+   * A stub to allow clients to do synchronous rpc calls to service IntruderPayloadGeneratorServer.
    * <pre>
    * 迭代器 生成器
    * </pre>
    */
-  public static final class IntruderPayloadGeneratorServerBlockingStub extends io.grpc.stub.AbstractBlockingStub<IntruderPayloadGeneratorServerBlockingStub> {
+  public static final class IntruderPayloadGeneratorServerBlockingStub
+      extends io.grpc.stub.AbstractBlockingStub<IntruderPayloadGeneratorServerBlockingStub> {
     private IntruderPayloadGeneratorServerBlockingStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -181,11 +187,13 @@ public final class IntruderPayloadGeneratorServerGrpc {
   }
 
   /**
+   * A stub to allow clients to do ListenableFuture-style rpc calls to service IntruderPayloadGeneratorServer.
    * <pre>
    * 迭代器 生成器
    * </pre>
    */
-  public static final class IntruderPayloadGeneratorServerFutureStub extends io.grpc.stub.AbstractFutureStub<IntruderPayloadGeneratorServerFutureStub> {
+  public static final class IntruderPayloadGeneratorServerFutureStub
+      extends io.grpc.stub.AbstractFutureStub<IntruderPayloadGeneratorServerFutureStub> {
     private IntruderPayloadGeneratorServerFutureStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -216,10 +224,10 @@ public final class IntruderPayloadGeneratorServerGrpc {
       io.grpc.stub.ServerCalls.ServerStreamingMethod<Req, Resp>,
       io.grpc.stub.ServerCalls.ClientStreamingMethod<Req, Resp>,
       io.grpc.stub.ServerCalls.BidiStreamingMethod<Req, Resp> {
-    private final IntruderPayloadGeneratorServerImplBase serviceImpl;
+    private final AsyncService serviceImpl;
     private final int methodId;
 
-    MethodHandlers(IntruderPayloadGeneratorServerImplBase serviceImpl, int methodId) {
+    MethodHandlers(AsyncService serviceImpl, int methodId) {
       this.serviceImpl = serviceImpl;
       this.methodId = methodId;
     }
@@ -248,6 +256,18 @@ public final class IntruderPayloadGeneratorServerGrpc {
     }
   }
 
+  public static final io.grpc.ServerServiceDefinition bindService(AsyncService service) {
+    return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
+        .addMethod(
+          getIntruderPayloadGeneratorProviderMethod(),
+          io.grpc.stub.ServerCalls.asyncUnaryCall(
+            new MethodHandlers<
+              BurpGrpc.proto.BurpApiGrpc.IntruderGeneratorData,
+              BurpGrpc.proto.BurpApiGrpc.PayloadGeneratorResult>(
+                service, METHODID_INTRUDER_PAYLOAD_GENERATOR_PROVIDER)))
+        .build();
+  }
+
   private static abstract class IntruderPayloadGeneratorServerBaseDescriptorSupplier
       implements io.grpc.protobuf.ProtoFileDescriptorSupplier, io.grpc.protobuf.ProtoServiceDescriptorSupplier {
     IntruderPayloadGeneratorServerBaseDescriptorSupplier() {}
@@ -271,9 +291,9 @@ public final class IntruderPayloadGeneratorServerGrpc {
   private static final class IntruderPayloadGeneratorServerMethodDescriptorSupplier
       extends IntruderPayloadGeneratorServerBaseDescriptorSupplier
       implements io.grpc.protobuf.ProtoMethodDescriptorSupplier {
-    private final String methodName;
+    private final java.lang.String methodName;
 
-    IntruderPayloadGeneratorServerMethodDescriptorSupplier(String methodName) {
+    IntruderPayloadGeneratorServerMethodDescriptorSupplier(java.lang.String methodName) {
       this.methodName = methodName;
     }
 

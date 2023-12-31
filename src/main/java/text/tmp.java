@@ -4,6 +4,7 @@ import BurpGrpc.achieve.RunAchieve;
 import BurpGrpc.proto.BurpApiGrpc.ContextMenuItems;
 import BurpGrpc.proto.BurpApiGrpc.ContextMenuItemsProviderGrpc;
 import BurpGrpc.proto.BurpApiGrpc.MenuItemsReturn;
+import InformationCenter.UrlData;
 import burp.BurpApiUtensil;
 import org.checkerframework.checker.units.qual.N;
 
@@ -16,13 +17,9 @@ import java.util.concurrent.ExecutionException;
 public class tmp {
     public static void main(String[] args) {
 
+        UrlData urlData = UrlData.parseUrl("https://www.baidu.com:443/safaf?d=sd");
 
-        ContextMenuItemsProviderGrpc.ContextMenuItemsProviderBlockingStub client = new RunAchieve().getMenuItemsProviderClient("127.0.0.1:9000");
+        System.out.println(urlData);
 
-
-        MenuItemsReturn menuItemsReturn = client.menuItemsProvider(ContextMenuItems.newBuilder().build());
-
-
-        System.out.println(menuItemsReturn.getIsReviseReq());
     }
 }

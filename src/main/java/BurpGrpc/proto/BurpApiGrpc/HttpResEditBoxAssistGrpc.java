@@ -8,14 +8,14 @@ import static io.grpc.MethodDescriptor.generateFullMethodName;
  * </pre>
  */
 @javax.annotation.Generated(
-    value = "by gRPC proto compiler (version 1.52.1)",
+    value = "by gRPC proto compiler (version 1.59.1)",
     comments = "Source: burpApi.proto")
 @io.grpc.stub.annotations.GrpcGenerated
 public final class HttpResEditBoxAssistGrpc {
 
   private HttpResEditBoxAssistGrpc() {}
 
-  public static final String SERVICE_NAME = "burpApi.HttpResEditBoxAssist";
+  public static final java.lang.String SERVICE_NAME = "BurpMorePossibilityApi.HttpResEditBoxAssist";
 
   // Static method descriptors that strictly reflect the proto.
   private static volatile io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.HttpEditBoxData,
@@ -129,48 +129,45 @@ public final class HttpResEditBoxAssistGrpc {
    * 提供响应编辑框
    * </pre>
    */
-  public static abstract class HttpResEditBoxAssistImplBase implements io.grpc.BindableService {
+  public interface AsyncService {
 
     /**
      */
-    public void resHttpEdit(BurpGrpc.proto.BurpApiGrpc.HttpEditBoxData request,
+    default void resHttpEdit(BurpGrpc.proto.BurpApiGrpc.HttpEditBoxData request,
         io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.ByteData> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getResHttpEditMethod(), responseObserver);
     }
 
     /**
      */
-    public void isResHttpEditFor(BurpGrpc.proto.BurpApiGrpc.HttpEditBoxData request,
+    default void isResHttpEditFor(BurpGrpc.proto.BurpApiGrpc.HttpEditBoxData request,
         io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.Boole> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getIsResHttpEditForMethod(), responseObserver);
-    }
-
-    @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
-      return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
-          .addMethod(
-            getResHttpEditMethod(),
-            io.grpc.stub.ServerCalls.asyncUnaryCall(
-              new MethodHandlers<
-                BurpGrpc.proto.BurpApiGrpc.HttpEditBoxData,
-                BurpGrpc.proto.BurpApiGrpc.ByteData>(
-                  this, METHODID_RES_HTTP_EDIT)))
-          .addMethod(
-            getIsResHttpEditForMethod(),
-            io.grpc.stub.ServerCalls.asyncUnaryCall(
-              new MethodHandlers<
-                BurpGrpc.proto.BurpApiGrpc.HttpEditBoxData,
-                BurpGrpc.proto.BurpApiGrpc.Boole>(
-                  this, METHODID_IS_RES_HTTP_EDIT_FOR)))
-          .build();
     }
   }
 
   /**
+   * Base class for the server implementation of the service HttpResEditBoxAssist.
    * <pre>
    * 提供响应编辑框
    * </pre>
    */
-  public static final class HttpResEditBoxAssistStub extends io.grpc.stub.AbstractAsyncStub<HttpResEditBoxAssistStub> {
+  public static abstract class HttpResEditBoxAssistImplBase
+      implements io.grpc.BindableService, AsyncService {
+
+    @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
+      return HttpResEditBoxAssistGrpc.bindService(this);
+    }
+  }
+
+  /**
+   * A stub to allow clients to do asynchronous rpc calls to service HttpResEditBoxAssist.
+   * <pre>
+   * 提供响应编辑框
+   * </pre>
+   */
+  public static final class HttpResEditBoxAssistStub
+      extends io.grpc.stub.AbstractAsyncStub<HttpResEditBoxAssistStub> {
     private HttpResEditBoxAssistStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -200,11 +197,13 @@ public final class HttpResEditBoxAssistGrpc {
   }
 
   /**
+   * A stub to allow clients to do synchronous rpc calls to service HttpResEditBoxAssist.
    * <pre>
    * 提供响应编辑框
    * </pre>
    */
-  public static final class HttpResEditBoxAssistBlockingStub extends io.grpc.stub.AbstractBlockingStub<HttpResEditBoxAssistBlockingStub> {
+  public static final class HttpResEditBoxAssistBlockingStub
+      extends io.grpc.stub.AbstractBlockingStub<HttpResEditBoxAssistBlockingStub> {
     private HttpResEditBoxAssistBlockingStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -232,11 +231,13 @@ public final class HttpResEditBoxAssistGrpc {
   }
 
   /**
+   * A stub to allow clients to do ListenableFuture-style rpc calls to service HttpResEditBoxAssist.
    * <pre>
    * 提供响应编辑框
    * </pre>
    */
-  public static final class HttpResEditBoxAssistFutureStub extends io.grpc.stub.AbstractFutureStub<HttpResEditBoxAssistFutureStub> {
+  public static final class HttpResEditBoxAssistFutureStub
+      extends io.grpc.stub.AbstractFutureStub<HttpResEditBoxAssistFutureStub> {
     private HttpResEditBoxAssistFutureStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -273,10 +274,10 @@ public final class HttpResEditBoxAssistGrpc {
       io.grpc.stub.ServerCalls.ServerStreamingMethod<Req, Resp>,
       io.grpc.stub.ServerCalls.ClientStreamingMethod<Req, Resp>,
       io.grpc.stub.ServerCalls.BidiStreamingMethod<Req, Resp> {
-    private final HttpResEditBoxAssistImplBase serviceImpl;
+    private final AsyncService serviceImpl;
     private final int methodId;
 
-    MethodHandlers(HttpResEditBoxAssistImplBase serviceImpl, int methodId) {
+    MethodHandlers(AsyncService serviceImpl, int methodId) {
       this.serviceImpl = serviceImpl;
       this.methodId = methodId;
     }
@@ -309,6 +310,25 @@ public final class HttpResEditBoxAssistGrpc {
     }
   }
 
+  public static final io.grpc.ServerServiceDefinition bindService(AsyncService service) {
+    return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
+        .addMethod(
+          getResHttpEditMethod(),
+          io.grpc.stub.ServerCalls.asyncUnaryCall(
+            new MethodHandlers<
+              BurpGrpc.proto.BurpApiGrpc.HttpEditBoxData,
+              BurpGrpc.proto.BurpApiGrpc.ByteData>(
+                service, METHODID_RES_HTTP_EDIT)))
+        .addMethod(
+          getIsResHttpEditForMethod(),
+          io.grpc.stub.ServerCalls.asyncUnaryCall(
+            new MethodHandlers<
+              BurpGrpc.proto.BurpApiGrpc.HttpEditBoxData,
+              BurpGrpc.proto.BurpApiGrpc.Boole>(
+                service, METHODID_IS_RES_HTTP_EDIT_FOR)))
+        .build();
+  }
+
   private static abstract class HttpResEditBoxAssistBaseDescriptorSupplier
       implements io.grpc.protobuf.ProtoFileDescriptorSupplier, io.grpc.protobuf.ProtoServiceDescriptorSupplier {
     HttpResEditBoxAssistBaseDescriptorSupplier() {}
@@ -332,9 +352,9 @@ public final class HttpResEditBoxAssistGrpc {
   private static final class HttpResEditBoxAssistMethodDescriptorSupplier
       extends HttpResEditBoxAssistBaseDescriptorSupplier
       implements io.grpc.protobuf.ProtoMethodDescriptorSupplier {
-    private final String methodName;
+    private final java.lang.String methodName;
 
-    HttpResEditBoxAssistMethodDescriptorSupplier(String methodName) {
+    HttpResEditBoxAssistMethodDescriptorSupplier(java.lang.String methodName) {
       this.methodName = methodName;
     }
 

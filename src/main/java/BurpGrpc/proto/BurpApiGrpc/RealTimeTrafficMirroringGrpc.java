@@ -8,14 +8,14 @@ import static io.grpc.MethodDescriptor.generateFullMethodName;
  * </pre>
  */
 @javax.annotation.Generated(
-    value = "by gRPC proto compiler (version 1.52.1)",
+    value = "by gRPC proto compiler (version 1.59.1)",
     comments = "Source: burpApi.proto")
 @io.grpc.stub.annotations.GrpcGenerated
 public final class RealTimeTrafficMirroringGrpc {
 
   private RealTimeTrafficMirroringGrpc() {}
 
-  public static final String SERVICE_NAME = "burpApi.RealTimeTrafficMirroring";
+  public static final java.lang.String SERVICE_NAME = "BurpMorePossibilityApi.RealTimeTrafficMirroring";
 
   // Static method descriptors that strictly reflect the proto.
   private static volatile io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.httpReqAndRes,
@@ -98,7 +98,7 @@ public final class RealTimeTrafficMirroringGrpc {
    * 实时流量镜像
    * </pre>
    */
-  public static abstract class RealTimeTrafficMirroringImplBase implements io.grpc.BindableService {
+  public interface AsyncService {
 
     /**
      * <pre>
@@ -106,30 +106,34 @@ public final class RealTimeTrafficMirroringGrpc {
      *burp将主动建立连接通过客户端流进行实时流量镜像
      * </pre>
      */
-    public io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.httpReqAndRes> realTimeTrafficMirroring(
+    default io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.httpReqAndRes> realTimeTrafficMirroring(
         io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.Str> responseObserver) {
       return io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall(getRealTimeTrafficMirroringMethod(), responseObserver);
-    }
-
-    @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
-      return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
-          .addMethod(
-            getRealTimeTrafficMirroringMethod(),
-            io.grpc.stub.ServerCalls.asyncClientStreamingCall(
-              new MethodHandlers<
-                BurpGrpc.proto.BurpApiGrpc.httpReqAndRes,
-                BurpGrpc.proto.BurpApiGrpc.Str>(
-                  this, METHODID_REAL_TIME_TRAFFIC_MIRRORING)))
-          .build();
     }
   }
 
   /**
+   * Base class for the server implementation of the service RealTimeTrafficMirroring.
    * <pre>
    * 实时流量镜像
    * </pre>
    */
-  public static final class RealTimeTrafficMirroringStub extends io.grpc.stub.AbstractAsyncStub<RealTimeTrafficMirroringStub> {
+  public static abstract class RealTimeTrafficMirroringImplBase
+      implements io.grpc.BindableService, AsyncService {
+
+    @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
+      return RealTimeTrafficMirroringGrpc.bindService(this);
+    }
+  }
+
+  /**
+   * A stub to allow clients to do asynchronous rpc calls to service RealTimeTrafficMirroring.
+   * <pre>
+   * 实时流量镜像
+   * </pre>
+   */
+  public static final class RealTimeTrafficMirroringStub
+      extends io.grpc.stub.AbstractAsyncStub<RealTimeTrafficMirroringStub> {
     private RealTimeTrafficMirroringStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -155,11 +159,13 @@ public final class RealTimeTrafficMirroringGrpc {
   }
 
   /**
+   * A stub to allow clients to do synchronous rpc calls to service RealTimeTrafficMirroring.
    * <pre>
    * 实时流量镜像
    * </pre>
    */
-  public static final class RealTimeTrafficMirroringBlockingStub extends io.grpc.stub.AbstractBlockingStub<RealTimeTrafficMirroringBlockingStub> {
+  public static final class RealTimeTrafficMirroringBlockingStub
+      extends io.grpc.stub.AbstractBlockingStub<RealTimeTrafficMirroringBlockingStub> {
     private RealTimeTrafficMirroringBlockingStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -173,11 +179,13 @@ public final class RealTimeTrafficMirroringGrpc {
   }
 
   /**
+   * A stub to allow clients to do ListenableFuture-style rpc calls to service RealTimeTrafficMirroring.
    * <pre>
    * 实时流量镜像
    * </pre>
    */
-  public static final class RealTimeTrafficMirroringFutureStub extends io.grpc.stub.AbstractFutureStub<RealTimeTrafficMirroringFutureStub> {
+  public static final class RealTimeTrafficMirroringFutureStub
+      extends io.grpc.stub.AbstractFutureStub<RealTimeTrafficMirroringFutureStub> {
     private RealTimeTrafficMirroringFutureStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -197,10 +205,10 @@ public final class RealTimeTrafficMirroringGrpc {
       io.grpc.stub.ServerCalls.ServerStreamingMethod<Req, Resp>,
       io.grpc.stub.ServerCalls.ClientStreamingMethod<Req, Resp>,
       io.grpc.stub.ServerCalls.BidiStreamingMethod<Req, Resp> {
-    private final RealTimeTrafficMirroringImplBase serviceImpl;
+    private final AsyncService serviceImpl;
     private final int methodId;
 
-    MethodHandlers(RealTimeTrafficMirroringImplBase serviceImpl, int methodId) {
+    MethodHandlers(AsyncService serviceImpl, int methodId) {
       this.serviceImpl = serviceImpl;
       this.methodId = methodId;
     }
@@ -228,6 +236,18 @@ public final class RealTimeTrafficMirroringGrpc {
     }
   }
 
+  public static final io.grpc.ServerServiceDefinition bindService(AsyncService service) {
+    return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
+        .addMethod(
+          getRealTimeTrafficMirroringMethod(),
+          io.grpc.stub.ServerCalls.asyncClientStreamingCall(
+            new MethodHandlers<
+              BurpGrpc.proto.BurpApiGrpc.httpReqAndRes,
+              BurpGrpc.proto.BurpApiGrpc.Str>(
+                service, METHODID_REAL_TIME_TRAFFIC_MIRRORING)))
+        .build();
+  }
+
   private static abstract class RealTimeTrafficMirroringBaseDescriptorSupplier
       implements io.grpc.protobuf.ProtoFileDescriptorSupplier, io.grpc.protobuf.ProtoServiceDescriptorSupplier {
     RealTimeTrafficMirroringBaseDescriptorSupplier() {}
@@ -251,9 +271,9 @@ public final class RealTimeTrafficMirroringGrpc {
   private static final class RealTimeTrafficMirroringMethodDescriptorSupplier
       extends RealTimeTrafficMirroringBaseDescriptorSupplier
       implements io.grpc.protobuf.ProtoMethodDescriptorSupplier {
-    private final String methodName;
+    private final java.lang.String methodName;
 
-    RealTimeTrafficMirroringMethodDescriptorSupplier(String methodName) {
+    RealTimeTrafficMirroringMethodDescriptorSupplier(java.lang.String methodName) {
       this.methodName = methodName;
     }
 

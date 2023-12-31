@@ -11,7 +11,7 @@ option go_package = "/BurpApi";                        //go 实例包名路径
 
 
 //包名 服务名称 用于http2路由
-package burpApi;
+package BurpMorePossibilityApi;
 
 //burpApi服务
 service BurpServer{

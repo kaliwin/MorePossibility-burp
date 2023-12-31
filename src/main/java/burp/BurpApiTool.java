@@ -498,14 +498,10 @@ class intruderDemo implements PayloadProcessor {
      */
     @Override
     public PayloadProcessingResult processPayload(PayloadData payloadData) {
-        // 构建类型
-//        ByteData payload = ByteData.newBuilder().setByteData(ByteString.copyFrom(payloadData.currentPayload().getBytes())).build();
-        //
         PayloadProcessorData processorData = PayloadProcessorData.newBuilder()
                 .setPayload(ByteString.copyFrom(payloadData.currentPayload().getBytes()))
                 .setName(displayName())
                 .build();
-
         // 通过rpc调用远程函数处理载荷
         ByteData byteData = intruderServer.intruderPayloadProcessor(processorData);
         // 返回处理后的结果
@@ -625,7 +621,7 @@ class initHttpKeyValueEditor implements HttpRequestEditorProvider, ExtensionProv
      */
     @Override
     public void setRequestResponse(HttpRequestResponse requestResponse) {
-        List<WebInfo> webInfo = webInformationProcessingCenter.getWebInfo(requestResponse.url());
+        List<WebInfo> webInfo = webInformationProcessingCenter.getWebInfo(requestResponse.request().url());
 
         String str = "";
 
@@ -645,7 +641,7 @@ class initHttpKeyValueEditor implements HttpRequestEditorProvider, ExtensionProv
     public boolean isEnabledFor(HttpRequestResponse requestResponse) {
 
         // 判断是否有键值对信息
-        return webInformationProcessingCenter.isKeyValuePari(requestResponse.url());
+        return webInformationProcessingCenter.isKeyValuePari(requestResponse.request().url());
     }
 
     /**

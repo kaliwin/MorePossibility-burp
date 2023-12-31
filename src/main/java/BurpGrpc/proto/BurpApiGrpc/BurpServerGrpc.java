@@ -8,14 +8,14 @@ import static io.grpc.MethodDescriptor.generateFullMethodName;
  * </pre>
  */
 @javax.annotation.Generated(
-    value = "by gRPC proto compiler (version 1.52.1)",
+    value = "by gRPC proto compiler (version 1.59.1)",
     comments = "Source: burpApi.proto")
 @io.grpc.stub.annotations.GrpcGenerated
 public final class BurpServerGrpc {
 
   private BurpServerGrpc() {}
 
-  public static final String SERVICE_NAME = "burpApi.BurpServer";
+  public static final java.lang.String SERVICE_NAME = "BurpMorePossibilityApi.BurpServer";
 
   // Static method descriptors that strictly reflect the proto.
   private static volatile io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.Str,
@@ -160,7 +160,7 @@ public final class BurpServerGrpc {
    *burpApi服务
    * </pre>
    */
-  public static abstract class BurpServerImplBase implements io.grpc.BindableService {
+  public interface AsyncService {
 
     /**
      * <pre>
@@ -168,7 +168,7 @@ public final class BurpServerGrpc {
      *burp将监听端口通过服务端端流进行实时流量镜像
      * </pre>
      */
-    public void registerRealTimeTrafficMirroring(BurpGrpc.proto.BurpApiGrpc.Str request,
+    default void registerRealTimeTrafficMirroring(BurpGrpc.proto.BurpApiGrpc.Str request,
         io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.httpReqAndRes> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getRegisterRealTimeTrafficMirroringMethod(), responseObserver);
     }
@@ -178,7 +178,7 @@ public final class BurpServerGrpc {
      * 服务注册列表 包含多个服务  多个服务其中有一个注册失败不会影响到已经成功的 只要有一个失败便会返回false
      * </pre>
      */
-    public void registerServerList(BurpGrpc.proto.BurpApiGrpc.serviceRegisterRoutingList request,
+    default void registerServerList(BurpGrpc.proto.BurpApiGrpc.serviceRegisterRoutingList request,
         io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.processingStatus> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getRegisterServerListMethod(), responseObserver);
     }
@@ -187,46 +187,37 @@ public final class BurpServerGrpc {
      * <pre>
      * 获取代理历史请求 由于过滤会很复杂因此直接返回所有历史数据 入参为只占位符不用理睬
      * 由于数据过大默认单个消息最大为500MB 客户端也需要处理 后续将提供分块传输 过滤提取等方式
+     * 修改为服务端流的方式进行流量传输
      * </pre>
      */
-    public void getProxyHistory(BurpGrpc.proto.BurpApiGrpc.Str request,
+    default void getProxyHistory(BurpGrpc.proto.BurpApiGrpc.Str request,
         io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.httpReqAndRes> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetProxyHistoryMethod(), responseObserver);
-    }
-
-    @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
-      return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
-          .addMethod(
-            getRegisterRealTimeTrafficMirroringMethod(),
-            io.grpc.stub.ServerCalls.asyncServerStreamingCall(
-              new MethodHandlers<
-                BurpGrpc.proto.BurpApiGrpc.Str,
-                BurpGrpc.proto.BurpApiGrpc.httpReqAndRes>(
-                  this, METHODID_REGISTER_REAL_TIME_TRAFFIC_MIRRORING)))
-          .addMethod(
-            getRegisterServerListMethod(),
-            io.grpc.stub.ServerCalls.asyncUnaryCall(
-              new MethodHandlers<
-                BurpGrpc.proto.BurpApiGrpc.serviceRegisterRoutingList,
-                BurpGrpc.proto.BurpApiGrpc.processingStatus>(
-                  this, METHODID_REGISTER_SERVER_LIST)))
-          .addMethod(
-            getGetProxyHistoryMethod(),
-            io.grpc.stub.ServerCalls.asyncServerStreamingCall(
-              new MethodHandlers<
-                BurpGrpc.proto.BurpApiGrpc.Str,
-                BurpGrpc.proto.BurpApiGrpc.httpReqAndRes>(
-                  this, METHODID_GET_PROXY_HISTORY)))
-          .build();
     }
   }
 
   /**
+   * Base class for the server implementation of the service BurpServer.
    * <pre>
    *burpApi服务
    * </pre>
    */
-  public static final class BurpServerStub extends io.grpc.stub.AbstractAsyncStub<BurpServerStub> {
+  public static abstract class BurpServerImplBase
+      implements io.grpc.BindableService, AsyncService {
+
+    @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
+      return BurpServerGrpc.bindService(this);
+    }
+  }
+
+  /**
+   * A stub to allow clients to do asynchronous rpc calls to service BurpServer.
+   * <pre>
+   *burpApi服务
+   * </pre>
+   */
+  public static final class BurpServerStub
+      extends io.grpc.stub.AbstractAsyncStub<BurpServerStub> {
     private BurpServerStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -265,6 +256,7 @@ public final class BurpServerGrpc {
      * <pre>
      * 获取代理历史请求 由于过滤会很复杂因此直接返回所有历史数据 入参为只占位符不用理睬
      * 由于数据过大默认单个消息最大为500MB 客户端也需要处理 后续将提供分块传输 过滤提取等方式
+     * 修改为服务端流的方式进行流量传输
      * </pre>
      */
     public void getProxyHistory(BurpGrpc.proto.BurpApiGrpc.Str request,
@@ -275,11 +267,13 @@ public final class BurpServerGrpc {
   }
 
   /**
+   * A stub to allow clients to do synchronous rpc calls to service BurpServer.
    * <pre>
    *burpApi服务
    * </pre>
    */
-  public static final class BurpServerBlockingStub extends io.grpc.stub.AbstractBlockingStub<BurpServerBlockingStub> {
+  public static final class BurpServerBlockingStub
+      extends io.grpc.stub.AbstractBlockingStub<BurpServerBlockingStub> {
     private BurpServerBlockingStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -317,6 +311,7 @@ public final class BurpServerGrpc {
      * <pre>
      * 获取代理历史请求 由于过滤会很复杂因此直接返回所有历史数据 入参为只占位符不用理睬
      * 由于数据过大默认单个消息最大为500MB 客户端也需要处理 后续将提供分块传输 过滤提取等方式
+     * 修改为服务端流的方式进行流量传输
      * </pre>
      */
     public java.util.Iterator<BurpGrpc.proto.BurpApiGrpc.httpReqAndRes> getProxyHistory(
@@ -327,11 +322,13 @@ public final class BurpServerGrpc {
   }
 
   /**
+   * A stub to allow clients to do ListenableFuture-style rpc calls to service BurpServer.
    * <pre>
    *burpApi服务
    * </pre>
    */
-  public static final class BurpServerFutureStub extends io.grpc.stub.AbstractFutureStub<BurpServerFutureStub> {
+  public static final class BurpServerFutureStub
+      extends io.grpc.stub.AbstractFutureStub<BurpServerFutureStub> {
     private BurpServerFutureStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -364,10 +361,10 @@ public final class BurpServerGrpc {
       io.grpc.stub.ServerCalls.ServerStreamingMethod<Req, Resp>,
       io.grpc.stub.ServerCalls.ClientStreamingMethod<Req, Resp>,
       io.grpc.stub.ServerCalls.BidiStreamingMethod<Req, Resp> {
-    private final BurpServerImplBase serviceImpl;
+    private final AsyncService serviceImpl;
     private final int methodId;
 
-    MethodHandlers(BurpServerImplBase serviceImpl, int methodId) {
+    MethodHandlers(AsyncService serviceImpl, int methodId) {
       this.serviceImpl = serviceImpl;
       this.methodId = methodId;
     }
@@ -404,6 +401,32 @@ public final class BurpServerGrpc {
     }
   }
 
+  public static final io.grpc.ServerServiceDefinition bindService(AsyncService service) {
+    return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
+        .addMethod(
+          getRegisterRealTimeTrafficMirroringMethod(),
+          io.grpc.stub.ServerCalls.asyncServerStreamingCall(
+            new MethodHandlers<
+              BurpGrpc.proto.BurpApiGrpc.Str,
+              BurpGrpc.proto.BurpApiGrpc.httpReqAndRes>(
+                service, METHODID_REGISTER_REAL_TIME_TRAFFIC_MIRRORING)))
+        .addMethod(
+          getRegisterServerListMethod(),
+          io.grpc.stub.ServerCalls.asyncUnaryCall(
+            new MethodHandlers<
+              BurpGrpc.proto.BurpApiGrpc.serviceRegisterRoutingList,
+              BurpGrpc.proto.BurpApiGrpc.processingStatus>(
+                service, METHODID_REGISTER_SERVER_LIST)))
+        .addMethod(
+          getGetProxyHistoryMethod(),
+          io.grpc.stub.ServerCalls.asyncServerStreamingCall(
+            new MethodHandlers<
+              BurpGrpc.proto.BurpApiGrpc.Str,
+              BurpGrpc.proto.BurpApiGrpc.httpReqAndRes>(
+                service, METHODID_GET_PROXY_HISTORY)))
+        .build();
+  }
+
   private static abstract class BurpServerBaseDescriptorSupplier
       implements io.grpc.protobuf.ProtoFileDescriptorSupplier, io.grpc.protobuf.ProtoServiceDescriptorSupplier {
     BurpServerBaseDescriptorSupplier() {}
@@ -427,9 +450,9 @@ public final class BurpServerGrpc {
   private static final class BurpServerMethodDescriptorSupplier
       extends BurpServerBaseDescriptorSupplier
       implements io.grpc.protobuf.ProtoMethodDescriptorSupplier {
-    private final String methodName;
+    private final java.lang.String methodName;
 
-    BurpServerMethodDescriptorSupplier(String methodName) {
+    BurpServerMethodDescriptorSupplier(java.lang.String methodName) {
       this.methodName = methodName;
     }
 

@@ -8,14 +8,14 @@ import static io.grpc.MethodDescriptor.generateFullMethodName;
  * </pre>
  */
 @javax.annotation.Generated(
-    value = "by gRPC proto compiler (version 1.52.1)",
+    value = "by gRPC proto compiler (version 1.59.1)",
     comments = "Source: burpApi.proto")
 @io.grpc.stub.annotations.GrpcGenerated
 public final class RegisterServerRoutingListGrpc {
 
   private RegisterServerRoutingListGrpc() {}
 
-  public static final String SERVICE_NAME = "burpApi.RegisterServerRoutingList";
+  public static final java.lang.String SERVICE_NAME = "BurpMorePossibilityApi.RegisterServerRoutingList";
 
   // Static method descriptors that strictly reflect the proto.
   private static volatile io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.Str,
@@ -98,37 +98,41 @@ public final class RegisterServerRoutingListGrpc {
    *  注册服务路由列表
    * </pre>
    */
-  public static abstract class RegisterServerRoutingListImplBase implements io.grpc.BindableService {
+  public interface AsyncService {
 
     /**
      * <pre>
      * 一建注册服务
      * </pre>
      */
-    public void registerServerList(BurpGrpc.proto.BurpApiGrpc.Str request,
+    default void registerServerList(BurpGrpc.proto.BurpApiGrpc.Str request,
         io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.serviceRegisterRoutingList> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getRegisterServerListMethod(), responseObserver);
-    }
-
-    @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
-      return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
-          .addMethod(
-            getRegisterServerListMethod(),
-            io.grpc.stub.ServerCalls.asyncUnaryCall(
-              new MethodHandlers<
-                BurpGrpc.proto.BurpApiGrpc.Str,
-                BurpGrpc.proto.BurpApiGrpc.serviceRegisterRoutingList>(
-                  this, METHODID_REGISTER_SERVER_LIST)))
-          .build();
     }
   }
 
   /**
+   * Base class for the server implementation of the service RegisterServerRoutingList.
    * <pre>
    *  注册服务路由列表
    * </pre>
    */
-  public static final class RegisterServerRoutingListStub extends io.grpc.stub.AbstractAsyncStub<RegisterServerRoutingListStub> {
+  public static abstract class RegisterServerRoutingListImplBase
+      implements io.grpc.BindableService, AsyncService {
+
+    @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
+      return RegisterServerRoutingListGrpc.bindService(this);
+    }
+  }
+
+  /**
+   * A stub to allow clients to do asynchronous rpc calls to service RegisterServerRoutingList.
+   * <pre>
+   *  注册服务路由列表
+   * </pre>
+   */
+  public static final class RegisterServerRoutingListStub
+      extends io.grpc.stub.AbstractAsyncStub<RegisterServerRoutingListStub> {
     private RegisterServerRoutingListStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -153,11 +157,13 @@ public final class RegisterServerRoutingListGrpc {
   }
 
   /**
+   * A stub to allow clients to do synchronous rpc calls to service RegisterServerRoutingList.
    * <pre>
    *  注册服务路由列表
    * </pre>
    */
-  public static final class RegisterServerRoutingListBlockingStub extends io.grpc.stub.AbstractBlockingStub<RegisterServerRoutingListBlockingStub> {
+  public static final class RegisterServerRoutingListBlockingStub
+      extends io.grpc.stub.AbstractBlockingStub<RegisterServerRoutingListBlockingStub> {
     private RegisterServerRoutingListBlockingStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -181,11 +187,13 @@ public final class RegisterServerRoutingListGrpc {
   }
 
   /**
+   * A stub to allow clients to do ListenableFuture-style rpc calls to service RegisterServerRoutingList.
    * <pre>
    *  注册服务路由列表
    * </pre>
    */
-  public static final class RegisterServerRoutingListFutureStub extends io.grpc.stub.AbstractFutureStub<RegisterServerRoutingListFutureStub> {
+  public static final class RegisterServerRoutingListFutureStub
+      extends io.grpc.stub.AbstractFutureStub<RegisterServerRoutingListFutureStub> {
     private RegisterServerRoutingListFutureStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -216,10 +224,10 @@ public final class RegisterServerRoutingListGrpc {
       io.grpc.stub.ServerCalls.ServerStreamingMethod<Req, Resp>,
       io.grpc.stub.ServerCalls.ClientStreamingMethod<Req, Resp>,
       io.grpc.stub.ServerCalls.BidiStreamingMethod<Req, Resp> {
-    private final RegisterServerRoutingListImplBase serviceImpl;
+    private final AsyncService serviceImpl;
     private final int methodId;
 
-    MethodHandlers(RegisterServerRoutingListImplBase serviceImpl, int methodId) {
+    MethodHandlers(AsyncService serviceImpl, int methodId) {
       this.serviceImpl = serviceImpl;
       this.methodId = methodId;
     }
@@ -248,6 +256,18 @@ public final class RegisterServerRoutingListGrpc {
     }
   }
 
+  public static final io.grpc.ServerServiceDefinition bindService(AsyncService service) {
+    return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
+        .addMethod(
+          getRegisterServerListMethod(),
+          io.grpc.stub.ServerCalls.asyncUnaryCall(
+            new MethodHandlers<
+              BurpGrpc.proto.BurpApiGrpc.Str,
+              BurpGrpc.proto.BurpApiGrpc.serviceRegisterRoutingList>(
+                service, METHODID_REGISTER_SERVER_LIST)))
+        .build();
+  }
+
   private static abstract class RegisterServerRoutingListBaseDescriptorSupplier
       implements io.grpc.protobuf.ProtoFileDescriptorSupplier, io.grpc.protobuf.ProtoServiceDescriptorSupplier {
     RegisterServerRoutingListBaseDescriptorSupplier() {}
@@ -271,9 +291,9 @@ public final class RegisterServerRoutingListGrpc {
   private static final class RegisterServerRoutingListMethodDescriptorSupplier
       extends RegisterServerRoutingListBaseDescriptorSupplier
       implements io.grpc.protobuf.ProtoMethodDescriptorSupplier {
-    private final String methodName;
+    private final java.lang.String methodName;
 
-    RegisterServerRoutingListMethodDescriptorSupplier(String methodName) {
+    RegisterServerRoutingListMethodDescriptorSupplier(java.lang.String methodName) {
       this.methodName = methodName;
     }
 
