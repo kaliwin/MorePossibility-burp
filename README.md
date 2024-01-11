@@ -1,8 +1,8 @@
-# MorePossibility
+# MorePossibility-burp
 
-命名与组织名重叠
+命名与组织名重叠 修改为MorePossibility-burp
 
-MorePossibility是ManDown的一部分
+MorePossibility-burp是ManDown的一部分
 
 隶属于MorePossibility https://github.com/MorePossibility
 
