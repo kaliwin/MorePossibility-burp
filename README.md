@@ -1,4 +1,10 @@
-# MorePossibility
+# MorePossibility-burp
+
+命名与组织名重叠 修改为MorePossibility-burp
+
+MorePossibility-burp是ManDown的一部分
+
+隶属于MorePossibility https://github.com/MorePossibility
 
 MorePossibility (更多可能性) 通过Grpc实现Burp跨语言拓展 , 达到使用python、go、php等Grpc支持的语言进行快速扩展
 
