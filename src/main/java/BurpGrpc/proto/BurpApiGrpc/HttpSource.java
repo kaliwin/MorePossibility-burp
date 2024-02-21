@@ -106,7 +106,7 @@ public enum HttpSource
   }
   public static final com.google.protobuf.Descriptors.EnumDescriptor
       getDescriptor() {
-    return BurpGrpc.proto.BurpApiGrpc.BurpApi.getDescriptor().getEnumTypes().get(0);
+    return BurpGrpc.proto.BurpApiGrpc.BurpApi.getDescriptor().getEnumTypes().get(2);
   }
 
   private static final HttpSource[] VALUES = values();

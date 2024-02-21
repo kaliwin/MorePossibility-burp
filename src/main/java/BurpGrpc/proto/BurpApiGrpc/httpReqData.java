@@ -24,6 +24,7 @@ private static final long serialVersionUID = 0L;
     data_ = com.google.protobuf.ByteString.EMPTY;
     url_ = "";
     httpVersion_ = "";
+    range_ = java.util.Collections.emptyList();
   }
 
   @java.lang.Override
@@ -209,6 +210,67 @@ private static final long serialVersionUID = 0L;
     return httpReqService_ == null ? BurpGrpc.proto.BurpApiGrpc.httpReqService.getDefaultInstance() : httpReqService_;
   }
 
+  public static final int RANGE_FIELD_NUMBER = 6;
+  @SuppressWarnings("serial")
+  private java.util.List<BurpGrpc.proto.BurpApiGrpc.Range> range_;
+  /**
+   * <pre>
+   * 标记请求体范围
+   * </pre>
+   *
+   * <code>repeated .BurpMorePossibilityApi.Range Range = 6;</code>
+   */
+  @java.lang.Override
+  public java.util.List<BurpGrpc.proto.BurpApiGrpc.Range> getRangeList() {
+    return range_;
+  }
+  /**
+   * <pre>
+   * 标记请求体范围
+   * </pre>
+   *
+   * <code>repeated .BurpMorePossibilityApi.Range Range = 6;</code>
+   */
+  @java.lang.Override
+  public java.util.List<? extends BurpGrpc.proto.BurpApiGrpc.RangeOrBuilder> 
+      getRangeOrBuilderList() {
+    return range_;
+  }
+  /**
+   * <pre>
+   * 标记请求体范围
+   * </pre>
+   *
+   * <code>repeated .BurpMorePossibilityApi.Range Range = 6;</code>
+   */
+  @java.lang.Override
+  public int getRangeCount() {
+    return range_.size();
+  }
+  /**
+   * <pre>
+   * 标记请求体范围
+   * </pre>
+   *
+   * <code>repeated .BurpMorePossibilityApi.Range Range = 6;</code>
+   */
+  @java.lang.Override
+  public BurpGrpc.proto.BurpApiGrpc.Range getRange(int index) {
+    return range_.get(index);
+  }
+  /**
+   * <pre>
+   * 标记请求体范围
+   * </pre>
+   *
+   * <code>repeated .BurpMorePossibilityApi.Range Range = 6;</code>
+   */
+  @java.lang.Override
+  public BurpGrpc.proto.BurpApiGrpc.RangeOrBuilder getRangeOrBuilder(
+      int index) {
+    return range_.get(index);
+  }
+
   private byte memoizedIsInitialized = -1;
   @java.lang.Override
   public final boolean isInitialized() {
@@ -238,6 +300,9 @@ private static final long serialVersionUID = 0L;
     if (((bitField0_ & 0x00000001) != 0)) {
       output.writeMessage(5, getHttpReqService());
     }
+    for (int i = 0; i < range_.size(); i++) {
+      output.writeMessage(6, range_.get(i));
+    }
     getUnknownFields().writeTo(output);
   }
 
@@ -264,6 +329,10 @@ private static final long serialVersionUID = 0L;
     if (((bitField0_ & 0x00000001) != 0)) {
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(5, getHttpReqService());
+    }
+    for (int i = 0; i < range_.size(); i++) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(6, range_.get(i));
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSize = size;
@@ -293,6 +362,8 @@ private static final long serialVersionUID = 0L;
       if (!getHttpReqService()
           .equals(other.getHttpReqService())) return false;
     }
+    if (!getRangeList()
+        .equals(other.getRangeList())) return false;
     if (!getUnknownFields().equals(other.getUnknownFields())) return false;
     return true;
   }
@@ -316,6 +387,10 @@ private static final long serialVersionUID = 0L;
     if (hasHttpReqService()) {
       hash = (37 * hash) + HTTPREQSERVICE_FIELD_NUMBER;
       hash = (53 * hash) + getHttpReqService().hashCode();
+    }
+    if (getRangeCount() > 0) {
+      hash = (37 * hash) + RANGE_FIELD_NUMBER;
+      hash = (53 * hash) + getRangeList().hashCode();
     }
     hash = (29 * hash) + getUnknownFields().hashCode();
     memoizedHashCode = hash;
@@ -452,6 +527,7 @@ private static final long serialVersionUID = 0L;
       if (com.google.protobuf.GeneratedMessageV3
               .alwaysUseFieldBuilders) {
         getHttpReqServiceFieldBuilder();
+        getRangeFieldBuilder();
       }
     }
     @java.lang.Override
@@ -467,6 +543,13 @@ private static final long serialVersionUID = 0L;
         httpReqServiceBuilder_.dispose();
         httpReqServiceBuilder_ = null;
       }
+      if (rangeBuilder_ == null) {
+        range_ = java.util.Collections.emptyList();
+      } else {
+        range_ = null;
+        rangeBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000020);
       return this;
     }
 
@@ -493,9 +576,22 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public BurpGrpc.proto.BurpApiGrpc.httpReqData buildPartial() {
       BurpGrpc.proto.BurpApiGrpc.httpReqData result = new BurpGrpc.proto.BurpApiGrpc.httpReqData(this);
+      buildPartialRepeatedFields(result);
       if (bitField0_ != 0) { buildPartial0(result); }
       onBuilt();
       return result;
+    }
+
+    private void buildPartialRepeatedFields(BurpGrpc.proto.BurpApiGrpc.httpReqData result) {
+      if (rangeBuilder_ == null) {
+        if (((bitField0_ & 0x00000020) != 0)) {
+          range_ = java.util.Collections.unmodifiableList(range_);
+          bitField0_ = (bitField0_ & ~0x00000020);
+        }
+        result.range_ = range_;
+      } else {
+        result.range_ = rangeBuilder_.build();
+      }
     }
 
     private void buildPartial0(BurpGrpc.proto.BurpApiGrpc.httpReqData result) {
@@ -585,6 +681,32 @@ private static final long serialVersionUID = 0L;
       if (other.hasHttpReqService()) {
         mergeHttpReqService(other.getHttpReqService());
       }
+      if (rangeBuilder_ == null) {
+        if (!other.range_.isEmpty()) {
+          if (range_.isEmpty()) {
+            range_ = other.range_;
+            bitField0_ = (bitField0_ & ~0x00000020);
+          } else {
+            ensureRangeIsMutable();
+            range_.addAll(other.range_);
+          }
+          onChanged();
+        }
+      } else {
+        if (!other.range_.isEmpty()) {
+          if (rangeBuilder_.isEmpty()) {
+            rangeBuilder_.dispose();
+            rangeBuilder_ = null;
+            range_ = other.range_;
+            bitField0_ = (bitField0_ & ~0x00000020);
+            rangeBuilder_ = 
+              com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                 getRangeFieldBuilder() : null;
+          } else {
+            rangeBuilder_.addAllMessages(other.range_);
+          }
+        }
+      }
       this.mergeUnknownFields(other.getUnknownFields());
       onChanged();
       return this;
@@ -638,6 +760,19 @@ private static final long serialVersionUID = 0L;
               bitField0_ |= 0x00000010;
               break;
             } // case 42
+            case 50: {
+              BurpGrpc.proto.BurpApiGrpc.Range m =
+                  input.readMessage(
+                      BurpGrpc.proto.BurpApiGrpc.Range.parser(),
+                      extensionRegistry);
+              if (rangeBuilder_ == null) {
+                ensureRangeIsMutable();
+                range_.add(m);
+              } else {
+                rangeBuilder_.addMessage(m);
+              }
+              break;
+            } // case 50
             default: {
               if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                 done = true; // was an endgroup tag
@@ -1082,6 +1217,318 @@ private static final long serialVersionUID = 0L;
         httpReqService_ = null;
       }
       return httpReqServiceBuilder_;
+    }
+
+    private java.util.List<BurpGrpc.proto.BurpApiGrpc.Range> range_ =
+      java.util.Collections.emptyList();
+    private void ensureRangeIsMutable() {
+      if (!((bitField0_ & 0x00000020) != 0)) {
+        range_ = new java.util.ArrayList<BurpGrpc.proto.BurpApiGrpc.Range>(range_);
+        bitField0_ |= 0x00000020;
+       }
+    }
+
+    private com.google.protobuf.RepeatedFieldBuilderV3<
+        BurpGrpc.proto.BurpApiGrpc.Range, BurpGrpc.proto.BurpApiGrpc.Range.Builder, BurpGrpc.proto.BurpApiGrpc.RangeOrBuilder> rangeBuilder_;
+
+    /**
+     * <pre>
+     * 标记请求体范围
+     * </pre>
+     *
+     * <code>repeated .BurpMorePossibilityApi.Range Range = 6;</code>
+     */
+    public java.util.List<BurpGrpc.proto.BurpApiGrpc.Range> getRangeList() {
+      if (rangeBuilder_ == null) {
+        return java.util.Collections.unmodifiableList(range_);
+      } else {
+        return rangeBuilder_.getMessageList();
+      }
+    }
+    /**
+     * <pre>
+     * 标记请求体范围
+     * </pre>
+     *
+     * <code>repeated .BurpMorePossibilityApi.Range Range = 6;</code>
+     */
+    public int getRangeCount() {
+      if (rangeBuilder_ == null) {
+        return range_.size();
+      } else {
+        return rangeBuilder_.getCount();
+      }
+    }
+    /**
+     * <pre>
+     * 标记请求体范围
+     * </pre>
+     *
+     * <code>repeated .BurpMorePossibilityApi.Range Range = 6;</code>
+     */
+    public BurpGrpc.proto.BurpApiGrpc.Range getRange(int index) {
+      if (rangeBuilder_ == null) {
+        return range_.get(index);
+      } else {
+        return rangeBuilder_.getMessage(index);
+      }
+    }
+    /**
+     * <pre>
+     * 标记请求体范围
+     * </pre>
+     *
+     * <code>repeated .BurpMorePossibilityApi.Range Range = 6;</code>
+     */
+    public Builder setRange(
+        int index, BurpGrpc.proto.BurpApiGrpc.Range value) {
+      if (rangeBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureRangeIsMutable();
+        range_.set(index, value);
+        onChanged();
+      } else {
+        rangeBuilder_.setMessage(index, value);
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * 标记请求体范围
+     * </pre>
+     *
+     * <code>repeated .BurpMorePossibilityApi.Range Range = 6;</code>
+     */
+    public Builder setRange(
+        int index, BurpGrpc.proto.BurpApiGrpc.Range.Builder builderForValue) {
+      if (rangeBuilder_ == null) {
+        ensureRangeIsMutable();
+        range_.set(index, builderForValue.build());
+        onChanged();
+      } else {
+        rangeBuilder_.setMessage(index, builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * 标记请求体范围
+     * </pre>
+     *
+     * <code>repeated .BurpMorePossibilityApi.Range Range = 6;</code>
+     */
+    public Builder addRange(BurpGrpc.proto.BurpApiGrpc.Range value) {
+      if (rangeBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureRangeIsMutable();
+        range_.add(value);
+        onChanged();
+      } else {
+        rangeBuilder_.addMessage(value);
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * 标记请求体范围
+     * </pre>
+     *
+     * <code>repeated .BurpMorePossibilityApi.Range Range = 6;</code>
+     */
+    public Builder addRange(
+        int index, BurpGrpc.proto.BurpApiGrpc.Range value) {
+      if (rangeBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureRangeIsMutable();
+        range_.add(index, value);
+        onChanged();
+      } else {
+        rangeBuilder_.addMessage(index, value);
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * 标记请求体范围
+     * </pre>
+     *
+     * <code>repeated .BurpMorePossibilityApi.Range Range = 6;</code>
+     */
+    public Builder addRange(
+        BurpGrpc.proto.BurpApiGrpc.Range.Builder builderForValue) {
+      if (rangeBuilder_ == null) {
+        ensureRangeIsMutable();
+        range_.add(builderForValue.build());
+        onChanged();
+      } else {
+        rangeBuilder_.addMessage(builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * 标记请求体范围
+     * </pre>
+     *
+     * <code>repeated .BurpMorePossibilityApi.Range Range = 6;</code>
+     */
+    public Builder addRange(
+        int index, BurpGrpc.proto.BurpApiGrpc.Range.Builder builderForValue) {
+      if (rangeBuilder_ == null) {
+        ensureRangeIsMutable();
+        range_.add(index, builderForValue.build());
+        onChanged();
+      } else {
+        rangeBuilder_.addMessage(index, builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * 标记请求体范围
+     * </pre>
+     *
+     * <code>repeated .BurpMorePossibilityApi.Range Range = 6;</code>
+     */
+    public Builder addAllRange(
+        java.lang.Iterable<? extends BurpGrpc.proto.BurpApiGrpc.Range> values) {
+      if (rangeBuilder_ == null) {
+        ensureRangeIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, range_);
+        onChanged();
+      } else {
+        rangeBuilder_.addAllMessages(values);
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * 标记请求体范围
+     * </pre>
+     *
+     * <code>repeated .BurpMorePossibilityApi.Range Range = 6;</code>
+     */
+    public Builder clearRange() {
+      if (rangeBuilder_ == null) {
+        range_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000020);
+        onChanged();
+      } else {
+        rangeBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * 标记请求体范围
+     * </pre>
+     *
+     * <code>repeated .BurpMorePossibilityApi.Range Range = 6;</code>
+     */
+    public Builder removeRange(int index) {
+      if (rangeBuilder_ == null) {
+        ensureRangeIsMutable();
+        range_.remove(index);
+        onChanged();
+      } else {
+        rangeBuilder_.remove(index);
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * 标记请求体范围
+     * </pre>
+     *
+     * <code>repeated .BurpMorePossibilityApi.Range Range = 6;</code>
+     */
+    public BurpGrpc.proto.BurpApiGrpc.Range.Builder getRangeBuilder(
+        int index) {
+      return getRangeFieldBuilder().getBuilder(index);
+    }
+    /**
+     * <pre>
+     * 标记请求体范围
+     * </pre>
+     *
+     * <code>repeated .BurpMorePossibilityApi.Range Range = 6;</code>
+     */
+    public BurpGrpc.proto.BurpApiGrpc.RangeOrBuilder getRangeOrBuilder(
+        int index) {
+      if (rangeBuilder_ == null) {
+        return range_.get(index);  } else {
+        return rangeBuilder_.getMessageOrBuilder(index);
+      }
+    }
+    /**
+     * <pre>
+     * 标记请求体范围
+     * </pre>
+     *
+     * <code>repeated .BurpMorePossibilityApi.Range Range = 6;</code>
+     */
+    public java.util.List<? extends BurpGrpc.proto.BurpApiGrpc.RangeOrBuilder> 
+         getRangeOrBuilderList() {
+      if (rangeBuilder_ != null) {
+        return rangeBuilder_.getMessageOrBuilderList();
+      } else {
+        return java.util.Collections.unmodifiableList(range_);
+      }
+    }
+    /**
+     * <pre>
+     * 标记请求体范围
+     * </pre>
+     *
+     * <code>repeated .BurpMorePossibilityApi.Range Range = 6;</code>
+     */
+    public BurpGrpc.proto.BurpApiGrpc.Range.Builder addRangeBuilder() {
+      return getRangeFieldBuilder().addBuilder(
+          BurpGrpc.proto.BurpApiGrpc.Range.getDefaultInstance());
+    }
+    /**
+     * <pre>
+     * 标记请求体范围
+     * </pre>
+     *
+     * <code>repeated .BurpMorePossibilityApi.Range Range = 6;</code>
+     */
+    public BurpGrpc.proto.BurpApiGrpc.Range.Builder addRangeBuilder(
+        int index) {
+      return getRangeFieldBuilder().addBuilder(
+          index, BurpGrpc.proto.BurpApiGrpc.Range.getDefaultInstance());
+    }
+    /**
+     * <pre>
+     * 标记请求体范围
+     * </pre>
+     *
+     * <code>repeated .BurpMorePossibilityApi.Range Range = 6;</code>
+     */
+    public java.util.List<BurpGrpc.proto.BurpApiGrpc.Range.Builder> 
+         getRangeBuilderList() {
+      return getRangeFieldBuilder().getBuilderList();
+    }
+    private com.google.protobuf.RepeatedFieldBuilderV3<
+        BurpGrpc.proto.BurpApiGrpc.Range, BurpGrpc.proto.BurpApiGrpc.Range.Builder, BurpGrpc.proto.BurpApiGrpc.RangeOrBuilder> 
+        getRangeFieldBuilder() {
+      if (rangeBuilder_ == null) {
+        rangeBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+            BurpGrpc.proto.BurpApiGrpc.Range, BurpGrpc.proto.BurpApiGrpc.Range.Builder, BurpGrpc.proto.BurpApiGrpc.RangeOrBuilder>(
+                range_,
+                ((bitField0_ & 0x00000020) != 0),
+                getParentForChildren(),
+                isClean());
+        range_ = null;
+      }
+      return rangeBuilder_;
     }
     @java.lang.Override
     public final Builder setUnknownFields(

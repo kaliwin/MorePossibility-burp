@@ -19,7 +19,7 @@ dependencies {
 
     testImplementation 'junit:junit:4.13.2'
 
-//    implementation 'net.portswigger.burp.extensions:montoya-api:2023.6' // burp API
+//    implementation 'net.portswigger.burp.extensions:montoya-api:2023.6' // burp API 弃用直接从burp导出
 
     // 1. Use Guava in your implementation only:  数据处理guava
     implementation 'com.google.guava:guava:32.0.0-jre'
@@ -29,7 +29,7 @@ dependencies {
 //    implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.1'
 //    implementation 'com.fifesoft:rsyntaxtextarea:3.1.2'
 //    implementation 'com.google.code.gson:gson:2.10.1'
-//        implementation 'org.apache.commons:commons-text:1.10.0'
+    implementation 'org.apache.commons:commons-text:1.10.0'  // 编码转换 用于u2c
 
 
     // lucene 全文匹配引擎
@@ -45,7 +45,7 @@ dependencies {
 // 配置 Shadow 插件
 shadowJar {
     // 指定生成的 Jar 文件的名称
-    archiveFileName = 'MorePossibility-V1.jar'
+    archiveFileName = 'MorePossibility-Burp.jar'
 
 //        manifest { // 主程序入口类
 //         attributes 'Main-Class': 'text.tmp'
@@ -65,4 +65,4 @@ tasks.withType(JavaCompile).configureEach {
 //    tasks.withType(JavaCompile).configureEach {
 //        // 开启预览功能
 //        options.compilerArgs += ["--ssdource", "20", "--enable-preview" ]
-//    }sds爱上的地方
+//    }

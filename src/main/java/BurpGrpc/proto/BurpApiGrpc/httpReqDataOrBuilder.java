@@ -94,4 +94,48 @@ public interface httpReqDataOrBuilder extends
    * <code>.BurpMorePossibilityApi.httpReqService httpReqService = 5;</code>
    */
   BurpGrpc.proto.BurpApiGrpc.httpReqServiceOrBuilder getHttpReqServiceOrBuilder();
+
+  /**
+   * <pre>
+   * 标记请求体范围
+   * </pre>
+   *
+   * <code>repeated .BurpMorePossibilityApi.Range Range = 6;</code>
+   */
+  java.util.List<BurpGrpc.proto.BurpApiGrpc.Range> 
+      getRangeList();
+  /**
+   * <pre>
+   * 标记请求体范围
+   * </pre>
+   *
+   * <code>repeated .BurpMorePossibilityApi.Range Range = 6;</code>
+   */
+  BurpGrpc.proto.BurpApiGrpc.Range getRange(int index);
+  /**
+   * <pre>
+   * 标记请求体范围
+   * </pre>
+   *
+   * <code>repeated .BurpMorePossibilityApi.Range Range = 6;</code>
+   */
+  int getRangeCount();
+  /**
+   * <pre>
+   * 标记请求体范围
+   * </pre>
+   *
+   * <code>repeated .BurpMorePossibilityApi.Range Range = 6;</code>
+   */
+  java.util.List<? extends BurpGrpc.proto.BurpApiGrpc.RangeOrBuilder> 
+      getRangeOrBuilderList();
+  /**
+   * <pre>
+   * 标记请求体范围
+   * </pre>
+   *
+   * <code>repeated .BurpMorePossibilityApi.Range Range = 6;</code>
+   */
+  BurpGrpc.proto.BurpApiGrpc.RangeOrBuilder getRangeOrBuilder(
+      int index);
 }

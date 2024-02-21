@@ -16,6 +16,11 @@ public final class BurpApi {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_BurpMorePossibilityApi_AuditIssue_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_BurpMorePossibilityApi_AuditIssue_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
     internal_static_BurpMorePossibilityApi_httpFlowReqData_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -161,6 +166,11 @@ public final class BurpApi {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_BurpMorePossibilityApi_httpReqData_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_BurpMorePossibilityApi_Range_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_BurpMorePossibilityApi_Range_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
     internal_static_BurpMorePossibilityApi_httpReqGroup_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -200,387 +210,419 @@ public final class BurpApi {
   static {
     java.lang.String[] descriptorData = {
       "\n\rburpApi.proto\022\026BurpMorePossibilityApi\"" +
-      "\215\001\n\017httpFlowReqData\022:\n\014httpReqGroup\030\001 \001(" +
-      "\0132$.BurpMorePossibilityApi.httpReqGroup\022" +
-      ">\n\016httpFlowSource\030\002 \001(\0162&.BurpMorePossib" +
-      "ilityApi.httpFlowSource\"\217\001\n\017httpFlowResD" +
-      "ata\022<\n\rhttpReqAndRes\030\001 \001(\0132%.BurpMorePos" +
-      "sibilityApi.httpReqAndRes\022>\n\016httpFlowSou" +
-      "rce\030\002 \001(\0162&.BurpMorePossibilityApi.httpF" +
-      "lowSource\"5\n\024PayloadProcessorData\022\014\n\004nam" +
-      "e\030\001 \001(\t\022\017\n\007payload\030\002 \001(\014\"T\n\020ProxyHistory" +
-      "Data\022@\n\021httpReqAndResData\030\001 \003(\0132%.BurpMo" +
-      "rePossibilityApi.httpReqAndRes\"8\n\020Subscr" +
-      "iptOffsets\022\022\n\nstartIndex\030\001 \001(\003\022\020\n\010endInd" +
-      "ex\030\002 \001(\003\"v\n\021HttpRequestAction\022\020\n\010continu" +
-      "e\030\001 \001(\010\022\023\n\013isReviseReq\030\003 \001(\010\022:\n\014httpReqG" +
-      "roup\030\004 \001(\0132$.BurpMorePossibilityApi.http" +
-      "ReqGroup\"w\n\022HttpResponseAction\022\020\n\010contin" +
-      "ue\030\001 \001(\010\022\023\n\013isReviseRes\030\003 \001(\010\022:\n\014httpRes" +
-      "Group\030\004 \001(\0132$.BurpMorePossibilityApi.htt" +
-      "pResGroup\"\232\001\n\022ProxyRequestAction\022\020\n\010cont" +
-      "inue\030\001 \001(\010\022\014\n\004drop\030\002 \001(\010\022\023\n\013isReviseReq\030" +
-      "\003 \001(\010\022\023\n\013isIntercept\030\004 \001(\010\022:\n\014httpReqGro" +
-      "up\030\005 \001(\0132$.BurpMorePossibilityApi.httpRe" +
-      "qGroup\"\233\001\n\023ProxyResponseAction\022\020\n\010contin" +
-      "ue\030\001 \001(\010\022\014\n\004drop\030\002 \001(\010\022\023\n\013isReviseRes\030\003 " +
-      "\001(\010\022\023\n\013isIntercept\030\004 \001(\010\022:\n\014httpResGroup" +
-      "\030\005 \001(\0132$.BurpMorePossibilityApi.httpResG" +
-      "roup\"o\n\017HttpEditBoxData\022\014\n\004name\030\001 \001(\t\022@\n" +
-      "\021httpReqAndResData\030\002 \001(\0132%.BurpMorePossi" +
-      "bilityApi.httpReqAndRes\022\014\n\004info\030\003 \001(\t\"I\n" +
-      "\020httpKeyValuePair\022\016\n\006domain\030\001 \001(\t\022\022\n\ncip" +
-      "hertext\030\002 \001(\014\022\021\n\tplaintext\030\003 \001(\014\"\245\001\n\022htt" +
-      "pEditorKeyValue\022-\n\003key\030\001 \001(\0132 .BurpMoreP" +
-      "ossibilityApi.ByteData\022/\n\005value\030\002 \001(\0132 ." +
-      "BurpMorePossibilityApi.ByteData\022/\n\nedito" +
-      "rName\030\003 \001(\0132\033.BurpMorePossibilityApi.Str" +
-      "\"F\n\010MenuInfo\022\016\n\006tarGet\030\002 \001(\t\022*\n\004menu\030\003 \001" +
-      "(\0132\034.BurpMorePossibilityApi.Menu\"|\n\004Menu" +
-      "\022\014\n\004name\030\001 \001(\t\022.\n\010menuList\030\002 \003(\0132\034.BurpM" +
-      "orePossibilityApi.Menu\0226\n\014menuItemList\030\003" +
-      " \003(\0132 .BurpMorePossibilityApi.MenuItem\"\030" +
-      "\n\010MenuItem\022\014\n\004name\030\001 \001(\t\"\377\001\n\020ContextMenu" +
-      "Items\022\014\n\004name\030\001 \001(\t\022\020\n\010isSelect\030\002 \001(\010\0228\n" +
-      "\014selectSource\030\003 \001(\0162\".BurpMorePossibilit" +
-      "yApi.HttpSource\022<\n\rhttpReqAndRes\030\004 \001(\0132%" +
-      ".BurpMorePossibilityApi.httpReqAndRes\022\022\n" +
-      "\nselectData\030\005 \001(\014\022?\n\rselectOffsets\030\006 \001(\013" +
-      "2(.BurpMorePossibilityApi.SubscriptOffse" +
-      "ts\"\235\001\n\017MenuItemsReturn\022\022\n\nIsContinue\030\001 \001" +
-      "(\010\022\026\n\016IsReviseSelect\030\002 \001(\010\022\023\n\013IsReviseRe" +
-      "q\030\003 \001(\010\022\023\n\013IsReviseRes\030\004 \001(\010\022\017\n\007ReqData\030" +
-      "\005 \001(\014\022\017\n\007ResData\030\006 \001(\014\022\022\n\nSelectDate\030\007 \001" +
-      "(\014\"\026\n\005Boole\022\r\n\005boole\030\001 \001(\010\"/\n\020processing" +
-      "Status\022\r\n\005boole\030\001 \001(\010\022\014\n\004info\030\003 \001(\t\"\023\n\003S" +
-      "tr\022\014\n\004name\030\001 \001(\t\"V\n\023serviceRoutingTable\022" +
-      "?\n\007Routing\030\001 \003(\0132..BurpMorePossibilityAp" +
-      "i.serviceRegisterRouting\"w\n\026serviceRegis" +
-      "terRouting\022:\n\nserverType\030\001 \001(\0162&.BurpMor" +
-      "ePossibilityApi.serverTypeName\022\014\n\004Name\030\002" +
-      " \001(\t\022\023\n\013GrpcAddress\030\003 \001(\t\"a\n\032serviceRegi" +
-      "sterRoutingList\022C\n\013serviceList\030\001 \003(\0132..B" +
-      "urpMorePossibilityApi.serviceRegisterRou" +
-      "ting\"\250\001\n\025IntruderGeneratorData\022\023\n\013conten" +
-      "tData\030\001 \001(\014\022L\n\025insertionPointOffsets\030\002 \003" +
-      "(\0132-.BurpMorePossibilityApi.InsertionPoi" +
-      "ntOffsets\022\036\n\026IntruderInsertionPoint\030\003 \001(" +
-      "\014\022\014\n\004name\030\004 \001(\t\"=\n\025InsertionPointOffsets" +
-      "\022\022\n\nStartIndex\030\001 \001(\003\022\020\n\010EndIndex\030\002 \001(\003\"\034" +
-      "\n\010ByteData\022\020\n\010byteData\030\001 \001(\014\"9\n\026PayloadG" +
-      "eneratorResult\022\020\n\010byteData\030\001 \001(\014\022\r\n\005IsEn" +
-      "d\030\002 \001(\010\"\345\001\n\rhttpReqAndRes\0220\n\003req\030\001 \001(\0132#" +
-      ".BurpMorePossibilityApi.httpReqData\0220\n\003r" +
-      "es\030\002 \001(\0132#.BurpMorePossibilityApi.httpRe" +
-      "sData\022.\n\004info\030\003 \001(\0132 .BurpMorePossibilit" +
-      "yApi.httpInfo\022@\n\017annotationsText\030\004 \001(\0132\'" +
-      ".BurpMorePossibilityApi.annotationsText\"" +
-      "\220\001\n\013httpReqData\022\014\n\004Data\030\001 \001(\014\022\013\n\003Url\030\002 \001" +
-      "(\t\022\021\n\tBodyIndex\030\003 \001(\003\022\023\n\013httpVersion\030\004 \001" +
-      "(\t\022>\n\016httpReqService\030\005 \001(\0132&.BurpMorePos" +
-      "sibilityApi.httpReqService\"\212\001\n\014httpReqGr" +
-      "oup\0228\n\013httpReqData\030\001 \001(\0132#.BurpMorePossi" +
-      "bilityApi.httpReqData\022@\n\017annotationsText" +
-      "\030\002 \001(\0132\'.BurpMorePossibilityApi.annotati" +
-      "onsText\"W\n\013httpResData\022\014\n\004Data\030\001 \001(\014\022\022\n\n" +
-      "StatusCode\030\002 \001(\005\022\021\n\tBodyIndex\030\003 \001(\003\022\023\n\013h" +
-      "ttpVersion\030\005 \001(\t\"\212\001\n\014httpResGroup\0228\n\013htt" +
-      "pResData\030\001 \001(\0132#.BurpMorePossibilityApi." +
-      "httpResData\022@\n\017annotationsText\030\002 \001(\0132\'.B" +
-      "urpMorePossibilityApi.annotationsText\":\n" +
-      "\016httpReqService\022\n\n\002ip\030\001 \001(\t\022\014\n\004port\030\002 \001(" +
-      "\005\022\016\n\006secure\030\003 \001(\010\"1\n\010httpInfo\022\n\n\002id\030\001 \001(" +
-      "\003\022\014\n\004info\030\002 \001(\t\022\013\n\003tmp\030\003 \001(\014\"g\n\017annotati" +
-      "onsText\022\016\n\006isInfo\030\001 \001(\010\022\r\n\005notes\030\002 \001(\t\0225" +
-      "\n\005color\030\003 \001(\0162&.BurpMorePossibilityApi.h" +
-      "ighlightColor*\'\n\nHttpSource\022\013\n\007Request\020\000" +
-      "\022\014\n\010Response\020\001*\310\001\n\016httpFlowSource\022\010\n\004NUL" +
-      "L\020\000\022\t\n\005SUITE\020\001\022\n\n\006TARGET\020\002\022\t\n\005PROXY\020\003\022\013\n" +
-      "\007SCANNER\020\004\022\014\n\010INTRUDER\020\005\022\014\n\010REPEATER\020\006\022\n" +
-      "\n\006LOGGER\020\007\022\r\n\tSEQUENCER\020\010\022\013\n\007DECODER\020\t\022\014" +
-      "\n\010COMPARER\020\n\022\016\n\nEXTENSIONS\020\013\022\033\n\027RECORDED" +
-      "_LOGIN_REPLAYER\020\014*\377\001\n\016serverTypeName\022\010\n\004" +
-      "NOLL\020\000\022\026\n\022INTRUDER_PROCESSOR\020\001\022\025\n\021INTRUD" +
-      "ER_GENERATE\020\002\022!\n\035HTTP_REQUEST_EDITOR_PRO" +
-      "CESSOR\020\005\022\"\n\036HTTP_RESPONSE_EDITOR_PROCESS" +
-      "OR\020\006\022\037\n\033CONTEXT_MENU_ITEMS_PROVIDER\020\007\022\031\n" +
-      "\025PROXY_REQUEST_HANDLER\020\010\022\032\n\026PROXY_RESPON" +
-      "SE_HANDLER\020\t\022\025\n\021HTTP_FLOW_HANDLER\020\n*{\n\016h" +
-      "ighlightColor\022\010\n\004NONE\020\000\022\007\n\003RED\020\001\022\n\n\006ORAN" +
-      "GE\020\002\022\n\n\006YELLOW\020\003\022\t\n\005GREEN\020\004\022\010\n\004CYAN\020\005\022\010\n" +
-      "\004BLUE\020\006\022\010\n\004PINK\020\007\022\013\n\007MAGENTA\020\010\022\010\n\004GRAY\020\t" +
-      "2\311\002\n\nBurpServer\022j\n RegisterRealTimeTraff" +
-      "icMirroring\022\033.BurpMorePossibilityApi.Str" +
-      "\032%.BurpMorePossibilityApi.httpReqAndRes\"" +
-      "\0000\001\022t\n\022RegisterServerList\0222.BurpMorePoss" +
-      "ibilityApi.serviceRegisterRoutingList\032(." +
-      "BurpMorePossibilityApi.processingStatus\"" +
-      "\000\022Y\n\017GetProxyHistory\022\033.BurpMorePossibili" +
-      "tyApi.Str\032%.BurpMorePossibilityApi.httpR" +
-      "eqAndRes\"\0000\0012~\n\030RealTimeTrafficMirroring" +
-      "\022b\n\030RealTimeTrafficMirroring\022%.BurpMoreP" +
-      "ossibilityApi.httpReqAndRes\032\033.BurpMorePo" +
-      "ssibilityApi.Str\"\000(\0012\202\001\n\031RegisterServerR" +
-      "outingList\022e\n\022RegisterServerList\022\033.BurpM" +
-      "orePossibilityApi.Str\0322.BurpMorePossibil" +
-      "ityApi.serviceRegisterRoutingList2\362\001\n\013Sc" +
-      "outServer\022\200\001\n&addHttpEditorEncryptAndDec" +
-      "ryptKeyValue\022*.BurpMorePossibilityApi.ht" +
-      "tpEditorKeyValue\032(.BurpMorePossibilityAp" +
-      "i.processingStatus\"\000\022`\n\023AddHttpKeyValueP" +
-      "air\022(.BurpMorePossibilityApi.httpKeyValu" +
-      "ePair\032\035.BurpMorePossibilityApi.Boole\"\0002\216" +
-      "\001\n\036IntruderPayloadProcessorServer\022l\n\030Int" +
-      "ruderPayloadProcessor\022,.BurpMorePossibil" +
-      "ityApi.PayloadProcessorData\032 .BurpMorePo" +
-      "ssibilityApi.ByteData\"\0002\246\001\n\036IntruderPayl" +
-      "oadGeneratorServer\022\203\001\n IntruderPayloadGe" +
-      "neratorProvider\022-.BurpMorePossibilityApi" +
-      ".IntruderGeneratorData\032..BurpMorePossibi" +
-      "lityApi.PayloadGeneratorResult\"\0002\320\001\n\024Htt" +
-      "pReqEditBoxAssist\022Z\n\013ReqHttpEdit\022\'.BurpM" +
-      "orePossibilityApi.HttpEditBoxData\032 .Burp" +
-      "MorePossibilityApi.ByteData\"\000\022\\\n\020IsReqHt" +
-      "tpEditFor\022\'.BurpMorePossibilityApi.HttpE" +
-      "ditBoxData\032\035.BurpMorePossibilityApi.Bool" +
-      "e\"\0002\320\001\n\024HttpResEditBoxAssist\022Z\n\013ResHttpE" +
-      "dit\022\'.BurpMorePossibilityApi.HttpEditBox" +
-      "Data\032 .BurpMorePossibilityApi.ByteData\"\000" +
-      "\022\\\n\020IsResHttpEditFor\022\'.BurpMorePossibili" +
-      "tyApi.HttpEditBoxData\032\035.BurpMorePossibil" +
-      "ityApi.Boole\"\0002\204\001\n\030ContextMenuItemsProvi" +
-      "der\022h\n\021MenuItemsProvider\022(.BurpMorePossi" +
-      "bilityApi.ContextMenuItems\032\'.BurpMorePos" +
-      "sibilityApi.MenuItemsReturn\"\0002s\n\031GetConT" +
-      "extMenuItemsServer\022V\n\023GetConTextMenuItem" +
-      "s\022\033.BurpMorePossibilityApi.Str\032 .BurpMor" +
-      "ePossibilityApi.MenuInfo\"\0002\207\001\n\023ProxyRequ" +
-      "estHandler\022p\n\032ProxyHandleRequestReceived" +
-      "\022$.BurpMorePossibilityApi.httpReqGroup\032*" +
-      ".BurpMorePossibilityApi.ProxyRequestActi" +
-      "on\"\0002\213\001\n\024ProxyResponseHandler\022s\n\033ProxyHa" +
-      "ndleResponseReceived\022%.BurpMorePossibili" +
-      "tyApi.httpReqAndRes\032+.BurpMorePossibilit" +
-      "yApi.ProxyResponseAction\"\0002\371\001\n\017HttpFlowH" +
-      "andler\022q\n\031HttpHandleRequestReceived\022\'.Bu" +
-      "rpMorePossibilityApi.httpFlowReqData\032).B" +
-      "urpMorePossibilityApi.HttpRequestAction\"" +
-      "\000\022s\n\032HttpHandleResponseReceived\022\'.BurpMo" +
-      "rePossibilityApi.httpFlowResData\032*.BurpM" +
-      "orePossibilityApi.HttpResponseAction\"\000B7" +
-      "\n\032BurpGrpc.proto.BurpApiGrpcB\007BurpApiP\001Z" +
-      "\010/BurpApi\242\002\003HLWb\006proto3"
+      "\202\003\n\nAuditIssue\022\014\n\004Name\030\001 \001(\t\022\016\n\006Detail\030\002" +
+      " \001(\t\022\023\n\013Remediation\030\003 \001(\t\022\017\n\007BaseUrl\030\004 \001" +
+      "(\t\022<\n\010severity\030\010 \001(\0162*.BurpMorePossibili" +
+      "tyApi.AuditIssueSeverity\022@\n\nconfidence\030\t" +
+      " \001(\0162,.BurpMorePossibilityApi.AuditIssue" +
+      "Confidence\022\022\n\nBackground\030\005 \001(\t\022\035\n\025remedi" +
+      "ationBackground\030\007 \001(\t\022C\n\017typicalSeverity" +
+      "\030\n \001(\0162*.BurpMorePossibilityApi.AuditIss" +
+      "ueSeverity\0228\n\tHttpGroup\030\013 \003(\0132%.BurpMore" +
+      "PossibilityApi.httpReqAndRes\"\215\001\n\017httpFlo" +
+      "wReqData\022:\n\014httpReqGroup\030\001 \001(\0132$.BurpMor" +
+      "ePossibilityApi.httpReqGroup\022>\n\016httpFlow" +
+      "Source\030\002 \001(\0162&.BurpMorePossibilityApi.ht" +
+      "tpFlowSource\"\217\001\n\017httpFlowResData\022<\n\rhttp" +
+      "ReqAndRes\030\001 \001(\0132%.BurpMorePossibilityApi" +
+      ".httpReqAndRes\022>\n\016httpFlowSource\030\002 \001(\0162&" +
+      ".BurpMorePossibilityApi.httpFlowSource\"5" +
+      "\n\024PayloadProcessorData\022\014\n\004name\030\001 \001(\t\022\017\n\007" +
+      "payload\030\002 \001(\014\"T\n\020ProxyHistoryData\022@\n\021htt" +
+      "pReqAndResData\030\001 \003(\0132%.BurpMorePossibili" +
+      "tyApi.httpReqAndRes\"8\n\020SubscriptOffsets\022" +
+      "\022\n\nstartIndex\030\001 \001(\003\022\020\n\010endIndex\030\002 \001(\003\"v\n" +
+      "\021HttpRequestAction\022\020\n\010continue\030\001 \001(\010\022\023\n\013" +
+      "isReviseReq\030\003 \001(\010\022:\n\014httpReqGroup\030\004 \001(\0132" +
+      "$.BurpMorePossibilityApi.httpReqGroup\"w\n" +
+      "\022HttpResponseAction\022\020\n\010continue\030\001 \001(\010\022\023\n" +
+      "\013isReviseRes\030\003 \001(\010\022:\n\014httpResGroup\030\004 \001(\013" +
+      "2$.BurpMorePossibilityApi.httpResGroup\"\232" +
+      "\001\n\022ProxyRequestAction\022\020\n\010continue\030\001 \001(\010\022" +
+      "\014\n\004drop\030\002 \001(\010\022\023\n\013isReviseReq\030\003 \001(\010\022\023\n\013is" +
+      "Intercept\030\004 \001(\010\022:\n\014httpReqGroup\030\005 \001(\0132$." +
+      "BurpMorePossibilityApi.httpReqGroup\"\233\001\n\023" +
+      "ProxyResponseAction\022\020\n\010continue\030\001 \001(\010\022\014\n" +
+      "\004drop\030\002 \001(\010\022\023\n\013isReviseRes\030\003 \001(\010\022\023\n\013isIn" +
+      "tercept\030\004 \001(\010\022:\n\014httpResGroup\030\005 \001(\0132$.Bu" +
+      "rpMorePossibilityApi.httpResGroup\"o\n\017Htt" +
+      "pEditBoxData\022\014\n\004name\030\001 \001(\t\022@\n\021httpReqAnd" +
+      "ResData\030\002 \001(\0132%.BurpMorePossibilityApi.h" +
+      "ttpReqAndRes\022\014\n\004info\030\003 \001(\t\"I\n\020httpKeyVal" +
+      "uePair\022\016\n\006domain\030\001 \001(\t\022\022\n\nciphertext\030\002 \001" +
+      "(\014\022\021\n\tplaintext\030\003 \001(\014\"\245\001\n\022httpEditorKeyV" +
+      "alue\022-\n\003key\030\001 \001(\0132 .BurpMorePossibilityA" +
+      "pi.ByteData\022/\n\005value\030\002 \001(\0132 .BurpMorePos" +
+      "sibilityApi.ByteData\022/\n\neditorName\030\003 \001(\013" +
+      "2\033.BurpMorePossibilityApi.Str\"F\n\010MenuInf" +
+      "o\022\016\n\006tarGet\030\002 \001(\t\022*\n\004menu\030\003 \001(\0132\034.BurpMo" +
+      "rePossibilityApi.Menu\"|\n\004Menu\022\014\n\004name\030\001 " +
+      "\001(\t\022.\n\010menuList\030\002 \003(\0132\034.BurpMorePossibil" +
+      "ityApi.Menu\0226\n\014menuItemList\030\003 \003(\0132 .Burp" +
+      "MorePossibilityApi.MenuItem\"\030\n\010MenuItem\022" +
+      "\014\n\004name\030\001 \001(\t\"\377\001\n\020ContextMenuItems\022\014\n\004na" +
+      "me\030\001 \001(\t\022\020\n\010isSelect\030\002 \001(\010\0228\n\014selectSour" +
+      "ce\030\003 \001(\0162\".BurpMorePossibilityApi.HttpSo" +
+      "urce\022<\n\rhttpReqAndRes\030\004 \001(\0132%.BurpMorePo" +
+      "ssibilityApi.httpReqAndRes\022\022\n\nselectData" +
+      "\030\005 \001(\014\022?\n\rselectOffsets\030\006 \001(\0132(.BurpMore" +
+      "PossibilityApi.SubscriptOffsets\"\235\001\n\017Menu" +
+      "ItemsReturn\022\022\n\nIsContinue\030\001 \001(\010\022\026\n\016IsRev" +
+      "iseSelect\030\002 \001(\010\022\023\n\013IsReviseReq\030\003 \001(\010\022\023\n\013" +
+      "IsReviseRes\030\004 \001(\010\022\017\n\007ReqData\030\005 \001(\014\022\017\n\007Re" +
+      "sData\030\006 \001(\014\022\022\n\nSelectDate\030\007 \001(\014\"\026\n\005Boole" +
+      "\022\r\n\005boole\030\001 \001(\010\"/\n\020processingStatus\022\r\n\005b" +
+      "oole\030\001 \001(\010\022\014\n\004info\030\003 \001(\t\"\023\n\003Str\022\014\n\004name\030" +
+      "\001 \001(\t\"V\n\023serviceRoutingTable\022?\n\007Routing\030" +
+      "\001 \003(\0132..BurpMorePossibilityApi.serviceRe" +
+      "gisterRouting\"w\n\026serviceRegisterRouting\022" +
+      ":\n\nserverType\030\001 \001(\0162&.BurpMorePossibilit" +
+      "yApi.serverTypeName\022\014\n\004Name\030\002 \001(\t\022\023\n\013Grp" +
+      "cAddress\030\003 \001(\t\"a\n\032serviceRegisterRouting" +
+      "List\022C\n\013serviceList\030\001 \003(\0132..BurpMorePoss" +
+      "ibilityApi.serviceRegisterRouting\"\250\001\n\025In" +
+      "truderGeneratorData\022\023\n\013contentData\030\001 \001(\014" +
+      "\022L\n\025insertionPointOffsets\030\002 \003(\0132-.BurpMo" +
+      "rePossibilityApi.InsertionPointOffsets\022\036" +
+      "\n\026IntruderInsertionPoint\030\003 \001(\014\022\014\n\004name\030\004" +
+      " \001(\t\"=\n\025InsertionPointOffsets\022\022\n\nStartIn" +
+      "dex\030\001 \001(\003\022\020\n\010EndIndex\030\002 \001(\003\"\034\n\010ByteData\022" +
+      "\020\n\010byteData\030\001 \001(\014\"9\n\026PayloadGeneratorRes" +
+      "ult\022\020\n\010byteData\030\001 \001(\014\022\r\n\005IsEnd\030\002 \001(\010\"\345\001\n" +
+      "\rhttpReqAndRes\0220\n\003req\030\001 \001(\0132#.BurpMorePo" +
+      "ssibilityApi.httpReqData\0220\n\003res\030\002 \001(\0132#." +
+      "BurpMorePossibilityApi.httpResData\022.\n\004in" +
+      "fo\030\003 \001(\0132 .BurpMorePossibilityApi.httpIn" +
+      "fo\022@\n\017annotationsText\030\004 \001(\0132\'.BurpMorePo" +
+      "ssibilityApi.annotationsText\"\276\001\n\013httpReq" +
+      "Data\022\014\n\004Data\030\001 \001(\014\022\013\n\003Url\030\002 \001(\t\022\021\n\tBodyI" +
+      "ndex\030\003 \001(\003\022\023\n\013httpVersion\030\004 \001(\t\022>\n\016httpR" +
+      "eqService\030\005 \001(\0132&.BurpMorePossibilityApi" +
+      ".httpReqService\022,\n\005Range\030\006 \003(\0132\035.BurpMor" +
+      "ePossibilityApi.Range\"?\n\005Range\022\033\n\023startI" +
+      "ndexInclusive\030\001 \001(\003\022\031\n\021endIndexExclusive" +
+      "\030\002 \001(\003\"\212\001\n\014httpReqGroup\0228\n\013httpReqData\030\001" +
+      " \001(\0132#.BurpMorePossibilityApi.httpReqDat" +
+      "a\022@\n\017annotationsText\030\002 \001(\0132\'.BurpMorePos" +
+      "sibilityApi.annotationsText\"\205\001\n\013httpResD" +
+      "ata\022\014\n\004Data\030\001 \001(\014\022\022\n\nStatusCode\030\002 \001(\005\022\021\n" +
+      "\tBodyIndex\030\003 \001(\003\022\023\n\013httpVersion\030\005 \001(\t\022,\n" +
+      "\005Range\030\006 \003(\0132\035.BurpMorePossibilityApi.Ra" +
+      "nge\"\212\001\n\014httpResGroup\0228\n\013httpResData\030\001 \001(" +
+      "\0132#.BurpMorePossibilityApi.httpResData\022@" +
+      "\n\017annotationsText\030\002 \001(\0132\'.BurpMorePossib" +
+      "ilityApi.annotationsText\":\n\016httpReqServi" +
+      "ce\022\n\n\002ip\030\001 \001(\t\022\014\n\004port\030\002 \001(\005\022\016\n\006secure\030\003" +
+      " \001(\010\"1\n\010httpInfo\022\n\n\002id\030\001 \001(\003\022\014\n\004info\030\002 \001" +
+      "(\t\022\013\n\003tmp\030\003 \001(\014\"g\n\017annotationsText\022\016\n\006is" +
+      "Info\030\001 \001(\010\022\r\n\005notes\030\002 \001(\t\0225\n\005color\030\003 \001(\016" +
+      "2&.BurpMorePossibilityApi.highlightColor" +
+      "*X\n\022AuditIssueSeverity\022\010\n\004HIGH\020\000\022\n\n\006MEDI" +
+      "UM\020\002\022\007\n\003LOW\020\003\022\017\n\013INFORMATION\020\004\022\022\n\016FALSE_" +
+      "POSITIVE\020\005*<\n\024AuditIssueConfidence\022\013\n\007CE" +
+      "RTAIN\020\000\022\010\n\004FIRM\020\002\022\r\n\tTENTATIVE\020\003*\'\n\nHttp" +
+      "Source\022\013\n\007Request\020\000\022\014\n\010Response\020\001*\310\001\n\016ht" +
+      "tpFlowSource\022\010\n\004NULL\020\000\022\t\n\005SUITE\020\001\022\n\n\006TAR" +
+      "GET\020\002\022\t\n\005PROXY\020\003\022\013\n\007SCANNER\020\004\022\014\n\010INTRUDE" +
+      "R\020\005\022\014\n\010REPEATER\020\006\022\n\n\006LOGGER\020\007\022\r\n\tSEQUENC" +
+      "ER\020\010\022\013\n\007DECODER\020\t\022\014\n\010COMPARER\020\n\022\016\n\nEXTEN" +
+      "SIONS\020\013\022\033\n\027RECORDED_LOGIN_REPLAYER\020\014*\377\001\n" +
+      "\016serverTypeName\022\010\n\004NOLL\020\000\022\026\n\022INTRUDER_PR" +
+      "OCESSOR\020\001\022\025\n\021INTRUDER_GENERATE\020\002\022!\n\035HTTP" +
+      "_REQUEST_EDITOR_PROCESSOR\020\005\022\"\n\036HTTP_RESP" +
+      "ONSE_EDITOR_PROCESSOR\020\006\022\037\n\033CONTEXT_MENU_" +
+      "ITEMS_PROVIDER\020\007\022\031\n\025PROXY_REQUEST_HANDLE" +
+      "R\020\010\022\032\n\026PROXY_RESPONSE_HANDLER\020\t\022\025\n\021HTTP_" +
+      "FLOW_HANDLER\020\n*{\n\016highlightColor\022\010\n\004NONE" +
+      "\020\000\022\007\n\003RED\020\001\022\n\n\006ORANGE\020\002\022\n\n\006YELLOW\020\003\022\t\n\005G" +
+      "REEN\020\004\022\010\n\004CYAN\020\005\022\010\n\004BLUE\020\006\022\010\n\004PINK\020\007\022\013\n\007" +
+      "MAGENTA\020\010\022\010\n\004GRAY\020\t2\250\003\n\nBurpServer\022j\n Re" +
+      "gisterRealTimeTrafficMirroring\022\033.BurpMor" +
+      "ePossibilityApi.Str\032%.BurpMorePossibilit" +
+      "yApi.httpReqAndRes\"\0000\001\022t\n\022RegisterServer" +
+      "List\0222.BurpMorePossibilityApi.serviceReg" +
+      "isterRoutingList\032(.BurpMorePossibilityAp" +
+      "i.processingStatus\"\000\022Y\n\017GetProxyHistory\022" +
+      "\033.BurpMorePossibilityApi.Str\032%.BurpMoreP" +
+      "ossibilityApi.httpReqAndRes\"\0000\001\022]\n\013Repor" +
+      "tIssue\022\".BurpMorePossibilityApi.AuditIss" +
+      "ue\032(.BurpMorePossibilityApi.processingSt" +
+      "atus\"\0002~\n\030RealTimeTrafficMirroring\022b\n\030Re" +
+      "alTimeTrafficMirroring\022%.BurpMorePossibi" +
+      "lityApi.httpReqAndRes\032\033.BurpMorePossibil" +
+      "ityApi.Str\"\000(\0012\202\001\n\031RegisterServerRouting" +
+      "List\022e\n\022RegisterServerList\022\033.BurpMorePos" +
+      "sibilityApi.Str\0322.BurpMorePossibilityApi" +
+      ".serviceRegisterRoutingList2\362\001\n\013ScoutSer" +
+      "ver\022\200\001\n&addHttpEditorEncryptAndDecryptKe" +
+      "yValue\022*.BurpMorePossibilityApi.httpEdit" +
+      "orKeyValue\032(.BurpMorePossibilityApi.proc" +
+      "essingStatus\"\000\022`\n\023AddHttpKeyValuePair\022(." +
+      "BurpMorePossibilityApi.httpKeyValuePair\032" +
+      "\035.BurpMorePossibilityApi.Boole\"\0002\216\001\n\036Int" +
+      "ruderPayloadProcessorServer\022l\n\030IntruderP" +
+      "ayloadProcessor\022,.BurpMorePossibilityApi" +
+      ".PayloadProcessorData\032 .BurpMorePossibil" +
+      "ityApi.ByteData\"\0002\246\001\n\036IntruderPayloadGen" +
+      "eratorServer\022\203\001\n IntruderPayloadGenerato" +
+      "rProvider\022-.BurpMorePossibilityApi.Intru" +
+      "derGeneratorData\032..BurpMorePossibilityAp" +
+      "i.PayloadGeneratorResult\"\0002\320\001\n\024HttpReqEd" +
+      "itBoxAssist\022Z\n\013ReqHttpEdit\022\'.BurpMorePos" +
+      "sibilityApi.HttpEditBoxData\032 .BurpMorePo" +
+      "ssibilityApi.ByteData\"\000\022\\\n\020IsReqHttpEdit" +
+      "For\022\'.BurpMorePossibilityApi.HttpEditBox" +
+      "Data\032\035.BurpMorePossibilityApi.Boole\"\0002\320\001" +
+      "\n\024HttpResEditBoxAssist\022Z\n\013ResHttpEdit\022\'." +
+      "BurpMorePossibilityApi.HttpEditBoxData\032 " +
+      ".BurpMorePossibilityApi.ByteData\"\000\022\\\n\020Is" +
+      "ResHttpEditFor\022\'.BurpMorePossibilityApi." +
+      "HttpEditBoxData\032\035.BurpMorePossibilityApi" +
+      ".Boole\"\0002\204\001\n\030ContextMenuItemsProvider\022h\n" +
+      "\021MenuItemsProvider\022(.BurpMorePossibility" +
+      "Api.ContextMenuItems\032\'.BurpMorePossibili" +
+      "tyApi.MenuItemsReturn\"\0002s\n\031GetConTextMen" +
+      "uItemsServer\022V\n\023GetConTextMenuItems\022\033.Bu" +
+      "rpMorePossibilityApi.Str\032 .BurpMorePossi" +
+      "bilityApi.MenuInfo\"\0002\207\001\n\023ProxyRequestHan" +
+      "dler\022p\n\032ProxyHandleRequestReceived\022$.Bur" +
+      "pMorePossibilityApi.httpReqGroup\032*.BurpM" +
+      "orePossibilityApi.ProxyRequestAction\"\0002\213" +
+      "\001\n\024ProxyResponseHandler\022s\n\033ProxyHandleRe" +
+      "sponseReceived\022%.BurpMorePossibilityApi." +
+      "httpReqAndRes\032+.BurpMorePossibilityApi.P" +
+      "roxyResponseAction\"\0002\371\001\n\017HttpFlowHandler" +
+      "\022q\n\031HttpHandleRequestReceived\022\'.BurpMore" +
+      "PossibilityApi.httpFlowReqData\032).BurpMor" +
+      "ePossibilityApi.HttpRequestAction\"\000\022s\n\032H" +
+      "ttpHandleResponseReceived\022\'.BurpMorePoss" +
+      "ibilityApi.httpFlowResData\032*.BurpMorePos" +
+      "sibilityApi.HttpResponseAction\"\000B7\n\032Burp" +
+      "Grpc.proto.BurpApiGrpcB\007BurpApiP\001Z\010/Burp" +
+      "Api\242\002\003HLWb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         });
-    internal_static_BurpMorePossibilityApi_httpFlowReqData_descriptor =
+    internal_static_BurpMorePossibilityApi_AuditIssue_descriptor =
       getDescriptor().getMessageTypes().get(0);
+    internal_static_BurpMorePossibilityApi_AuditIssue_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_BurpMorePossibilityApi_AuditIssue_descriptor,
+        new java.lang.String[] { "Name", "Detail", "Remediation", "BaseUrl", "Severity", "Confidence", "Background", "RemediationBackground", "TypicalSeverity", "HttpGroup", });
+    internal_static_BurpMorePossibilityApi_httpFlowReqData_descriptor =
+      getDescriptor().getMessageTypes().get(1);
     internal_static_BurpMorePossibilityApi_httpFlowReqData_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BurpMorePossibilityApi_httpFlowReqData_descriptor,
         new java.lang.String[] { "HttpReqGroup", "HttpFlowSource", });
     internal_static_BurpMorePossibilityApi_httpFlowResData_descriptor =
-      getDescriptor().getMessageTypes().get(1);
+      getDescriptor().getMessageTypes().get(2);
     internal_static_BurpMorePossibilityApi_httpFlowResData_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BurpMorePossibilityApi_httpFlowResData_descriptor,
         new java.lang.String[] { "HttpReqAndRes", "HttpFlowSource", });
     internal_static_BurpMorePossibilityApi_PayloadProcessorData_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(3);
     internal_static_BurpMorePossibilityApi_PayloadProcessorData_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BurpMorePossibilityApi_PayloadProcessorData_descriptor,
         new java.lang.String[] { "Name", "Payload", });
     internal_static_BurpMorePossibilityApi_ProxyHistoryData_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(4);
     internal_static_BurpMorePossibilityApi_ProxyHistoryData_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BurpMorePossibilityApi_ProxyHistoryData_descriptor,
         new java.lang.String[] { "HttpReqAndResData", });
     internal_static_BurpMorePossibilityApi_SubscriptOffsets_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_BurpMorePossibilityApi_SubscriptOffsets_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BurpMorePossibilityApi_SubscriptOffsets_descriptor,
         new java.lang.String[] { "StartIndex", "EndIndex", });
     internal_static_BurpMorePossibilityApi_HttpRequestAction_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_BurpMorePossibilityApi_HttpRequestAction_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BurpMorePossibilityApi_HttpRequestAction_descriptor,
         new java.lang.String[] { "Continue", "IsReviseReq", "HttpReqGroup", });
     internal_static_BurpMorePossibilityApi_HttpResponseAction_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_BurpMorePossibilityApi_HttpResponseAction_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BurpMorePossibilityApi_HttpResponseAction_descriptor,
         new java.lang.String[] { "Continue", "IsReviseRes", "HttpResGroup", });
     internal_static_BurpMorePossibilityApi_ProxyRequestAction_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_BurpMorePossibilityApi_ProxyRequestAction_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BurpMorePossibilityApi_ProxyRequestAction_descriptor,
         new java.lang.String[] { "Continue", "Drop", "IsReviseReq", "IsIntercept", "HttpReqGroup", });
     internal_static_BurpMorePossibilityApi_ProxyResponseAction_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_BurpMorePossibilityApi_ProxyResponseAction_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BurpMorePossibilityApi_ProxyResponseAction_descriptor,
         new java.lang.String[] { "Continue", "Drop", "IsReviseRes", "IsIntercept", "HttpResGroup", });
     internal_static_BurpMorePossibilityApi_HttpEditBoxData_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_BurpMorePossibilityApi_HttpEditBoxData_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BurpMorePossibilityApi_HttpEditBoxData_descriptor,
         new java.lang.String[] { "Name", "HttpReqAndResData", "Info", });
     internal_static_BurpMorePossibilityApi_httpKeyValuePair_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_BurpMorePossibilityApi_httpKeyValuePair_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BurpMorePossibilityApi_httpKeyValuePair_descriptor,
         new java.lang.String[] { "Domain", "Ciphertext", "Plaintext", });
     internal_static_BurpMorePossibilityApi_httpEditorKeyValue_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_BurpMorePossibilityApi_httpEditorKeyValue_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BurpMorePossibilityApi_httpEditorKeyValue_descriptor,
         new java.lang.String[] { "Key", "Value", "EditorName", });
     internal_static_BurpMorePossibilityApi_MenuInfo_descriptor =
-      getDescriptor().getMessageTypes().get(12);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_BurpMorePossibilityApi_MenuInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BurpMorePossibilityApi_MenuInfo_descriptor,
         new java.lang.String[] { "TarGet", "Menu", });
     internal_static_BurpMorePossibilityApi_Menu_descriptor =
-      getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(14);
     internal_static_BurpMorePossibilityApi_Menu_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BurpMorePossibilityApi_Menu_descriptor,
         new java.lang.String[] { "Name", "MenuList", "MenuItemList", });
     internal_static_BurpMorePossibilityApi_MenuItem_descriptor =
-      getDescriptor().getMessageTypes().get(14);
+      getDescriptor().getMessageTypes().get(15);
     internal_static_BurpMorePossibilityApi_MenuItem_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BurpMorePossibilityApi_MenuItem_descriptor,
         new java.lang.String[] { "Name", });
     internal_static_BurpMorePossibilityApi_ContextMenuItems_descriptor =
-      getDescriptor().getMessageTypes().get(15);
+      getDescriptor().getMessageTypes().get(16);
     internal_static_BurpMorePossibilityApi_ContextMenuItems_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BurpMorePossibilityApi_ContextMenuItems_descriptor,
         new java.lang.String[] { "Name", "IsSelect", "SelectSource", "HttpReqAndRes", "SelectData", "SelectOffsets", });
     internal_static_BurpMorePossibilityApi_MenuItemsReturn_descriptor =
-      getDescriptor().getMessageTypes().get(16);
+      getDescriptor().getMessageTypes().get(17);
     internal_static_BurpMorePossibilityApi_MenuItemsReturn_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BurpMorePossibilityApi_MenuItemsReturn_descriptor,
         new java.lang.String[] { "IsContinue", "IsReviseSelect", "IsReviseReq", "IsReviseRes", "ReqData", "ResData", "SelectDate", });
     internal_static_BurpMorePossibilityApi_Boole_descriptor =
-      getDescriptor().getMessageTypes().get(17);
+      getDescriptor().getMessageTypes().get(18);
     internal_static_BurpMorePossibilityApi_Boole_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BurpMorePossibilityApi_Boole_descriptor,
         new java.lang.String[] { "Boole", });
     internal_static_BurpMorePossibilityApi_processingStatus_descriptor =
-      getDescriptor().getMessageTypes().get(18);
+      getDescriptor().getMessageTypes().get(19);
     internal_static_BurpMorePossibilityApi_processingStatus_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BurpMorePossibilityApi_processingStatus_descriptor,
         new java.lang.String[] { "Boole", "Info", });
     internal_static_BurpMorePossibilityApi_Str_descriptor =
-      getDescriptor().getMessageTypes().get(19);
+      getDescriptor().getMessageTypes().get(20);
     internal_static_BurpMorePossibilityApi_Str_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BurpMorePossibilityApi_Str_descriptor,
         new java.lang.String[] { "Name", });
     internal_static_BurpMorePossibilityApi_serviceRoutingTable_descriptor =
-      getDescriptor().getMessageTypes().get(20);
+      getDescriptor().getMessageTypes().get(21);
     internal_static_BurpMorePossibilityApi_serviceRoutingTable_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BurpMorePossibilityApi_serviceRoutingTable_descriptor,
         new java.lang.String[] { "Routing", });
     internal_static_BurpMorePossibilityApi_serviceRegisterRouting_descriptor =
-      getDescriptor().getMessageTypes().get(21);
+      getDescriptor().getMessageTypes().get(22);
     internal_static_BurpMorePossibilityApi_serviceRegisterRouting_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BurpMorePossibilityApi_serviceRegisterRouting_descriptor,
         new java.lang.String[] { "ServerType", "Name", "GrpcAddress", });
     internal_static_BurpMorePossibilityApi_serviceRegisterRoutingList_descriptor =
-      getDescriptor().getMessageTypes().get(22);
+      getDescriptor().getMessageTypes().get(23);
     internal_static_BurpMorePossibilityApi_serviceRegisterRoutingList_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BurpMorePossibilityApi_serviceRegisterRoutingList_descriptor,
         new java.lang.String[] { "ServiceList", });
     internal_static_BurpMorePossibilityApi_IntruderGeneratorData_descriptor =
-      getDescriptor().getMessageTypes().get(23);
+      getDescriptor().getMessageTypes().get(24);
     internal_static_BurpMorePossibilityApi_IntruderGeneratorData_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BurpMorePossibilityApi_IntruderGeneratorData_descriptor,
         new java.lang.String[] { "ContentData", "InsertionPointOffsets", "IntruderInsertionPoint", "Name", });
     internal_static_BurpMorePossibilityApi_InsertionPointOffsets_descriptor =
-      getDescriptor().getMessageTypes().get(24);
+      getDescriptor().getMessageTypes().get(25);
     internal_static_BurpMorePossibilityApi_InsertionPointOffsets_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BurpMorePossibilityApi_InsertionPointOffsets_descriptor,
         new java.lang.String[] { "StartIndex", "EndIndex", });
     internal_static_BurpMorePossibilityApi_ByteData_descriptor =
-      getDescriptor().getMessageTypes().get(25);
+      getDescriptor().getMessageTypes().get(26);
     internal_static_BurpMorePossibilityApi_ByteData_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BurpMorePossibilityApi_ByteData_descriptor,
         new java.lang.String[] { "ByteData", });
     internal_static_BurpMorePossibilityApi_PayloadGeneratorResult_descriptor =
-      getDescriptor().getMessageTypes().get(26);
+      getDescriptor().getMessageTypes().get(27);
     internal_static_BurpMorePossibilityApi_PayloadGeneratorResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BurpMorePossibilityApi_PayloadGeneratorResult_descriptor,
         new java.lang.String[] { "ByteData", "IsEnd", });
     internal_static_BurpMorePossibilityApi_httpReqAndRes_descriptor =
-      getDescriptor().getMessageTypes().get(27);
+      getDescriptor().getMessageTypes().get(28);
     internal_static_BurpMorePossibilityApi_httpReqAndRes_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BurpMorePossibilityApi_httpReqAndRes_descriptor,
         new java.lang.String[] { "Req", "Res", "Info", "AnnotationsText", });
     internal_static_BurpMorePossibilityApi_httpReqData_descriptor =
-      getDescriptor().getMessageTypes().get(28);
+      getDescriptor().getMessageTypes().get(29);
     internal_static_BurpMorePossibilityApi_httpReqData_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BurpMorePossibilityApi_httpReqData_descriptor,
-        new java.lang.String[] { "Data", "Url", "BodyIndex", "HttpVersion", "HttpReqService", });
+        new java.lang.String[] { "Data", "Url", "BodyIndex", "HttpVersion", "HttpReqService", "Range", });
+    internal_static_BurpMorePossibilityApi_Range_descriptor =
+      getDescriptor().getMessageTypes().get(30);
+    internal_static_BurpMorePossibilityApi_Range_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_BurpMorePossibilityApi_Range_descriptor,
+        new java.lang.String[] { "StartIndexInclusive", "EndIndexExclusive", });
     internal_static_BurpMorePossibilityApi_httpReqGroup_descriptor =
-      getDescriptor().getMessageTypes().get(29);
+      getDescriptor().getMessageTypes().get(31);
     internal_static_BurpMorePossibilityApi_httpReqGroup_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BurpMorePossibilityApi_httpReqGroup_descriptor,
         new java.lang.String[] { "HttpReqData", "AnnotationsText", });
     internal_static_BurpMorePossibilityApi_httpResData_descriptor =
-      getDescriptor().getMessageTypes().get(30);
+      getDescriptor().getMessageTypes().get(32);
     internal_static_BurpMorePossibilityApi_httpResData_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BurpMorePossibilityApi_httpResData_descriptor,
-        new java.lang.String[] { "Data", "StatusCode", "BodyIndex", "HttpVersion", });
+        new java.lang.String[] { "Data", "StatusCode", "BodyIndex", "HttpVersion", "Range", });
     internal_static_BurpMorePossibilityApi_httpResGroup_descriptor =
-      getDescriptor().getMessageTypes().get(31);
+      getDescriptor().getMessageTypes().get(33);
     internal_static_BurpMorePossibilityApi_httpResGroup_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BurpMorePossibilityApi_httpResGroup_descriptor,
         new java.lang.String[] { "HttpResData", "AnnotationsText", });
     internal_static_BurpMorePossibilityApi_httpReqService_descriptor =
-      getDescriptor().getMessageTypes().get(32);
+      getDescriptor().getMessageTypes().get(34);
     internal_static_BurpMorePossibilityApi_httpReqService_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BurpMorePossibilityApi_httpReqService_descriptor,
         new java.lang.String[] { "Ip", "Port", "Secure", });
     internal_static_BurpMorePossibilityApi_httpInfo_descriptor =
-      getDescriptor().getMessageTypes().get(33);
+      getDescriptor().getMessageTypes().get(35);
     internal_static_BurpMorePossibilityApi_httpInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BurpMorePossibilityApi_httpInfo_descriptor,
         new java.lang.String[] { "Id", "Info", "Tmp", });
     internal_static_BurpMorePossibilityApi_annotationsText_descriptor =
-      getDescriptor().getMessageTypes().get(34);
+      getDescriptor().getMessageTypes().get(36);
     internal_static_BurpMorePossibilityApi_annotationsText_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BurpMorePossibilityApi_annotationsText_descriptor,

@@ -2,16 +2,18 @@ package BurpGrpc.BurpServer;
 
 import BurpGrpc.proto.BurpApiGrpc.*;
 import UI.GrpcServerGUI;
-import UI.ManGrpcGUI;
 import burp.BurpApiUtensil;
 import burp.BurpServerTypeX;
 import burp.MorePossibility;
+import burp.api.montoya.http.message.HttpRequestResponse;
 import burp.api.montoya.proxy.ProxyHttpRequestResponse;
 import io.grpc.stub.StreamObserver;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static UI.ManGrpcGUI.pluginLog;
+import static burp.MorePossibility.burpApi;
 import static burp.MorePossibility.burpApiTool;
 
 /**
@@ -81,11 +83,11 @@ public class BurpServer extends BurpServerGrpc.BurpServerImplBase {
 
 
     /**
-     * @param request:
-     * @param responseObserver:
-     * @description: 获取burp历史代理流量  修改逻辑通过流获取历史流量
-     * @author: cyvk
-     * @date: 2023/7/7 下午5:14
+     * param request:
+     * param responseObserver:
+     * description: 获取burp历史代理流量  修改逻辑通过流获取历史流量
+     * author: cyvk
+     * date: 2023/7/7 下午5:14
      */
     @Override
     public void getProxyHistory(Str request, StreamObserver<httpReqAndRes> responseObserver) {
@@ -100,6 +102,41 @@ public class BurpServer extends BurpServerGrpc.BurpServerImplBase {
 
         responseObserver.onCompleted();
 //        super.getProxyHistory(request, responseObserver);
+    }
+
+    @Override
+    public void reportIssue(AuditIssue request, StreamObserver<processingStatus> responseObserver) {
+
+        List<httpReqAndRes> httpGroupList = request.getHttpGroupList();  // 获取http请求响应组
+
+        List<HttpRequestResponse> requestResponses = new ArrayList<>();
+
+        for (httpReqAndRes httpReqAndRes : httpGroupList) {  // 组装http请求响应
+            HttpRequestResponse httpRequestResponse = BurpApiUtensil.withHttpRequestResponse(httpReqAndRes);
+            requestResponses.add(httpRequestResponse);
+        }
+
+
+        burpApi.siteMap().add(   // 报告问题
+                burp.api.montoya.scanner.audit.issues.AuditIssue.auditIssue(
+
+                        request.getName(),
+                        request.getDetail(),
+                        request.getRemediation(),
+                        request.getBaseUrl(),
+                        burp.api.montoya.scanner.audit.issues.AuditIssueSeverity.valueOf(request.getSeverity().name()),
+                        burp.api.montoya.scanner.audit.issues.AuditIssueConfidence.valueOf(request.getConfidence().name()),
+                        request.getBackground(),
+                        request.getRemediationBackground(),
+                        burp.api.montoya.scanner.audit.issues.AuditIssueSeverity.valueOf(request.getTypicalSeverity().name()),
+                        requestResponses
+
+
+                )
+        );
+
+        responseObserver.onNext(processingStatus.newBuilder().setBoole(true).build());
+        responseObserver.onCompleted();
     }
 }
 

@@ -111,6 +111,37 @@ public final class BurpServerGrpc {
     return getGetProxyHistoryMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.AuditIssue,
+      BurpGrpc.proto.BurpApiGrpc.processingStatus> getReportIssueMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "ReportIssue",
+      requestType = BurpGrpc.proto.BurpApiGrpc.AuditIssue.class,
+      responseType = BurpGrpc.proto.BurpApiGrpc.processingStatus.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.AuditIssue,
+      BurpGrpc.proto.BurpApiGrpc.processingStatus> getReportIssueMethod() {
+    io.grpc.MethodDescriptor<BurpGrpc.proto.BurpApiGrpc.AuditIssue, BurpGrpc.proto.BurpApiGrpc.processingStatus> getReportIssueMethod;
+    if ((getReportIssueMethod = BurpServerGrpc.getReportIssueMethod) == null) {
+      synchronized (BurpServerGrpc.class) {
+        if ((getReportIssueMethod = BurpServerGrpc.getReportIssueMethod) == null) {
+          BurpServerGrpc.getReportIssueMethod = getReportIssueMethod =
+              io.grpc.MethodDescriptor.<BurpGrpc.proto.BurpApiGrpc.AuditIssue, BurpGrpc.proto.BurpApiGrpc.processingStatus>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ReportIssue"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  BurpGrpc.proto.BurpApiGrpc.AuditIssue.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  BurpGrpc.proto.BurpApiGrpc.processingStatus.getDefaultInstance()))
+              .setSchemaDescriptor(new BurpServerMethodDescriptorSupplier("ReportIssue"))
+              .build();
+        }
+      }
+    }
+    return getReportIssueMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -194,6 +225,13 @@ public final class BurpServerGrpc {
         io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.httpReqAndRes> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetProxyHistoryMethod(), responseObserver);
     }
+
+    /**
+     */
+    default void reportIssue(BurpGrpc.proto.BurpApiGrpc.AuditIssue request,
+        io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.processingStatus> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getReportIssueMethod(), responseObserver);
+    }
   }
 
   /**
@@ -264,6 +302,14 @@ public final class BurpServerGrpc {
       io.grpc.stub.ClientCalls.asyncServerStreamingCall(
           getChannel().newCall(getGetProxyHistoryMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void reportIssue(BurpGrpc.proto.BurpApiGrpc.AuditIssue request,
+        io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.processingStatus> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
+          getChannel().newCall(getReportIssueMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -288,7 +334,7 @@ public final class BurpServerGrpc {
     /**
      * <pre>
      *注册实时流量传输
-     *burp将监听端口通过服务端端流进行实时流量镜像
+     *burp将监听端口通过服务端端流进行实时流Issue description量镜像
      * </pre>
      */
     public java.util.Iterator<BurpGrpc.proto.BurpApiGrpc.httpReqAndRes> registerRealTimeTrafficMirroring(
@@ -318,6 +364,13 @@ public final class BurpServerGrpc {
         BurpGrpc.proto.BurpApiGrpc.Str request) {
       return io.grpc.stub.ClientCalls.blockingServerStreamingCall(
           getChannel(), getGetProxyHistoryMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public BurpGrpc.proto.BurpApiGrpc.processingStatus reportIssue(BurpGrpc.proto.BurpApiGrpc.AuditIssue request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getReportIssueMethod(), getCallOptions(), request);
     }
   }
 
@@ -350,11 +403,20 @@ public final class BurpServerGrpc {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getRegisterServerListMethod(), getCallOptions()), request);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<BurpGrpc.proto.BurpApiGrpc.processingStatus> reportIssue(
+        BurpGrpc.proto.BurpApiGrpc.AuditIssue request) {
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
+          getChannel().newCall(getReportIssueMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_REGISTER_REAL_TIME_TRAFFIC_MIRRORING = 0;
   private static final int METHODID_REGISTER_SERVER_LIST = 1;
   private static final int METHODID_GET_PROXY_HISTORY = 2;
+  private static final int METHODID_REPORT_ISSUE = 3;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -384,6 +446,10 @@ public final class BurpServerGrpc {
         case METHODID_GET_PROXY_HISTORY:
           serviceImpl.getProxyHistory((BurpGrpc.proto.BurpApiGrpc.Str) request,
               (io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.httpReqAndRes>) responseObserver);
+          break;
+        case METHODID_REPORT_ISSUE:
+          serviceImpl.reportIssue((BurpGrpc.proto.BurpApiGrpc.AuditIssue) request,
+              (io.grpc.stub.StreamObserver<BurpGrpc.proto.BurpApiGrpc.processingStatus>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -424,6 +490,13 @@ public final class BurpServerGrpc {
               BurpGrpc.proto.BurpApiGrpc.Str,
               BurpGrpc.proto.BurpApiGrpc.httpReqAndRes>(
                 service, METHODID_GET_PROXY_HISTORY)))
+        .addMethod(
+          getReportIssueMethod(),
+          io.grpc.stub.ServerCalls.asyncUnaryCall(
+            new MethodHandlers<
+              BurpGrpc.proto.BurpApiGrpc.AuditIssue,
+              BurpGrpc.proto.BurpApiGrpc.processingStatus>(
+                service, METHODID_REPORT_ISSUE)))
         .build();
   }
 
@@ -475,6 +548,7 @@ public final class BurpServerGrpc {
               .addMethod(getRegisterRealTimeTrafficMirroringMethod())
               .addMethod(getRegisterServerListMethod())
               .addMethod(getGetProxyHistoryMethod())
+              .addMethod(getReportIssueMethod())
               .build();
         }
       }

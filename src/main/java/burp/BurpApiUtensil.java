@@ -6,10 +6,16 @@ import UI.ManGrpcGUI;
 import burp.api.montoya.core.Annotations;
 import burp.api.montoya.core.ByteArray;
 import burp.api.montoya.core.HighlightColor;
+import burp.api.montoya.core.Marker;
 import burp.api.montoya.http.HttpService;
+import burp.api.montoya.http.message.HttpRequestResponse;
 import burp.api.montoya.http.message.requests.HttpRequest;
 import burp.api.montoya.http.message.responses.HttpResponse;
 import com.google.protobuf.ByteString;
+
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -35,13 +41,28 @@ public class BurpApiUtensil {
             int bodyIndex = hr.bodyOffset();              // 请求体偏移量
             String httpVersion = hr.httpVersion();        // http版本
 
+
             //     组装请求
             httpReqService reqService = httpReqService.newBuilder()
                     .setIp(httpService.host())
                     .setPort(httpService.port())
                     .setSecure(httpService.secure()).build();  // 组装服务路由
 
-            return httpReqData.newBuilder()
+
+            httpReqData.Builder builder = httpReqData.newBuilder();
+
+
+            List<Marker> markers = hr.markers();   // 获取标记
+            for (Marker marker : markers) {
+                burp.api.montoya.core.Range range = marker.range();
+                Range rang = Range.newBuilder()
+                        .setStartIndexInclusive(range.startIndexInclusive())
+                        .setEndIndexExclusive(range.endIndexExclusive())
+                        .build();
+                builder.addRange(rang);    // 组装标记
+            }
+
+            return builder
                     .setUrl(url)
                     .setHttpVersion(httpVersion)
                     .setData(ByteString.copyFrom(reqData))
@@ -75,7 +96,18 @@ public class BurpApiUtensil {
             // 构建http服务路由
             HttpService httpService = HttpService.httpService(httpReqService.getIp(), httpReqService.getPort(), httpReqService.getSecure());
 
-            return HttpRequest.httpRequest(httpService, ByteArray.byteArray(reqData));
+            List<Range> rangeList = httpReqData.getRangeList();
+
+            HttpRequest httpRequest = HttpRequest.httpRequest(httpService, ByteArray.byteArray(reqData));
+
+            List<Marker> M = new ArrayList<>();
+            for (Range range : rangeList) {
+                Marker marker = Marker.marker((int) range.getStartIndexInclusive(), (int) range.getEndIndexExclusive());
+                M.add(marker);
+            }
+
+
+            return httpRequest.withMarkers(M);
 
         } catch (Exception e) {
             return null;
@@ -98,7 +130,23 @@ public class BurpApiUtensil {
             byte[] bytes = httpResponse.toByteArray().getBytes(); // 字节流数据
             int bodyIndex = httpResponse.bodyOffset();          // 请求体下标
 
-            return httpResData.newBuilder()    // 组装数据
+
+            List<Marker> markers = httpResponse.markers();  // 获取标记
+
+            httpResData.Builder builder = httpResData.newBuilder();
+
+
+            for (Marker marker : markers) {
+                burp.api.montoya.core.Range range = marker.range();
+                Range rang = Range.newBuilder()
+                        .setStartIndexInclusive(range.startIndexInclusive())
+                        .setEndIndexExclusive(range.endIndexExclusive())
+                        .build();
+                builder.addRange(rang);    // 组装标记
+            }
+
+
+            return builder    // 组装数据
                     .setStatusCode(statusCode)
                     .setData(ByteString.copyFrom(bytes))
                     .setBodyIndex(bodyIndex)
@@ -120,7 +168,18 @@ public class BurpApiUtensil {
     public static HttpResponse httpResDataToHttpResponse(httpResData httpRes) {
         try {
 
-            return HttpResponse.httpResponse(ByteArray.byteArray(httpRes.getData().toByteArray()));
+            List<Range> rangeList = httpRes.getRangeList();
+            HttpResponse httpResponse = HttpResponse.httpResponse(ByteArray.byteArray(httpRes.getData().toByteArray()));
+
+            List<Marker> M = new ArrayList<>();
+
+
+            for (Range range : rangeList) {
+                Marker marker = Marker.marker((int) range.getStartIndexInclusive(), (int) range.getEndIndexExclusive());
+                M.add(marker);
+            }
+
+            return httpResponse.withMarkers(M);
         } catch (Exception e) {
             return null;
         }
@@ -255,6 +314,13 @@ public class BurpApiUtensil {
             return httpReqAndRes.newBuilder().build();
         }
 
+    }
+
+
+    public static HttpRequestResponse withHttpRequestResponse(httpReqAndRes reqAndRes) {
+        return HttpRequestResponse.httpRequestResponse(httpReqDataTohttpRequest(reqAndRes.getReq()),
+                httpResDataToHttpResponse(reqAndRes.getRes()),
+                annotationsTextToAnnotations(reqAndRes.getAnnotationsText()));
     }
 
 

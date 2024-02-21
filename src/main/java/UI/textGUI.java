@@ -14,7 +14,7 @@ public class textGUI {
 
         jFrame.setSize(700,700);
 
-        jFrame.getContentPane().add(new Hu());
+        jFrame.getContentPane().add(new ManGUI());
 
         jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         jFrame.setVisible(true);

@@ -221,7 +221,7 @@ public enum httpFlowSource
   }
   public static final com.google.protobuf.Descriptors.EnumDescriptor
       getDescriptor() {
-    return BurpGrpc.proto.BurpApiGrpc.BurpApi.getDescriptor().getEnumTypes().get(1);
+    return BurpGrpc.proto.BurpApiGrpc.BurpApi.getDescriptor().getEnumTypes().get(3);
   }
 
   private static final httpFlowSource[] VALUES = values();

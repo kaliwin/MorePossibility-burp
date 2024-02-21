@@ -5,7 +5,7 @@ option java_multiple_files = true;                    //等于true则将为每�
 option java_package = "BurpGrpc.proto.BurpApiGrpc";   //实例包名
 option java_outer_classname = "BurpApi";              //类名
 option objc_class_prefix = "HLW";                     //生成前缀 未知用法
-option go_package = "/BurpApi";                        //go 实例包名路径
+option go_package = "/BurpMorePossibilityApi";         //go 实例包名路径
 
 //import "google/api/annotations.proto";
 
@@ -34,7 +34,42 @@ service BurpServer{
   // 修改为服务端流的方式进行流量传输
   rpc GetProxyHistory(Str) returns(stream httpReqAndRes){}
 
+  rpc ReportIssue(AuditIssue) returns(processingStatus){} // 上报问题
+
 }
+
+
+// AuditIssue 审计问题
+message AuditIssue{
+  string Name = 1;  // 名称
+  string Detail = 2 ; // 详情
+  string Remediation = 3; // 修复建议
+  string BaseUrl = 4; // 基础url
+  AuditIssueSeverity  severity = 8; // 问题严重程度
+  AuditIssueConfidence confidence = 9; // 问题确定程度
+  string Background = 5; // 问题背景
+  string remediationBackground = 7; // 修复详情
+  AuditIssueSeverity typicalSeverity = 10 ; // 典型严重程度
+  repeated httpReqAndRes HttpGroup = 11; // 一组http数据 请求 / 响应
+}
+
+// AuditIssueSeverity 问题严重程度
+enum AuditIssueSeverity{
+  HIGH = 0;  // 高
+  MEDIUM = 2 ; // 中
+  LOW = 3 ; // 低
+  INFORMATION = 4;  // 信息
+  FALSE_POSITIVE = 5;  // 误报
+}
+
+// AuditIssueConfidence 问题确定程度
+enum AuditIssueConfidence {
+  CERTAIN = 0;  // 肯定
+  FIRM = 2;  // 确定
+  TENTATIVE = 3 ; // 确定
+}
+
+
 
 // 实时流量镜像
 service RealTimeTrafficMirroring{
@@ -306,7 +341,7 @@ message IntruderGeneratorData{
   bytes contentData = 1; // http 请求模板
   repeated  InsertionPointOffsets  insertionPointOffsets = 2;  // 插入点列表
   bytes IntruderInsertionPoint = 3;  //插入点基值
-  string name =4 ; // 名称
+  string name = 4 ; // 名称
 }
 
 // 插入点
@@ -344,7 +379,15 @@ message httpReqData {
   int64 BodyIndex = 3;                  //请求体开始下标,如若请求体下标与总长度一致就是没有请求体
   string httpVersion = 4;               // http版本
   httpReqService httpReqService = 5;    // 目标信息
+  repeated Range Range = 6;                    // 标记请求体范围
 }
+
+// Range 标记下标范围
+message Range {
+  int64 startIndexInclusive = 1;
+  int64 endIndexExclusive = 2;
+}
+
 
 // 单个请求组 用于包含 不同服务请求中的附带信息
 message httpReqGroup{
@@ -359,6 +402,7 @@ message httpResData {
   int32 StatusCode = 2 ; //状态码
   int64 BodyIndex = 3;   //请求体开始下标,如若请求体下标与总长度一致就是没有请求体
   string httpVersion = 5;
+  repeated Range Range = 6;       // 标记请求体范围
 }
 
 // http 单个响应组 用于包含 不同服务响应中的附带信息

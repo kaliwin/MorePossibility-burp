@@ -170,7 +170,7 @@ public enum highlightColor
   }
   public static final com.google.protobuf.Descriptors.EnumDescriptor
       getDescriptor() {
-    return BurpGrpc.proto.BurpApiGrpc.BurpApi.getDescriptor().getEnumTypes().get(3);
+    return BurpGrpc.proto.BurpApiGrpc.BurpApi.getDescriptor().getEnumTypes().get(5);
   }
 
   private static final highlightColor[] VALUES = values();
